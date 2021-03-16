@@ -65,6 +65,7 @@ import {
   DeletePublicAccessBlockCommandInput,
   DeletePublicAccessBlockCommandOutput,
 } from "./commands/DeletePublicAccessBlockCommand";
+import { DeleteRefererCommandInput, DeleteRefererCommandOutput } from "./commands/DeleteRefererCommand";
 import {
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -101,6 +102,7 @@ import {
   GetBucketNotificationConfigurationCommandInput,
   GetBucketNotificationConfigurationCommandOutput,
 } from "./commands/GetBucketNotificationConfigurationCommand";
+import { GetBucketOverviewCommandInput, GetBucketOverviewCommandOutput } from "./commands/GetBucketOverviewCommand";
 import {
   GetBucketOwnershipControlsCommandInput,
   GetBucketOwnershipControlsCommandOutput,
@@ -118,6 +120,10 @@ import {
   GetBucketRequestPaymentCommandInput,
   GetBucketRequestPaymentCommandOutput,
 } from "./commands/GetBucketRequestPaymentCommand";
+import {
+  GetBucketStorageInfoCommandInput,
+  GetBucketStorageInfoCommandOutput,
+} from "./commands/GetBucketStorageInfoCommand";
 import { GetBucketTaggingCommandInput, GetBucketTaggingCommandOutput } from "./commands/GetBucketTaggingCommand";
 import {
   GetBucketVersioningCommandInput,
@@ -138,6 +144,7 @@ import {
   GetPublicAccessBlockCommandInput,
   GetPublicAccessBlockCommandOutput,
 } from "./commands/GetPublicAccessBlockCommand";
+import { GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
 import { HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
 import { HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
@@ -232,6 +239,7 @@ import {
   PutPublicAccessBlockCommandInput,
   PutPublicAccessBlockCommandOutput,
 } from "./commands/PutPublicAccessBlockCommand";
+import { PutRefererCommandInput, PutRefererCommandOutput } from "./commands/PutRefererCommand";
 import { RestoreObjectCommandInput, RestoreObjectCommandOutput } from "./commands/RestoreObjectCommand";
 import {
   SelectObjectContentCommandInput,
@@ -328,6 +336,7 @@ export type ServiceInputTypes =
   | DeleteObjectTaggingCommandInput
   | DeleteObjectsCommandInput
   | DeletePublicAccessBlockCommandInput
+  | DeleteRefererCommandInput
   | GetBucketAccelerateConfigurationCommandInput
   | GetBucketAclCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
@@ -340,11 +349,13 @@ export type ServiceInputTypes =
   | GetBucketLoggingCommandInput
   | GetBucketMetricsConfigurationCommandInput
   | GetBucketNotificationConfigurationCommandInput
+  | GetBucketOverviewCommandInput
   | GetBucketOwnershipControlsCommandInput
   | GetBucketPolicyCommandInput
   | GetBucketPolicyStatusCommandInput
   | GetBucketReplicationCommandInput
   | GetBucketRequestPaymentCommandInput
+  | GetBucketStorageInfoCommandInput
   | GetBucketTaggingCommandInput
   | GetBucketVersioningCommandInput
   | GetBucketWebsiteCommandInput
@@ -356,6 +367,7 @@ export type ServiceInputTypes =
   | GetObjectTaggingCommandInput
   | GetObjectTorrentCommandInput
   | GetPublicAccessBlockCommandInput
+  | GetRefererCommandInput
   | HeadBucketCommandInput
   | HeadObjectCommandInput
   | ListBucketAnalyticsConfigurationsCommandInput
@@ -393,6 +405,7 @@ export type ServiceInputTypes =
   | PutObjectRetentionCommandInput
   | PutObjectTaggingCommandInput
   | PutPublicAccessBlockCommandInput
+  | PutRefererCommandInput
   | RestoreObjectCommandInput
   | SelectObjectContentCommandInput
   | UploadPartCommandInput
@@ -421,6 +434,7 @@ export type ServiceOutputTypes =
   | DeleteObjectTaggingCommandOutput
   | DeleteObjectsCommandOutput
   | DeletePublicAccessBlockCommandOutput
+  | DeleteRefererCommandOutput
   | GetBucketAccelerateConfigurationCommandOutput
   | GetBucketAclCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
@@ -433,11 +447,13 @@ export type ServiceOutputTypes =
   | GetBucketLoggingCommandOutput
   | GetBucketMetricsConfigurationCommandOutput
   | GetBucketNotificationConfigurationCommandOutput
+  | GetBucketOverviewCommandOutput
   | GetBucketOwnershipControlsCommandOutput
   | GetBucketPolicyCommandOutput
   | GetBucketPolicyStatusCommandOutput
   | GetBucketReplicationCommandOutput
   | GetBucketRequestPaymentCommandOutput
+  | GetBucketStorageInfoCommandOutput
   | GetBucketTaggingCommandOutput
   | GetBucketVersioningCommandOutput
   | GetBucketWebsiteCommandOutput
@@ -449,6 +465,7 @@ export type ServiceOutputTypes =
   | GetObjectTaggingCommandOutput
   | GetObjectTorrentCommandOutput
   | GetPublicAccessBlockCommandOutput
+  | GetRefererCommandOutput
   | HeadBucketCommandOutput
   | HeadObjectCommandOutput
   | ListBucketAnalyticsConfigurationsCommandOutput
@@ -486,6 +503,7 @@ export type ServiceOutputTypes =
   | PutObjectRetentionCommandOutput
   | PutObjectTaggingCommandOutput
   | PutPublicAccessBlockCommandOutput
+  | PutRefererCommandOutput
   | RestoreObjectCommandOutput
   | SelectObjectContentCommandOutput
   | UploadPartCommandOutput

@@ -1,5 +1,6 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutObjectOutput, PutObjectRequest } from "../models/models_0";
+import { PutObjectOutput } from "../models/models_0";
+import { PutObjectRequest } from "../models/models_1";
 import { deserializeAws_restXmlPutObjectCommand, serializeAws_restXmlPutObjectCommand } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";

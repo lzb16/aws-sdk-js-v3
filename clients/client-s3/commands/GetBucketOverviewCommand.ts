@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutObjectLockConfigurationOutput, PutObjectLockConfigurationRequest } from "../models/models_1";
+import { GetBucketOverviewOutput, GetBucketOverviewRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutObjectLockConfigurationCommand,
-  serializeAws_restXmlPutObjectLockConfigurationCommand,
+  deserializeAws_restXmlGetBucketOverviewCommand,
+  serializeAws_restXmlGetBucketOverviewCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,39 +18,36 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutObjectLockConfigurationCommandInput = PutObjectLockConfigurationRequest;
-export type PutObjectLockConfigurationCommandOutput = PutObjectLockConfigurationOutput & __MetadataBearer;
+export type GetBucketOverviewCommandInput = GetBucketOverviewRequest;
+export type GetBucketOverviewCommandOutput = GetBucketOverviewOutput & __MetadataBearer;
 
 /**
- * <p>Places an Object Lock configuration on the specified bucket. The rule specified in the
- *          Object Lock configuration will be applied by default to every new object placed in the
- *          specified bucket.</p>
- *          <note>
- *             <p>
- *                <code>DefaultRetention</code> requires either Days or Years. You can't specify both
- *             at the same time.</p>
- *          </note>
+ * <p>This implementation of the <code>GET</code> operation uses the <code>overview</code>
+ *          subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to
+ *          return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+ *             <code>READ_ACP</code> permission is granted to the anonymous user, you can return the
+ *          ACL of the bucket without using an authorization header.</p>
+ *
  *          <p class="title">
  *             <b>Related Resources</b>
  *          </p>
  *          <ul>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
- *                   Objects</a>
+ *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
  *                </p>
  *             </li>
  *          </ul>
  */
-export class PutObjectLockConfigurationCommand extends $Command<
-  PutObjectLockConfigurationCommandInput,
-  PutObjectLockConfigurationCommandOutput,
+export class GetBucketOverviewCommand extends $Command<
+  GetBucketOverviewCommandInput,
+  GetBucketOverviewCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutObjectLockConfigurationCommandInput) {
+  constructor(readonly input: GetBucketOverviewCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -63,7 +60,7 @@ export class PutObjectLockConfigurationCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutObjectLockConfigurationCommandInput, PutObjectLockConfigurationCommandOutput> {
+  ): Handler<GetBucketOverviewCommandInput, GetBucketOverviewCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -71,13 +68,13 @@ export class PutObjectLockConfigurationCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutObjectLockConfigurationCommand";
+    const commandName = "GetBucketOverviewCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutObjectLockConfigurationRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: PutObjectLockConfigurationOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: GetBucketOverviewRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetBucketOverviewOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -87,15 +84,12 @@ export class PutObjectLockConfigurationCommand extends $Command<
     );
   }
 
-  private serialize(input: PutObjectLockConfigurationCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutObjectLockConfigurationCommand(input, context);
+  private serialize(input: GetBucketOverviewCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetBucketOverviewCommand(input, context);
   }
 
-  private deserialize(
-    output: __HttpResponse,
-    context: __SerdeContext
-  ): Promise<PutObjectLockConfigurationCommandOutput> {
-    return deserializeAws_restXmlPutObjectLockConfigurationCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetBucketOverviewCommandOutput> {
+    return deserializeAws_restXmlGetBucketOverviewCommand(output, context);
   }
 
   // Start section: command_body_extra

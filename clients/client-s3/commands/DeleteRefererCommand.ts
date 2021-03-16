@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutObjectLegalHoldOutput, PutObjectLegalHoldRequest } from "../models/models_1";
+import { DeleteRefererRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutObjectLegalHoldCommand,
-  serializeAws_restXmlPutObjectLegalHoldCommand,
+  deserializeAws_restXmlDeleteRefererCommand,
+  serializeAws_restXmlDeleteRefererCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,32 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutObjectLegalHoldCommandInput = PutObjectLegalHoldRequest;
-export type PutObjectLegalHoldCommandOutput = PutObjectLegalHoldOutput & __MetadataBearer;
+export type DeleteRefererCommandInput = DeleteRefererRequest;
+export type DeleteRefererCommandOutput = __MetadataBearer;
 
 /**
- * <p>Applies a Legal Hold configuration to the specified object.</p>
- *          <p>This action is not supported by Amazon S3 on Outposts.</p>
- *          <p class="title">
- *             <b>Related Resources</b>
- *          </p>
- *          <ul>
- *             <li>
- *                <p>
- *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking Objects</a>
- *                </p>
- *             </li>
- *          </ul>
+ * <p>Delete Referer</p>
  */
-export class PutObjectLegalHoldCommand extends $Command<
-  PutObjectLegalHoldCommandInput,
-  PutObjectLegalHoldCommandOutput,
+export class DeleteRefererCommand extends $Command<
+  DeleteRefererCommandInput,
+  DeleteRefererCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutObjectLegalHoldCommandInput) {
+  constructor(readonly input: DeleteRefererCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -56,7 +45,7 @@ export class PutObjectLegalHoldCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput> {
+  ): Handler<DeleteRefererCommandInput, DeleteRefererCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -64,13 +53,13 @@ export class PutObjectLegalHoldCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutObjectLegalHoldCommand";
+    const commandName = "DeleteRefererCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutObjectLegalHoldRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: PutObjectLegalHoldOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteRefererRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -80,12 +69,12 @@ export class PutObjectLegalHoldCommand extends $Command<
     );
   }
 
-  private serialize(input: PutObjectLegalHoldCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutObjectLegalHoldCommand(input, context);
+  private serialize(input: DeleteRefererCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlDeleteRefererCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutObjectLegalHoldCommandOutput> {
-    return deserializeAws_restXmlPutObjectLegalHoldCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteRefererCommandOutput> {
+    return deserializeAws_restXmlDeleteRefererCommand(output, context);
   }
 
   // Start section: command_body_extra

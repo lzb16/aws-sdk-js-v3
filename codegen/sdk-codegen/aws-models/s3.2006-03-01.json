@@ -180,6 +180,9 @@
     "com.amazonaws.s3#AccountId": {
       "type": "string"
     },
+    "com.amazonaws.s3#Algothrim": {
+      "type": "string"
+    },
     "com.amazonaws.s3#AllowQuotedRecordDelimiter": {
       "type": "boolean"
     },
@@ -209,6 +212,9 @@
       "member": {
         "target": "com.amazonaws.s3#AllowedOrigin"
       }
+    },
+    "com.amazonaws.s3#AllowEmptyReferer": {
+      "type": "boolean"
     },
     "com.amazonaws.s3#AmazonS3": {
       "type": "service",
@@ -281,6 +287,9 @@
           "target": "com.amazonaws.s3#DeletePublicAccessBlock"
         },
         {
+          "target": "com.amazonaws.s3#DeleteReferer"
+        },
+        {
           "target": "com.amazonaws.s3#GetBucketAccelerateConfiguration"
         },
         {
@@ -317,6 +326,9 @@
           "target": "com.amazonaws.s3#GetBucketNotificationConfiguration"
         },
         {
+          "target": "com.amazonaws.s3#GetBucketOverview"
+        },
+        {
           "target": "com.amazonaws.s3#GetBucketOwnershipControls"
         },
         {
@@ -330,6 +342,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetBucketRequestPayment"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketStorageInfo"
         },
         {
           "target": "com.amazonaws.s3#GetBucketTagging"
@@ -363,6 +378,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetPublicAccessBlock"
+        },
+        {
+          "target": "com.amazonaws.s3#GetReferer"
         },
         {
           "target": "com.amazonaws.s3#HeadBucket"
@@ -486,6 +504,9 @@
         },
         {
           "target": "com.amazonaws.s3#UploadPartCopy"
+        },
+        {
+          "target": "com.amazonaws.s3#PutReferer"
         }
       ],
       "traits": {
@@ -666,6 +687,16 @@
         ]
       }
     },
+    "com.amazonaws.s3#BlackList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#Referer",
+        "traits": {
+          "smithy.api#documentation": "<p>A list of referer.</p>",
+          "smithy.api#xmlName": "Referer"
+        }
+      }
+    },
     "com.amazonaws.s3#Body": {
       "type": "blob"
     },
@@ -682,6 +713,96 @@
           "target": "com.amazonaws.s3#CreationDate",
           "traits": {
             "smithy.api#documentation": "<p>Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.</p>"
+          }
+        },
+        "Quota": {
+          "target": "com.amazonaws.s3#Quota",
+          "traits": {
+            "smithy.api#documentation": "<p>Date the quota of bucket was created.</p>"
+          }
+        },
+        "ObjectNumber": {
+          "target": "com.amazonaws.s3#ObjectNumber",
+          "traits": {
+            "smithy.api#documentation": "<p>Date the ObjectNumber of bucket was created.</p>"
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.s3#Size",
+          "traits": {
+            "smithy.api#documentation": "<p>Date the Size of bucket was created.</p>"
+          }
+        },
+        "StoragePoolId": {
+          "target": "com.amazonaws.s3#StoragePoolId",
+          "traits": {
+            "smithy.api#documentation": "<p>Date the StoragePoolId of bucket was created.</p>"
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>"
+          }
+        },
+        "EndPoint": {
+          "target": "com.amazonaws.s3#EndPoint",
+          "traits": {
+            "smithy.api#documentation": "<p>Date the EndPoint of bucket was created.</p>"
+          }
+        },
+        "VersioningConfiguration": {
+          "target": "com.amazonaws.s3#VersioningConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for setting the versioning state.</p>"
+          }
+        },
+        "ObjectLockConfiguration": {
+          "target": "com.amazonaws.s3#ObjectLockConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The specified bucket's Object Lock configuration.</p>"
+          }
+        },
+        "LifecycleConfiguration": {
+          "target": "com.amazonaws.s3#BucketLifecycleConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>"
+          }
+        },
+        "CORSConfiguration": {
+          "target": "com.amazonaws.s3#CORSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html\">Enabling Cross-Origin Resource\n            Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>"
+          }
+        },
+        "RefererConfiguration": {
+          "target": "com.amazonaws.s3#RefererConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "ServerSideEncryptionConfiguration": {
+          "target": "com.amazonaws.s3#ServerSideEncryptionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "BucketLoggingConfiguration": {
+          "target": "com.amazonaws.s3#BucketLoggingConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "TaggingConfiguration": {
+          "target": "com.amazonaws.s3#TaggingConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "PolicyConfiguration": {
+          "target": "com.amazonaws.s3#PolicyConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
         }
       },
@@ -751,6 +872,9 @@
             "smithy.api#xmlFlattened": {},
             "smithy.api#xmlName": "Rule"
           }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
         }
       },
       "traits": {
@@ -839,6 +963,17 @@
         ]
       }
     },
+    "com.amazonaws.s3#BucketLoggingConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Container for logging status information.</p>"
+      }
+    },
     "com.amazonaws.s3#BucketLoggingStatus": {
       "type": "structure",
       "members": {
@@ -914,6 +1049,9 @@
             "smithy.api#xmlFlattened": {},
             "smithy.api#xmlName": "CORSRule"
           }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
         }
       },
       "traits": {
@@ -1879,6 +2017,13 @@
             "smithy.api#httpPayload": {}
           }
         },
+        "EncryptionMode": {
+          "target": "com.amazonaws.s3#EncryptionMode",
+          "traits": {
+            "smithy.api#documentation": "<p>The encryption mode for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-encryption-mode"
+          }
+        },
         "GrantFullControl": {
           "target": "com.amazonaws.s3#GrantFullControl",
           "traits": {
@@ -1919,6 +2064,34 @@
           "traits": {
             "smithy.api#documentation": "<p>Specifies whether you want S3 Object Lock to be enabled for the new bucket.</p>",
             "smithy.api#httpHeader": "x-amz-bucket-object-lock-enabled"
+          }
+        },
+        "PolicyMode": {
+          "target": "com.amazonaws.s3#PolicyMode",
+          "traits": {
+            "smithy.api#documentation": "<p>The policy mode for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-policy-mode"
+          }
+        },
+        "Redundancy": {
+          "target": "com.amazonaws.s3#Redundancy",
+          "traits": {
+            "smithy.api#documentation": "<p>The redundancy for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-redundancy"
+          }
+        },
+        "StoragePoolId": {
+          "target": "com.amazonaws.s3#StoragePoolId",
+          "traits": {
+            "smithy.api#documentation": "<p>The storage pool for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-pool-id"
+          }
+        },
+        "Tagging": {
+          "target": "com.amazonaws.s3#TaggingHeader",
+          "traits": {
+            "smithy.api#documentation": "<p>The tag-set for the bucket. The tag-set must be encoded as URL Query parameters.</p>",
+            "smithy.api#httpHeader": "x-amz-tagging"
           }
         }
       }
@@ -3130,6 +3303,40 @@
         }
       }
     },
+    "com.amazonaws.s3#DeleteReferer": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteRefererRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Delete Referer</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}/?referer",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteRefererRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want\n         to retrieve. </p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#DeletedObject": {
       "type": "structure",
       "members": {
@@ -3289,6 +3496,9 @@
         "smithy.api#documentation": "<p>Specifies encryption-related information for an Amazon S3 bucket that is a destination for\n         replicated objects.</p>"
       }
     },
+    "com.amazonaws.s3#EncryptionMode": {
+      "type": "integer"
+    },
     "com.amazonaws.s3#End": {
       "type": "long"
     },
@@ -3298,6 +3508,9 @@
       "traits": {
         "smithy.api#documentation": "<p>A message that indicates the request is complete and no more messages will be sent. You\n         should not assume that the request is complete until the client receives an\n            <code>EndEvent</code>.</p>"
       }
+    },
+    "com.amazonaws.s3#EndPoint": {
+      "type": "string"
     },
     "com.amazonaws.s3#Error": {
       "type": "structure",
@@ -4161,6 +4374,55 @@
         }
       }
     },
+    "com.amazonaws.s3#GetBucketOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketOverviewRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketOverviewOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>This implementation of the <code>GET</code> operation uses the <code>overview</code>\n         subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to\n         return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If\n            <code>READ_ACP</code> permission is granted to the anonymous user, you can return the\n         ACL of the bucket without using an authorization header.</p>\n      \n         <p class=\"title\">\n            <b>Related Resources</b>\n         </p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html\">ListObjects</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?overview",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketOverviewOutput": {
+      "type": "structure",
+      "members": {
+        "ListBucketResult": {
+          "target": "com.amazonaws.s3#ListBucketResult",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>ListBucketResult</code> of bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketOverviewRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the Amazon S3 bucket whose <code>Overview</code> you want to retrieve.\n      </p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#GetBucketOwnershipControls": {
       "type": "operation",
       "input": {
@@ -4233,7 +4495,8 @@
         "Policy": {
           "target": "com.amazonaws.s3#Policy",
           "traits": {
-            "smithy.api#documentation": "<p>The bucket policy as a JSON document.</p>"
+            "smithy.api#documentation": "<p>The bucket policy as a JSON document.</p>",
+            "smithy.api#httpPayload": {}
           }
         }
       }
@@ -4401,6 +4664,77 @@
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStorageInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketStorageInfoRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketStorageInfoOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Returns the request payment configuration of a bucket. To use this version of the\n         operation, you must be the bucket owner. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html\">Requester Pays Buckets</a>.</p>\n\n         <p>The following operations are related to <code>GetBucketRequestPayment</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html\">ListObjects</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?storageinfo",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStorageInfoOutput": {
+      "type": "structure",
+      "members": {
+        "GetBucketStorageInfoResult": {
+          "target": "com.amazonaws.s3#GetBucketStorageInfoResult",
+          "traits": {
+            "smithy.api#documentation": "<p>The storage info of the bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStorageInfoRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket for which to get the payment request configuration</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStorageInfoResult": {
+      "type": "structure",
+      "members": {
+        "ObjectNumber": {
+          "target": "com.amazonaws.s3#ObjectNumber",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that\n         Amazon S3 assumes when replicating objects. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html\">How to Set Up\n            Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.s3#Size",
+          "traits": {
+            "smithy.api#documentation": "<p>A container for one or more replication rules. A replication configuration must have at\n         least one rule and can contain a maximum of 1,000 rules. </p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A container for replication rules. You can add up to 1,000 rules. The maximum size of a\n         replication configuration is 2 MB.</p>"
       }
     },
     "com.amazonaws.s3#GetBucketTagging": {
@@ -5418,6 +5752,55 @@
       }
     },
     "com.amazonaws.s3#GetPublicAccessBlockRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want\n         to retrieve. </p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetReferer": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetRefererRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetRefererOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Creates a new S3 Test. To create a bucket, you must register with Amazon S3 and have a\n         valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to\n         create buckets. By creating the bucket, you become the bucket owner.</p>\n         <p>Not every string is an acceptable bucket name. For information about bucket naming\n         restrictions, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html\">Working with Amazon S3\n            buckets</a>. </p>\n         <p>If you want to create an Amazon S3 on Outposts bucket, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html\">Create Bucket</a>. </p>\n         <p>By default, the bucket is created in the US East (N. Virginia) Region. You can\n         optionally specify a Region in the request body. You might choose a Region to optimize\n         latency, minimize costs, or address regulatory requirements. For example, if you reside in\n         Europe, you will probably find it advantageous to create buckets in the Europe (Ireland)\n         Region. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro\">Accessing a\n         bucket</a>.</p>\n         <note>\n            <p>If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,\n            the request goes to the us-east-1 Region. Accordingly, the signature calculations in\n            Signature Version 4 must use us-east-1 as the Region, even if the location constraint in\n            the request specifies another Region where the bucket is to be created. If you create a\n            bucket in a Region other than US East (N. Virginia), your application must be able to\n            handle 307 redirect. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html\">Virtual hosting of buckets</a>.</p>\n         </note>\n         <p>When creating a bucket using this operation, you can optionally specify the accounts or\n         groups that should be granted specific permissions on the bucket. There are two ways to\n         grant the appropriate permissions using the request headers.</p>\n         <ul>\n            <li>\n               <p>Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3\n               supports a set of predefined ACLs, known as <i>canned ACLs</i>. Each\n               canned ACL has a predefined set of grantees and permissions. For more information,\n               see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL\">Canned ACL</a>.</p>\n            </li>\n            <li>\n               <p>Specify access permissions explicitly using the <code>x-amz-grant-read</code>,\n                  <code>x-amz-grant-write</code>, <code>x-amz-grant-read-acp</code>,\n                  <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>\n               headers. These headers map to the set of permissions Amazon S3 supports in an ACL. For\n               more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html\">Access control list\n                  (ACL) overview</a>.</p>\n               <p>You specify each grantee as a type=value pair, where the type is one of the\n               following:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>id</code> – if the value specified is the canonical user ID of an AWS\n                     account</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>uri</code> – if you are granting permissions to a predefined\n                     group</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>emailAddress</code> – if the value specified is the email address of\n                     an AWS account</p> \n                     <note>\n                        <p>Using email addresses to specify a grantee is only supported in the following AWS Regions: </p> \n                        <ul>\n                           <li>\n                              <p>US East (N. Virginia)</p>\n                           </li>\n                           <li>\n                              <p>US West (N. California)</p>\n                           </li>\n                           <li>\n                              <p> US West (Oregon)</p>\n                           </li>\n                           <li>\n                              <p> Asia Pacific (Singapore)</p>\n                           </li>\n                           <li>\n                              <p>Asia Pacific (Sydney)</p>\n                           </li>\n                           <li>\n                              <p>Asia Pacific (Tokyo)</p>\n                           </li>\n                           <li>\n                              <p>Europe (Ireland)</p>\n                           </li>\n                           <li>\n                              <p>South America (São Paulo)</p>\n                           </li>\n                        </ul> \n                        <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region\">Regions and Endpoints</a> in the AWS General Reference.</p>\n                     </note> \n                  </li>\n               </ul> \n               <p>For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts identified by account IDs permissions to read object data and its metadata:</p> \n               <p>\n                  <code>x-amz-grant-read: id=\"11112222333\", id=\"444455556666\" </code>\n               </p> \n            </li>\n         </ul>\n         <note>\n            <p>You can use either a canned ACL or specify access permissions explicitly. You cannot\n            do both.</p>\n         </note>\n\n\n         <p>The following operations are related to <code>CreateBucket</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html\">PutObject</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html\">DeleteBucket</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}/?referer",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetRefererOutput": {
+      "type": "structure",
+      "members": {
+        "RefererConfiguration": {
+          "target": "com.amazonaws.s3#RefererConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetRefererRequest": {
       "type": "structure",
       "members": {
         "Bucket": {
@@ -7007,6 +7390,23 @@
         }
       }
     },
+    "com.amazonaws.s3#ListBucketResult": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#Bucket",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket owned by the requestor.</p>"
+          }
+        },
+        "Owner": {
+          "target": "com.amazonaws.s3#Owner",
+          "traits": {
+            "smithy.api#documentation": "<p>The owner of the bucket listed.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#ListMultipartUploads": {
       "type": "operation",
       "input": {
@@ -8404,6 +8804,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The Object Lock rule in place for the specified object.</p>"
           }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status",
+          "traits": {
+            "smithy.api#documentation": "<p>The Object Lock status.</p>"
+          }
         }
       },
       "traits": {
@@ -8527,6 +8933,9 @@
         "smithy.api#error": "client"
       }
     },
+    "com.amazonaws.s3#ObjectNumber": {
+      "type": "long"
+    },
     "com.amazonaws.s3#ObjectOwnership": {
       "type": "string",
       "traits": {
@@ -8540,6 +8949,9 @@
           }
         ]
       }
+    },
+    "com.amazonaws.s3#ObjectQuota": {
+      "type": "long"
     },
     "com.amazonaws.s3#ObjectStorageClass": {
       "type": "string",
@@ -8839,6 +9251,33 @@
     },
     "com.amazonaws.s3#Policy": {
       "type": "string"
+    },
+    "com.amazonaws.s3#PolicyConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        },
+        "PolicyMode": {
+          "target": "com.amazonaws.s3#PolicyMode"
+        }
+      }
+    },
+    "com.amazonaws.s3#PolicyMode": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "private"
+          },
+          {
+            "value": "public-read"
+          },
+          {
+            "value": "public-read-write"
+          }
+        ]
+      }
     },
     "com.amazonaws.s3#PolicyStatus": {
       "type": "structure",
@@ -10712,6 +11151,40 @@
         }
       }
     },
+    "com.amazonaws.s3#PutReferer": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutRefererRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Creates a new S3 Test. To create a bucket, you must register with Amazon S3 and have a\n         valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to\n         create buckets. By creating the bucket, you become the bucket owner.</p>\n         <p>Not every string is an acceptable bucket name. For information about bucket naming\n         restrictions, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html\">Working with Amazon S3\n            buckets</a>. </p>\n         <p>If you want to create an Amazon S3 on Outposts bucket, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html\">Create Bucket</a>. </p>\n         <p>By default, the bucket is created in the US East (N. Virginia) Region. You can\n         optionally specify a Region in the request body. You might choose a Region to optimize\n         latency, minimize costs, or address regulatory requirements. For example, if you reside in\n         Europe, you will probably find it advantageous to create buckets in the Europe (Ireland)\n         Region. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro\">Accessing a\n         bucket</a>.</p>\n         <note>\n            <p>If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,\n            the request goes to the us-east-1 Region. Accordingly, the signature calculations in\n            Signature Version 4 must use us-east-1 as the Region, even if the location constraint in\n            the request specifies another Region where the bucket is to be created. If you create a\n            bucket in a Region other than US East (N. Virginia), your application must be able to\n            handle 307 redirect. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html\">Virtual hosting of buckets</a>.</p>\n         </note>\n         <p>When creating a bucket using this operation, you can optionally specify the accounts or\n         groups that should be granted specific permissions on the bucket. There are two ways to\n         grant the appropriate permissions using the request headers.</p>\n         <ul>\n            <li>\n               <p>Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3\n               supports a set of predefined ACLs, known as <i>canned ACLs</i>. Each\n               canned ACL has a predefined set of grantees and permissions. For more information,\n               see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL\">Canned ACL</a>.</p>\n            </li>\n            <li>\n               <p>Specify access permissions explicitly using the <code>x-amz-grant-read</code>,\n                  <code>x-amz-grant-write</code>, <code>x-amz-grant-read-acp</code>,\n                  <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>\n               headers. These headers map to the set of permissions Amazon S3 supports in an ACL. For\n               more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html\">Access control list\n                  (ACL) overview</a>.</p>\n               <p>You specify each grantee as a type=value pair, where the type is one of the\n               following:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>id</code> – if the value specified is the canonical user ID of an AWS\n                     account</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>uri</code> – if you are granting permissions to a predefined\n                     group</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>emailAddress</code> – if the value specified is the email address of\n                     an AWS account</p> \n                     <note>\n                        <p>Using email addresses to specify a grantee is only supported in the following AWS Regions: </p> \n                        <ul>\n                           <li>\n                              <p>US East (N. Virginia)</p>\n                           </li>\n                           <li>\n                              <p>US West (N. California)</p>\n                           </li>\n                           <li>\n                              <p> US West (Oregon)</p>\n                           </li>\n                           <li>\n                              <p> Asia Pacific (Singapore)</p>\n                           </li>\n                           <li>\n                              <p>Asia Pacific (Sydney)</p>\n                           </li>\n                           <li>\n                              <p>Asia Pacific (Tokyo)</p>\n                           </li>\n                           <li>\n                              <p>Europe (Ireland)</p>\n                           </li>\n                           <li>\n                              <p>South America (São Paulo)</p>\n                           </li>\n                        </ul> \n                        <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region\">Regions and Endpoints</a> in the AWS General Reference.</p>\n                     </note> \n                  </li>\n               </ul> \n               <p>For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts identified by account IDs permissions to read object data and its metadata:</p> \n               <p>\n                  <code>x-amz-grant-read: id=\"11112222333\", id=\"444455556666\" </code>\n               </p> \n            </li>\n         </ul>\n         <note>\n            <p>You can use either a canned ACL or specify access permissions explicitly. You cannot\n            do both.</p>\n         </note>\n\n\n         <p>The following operations are related to <code>CreateBucket</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html\">PutObject</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html\">DeleteBucket</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}/?referer",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutRefererRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket to create.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "RefererConfiguration": {
+          "target": "com.amazonaws.s3#RefererConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#QueueArn": {
       "type": "string"
     },
@@ -10754,6 +11227,17 @@
     },
     "com.amazonaws.s3#Quiet": {
       "type": "boolean"
+    },
+    "com.amazonaws.s3#Quota": {
+      "type": "structure",
+      "members": {
+        "StorageQuota": {
+          "target": "com.amazonaws.s3#StorageQuota"
+        },
+        "ObjectQuota": {
+          "target": "com.amazonaws.s3#ObjectQuota"
+        }
+      }
     },
     "com.amazonaws.s3#QuoteCharacter": {
       "type": "string"
@@ -10854,6 +11338,52 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3\n         bucket.</p>"
+      }
+    },
+    "com.amazonaws.s3#Redundancy": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#Referer": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#RefererConfiguration": {
+      "type": "structure",
+      "members": {
+        "AllowEmptyReferer": {
+          "target": "com.amazonaws.s3#AllowEmptyReferer",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the Region where the bucket will be created. If you don't specify a Region,\n         the bucket is created in the US East (N. Virginia) Region (us-east-1).</p>"
+          }
+        },
+        "RefererList": {
+          "target": "com.amazonaws.s3#RefererList",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the Region where the bucket will be created. If you don't specify a Region,\n         the bucket is created in the US East (N. Virginia) Region (us-east-1).</p>"
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+      }
+    },
+    "com.amazonaws.s3#RefererList": {
+      "type": "structure",
+      "members": {
+        "BlackList": {
+          "target": "com.amazonaws.s3#BlackList",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the Region where the bucket will be created. If you don't specify a Region,\n         the bucket is created in the US East (N. Virginia) Region (us-east-1).</p>"
+          }
+        },
+        "WhiteList": {
+          "target": "com.amazonaws.s3#WhiteList",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the Region where the bucket will be created. If you don't specify a Region,\n         the bucket is created in the US East (N. Virginia) Region (us-east-1).</p>"
+          }
+        }
       }
     },
     "com.amazonaws.s3#ReplaceKeyPrefixWith": {
@@ -11746,6 +12276,9 @@
             "smithy.api#xmlFlattened": {},
             "smithy.api#xmlName": "Rule"
           }
+        },
+        "Algothrim": {
+          "target": "com.amazonaws.s3#Algothrim"
         }
       },
       "traits": {
@@ -11782,7 +12315,7 @@
       "type": "boolean"
     },
     "com.amazonaws.s3#Size": {
-      "type": "integer"
+      "type": "long"
     },
     "com.amazonaws.s3#SourceSelectionCriteria": {
       "type": "structure",
@@ -11879,6 +12412,19 @@
         "smithy.api#documentation": "<p>Container for the Stats Event.</p>"
       }
     },
+    "com.amazonaws.s3#Status": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "Enabled"
+          },
+          {
+            "value": "Disabled"
+          }
+        ]
+      }
+    },
     "com.amazonaws.s3#StorageClass": {
       "type": "string",
       "traits": {
@@ -11956,6 +12502,12 @@
         ]
       }
     },
+    "com.amazonaws.s3#StoragePoolId": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#StorageQuota": {
+      "type": "long"
+    },
     "com.amazonaws.s3#StreamingBlob": {
       "type": "blob",
       "traits": {
@@ -12012,6 +12564,14 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Container for <code>TagSet</code> elements.</p>"
+      }
+    },
+    "com.amazonaws.s3#TaggingConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
       }
     },
     "com.amazonaws.s3#TaggingDirective": {
@@ -12679,6 +13239,16 @@
     },
     "com.amazonaws.s3#WebsiteRedirectLocation": {
       "type": "string"
+    },
+    "com.amazonaws.s3#WhiteList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#Referer",
+        "traits": {
+          "smithy.api#documentation": "<p>A list of referer.</p>",
+          "smithy.api#xmlName": "Referer"
+        }
+      }
     },
     "com.amazonaws.s3#Years": {
       "type": "integer"

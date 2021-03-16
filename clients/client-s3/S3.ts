@@ -106,6 +106,11 @@ import {
   DeletePublicAccessBlockCommandOutput,
 } from "./commands/DeletePublicAccessBlockCommand";
 import {
+  DeleteRefererCommand,
+  DeleteRefererCommandInput,
+  DeleteRefererCommandOutput,
+} from "./commands/DeleteRefererCommand";
+import {
   GetBucketAccelerateConfigurationCommand,
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -166,6 +171,11 @@ import {
   GetBucketNotificationConfigurationCommandOutput,
 } from "./commands/GetBucketNotificationConfigurationCommand";
 import {
+  GetBucketOverviewCommand,
+  GetBucketOverviewCommandInput,
+  GetBucketOverviewCommandOutput,
+} from "./commands/GetBucketOverviewCommand";
+import {
   GetBucketOwnershipControlsCommand,
   GetBucketOwnershipControlsCommandInput,
   GetBucketOwnershipControlsCommandOutput,
@@ -190,6 +200,11 @@ import {
   GetBucketRequestPaymentCommandInput,
   GetBucketRequestPaymentCommandOutput,
 } from "./commands/GetBucketRequestPaymentCommand";
+import {
+  GetBucketStorageInfoCommand,
+  GetBucketStorageInfoCommandInput,
+  GetBucketStorageInfoCommandOutput,
+} from "./commands/GetBucketStorageInfoCommand";
 import {
   GetBucketTaggingCommand,
   GetBucketTaggingCommandInput,
@@ -241,6 +256,7 @@ import {
   GetPublicAccessBlockCommandInput,
   GetPublicAccessBlockCommandOutput,
 } from "./commands/GetPublicAccessBlockCommand";
+import { GetRefererCommand, GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
 import { HeadBucketCommand, HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
 import { HeadObjectCommand, HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
@@ -402,6 +418,7 @@ import {
   PutPublicAccessBlockCommandInput,
   PutPublicAccessBlockCommandOutput,
 } from "./commands/PutPublicAccessBlockCommand";
+import { PutRefererCommand, PutRefererCommandInput, PutRefererCommandOutput } from "./commands/PutRefererCommand";
 import {
   RestoreObjectCommand,
   RestoreObjectCommandInput,
@@ -2255,6 +2272,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>Delete Referer</p>
+   */
+  public deleteReferer(
+    args: DeleteRefererCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteRefererCommandOutput>;
+  public deleteReferer(
+    args: DeleteRefererCommandInput,
+    cb: (err: any, data?: DeleteRefererCommandOutput) => void
+  ): void;
+  public deleteReferer(
+    args: DeleteRefererCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteRefererCommandOutput) => void
+  ): void;
+  public deleteReferer(
+    args: DeleteRefererCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteRefererCommandOutput) => void),
+    cb?: (err: any, data?: DeleteRefererCommandOutput) => void
+  ): Promise<DeleteRefererCommandOutput> | void {
+    const command = new DeleteRefererCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>This implementation of the GET operation uses the <code>accelerate</code> subresource to
    *          return the Transfer Acceleration state of a bucket, which is either <code>Enabled</code> or
    *             <code>Suspended</code>. Amazon S3 Transfer Acceleration is a bucket-level feature that
@@ -2943,6 +2992,53 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>This implementation of the <code>GET</code> operation uses the <code>overview</code>
+   *          subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to
+   *          return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+   *             <code>READ_ACP</code> permission is granted to the anonymous user, you can return the
+   *          ACL of the bucket without using an authorization header.</p>
+   *
+   *          <p class="title">
+   *             <b>Related Resources</b>
+   *          </p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getBucketOverview(
+    args: GetBucketOverviewCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketOverviewCommandOutput>;
+  public getBucketOverview(
+    args: GetBucketOverviewCommandInput,
+    cb: (err: any, data?: GetBucketOverviewCommandOutput) => void
+  ): void;
+  public getBucketOverview(
+    args: GetBucketOverviewCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketOverviewCommandOutput) => void
+  ): void;
+  public getBucketOverview(
+    args: GetBucketOverviewCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketOverviewCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketOverviewCommandOutput) => void
+  ): Promise<GetBucketOverviewCommandOutput> | void {
+    const command = new GetBucketOverviewCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves <code>OwnershipControls</code> for an Amazon S3 bucket. To use this operation, you
    *          must have the <code>s3:GetBucketOwnershipControls</code> permission. For more information
    *          about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
@@ -3209,6 +3305,48 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketRequestPaymentCommandOutput) => void
   ): Promise<GetBucketRequestPaymentCommandOutput> | void {
     const command = new GetBucketRequestPaymentCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Returns the request payment configuration of a bucket. To use this version of the
+   *          operation, you must be the bucket owner. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester Pays Buckets</a>.</p>
+   *
+   *          <p>The following operations are related to <code>GetBucketRequestPayment</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getBucketStorageInfo(
+    args: GetBucketStorageInfoCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketStorageInfoCommandOutput>;
+  public getBucketStorageInfo(
+    args: GetBucketStorageInfoCommandInput,
+    cb: (err: any, data?: GetBucketStorageInfoCommandOutput) => void
+  ): void;
+  public getBucketStorageInfo(
+    args: GetBucketStorageInfoCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketStorageInfoCommandOutput) => void
+  ): void;
+  public getBucketStorageInfo(
+    args: GetBucketStorageInfoCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketStorageInfoCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketStorageInfoCommandOutput) => void
+  ): Promise<GetBucketStorageInfoCommandOutput> | void {
+    const command = new GetBucketStorageInfoCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3908,6 +4046,143 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetPublicAccessBlockCommandOutput) => void
   ): Promise<GetPublicAccessBlockCommandOutput> | void {
     const command = new GetPublicAccessBlockCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Creates a new S3 Test. To create a bucket, you must register with Amazon S3 and have a
+   *          valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to
+   *          create buckets. By creating the bucket, you become the bucket owner.</p>
+   *          <p>Not every string is an acceptable bucket name. For information about bucket naming
+   *          restrictions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working with Amazon S3
+   *             buckets</a>. </p>
+   *          <p>If you want to create an Amazon S3 on Outposts bucket, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html">Create Bucket</a>. </p>
+   *          <p>By default, the bucket is created in the US East (N. Virginia) Region. You can
+   *          optionally specify a Region in the request body. You might choose a Region to optimize
+   *          latency, minimize costs, or address regulatory requirements. For example, if you reside in
+   *          Europe, you will probably find it advantageous to create buckets in the Europe (Ireland)
+   *          Region. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">Accessing a
+   *          bucket</a>.</p>
+   *          <note>
+   *             <p>If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,
+   *             the request goes to the us-east-1 Region. Accordingly, the signature calculations in
+   *             Signature Version 4 must use us-east-1 as the Region, even if the location constraint in
+   *             the request specifies another Region where the bucket is to be created. If you create a
+   *             bucket in a Region other than US East (N. Virginia), your application must be able to
+   *             handle 307 redirect. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual hosting of buckets</a>.</p>
+   *          </note>
+   *          <p>When creating a bucket using this operation, you can optionally specify the accounts or
+   *          groups that should be granted specific permissions on the bucket. There are two ways to
+   *          grant the appropriate permissions using the request headers.</p>
+   *          <ul>
+   *             <li>
+   *                <p>Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3
+   *                supports a set of predefined ACLs, known as <i>canned ACLs</i>. Each
+   *                canned ACL has a predefined set of grantees and permissions. For more information,
+   *                see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned ACL</a>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Specify access permissions explicitly using the <code>x-amz-grant-read</code>,
+   *                   <code>x-amz-grant-write</code>, <code>x-amz-grant-read-acp</code>,
+   *                   <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>
+   *                headers. These headers map to the set of permissions Amazon S3 supports in an ACL. For
+   *                more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access control list
+   *                   (ACL) overview</a>.</p>
+   *                <p>You specify each grantee as a type=value pair, where the type is one of the
+   *                following:</p>
+   *                <ul>
+   *                   <li>
+   *                      <p>
+   *                         <code>id</code> – if the value specified is the canonical user ID of an AWS
+   *                      account</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>uri</code> – if you are granting permissions to a predefined
+   *                      group</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>emailAddress</code> – if the value specified is the email address of
+   *                      an AWS account</p>
+   *                      <note>
+   *                         <p>Using email addresses to specify a grantee is only supported in the following AWS Regions: </p>
+   *                         <ul>
+   *                            <li>
+   *                               <p>US East (N. Virginia)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>US West (N. California)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p> US West (Oregon)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p> Asia Pacific (Singapore)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Asia Pacific (Sydney)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Asia Pacific (Tokyo)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Europe (Ireland)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>South America (São Paulo)</p>
+   *                            </li>
+   *                         </ul>
+   *                         <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions and Endpoints</a> in the AWS General Reference.</p>
+   *                      </note>
+   *                   </li>
+   *                </ul>
+   *                <p>For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts identified by account IDs permissions to read object data and its metadata:</p>
+   *                <p>
+   *                   <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
+   *                </p>
+   *             </li>
+   *          </ul>
+   *          <note>
+   *             <p>You can use either a canned ACL or specify access permissions explicitly. You cannot
+   *             do both.</p>
+   *          </note>
+   *
+   *
+   *          <p>The following operations are related to <code>CreateBucket</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getReferer(args: GetRefererCommandInput, options?: __HttpHandlerOptions): Promise<GetRefererCommandOutput>;
+  public getReferer(args: GetRefererCommandInput, cb: (err: any, data?: GetRefererCommandOutput) => void): void;
+  public getReferer(
+    args: GetRefererCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetRefererCommandOutput) => void
+  ): void;
+  public getReferer(
+    args: GetRefererCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetRefererCommandOutput) => void),
+    cb?: (err: any, data?: GetRefererCommandOutput) => void
+  ): Promise<GetRefererCommandOutput> | void {
+    const command = new GetRefererCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7174,6 +7449,143 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutPublicAccessBlockCommandOutput) => void
   ): Promise<PutPublicAccessBlockCommandOutput> | void {
     const command = new PutPublicAccessBlockCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Creates a new S3 Test. To create a bucket, you must register with Amazon S3 and have a
+   *          valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to
+   *          create buckets. By creating the bucket, you become the bucket owner.</p>
+   *          <p>Not every string is an acceptable bucket name. For information about bucket naming
+   *          restrictions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working with Amazon S3
+   *             buckets</a>. </p>
+   *          <p>If you want to create an Amazon S3 on Outposts bucket, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html">Create Bucket</a>. </p>
+   *          <p>By default, the bucket is created in the US East (N. Virginia) Region. You can
+   *          optionally specify a Region in the request body. You might choose a Region to optimize
+   *          latency, minimize costs, or address regulatory requirements. For example, if you reside in
+   *          Europe, you will probably find it advantageous to create buckets in the Europe (Ireland)
+   *          Region. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html#access-bucket-intro">Accessing a
+   *          bucket</a>.</p>
+   *          <note>
+   *             <p>If you send your create bucket request to the <code>s3.amazonaws.com</code> endpoint,
+   *             the request goes to the us-east-1 Region. Accordingly, the signature calculations in
+   *             Signature Version 4 must use us-east-1 as the Region, even if the location constraint in
+   *             the request specifies another Region where the bucket is to be created. If you create a
+   *             bucket in a Region other than US East (N. Virginia), your application must be able to
+   *             handle 307 redirect. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html">Virtual hosting of buckets</a>.</p>
+   *          </note>
+   *          <p>When creating a bucket using this operation, you can optionally specify the accounts or
+   *          groups that should be granted specific permissions on the bucket. There are two ways to
+   *          grant the appropriate permissions using the request headers.</p>
+   *          <ul>
+   *             <li>
+   *                <p>Specify a canned ACL using the <code>x-amz-acl</code> request header. Amazon S3
+   *                supports a set of predefined ACLs, known as <i>canned ACLs</i>. Each
+   *                canned ACL has a predefined set of grantees and permissions. For more information,
+   *                see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned ACL</a>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Specify access permissions explicitly using the <code>x-amz-grant-read</code>,
+   *                   <code>x-amz-grant-write</code>, <code>x-amz-grant-read-acp</code>,
+   *                   <code>x-amz-grant-write-acp</code>, and <code>x-amz-grant-full-control</code>
+   *                headers. These headers map to the set of permissions Amazon S3 supports in an ACL. For
+   *                more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access control list
+   *                   (ACL) overview</a>.</p>
+   *                <p>You specify each grantee as a type=value pair, where the type is one of the
+   *                following:</p>
+   *                <ul>
+   *                   <li>
+   *                      <p>
+   *                         <code>id</code> – if the value specified is the canonical user ID of an AWS
+   *                      account</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>uri</code> – if you are granting permissions to a predefined
+   *                      group</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>emailAddress</code> – if the value specified is the email address of
+   *                      an AWS account</p>
+   *                      <note>
+   *                         <p>Using email addresses to specify a grantee is only supported in the following AWS Regions: </p>
+   *                         <ul>
+   *                            <li>
+   *                               <p>US East (N. Virginia)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>US West (N. California)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p> US West (Oregon)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p> Asia Pacific (Singapore)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Asia Pacific (Sydney)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Asia Pacific (Tokyo)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>Europe (Ireland)</p>
+   *                            </li>
+   *                            <li>
+   *                               <p>South America (São Paulo)</p>
+   *                            </li>
+   *                         </ul>
+   *                         <p>For a list of all the Amazon S3 supported Regions and endpoints, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions and Endpoints</a> in the AWS General Reference.</p>
+   *                      </note>
+   *                   </li>
+   *                </ul>
+   *                <p>For example, the following <code>x-amz-grant-read</code> header grants the AWS accounts identified by account IDs permissions to read object data and its metadata:</p>
+   *                <p>
+   *                   <code>x-amz-grant-read: id="11112222333", id="444455556666" </code>
+   *                </p>
+   *             </li>
+   *          </ul>
+   *          <note>
+   *             <p>You can use either a canned ACL or specify access permissions explicitly. You cannot
+   *             do both.</p>
+   *          </note>
+   *
+   *
+   *          <p>The following operations are related to <code>CreateBucket</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html">PutObject</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public putReferer(args: PutRefererCommandInput, options?: __HttpHandlerOptions): Promise<PutRefererCommandOutput>;
+  public putReferer(args: PutRefererCommandInput, cb: (err: any, data?: PutRefererCommandOutput) => void): void;
+  public putReferer(
+    args: PutRefererCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutRefererCommandOutput) => void
+  ): void;
+  public putReferer(
+    args: PutRefererCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutRefererCommandOutput) => void),
+    cb?: (err: any, data?: PutRefererCommandOutput) => void
+  ): Promise<PutRefererCommandOutput> | void {
+    const command = new PutRefererCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

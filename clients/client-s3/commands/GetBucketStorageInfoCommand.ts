@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutObjectLegalHoldOutput, PutObjectLegalHoldRequest } from "../models/models_1";
+import { GetBucketStorageInfoOutput, GetBucketStorageInfoRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutObjectLegalHoldCommand,
-  serializeAws_restXmlPutObjectLegalHoldCommand,
+  deserializeAws_restXmlGetBucketStorageInfoCommand,
+  serializeAws_restXmlGetBucketStorageInfoCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,32 +18,31 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutObjectLegalHoldCommandInput = PutObjectLegalHoldRequest;
-export type PutObjectLegalHoldCommandOutput = PutObjectLegalHoldOutput & __MetadataBearer;
+export type GetBucketStorageInfoCommandInput = GetBucketStorageInfoRequest;
+export type GetBucketStorageInfoCommandOutput = GetBucketStorageInfoOutput & __MetadataBearer;
 
 /**
- * <p>Applies a Legal Hold configuration to the specified object.</p>
- *          <p>This action is not supported by Amazon S3 on Outposts.</p>
- *          <p class="title">
- *             <b>Related Resources</b>
- *          </p>
+ * <p>Returns the request payment configuration of a bucket. To use this version of the
+ *          operation, you must be the bucket owner. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester Pays Buckets</a>.</p>
+ *
+ *          <p>The following operations are related to <code>GetBucketRequestPayment</code>:</p>
  *          <ul>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking Objects</a>
+ *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
  *                </p>
  *             </li>
  *          </ul>
  */
-export class PutObjectLegalHoldCommand extends $Command<
-  PutObjectLegalHoldCommandInput,
-  PutObjectLegalHoldCommandOutput,
+export class GetBucketStorageInfoCommand extends $Command<
+  GetBucketStorageInfoCommandInput,
+  GetBucketStorageInfoCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutObjectLegalHoldCommandInput) {
+  constructor(readonly input: GetBucketStorageInfoCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -56,7 +55,7 @@ export class PutObjectLegalHoldCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput> {
+  ): Handler<GetBucketStorageInfoCommandInput, GetBucketStorageInfoCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -64,13 +63,13 @@ export class PutObjectLegalHoldCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutObjectLegalHoldCommand";
+    const commandName = "GetBucketStorageInfoCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutObjectLegalHoldRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: PutObjectLegalHoldOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: GetBucketStorageInfoRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetBucketStorageInfoOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -80,12 +79,12 @@ export class PutObjectLegalHoldCommand extends $Command<
     );
   }
 
-  private serialize(input: PutObjectLegalHoldCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutObjectLegalHoldCommand(input, context);
+  private serialize(input: GetBucketStorageInfoCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetBucketStorageInfoCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutObjectLegalHoldCommandOutput> {
-    return deserializeAws_restXmlPutObjectLegalHoldCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetBucketStorageInfoCommandOutput> {
+    return deserializeAws_restXmlGetBucketStorageInfoCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -1,17 +1,747 @@
 import {
-  Encryption,
-  GlacierJobParameters,
+  AccessControlPolicy,
   Grant,
   ObjectCannedACL,
+  ObjectLockConfiguration,
+  ObjectLockLegalHold,
+  ObjectLockLegalHoldStatus,
+  ObjectLockMode,
+  ObjectLockRetention,
+  PublicAccessBlockConfiguration,
+  RefererConfiguration,
   RequestCharged,
   RequestPayer,
   ServerSideEncryption,
   StorageClass,
   Tagging,
-  Tier,
 } from "./models_0";
-import { SENSITIVE_STRING } from "@aws-sdk/smithy-client";
+import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
+import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface PutObjectRequest {
+  /**
+   * <p>The canned ACL to apply to the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned
+   *       ACL</a>.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  ACL?: ObjectCannedACL | string;
+
+  /**
+   * <p>Object data.</p>
+   */
+  Body?: Readable | ReadableStream | Blob;
+
+  /**
+   * <p>The bucket name to which the PUT operation was initiated. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p> Can be used to specify caching behavior along the request/reply chain. For more
+   *          information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9</a>.</p>
+   */
+  CacheControl?: string;
+
+  /**
+   * <p>Specifies presentational information for the object. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1">http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1</a>.</p>
+   */
+  ContentDisposition?: string;
+
+  /**
+   * <p>Specifies what content encodings have been applied to the object and thus what decoding
+   *          mechanisms must be applied to obtain the media-type referenced by the Content-Type header
+   *          field. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11</a>.</p>
+   */
+  ContentEncoding?: string;
+
+  /**
+   * <p>The language the content is in.</p>
+   */
+  ContentLanguage?: string;
+
+  /**
+   * <p>Size of the body in bytes. This parameter is useful when the size of the body cannot be
+   *          determined automatically. For more information, see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13</a>.</p>
+   */
+  ContentLength?: number;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the message (without the headers) according to
+   *          RFC 1864. This header can be used as a message integrity check to verify that the data is
+   *          the same data that was originally sent. Although it is optional, we recommend using the
+   *          Content-MD5 mechanism as an end-to-end integrity check. For more information about REST
+   *          request authentication, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html">REST
+   *             Authentication</a>.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>A standard MIME type describing the format of the contents. For more information, see
+   *             <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17</a>.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>The date and time at which the object is no longer cacheable. For more information, see
+   *             <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21</a>.</p>
+   */
+  Expires?: Date;
+
+  /**
+   * <p>Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the
+   *       object.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantFullControl?: string;
+
+  /**
+   * <p>Allows grantee to read the object data and its
+   *       metadata.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantRead?: string;
+
+  /**
+   * <p>Allows grantee to read the object ACL.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantReadACP?: string;
+
+  /**
+   * <p>Allows grantee to write the ACL for the applicable
+   *       object.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantWriteACP?: string;
+
+  /**
+   * <p>Object key for which the PUT operation was initiated.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>A map of metadata to store with the object in S3.</p>
+   */
+  Metadata?: { [key: string]: string };
+
+  /**
+   * <p>The server-side encryption algorithm used when storing this object in Amazon S3 (for example,
+   *          AES256, aws:kms).</p>
+   */
+  ServerSideEncryption?: ServerSideEncryption | string;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the <i>Amazon S3
+   *             Service Developer Guide</i>.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>If the bucket is configured as a website, redirects requests for this object to another
+   *          object in the same bucket or to an external URL. Amazon S3 stores the value of this header in
+   *          the object metadata. For information about object metadata, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html">Object Key and Metadata</a>.</p>
+   *
+   *          <p>In the following example, the request header sets the redirect to an object
+   *          (anotherPage.html) in the same bucket:</p>
+   *
+   *          <p>
+   *             <code>x-amz-website-redirect-location: /anotherPage.html</code>
+   *          </p>
+   *
+   *          <p>In the following example, the request header sets the object redirect to another
+   *          website:</p>
+   *
+   *          <p>
+   *             <code>x-amz-website-redirect-location: http://www.example.com/</code>
+   *          </p>
+   *
+   *          <p>For more information about website hosting in Amazon S3, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting Websites on Amazon S3</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html">How to Configure Website Page
+   *             Redirects</a>. </p>
+   */
+  WebsiteRedirectLocation?: string;
+
+  /**
+   * <p>Specifies the algorithm to use to when encrypting the object (for example,
+   *          AES256).</p>
+   */
+  SSECustomerAlgorithm?: string;
+
+  /**
+   * <p>Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This
+   *          value is used to store the object and then it is discarded; Amazon S3 does not store the
+   *          encryption key. The key must be appropriate for use with the algorithm specified in the
+   *             <code>x-amz-server-side-encryption-customer-algorithm</code> header.</p>
+   */
+  SSECustomerKey?: string;
+
+  /**
+   * <p>Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses
+   *          this header for a message integrity check to ensure that the encryption key was transmitted
+   *          without error.</p>
+   */
+  SSECustomerKeyMD5?: string;
+
+  /**
+   * <p>If <code>x-amz-server-side-encryption</code> is present and has the value of
+   *             <code>aws:kms</code>, this header specifies the ID of the AWS Key Management Service
+   *          (AWS KMS) symmetrical customer managed customer master key (CMK) that was used for the
+   *          object.</p>
+   *          <p> If the value of <code>x-amz-server-side-encryption</code> is <code>aws:kms</code>, this
+   *          header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for
+   *          the object. If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but do not
+   *             provide<code> x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon S3 uses the AWS
+   *          managed CMK in AWS to protect the data.</p>
+   */
+  SSEKMSKeyId?: string;
+
+  /**
+   * <p>Specifies the AWS KMS Encryption Context to use for object encryption. The value of this
+   *          header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value
+   *          pairs.</p>
+   */
+  SSEKMSEncryptionContext?: string;
+
+  /**
+   * <p>Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS.</p>
+   *          <p>Specifying this header with a PUT operation doesn’t affect bucket-level settings for S3 Bucket Key.</p>
+   */
+  BucketKeyEnabled?: boolean;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For
+   *          example, "Key1=Value1")</p>
+   */
+  Tagging?: string;
+
+  /**
+   * <p>The Object Lock mode that you want to apply to this object.</p>
+   */
+  ObjectLockMode?: ObjectLockMode | string;
+
+  /**
+   * <p>The date and time when you want this object's Object Lock to expire.</p>
+   */
+  ObjectLockRetainUntilDate?: Date;
+
+  /**
+   * <p>Specifies whether a legal hold will be applied to this object. For more information
+   *          about S3 Object Lock, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Object
+   *          Lock</a>.</p>
+   */
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectRequest {
+  export const filterSensitiveLog = (obj: PutObjectRequest): any => ({
+    ...obj,
+    ...(obj.SSECustomerKey && { SSECustomerKey: SENSITIVE_STRING }),
+    ...(obj.SSEKMSKeyId && { SSEKMSKeyId: SENSITIVE_STRING }),
+    ...(obj.SSEKMSEncryptionContext && { SSEKMSEncryptionContext: SENSITIVE_STRING }),
+  });
+}
+
+export interface PutObjectAclOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutObjectAclOutput {
+  export const filterSensitiveLog = (obj: PutObjectAclOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectAclRequest {
+  /**
+   * <p>The canned ACL to apply to the object. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL">Canned ACL</a>.</p>
+   */
+  ACL?: ObjectCannedACL | string;
+
+  /**
+   * <p>Contains the elements that set the ACL permissions for an object per grantee.</p>
+   */
+  AccessControlPolicy?: AccessControlPolicy;
+
+  /**
+   * <p>The bucket name that contains the object to which you want to attach the ACL. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, go to <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
+   *          1864.></a>
+   *          </p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Allows grantee the read, write, read ACP, and write ACP permissions on the
+   *          bucket.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantFullControl?: string;
+
+  /**
+   * <p>Allows grantee to list the objects in the
+   *       bucket.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantRead?: string;
+
+  /**
+   * <p>Allows grantee to read the bucket ACL.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantReadACP?: string;
+
+  /**
+   * <p>Allows grantee to create, overwrite, and delete any object in the bucket.</p>
+   */
+  GrantWrite?: string;
+
+  /**
+   * <p>Allows grantee to write the ACL for the applicable
+   *       bucket.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  GrantWriteACP?: string;
+
+  /**
+   * <p>Key for which the PUT operation was initiated.</p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectAclRequest {
+  export const filterSensitiveLog = (obj: PutObjectAclRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectLegalHoldOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutObjectLegalHoldOutput {
+  export const filterSensitiveLog = (obj: PutObjectLegalHoldOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectLegalHoldRequest {
+  /**
+   * <p>The bucket name containing the object that you want to place a Legal Hold on. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object that you want to place a Legal Hold on.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Container element for the Legal Hold configuration you want to apply to the specified
+   *          object.</p>
+   */
+  LegalHold?: ObjectLockLegalHold;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The version ID of the object that you want to place a Legal Hold on.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectLegalHoldRequest {
+  export const filterSensitiveLog = (obj: PutObjectLegalHoldRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectLockConfigurationOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutObjectLockConfigurationOutput {
+  export const filterSensitiveLog = (obj: PutObjectLockConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectLockConfigurationRequest {
+  /**
+   * <p>The bucket whose Object Lock configuration you want to create or replace.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The Object Lock configuration that you want to apply to the specified bucket.</p>
+   */
+  ObjectLockConfiguration?: ObjectLockConfiguration;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectLockConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutObjectLockConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectRetentionOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutObjectRetentionOutput {
+  export const filterSensitiveLog = (obj: PutObjectRetentionOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectRetentionRequest {
+  /**
+   * <p>The bucket name that contains the object you want to apply this Object Retention
+   *          configuration to. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object that you want to apply this Object Retention configuration
+   *          to.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The container element for the Object Retention configuration.</p>
+   */
+  Retention?: ObjectLockRetention;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The version ID for the object that you want to apply this Object Retention configuration
+   *          to.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Indicates whether this operation should bypass Governance-mode restrictions.</p>
+   */
+  BypassGovernanceRetention?: boolean;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectRetentionRequest {
+  export const filterSensitiveLog = (obj: PutObjectRetentionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectTaggingOutput {
+  /**
+   * <p>The versionId of the object the tag-set was added to.</p>
+   */
+  VersionId?: string;
+}
+
+export namespace PutObjectTaggingOutput {
+  export const filterSensitiveLog = (obj: PutObjectTaggingOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectTaggingRequest {
+  /**
+   * <p>The bucket name containing the object. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Name of the object key.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The versionId of the object that the tag-set will be added to.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Container for the <code>TagSet</code> and <code>Tag</code> elements</p>
+   */
+  Tagging: Tagging | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutObjectTaggingRequest {
+  export const filterSensitiveLog = (obj: PutObjectTaggingRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutPublicAccessBlockRequest {
+  /**
+   * <p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want
+   *          to set.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The MD5 hash of the <code>PutPublicAccessBlock</code> request body. </p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The <code>PublicAccessBlock</code> configuration that you want to apply to this Amazon S3
+   *          bucket. You can enable the configuration options in any combination. For more information
+   *          about when Amazon S3 considers a bucket or object public, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer
+   *          Guide</i>.</p>
+   */
+  PublicAccessBlockConfiguration: PublicAccessBlockConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutPublicAccessBlockRequest {
+  export const filterSensitiveLog = (obj: PutPublicAccessBlockRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutRefererRequest {
+  /**
+   * <p>The name of the bucket to create.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The configuration information for the bucket.</p>
+   */
+  RefererConfiguration?: RefererConfiguration;
+}
+
+export namespace PutRefererRequest {
+  export const filterSensitiveLog = (obj: PutRefererRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>This operation is not allowed against this storage tier.</p>
+ */
+export interface ObjectAlreadyInActiveTierError extends __SmithyException, $MetadataBearer {
+  name: "ObjectAlreadyInActiveTierError";
+  $fault: "client";
+}
+
+export namespace ObjectAlreadyInActiveTierError {
+  export const filterSensitiveLog = (obj: ObjectAlreadyInActiveTierError): any => ({
+    ...obj,
+  });
+}
+
+export interface RestoreObjectOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+
+  /**
+   * <p>Indicates the path in the provided S3 output location where Select results will be
+   *          restored to.</p>
+   */
+  RestoreOutputPath?: string;
+}
+
+export namespace RestoreObjectOutput {
+  export const filterSensitiveLog = (obj: RestoreObjectOutput): any => ({
+    ...obj,
+  });
+}
+
+export type Tier = "Bulk" | "Expedited" | "Standard";
+
+/**
+ * <p>Container for S3 Glacier job parameters.</p>
+ */
+export interface GlacierJobParameters {
+  /**
+   * <p>Retrieval tier at which the restore will be processed.</p>
+   */
+  Tier: Tier | string | undefined;
+}
+
+export namespace GlacierJobParameters {
+  export const filterSensitiveLog = (obj: GlacierJobParameters): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the type of server-side encryption used.</p>
+ */
+export interface Encryption {
+  /**
+   * <p>The server-side encryption algorithm used when storing job results in Amazon S3 (for example,
+   *          AES256, aws:kms).</p>
+   */
+  EncryptionType: ServerSideEncryption | string | undefined;
+
+  /**
+   * <p>If the encryption type is <code>aws:kms</code>, this optional value specifies the ID of
+   *          the symmetric customer managed AWS KMS CMK to use for encryption of job results. Amazon S3 only
+   *          supports symmetric CMKs. For more information, see <a href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using Symmetric and
+   *             Asymmetric Keys</a> in the <i>AWS Key Management Service Developer
+   *             Guide</i>.</p>
+   */
+  KMSKeyId?: string;
+
+  /**
+   * <p>If the encryption type is <code>aws:kms</code>, this optional value can be used to
+   *          specify the encryption context for the restore results.</p>
+   */
+  KMSContext?: string;
+}
+
+export namespace Encryption {
+  export const filterSensitiveLog = (obj: Encryption): any => ({
+    ...obj,
+    ...(obj.KMSKeyId && { KMSKeyId: SENSITIVE_STRING }),
+  });
+}
 
 /**
  * <p>A metadata key-value pair to store with an object.</p>
