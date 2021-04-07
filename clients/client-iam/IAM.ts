@@ -473,6 +473,11 @@ import {
   ListVirtualMFADevicesCommandOutput,
 } from "./commands/ListVirtualMFADevicesCommand";
 import {
+  LoginConsoleCommand,
+  LoginConsoleCommandInput,
+  LoginConsoleCommandOutput,
+} from "./commands/LoginConsoleCommand";
+import {
   PutGroupPolicyCommand,
   PutGroupPolicyCommandInput,
   PutGroupPolicyCommandOutput,
@@ -517,6 +522,11 @@ import {
   ResetServiceSpecificCredentialCommandInput,
   ResetServiceSpecificCredentialCommandOutput,
 } from "./commands/ResetServiceSpecificCredentialCommand";
+import {
+  ResetUserPasswordCommand,
+  ResetUserPasswordCommandInput,
+  ResetUserPasswordCommandOutput,
+} from "./commands/ResetUserPasswordCommand";
 import {
   ResyncMFADeviceCommand,
   ResyncMFADeviceCommandInput,
@@ -4825,6 +4835,35 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Login</p>
+   */
+  public loginConsole(
+    args: LoginConsoleCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<LoginConsoleCommandOutput>;
+  public loginConsole(args: LoginConsoleCommandInput, cb: (err: any, data?: LoginConsoleCommandOutput) => void): void;
+  public loginConsole(
+    args: LoginConsoleCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: LoginConsoleCommandOutput) => void
+  ): void;
+  public loginConsole(
+    args: LoginConsoleCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: LoginConsoleCommandOutput) => void),
+    cb?: (err: any, data?: LoginConsoleCommandOutput) => void
+  ): Promise<LoginConsoleCommandOutput> | void {
+    const command = new LoginConsoleCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Adds or updates an inline policy document that is embedded in the specified IAM
    *          group.</p>
    *          <p>A user can also have managed policies attached to it. To attach a managed policy to a
@@ -5187,6 +5226,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: ResetServiceSpecificCredentialCommandOutput) => void
   ): Promise<ResetServiceSpecificCredentialCommandOutput> | void {
     const command = new ResetServiceSpecificCredentialCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Reset user password.</p>
+   */
+  public resetUserPassword(
+    args: ResetUserPasswordCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ResetUserPasswordCommandOutput>;
+  public resetUserPassword(
+    args: ResetUserPasswordCommandInput,
+    cb: (err: any, data?: ResetUserPasswordCommandOutput) => void
+  ): void;
+  public resetUserPassword(
+    args: ResetUserPasswordCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ResetUserPasswordCommandOutput) => void
+  ): void;
+  public resetUserPassword(
+    args: ResetUserPasswordCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ResetUserPasswordCommandOutput) => void),
+    cb?: (err: any, data?: ResetUserPasswordCommandOutput) => void
+  ): Promise<ResetUserPasswordCommandOutput> | void {
+    const command = new ResetUserPasswordCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

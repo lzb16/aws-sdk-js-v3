@@ -244,6 +244,7 @@ import {
   ListVirtualMFADevicesCommandInput,
   ListVirtualMFADevicesCommandOutput,
 } from "../commands/ListVirtualMFADevicesCommand";
+import { LoginConsoleCommandInput, LoginConsoleCommandOutput } from "../commands/LoginConsoleCommand";
 import { PutGroupPolicyCommandInput, PutGroupPolicyCommandOutput } from "../commands/PutGroupPolicyCommand";
 import {
   PutRolePermissionsBoundaryCommandInput,
@@ -271,6 +272,7 @@ import {
   ResetServiceSpecificCredentialCommandInput,
   ResetServiceSpecificCredentialCommandOutput,
 } from "../commands/ResetServiceSpecificCredentialCommand";
+import { ResetUserPasswordCommandInput, ResetUserPasswordCommandOutput } from "../commands/ResetUserPasswordCommand";
 import { ResyncMFADeviceCommandInput, ResyncMFADeviceCommandOutput } from "../commands/ResyncMFADeviceCommand";
 import {
   SetDefaultPolicyVersionCommandInput,
@@ -341,6 +343,7 @@ import {
   AccessKey,
   AccessKeyLastUsed,
   AccessKeyMetadata,
+  AccountType,
   AddClientIDToOpenIDConnectProviderRequest,
   AddRoleToInstanceProfileRequest,
   AddUserToGroupRequest,
@@ -476,7 +479,6 @@ import {
   InvalidAuthenticationCodeException,
   InvalidInputException,
   InvalidUserTypeException,
-  KeyPairMismatchException,
   LimitExceededException,
   ListAccessKeysRequest,
   ListAccessKeysResponse,
@@ -535,9 +537,10 @@ import {
   ListUsersResponse,
   ListVirtualMFADevicesRequest,
   ListVirtualMFADevicesResponse,
+  LoginConsoleRequest,
+  LoginConsoleResponse,
   LoginProfile,
   MFADevice,
-  MalformedCertificateException,
   MalformedPolicyDocumentException,
   ManagedPolicyDetail,
   NoSuchEntityException,
@@ -568,6 +571,7 @@ import {
   ReportGenerationLimitExceededException,
   ResetServiceSpecificCredentialRequest,
   ResetServiceSpecificCredentialResponse,
+  ResetUserPasswordRequest,
   ResourceSpecificResult,
   ResyncMFADeviceRequest,
   Role,
@@ -611,11 +615,8 @@ import {
   UpdateRoleResponse,
   UpdateSAMLProviderRequest,
   UpdateSAMLProviderResponse,
-  UpdateSSHPublicKeyRequest,
   UpdateServerCertificateRequest,
   UpdateServiceSpecificCredentialRequest,
-  UpdateSigningCertificateRequest,
-  UpdateUserRequest,
   User,
   UserDetail,
   VirtualMFADevice,
@@ -625,6 +626,11 @@ import {
   DuplicateSSHPublicKeyException,
   InvalidCertificateException,
   InvalidPublicKeyException,
+  KeyPairMismatchException,
+  MalformedCertificateException,
+  UpdateSSHPublicKeyRequest,
+  UpdateSigningCertificateRequest,
+  UpdateUserRequest,
   UploadSSHPublicKeyRequest,
   UploadSSHPublicKeyResponse,
   UploadServerCertificateRequest,
@@ -2318,6 +2324,22 @@ export const serializeAws_queryListVirtualMFADevicesCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryLoginConsoleCommand = async (
+  input: LoginConsoleCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryLoginConsoleRequest(input, context),
+    Action: "LoginConsole",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryPutGroupPolicyCommand = async (
   input: PutGroupPolicyCommandInput,
   context: __SerdeContext
@@ -2457,6 +2479,22 @@ export const serializeAws_queryResetServiceSpecificCredentialCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryResetServiceSpecificCredentialRequest(input, context),
     Action: "ResetServiceSpecificCredential",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryResetUserPasswordCommand = async (
+  input: ResetUserPasswordCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryResetUserPasswordRequest(input, context),
+    Action: "ResetUserPassword",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -10030,6 +10068,60 @@ const deserializeAws_queryListVirtualMFADevicesCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryLoginConsoleCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<LoginConsoleCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryLoginConsoleCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryLoginConsoleResponse(data.LoginConsoleResult, context);
+  const response: LoginConsoleCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryLoginConsoleCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<LoginConsoleCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryPutGroupPolicyCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -10666,6 +10758,57 @@ const deserializeAws_queryResetServiceSpecificCredentialCommandError = async (
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
         ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryResetUserPasswordCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ResetUserPasswordCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryResetUserPasswordCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: ResetUserPasswordCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryResetUserPasswordCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ResetUserPasswordCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -13371,6 +13514,28 @@ const serializeAws_queryCreateUserRequest = (input: CreateUserRequest, context: 
       entries[loc] = value;
     });
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
+  }
+  if (input.Email !== undefined && input.Email !== null) {
+    entries["Email"] = input.Email;
+  }
+  if (input.Password !== undefined && input.Password !== null) {
+    entries["Password"] = input.Password;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
+    entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
+  }
+  if (input.Groups !== undefined && input.Groups !== null) {
+    const memberEntries = serializeAws_querygroupListType(input.Groups, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `Groups.${key}`;
+      entries[loc] = value;
+    });
+  }
   return entries;
 };
 
@@ -14010,6 +14175,45 @@ const serializeAws_queryGetUserRequest = (input: GetUserRequest, context: __Serd
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
+  }
+  return entries;
+};
+
+const serializeAws_queryGroup = (input: Group, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.Path !== undefined && input.Path !== null) {
+    entries["Path"] = input.Path;
+  }
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.GroupId !== undefined && input.GroupId !== null) {
+    entries["GroupId"] = input.GroupId;
+  }
+  if (input.Arn !== undefined && input.Arn !== null) {
+    entries["Arn"] = input.Arn;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  return entries;
+};
+
+const serializeAws_querygroupListType = (input: Group[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryGroup(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
   return entries;
 };
 
@@ -14023,6 +14227,9 @@ const serializeAws_queryListAccessKeysRequest = (input: ListAccessKeysRequest, c
   }
   if (input.MaxItems !== undefined && input.MaxItems !== null) {
     entries["MaxItems"] = input.MaxItems;
+  }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
   }
   return entries;
 };
@@ -14454,6 +14661,26 @@ const serializeAws_queryListVirtualMFADevicesRequest = (
   return entries;
 };
 
+const serializeAws_queryLoginConsoleRequest = (input: LoginConsoleRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.LoginType !== undefined && input.LoginType !== null) {
+    entries["LoginType"] = input.LoginType;
+  }
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Email !== undefined && input.Email !== null) {
+    entries["Email"] = input.Email;
+  }
+  if (input.Password !== undefined && input.Password !== null) {
+    entries["Password"] = input.Password;
+  }
+  return entries;
+};
+
 const serializeAws_queryPutGroupPolicyRequest = (input: PutGroupPolicyRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.GroupName !== undefined && input.GroupName !== null) {
@@ -14576,6 +14803,14 @@ const serializeAws_queryResetServiceSpecificCredentialRequest = (
   }
   if (input.ServiceSpecificCredentialId !== undefined && input.ServiceSpecificCredentialId !== null) {
     entries["ServiceSpecificCredentialId"] = input.ServiceSpecificCredentialId;
+  }
+  return entries;
+};
+
+const serializeAws_queryResetUserPasswordRequest = (input: ResetUserPasswordRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
   }
   return entries;
 };
@@ -14910,6 +15145,12 @@ const serializeAws_queryUpdateAccessKeyRequest = (input: UpdateAccessKeyRequest,
   if (input.Status !== undefined && input.Status !== null) {
     entries["Status"] = input.Status;
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
   return entries;
 };
 
@@ -15132,6 +15373,15 @@ const serializeAws_queryUpdateUserRequest = (input: UpdateUserRequest, context: 
   if (input.NewUserName !== undefined && input.NewUserName !== null) {
     entries["NewUserName"] = input.NewUserName;
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
+  }
+  if (input.UserStatus !== undefined && input.UserStatus !== null) {
+    entries["UserStatus"] = input.UserStatus;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
   return entries;
 };
 
@@ -15275,6 +15525,7 @@ const deserializeAws_queryAccessKeyMetadata = (output: any, context: __SerdeCont
   let contents: any = {
     UserName: undefined,
     AccessKeyId: undefined,
+    Description: undefined,
     Status: undefined,
     CreateDate: undefined,
   };
@@ -15283,6 +15534,9 @@ const deserializeAws_queryAccessKeyMetadata = (output: any, context: __SerdeCont
   }
   if (output["AccessKeyId"] !== undefined) {
     contents.AccessKeyId = output["AccessKeyId"];
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
   }
   if (output["Status"] !== undefined) {
     contents.Status = output["Status"];
@@ -15313,6 +15567,24 @@ const deserializeAws_queryaccountAliasListType = (output: any, context: __SerdeC
       }
       return entry;
     });
+};
+
+const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): AccountType => {
+  let contents: any = {
+    AccountName: undefined,
+    AccountId: undefined,
+    User: undefined,
+  };
+  if (output["AccountName"] !== undefined) {
+    contents.AccountName = output["AccountName"];
+  }
+  if (output["AccountId"] !== undefined) {
+    contents.AccountId = output["AccountId"];
+  }
+  if (output["User"] !== undefined) {
+    contents.User = deserializeAws_queryUser(output["User"], context);
+  }
+  return contents;
 };
 
 const deserializeAws_queryArnListType = (output: any, context: __SerdeContext): string[] => {
@@ -17434,6 +17706,28 @@ const deserializeAws_queryListVirtualMFADevicesResponse = (
   return contents;
 };
 
+const deserializeAws_queryLoginConsoleResponse = (output: any, context: __SerdeContext): LoginConsoleResponse => {
+  let contents: any = {
+    Result: undefined,
+    NeedUpdatePassword: undefined,
+    Account: undefined,
+    AccessKey: undefined,
+  };
+  if (output["Result"] !== undefined) {
+    contents.Result = output["Result"];
+  }
+  if (output["NeedUpdatePassword"] !== undefined) {
+    contents.NeedUpdatePassword = parseInt(output["NeedUpdatePassword"]);
+  }
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["AccessKey"] !== undefined) {
+    contents.AccessKey = deserializeAws_queryAccessKey(output["AccessKey"], context);
+  }
+  return contents;
+};
+
 const deserializeAws_queryLoginProfile = (output: any, context: __SerdeContext): LoginProfile => {
   let contents: any = {
     UserName: undefined,
@@ -17708,6 +18002,7 @@ const deserializeAws_queryPolicy = (output: any, context: __SerdeContext): Polic
     PolicyName: undefined,
     PolicyId: undefined,
     Arn: undefined,
+    PolicyDocument: undefined,
     Path: undefined,
     DefaultVersionId: undefined,
     AttachmentCount: undefined,
@@ -17725,6 +18020,9 @@ const deserializeAws_queryPolicy = (output: any, context: __SerdeContext): Polic
   }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];
+  }
+  if (output["PolicyDocument"] !== undefined) {
+    contents.PolicyDocument = output["PolicyDocument"];
   }
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -18886,6 +19184,14 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
     PasswordLastUsed: undefined,
     PermissionsBoundary: undefined,
     Tags: undefined,
+    Type: undefined,
+    Description: undefined,
+    UserStatus: undefined,
+    Groups: undefined,
+    PasswordLastReset: undefined,
+    AccessKeyType: undefined,
+    AccountName: undefined,
+    AccountId: undefined,
   };
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -18916,6 +19222,33 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
   }
   if (output["Tags"] !== undefined && output["Tags"]["member"] !== undefined) {
     contents.Tags = deserializeAws_querytagListType(__getArrayIfSingleItem(output["Tags"]["member"]), context);
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = parseInt(output["Type"]);
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
+  }
+  if (output["UserStatus"] !== undefined) {
+    contents.UserStatus = output["UserStatus"];
+  }
+  if (output.Groups === "") {
+    contents.Groups = [];
+  }
+  if (output["Groups"] !== undefined && output["Groups"]["member"] !== undefined) {
+    contents.Groups = deserializeAws_querygroupListType(__getArrayIfSingleItem(output["Groups"]["member"]), context);
+  }
+  if (output["PasswordLastReset"] !== undefined) {
+    contents.PasswordLastReset = new Date(output["PasswordLastReset"]);
+  }
+  if (output["AccessKeyType"] !== undefined) {
+    contents.AccessKeyType = parseInt(output["AccessKeyType"]);
+  }
+  if (output["AccountName"] !== undefined) {
+    contents.AccountName = output["AccountName"];
+  }
+  if (output["AccountId"] !== undefined) {
+    contents.AccountId = output["AccountId"];
   }
   return contents;
 };

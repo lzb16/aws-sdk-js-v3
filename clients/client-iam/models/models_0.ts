@@ -202,6 +202,11 @@ export interface AccessKeyMetadata {
   AccessKeyId?: string;
 
   /**
+   * <p>The description of the access key.</p>
+   */
+  Description?: string;
+
+  /**
    * <p>The status of the access key. <code>Active</code> means that the key is valid for API
    *          calls; <code>Inactive</code> means it is not.</p>
    */
@@ -215,6 +220,297 @@ export interface AccessKeyMetadata {
 
 export namespace AccessKeyMetadata {
   export const filterSensitiveLog = (obj: AccessKeyMetadata): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about an IAM group entity.</p>
+ *          <p>This data type is used as a response element in the following operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a>CreateGroup</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a>GetGroup</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a>ListGroups</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ */
+export interface Group {
+  /**
+   * <p>The path to the group. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>. </p>
+   */
+  Path: string | undefined;
+
+  /**
+   * <p>The friendly name that identifies the group.</p>
+   */
+  GroupName: string | undefined;
+
+  /**
+   * <p> The stable and unique string identifying the group. For more information about IDs, see
+   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+   *             Identifiers</a> in the <i>IAM User Guide</i>. </p>
+   */
+  GroupId: string | undefined;
+
+  /**
+   * <p> The Amazon Resource Name (ARN) specifying the group. For more information about ARNs
+   *          and how to use them in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>. </p>
+   */
+  Arn: string | undefined;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the group was created.</p>
+   */
+  CreateDate: Date | undefined;
+}
+
+export namespace Group {
+  export const filterSensitiveLog = (obj: Group): any => ({
+    ...obj,
+  });
+}
+
+export enum PermissionsBoundaryAttachmentType {
+  Policy = "PermissionsBoundaryPolicy",
+}
+
+/**
+ * <p>Contains information about an attached permissions boundary.</p>
+ *          <p>An attached permissions boundary is a managed policy that has been attached to a user or
+ *          role to set the permissions boundary.</p>
+ *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
+ *             Identities </a> in the <i>IAM User Guide</i>.</p>
+ */
+export interface AttachedPermissionsBoundary {
+  /**
+   * <p> The permissions boundary usage type that indicates what type of IAM resource is used
+   *          as the permissions boundary for an entity. This data type can only have a value of
+   *             <code>Policy</code>.</p>
+   */
+  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType | string;
+
+  /**
+   * <p> The ARN of the policy used to set the permissions boundary for the user or role.</p>
+   */
+  PermissionsBoundaryArn?: string;
+}
+
+export namespace AttachedPermissionsBoundary {
+  export const filterSensitiveLog = (obj: AttachedPermissionsBoundary): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A structure that represents user-provided metadata that can be associated with a
+ *       resource such as an IAM user or role. For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a> in the
+ *         <i>IAM User Guide</i>.</p>
+ */
+export interface Tag {
+  /**
+   * <p>The key name that can be used to look up or retrieve the associated value. For example,
+   *         <code>Department</code> or <code>Cost Center</code> are common choices.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The value associated with this tag. For example, tags with a key name of
+   *         <code>Department</code> could have values such as <code>Human Resources</code>,
+   *         <code>Accounting</code>, and <code>Support</code>. Tags with a key name of <code>Cost
+   *         Center</code> might have values that consist of the number associated with the different
+   *       cost centers in your company. Typically, many resources have tags with the same key name but
+   *       with different values.</p>
+   *          <note>
+   *             <p>AWS always interprets the tag <code>Value</code> as a single string. If you need to
+   *         store an array, you can store comma-separated values in the string. However, you must
+   *         interpret the value in your code.</p>
+   *          </note>
+   */
+  Value: string | undefined;
+}
+
+export namespace Tag {
+  export const filterSensitiveLog = (obj: Tag): any => ({
+    ...obj,
+  });
+}
+
+export type UserStatusType = "active" | "inactive";
+
+/**
+ * <p>Contains information about an IAM user entity.</p>
+ *          <p>This data type is used as a response element in the following operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a>CreateUser</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a>GetUser</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a>ListUsers</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ */
+export interface User {
+  /**
+   * <p>The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  Path: string | undefined;
+
+  /**
+   * <p>The friendly name identifying the user.</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The stable and unique string identifying the user. For more information about IDs, see
+   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+   *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
+   */
+  UserId: string | undefined;
+
+  /**
+   * <p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs
+   *          and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>. </p>
+   */
+  Arn: string | undefined;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the user was created.</p>
+   */
+  CreateDate: Date | undefined;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the user's password was last used to sign in to an AWS website. For
+   *          a list of AWS websites that capture a user's last sign-in time, see the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
+   *             Reports</a> topic in the <i>IAM User Guide</i>. If a password is
+   *          used more than once in a five-minute span, only the first use is returned in this field. If
+   *          the field is null (no value), then it indicates that they never signed in with a password.
+   *          This can be because:</p>
+   *          <ul>
+   *             <li>
+   *                <p>The user never had a password.</p>
+   *             </li>
+   *             <li>
+   *                <p>A password exists but has not been used since IAM started tracking this
+   *                information on October 20, 2014.</p>
+   *             </li>
+   *          </ul>
+   *          <p>A null value does not mean that the user <i>never</i> had a password.
+   *          Also, if the user does not currently have a password but had one in the past, then this
+   *          field contains the date and time the most recent password was used.</p>
+   *          <p>This value is returned only in the <a>GetUser</a> and <a>ListUsers</a> operations. </p>
+   */
+  PasswordLastUsed?: Date;
+
+  /**
+   * <p>The ARN of the policy used to set the permissions boundary for the user.</p>
+   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
+   *             Identities </a> in the <i>IAM User Guide</i>.</p>
+   */
+  PermissionsBoundary?: AttachedPermissionsBoundary;
+
+  /**
+   * <p>A list of tags that are associated with the specified user. For more information about
+   *       tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
+   *         Identities</a> in the <i>IAM User Guide</i>.</p>
+   */
+  Tags?: Tag[];
+
+  /**
+   * <p>0 means default, 1 means custom.</p>
+   */
+  Type?: number;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>Status of user.</p>
+   */
+  UserStatus?: UserStatusType | string;
+
+  /**
+   * <p>A list of groups.</p>
+   */
+  Groups: Group[] | undefined;
+
+  /**
+   * <p>Last password reset time.</p>
+   */
+  PasswordLastReset?: Date;
+
+  /**
+   * <p>1 means built-in, use to web. 2 means ordinary, use to client.</p>
+   */
+  AccessKeyType?: number;
+
+  /**
+   * <p>Account Name.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>Account Id.</p>
+   */
+  AccountId?: string;
+}
+
+export namespace User {
+  export const filterSensitiveLog = (obj: User): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Account info.</p>
+ */
+export interface AccountType {
+  /**
+   * <p>Account Name.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>Account Id.</p>
+   */
+  AccountId?: string;
+
+  /**
+   * <p>User info.</p>
+   */
+  User?: User;
+}
+
+export namespace AccountType {
+  export const filterSensitiveLog = (obj: AccountType): any => ({
     ...obj,
   });
 }
@@ -382,37 +678,6 @@ export namespace AddUserToGroupRequest {
 }
 
 export type AssignmentStatusType = "Any" | "Assigned" | "Unassigned";
-
-export enum PermissionsBoundaryAttachmentType {
-  Policy = "PermissionsBoundaryPolicy",
-}
-
-/**
- * <p>Contains information about an attached permissions boundary.</p>
- *          <p>An attached permissions boundary is a managed policy that has been attached to a user or
- *          role to set the permissions boundary.</p>
- *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
- *             Identities </a> in the <i>IAM User Guide</i>.</p>
- */
-export interface AttachedPermissionsBoundary {
-  /**
-   * <p> The permissions boundary usage type that indicates what type of IAM resource is used
-   *          as the permissions boundary for an entity. This data type can only have a value of
-   *             <code>Policy</code>.</p>
-   */
-  PermissionsBoundaryType?: PermissionsBoundaryAttachmentType | string;
-
-  /**
-   * <p> The ARN of the policy used to set the permissions boundary for the user or role.</p>
-   */
-  PermissionsBoundaryArn?: string;
-}
-
-export namespace AttachedPermissionsBoundary {
-  export const filterSensitiveLog = (obj: AttachedPermissionsBoundary): any => ({
-    ...obj,
-  });
-}
 
 /**
  * <p>Contains information about an attached policy.</p>
@@ -678,66 +943,6 @@ export namespace CreateGroupRequest {
 }
 
 /**
- * <p>Contains information about an IAM group entity.</p>
- *          <p>This data type is used as a response element in the following operations:</p>
- *          <ul>
- *             <li>
- *                <p>
- *                   <a>CreateGroup</a>
- *                </p>
- *             </li>
- *             <li>
- *                <p>
- *                   <a>GetGroup</a>
- *                </p>
- *             </li>
- *             <li>
- *                <p>
- *                   <a>ListGroups</a>
- *                </p>
- *             </li>
- *          </ul>
- */
-export interface Group {
-  /**
-   * <p>The path to the group. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>. </p>
-   */
-  Path: string | undefined;
-
-  /**
-   * <p>The friendly name that identifies the group.</p>
-   */
-  GroupName: string | undefined;
-
-  /**
-   * <p> The stable and unique string identifying the group. For more information about IDs, see
-   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-   *             Identifiers</a> in the <i>IAM User Guide</i>. </p>
-   */
-  GroupId: string | undefined;
-
-  /**
-   * <p> The Amazon Resource Name (ARN) specifying the group. For more information about ARNs
-   *          and how to use them in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>. </p>
-   */
-  Arn: string | undefined;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the group was created.</p>
-   */
-  CreateDate: Date | undefined;
-}
-
-export namespace Group {
-  export const filterSensitiveLog = (obj: Group): any => ({
-    ...obj,
-  });
-}
-
-/**
  * <p>Contains the response to a successful <a>CreateGroup</a> request. </p>
  */
 export interface CreateGroupResponse {
@@ -807,40 +1012,6 @@ export interface RoleLastUsed {
 
 export namespace RoleLastUsed {
   export const filterSensitiveLog = (obj: RoleLastUsed): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>A structure that represents user-provided metadata that can be associated with a
- *       resource such as an IAM user or role. For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a> in the
- *         <i>IAM User Guide</i>.</p>
- */
-export interface Tag {
-  /**
-   * <p>The key name that can be used to look up or retrieve the associated value. For example,
-   *         <code>Department</code> or <code>Cost Center</code> are common choices.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>The value associated with this tag. For example, tags with a key name of
-   *         <code>Department</code> could have values such as <code>Human Resources</code>,
-   *         <code>Accounting</code>, and <code>Support</code>. Tags with a key name of <code>Cost
-   *         Center</code> might have values that consist of the number associated with the different
-   *       cost centers in your company. Typically, many resources have tags with the same key name but
-   *       with different values.</p>
-   *          <note>
-   *             <p>AWS always interprets the tag <code>Value</code> as a single string. If you need to
-   *         store an array, you can store comma-separated values in the string. However, you must
-   *         interpret the value in your code.</p>
-   *          </note>
-   */
-  Value: string | undefined;
-}
-
-export namespace Tag {
-  export const filterSensitiveLog = (obj: Tag): any => ({
     ...obj,
   });
 }
@@ -1250,6 +1421,11 @@ export interface Policy {
    *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
    */
   Arn?: string;
+
+  /**
+   * <p>The policy document.</p>
+   */
+  PolicyDocument?: string;
 
   /**
    * <p>The path to the policy.</p>
@@ -1821,109 +1997,38 @@ export interface CreateUserRequest {
    *          </note>
    */
   Tags?: Tag[];
+
+  Type?: number;
+  /**
+   * <p>User email.</p>
+   */
+  Email?: string;
+
+  /**
+   * <p>Password</p>
+   */
+  Password?: string;
+
+  /**
+   * <p>Description</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
+
+  /**
+   * <p>A list of groups.</p>
+   */
+  Groups?: Group[];
 }
 
 export namespace CreateUserRequest {
   export const filterSensitiveLog = (obj: CreateUserRequest): any => ({
     ...obj,
-  });
-}
-
-/**
- * <p>Contains information about an IAM user entity.</p>
- *          <p>This data type is used as a response element in the following operations:</p>
- *          <ul>
- *             <li>
- *                <p>
- *                   <a>CreateUser</a>
- *                </p>
- *             </li>
- *             <li>
- *                <p>
- *                   <a>GetUser</a>
- *                </p>
- *             </li>
- *             <li>
- *                <p>
- *                   <a>ListUsers</a>
- *                </p>
- *             </li>
- *          </ul>
- */
-export interface User {
-  /**
-   * <p>The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  Path: string | undefined;
-
-  /**
-   * <p>The friendly name identifying the user.</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The stable and unique string identifying the user. For more information about IDs, see
-   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-   *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
-   */
-  UserId: string | undefined;
-
-  /**
-   * <p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs
-   *          and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>. </p>
-   */
-  Arn: string | undefined;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the user was created.</p>
-   */
-  CreateDate: Date | undefined;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the user's password was last used to sign in to an AWS website. For
-   *          a list of AWS websites that capture a user's last sign-in time, see the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
-   *             Reports</a> topic in the <i>IAM User Guide</i>. If a password is
-   *          used more than once in a five-minute span, only the first use is returned in this field. If
-   *          the field is null (no value), then it indicates that they never signed in with a password.
-   *          This can be because:</p>
-   *          <ul>
-   *             <li>
-   *                <p>The user never had a password.</p>
-   *             </li>
-   *             <li>
-   *                <p>A password exists but has not been used since IAM started tracking this
-   *                information on October 20, 2014.</p>
-   *             </li>
-   *          </ul>
-   *          <p>A null value does not mean that the user <i>never</i> had a password.
-   *          Also, if the user does not currently have a password but had one in the past, then this
-   *          field contains the date and time the most recent password was used.</p>
-   *          <p>This value is returned only in the <a>GetUser</a> and <a>ListUsers</a> operations. </p>
-   */
-  PasswordLastUsed?: Date;
-
-  /**
-   * <p>The ARN of the policy used to set the permissions boundary for the user.</p>
-   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
-   *             Identities </a> in the <i>IAM User Guide</i>.</p>
-   */
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-
-  /**
-   * <p>A list of tags that are associated with the specified user. For more information about
-   *       tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
-   *         Identities</a> in the <i>IAM User Guide</i>.</p>
-   */
-  Tags?: Tag[];
-}
-
-export namespace User {
-  export const filterSensitiveLog = (obj: User): any => ({
-    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
   });
 }
 
@@ -4777,6 +4882,8 @@ export interface GetUserRequest {
    *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
    */
   UserName?: string;
+
+  Type?: number;
 }
 
 export namespace GetUserRequest {
@@ -4895,6 +5002,8 @@ export interface ListAccessKeysRequest {
    *     from.</p>
    */
   MaxItems?: number;
+
+  Type?: number;
 }
 
 export namespace ListAccessKeysRequest {
@@ -7157,6 +7266,69 @@ export namespace ListVirtualMFADevicesResponse {
   });
 }
 
+export interface LoginConsoleRequest {
+  /**
+   * <p>1 means account; 2 means user; 3 means email</p>
+   */
+  LoginType: number | undefined;
+
+  /**
+   * <p>Account name, required when LoginType is 1.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  Email?: string;
+
+  /**
+   * <p>Password</p>
+   */
+  Password: string | undefined;
+}
+
+export namespace LoginConsoleRequest {
+  export const filterSensitiveLog = (obj: LoginConsoleRequest): any => ({
+    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
+  });
+}
+
+export interface LoginConsoleResponse {
+  /**
+   * <p>Login succeed or failed.</p>
+   */
+  Result: string | undefined;
+
+  /**
+   * <p>0 means no need update, 1 means need update.</p>
+   */
+  NeedUpdatePassword?: number;
+
+  /**
+   * <p>Account info.</p>
+   */
+  Account?: AccountType;
+
+  /**
+   * <p>AccessKey info.</p>
+   */
+  AccessKey?: AccessKey;
+}
+
+export namespace LoginConsoleResponse {
+  export const filterSensitiveLog = (obj: LoginConsoleResponse): any => ({
+    ...obj,
+    ...(obj.AccessKey && { AccessKey: AccessKey.filterSensitiveLog(obj.AccessKey) }),
+  });
+}
+
 export interface PutGroupPolicyRequest {
   /**
    * <p>The name of the group to associate the policy with.</p>
@@ -7444,6 +7616,19 @@ export namespace ResetServiceSpecificCredentialResponse {
     ...(obj.ServiceSpecificCredential && {
       ServiceSpecificCredential: ServiceSpecificCredential.filterSensitiveLog(obj.ServiceSpecificCredential),
     }),
+  });
+}
+
+export interface ResetUserPasswordRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+}
+
+export namespace ResetUserPasswordRequest {
+  export const filterSensitiveLog = (obj: ResetUserPasswordRequest): any => ({
+    ...obj,
   });
 }
 
@@ -8443,6 +8628,16 @@ export interface UpdateAccessKeyRequest {
    *          cannot be used.</p>
    */
   Status: StatusType | string | undefined;
+
+  /**
+   * <p> Type is 2, add custom params.</p>
+   */
+  Type: number | undefined;
+
+  /**
+   * <p>The new description that you want to apply to the access key.</p>
+   */
+  Description?: string;
 }
 
 export namespace UpdateAccessKeyRequest {
@@ -8853,131 +9048,6 @@ export interface UpdateServiceSpecificCredentialRequest {
 
 export namespace UpdateServiceSpecificCredentialRequest {
   export const filterSensitiveLog = (obj: UpdateServiceSpecificCredentialRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateSigningCertificateRequest {
-  /**
-   * <p>The name of the IAM user the signing certificate belongs to.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>The ID of the signing certificate you want to update.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
-   *     consist of any upper or lowercased letter or digit.</p>
-   */
-  CertificateId: string | undefined;
-
-  /**
-   * <p> The status you want to assign to the certificate. <code>Active</code> means that the
-   *          certificate can be used for API calls to AWS <code>Inactive</code> means that the
-   *          certificate cannot be used.</p>
-   */
-  Status: StatusType | string | undefined;
-}
-
-export namespace UpdateSigningCertificateRequest {
-  export const filterSensitiveLog = (obj: UpdateSigningCertificateRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateSSHPublicKeyRequest {
-  /**
-   * <p>The name of the IAM user associated with the SSH public key.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The unique identifier for the SSH public key.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
-   *     consist of any upper or lowercased letter or digit.</p>
-   */
-  SSHPublicKeyId: string | undefined;
-
-  /**
-   * <p>The status to assign to the SSH public key. <code>Active</code> means that the key can
-   *          be used for authentication with an AWS CodeCommit repository. <code>Inactive</code> means that the
-   *          key cannot be used.</p>
-   */
-  Status: StatusType | string | undefined;
-}
-
-export namespace UpdateSSHPublicKeyRequest {
-  export const filterSensitiveLog = (obj: UpdateSSHPublicKeyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateUserRequest {
-  /**
-   * <p>Name of the user to update. If you're changing the name of the user, this is the
-   *          original user name.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>New path for the IAM user. Include this parameter only if you're changing the user's
-   *          path.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
-   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
-   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
-   *     most punctuation characters, digits, and upper and lowercased letters.</p>
-   */
-  NewPath?: string;
-
-  /**
-   * <p>New name for the user. Include this parameter only if you're changing the user's
-   *          name.</p>
-   *          <p>IAM user, group, role, and policy names must be unique within the account. Names are
-   *          not distinguished by case. For example, you cannot create resources named both "MyResource"
-   *          and "myresource".</p>
-   */
-  NewUserName?: string;
-}
-
-export namespace UpdateUserRequest {
-  export const filterSensitiveLog = (obj: UpdateUserRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request was rejected because the public key certificate and the private key do not
- *       match.</p>
- */
-export interface KeyPairMismatchException extends __SmithyException, $MetadataBearer {
-  name: "KeyPairMismatchException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace KeyPairMismatchException {
-  export const filterSensitiveLog = (obj: KeyPairMismatchException): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request was rejected because the certificate was malformed or expired. The error
- *       message describes the specific error.</p>
- */
-export interface MalformedCertificateException extends __SmithyException, $MetadataBearer {
-  name: "MalformedCertificateException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace MalformedCertificateException {
-  export const filterSensitiveLog = (obj: MalformedCertificateException): any => ({
     ...obj,
   });
 }

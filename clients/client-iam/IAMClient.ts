@@ -244,6 +244,7 @@ import {
   ListVirtualMFADevicesCommandInput,
   ListVirtualMFADevicesCommandOutput,
 } from "./commands/ListVirtualMFADevicesCommand";
+import { LoginConsoleCommandInput, LoginConsoleCommandOutput } from "./commands/LoginConsoleCommand";
 import { PutGroupPolicyCommandInput, PutGroupPolicyCommandOutput } from "./commands/PutGroupPolicyCommand";
 import {
   PutRolePermissionsBoundaryCommandInput,
@@ -271,6 +272,7 @@ import {
   ResetServiceSpecificCredentialCommandInput,
   ResetServiceSpecificCredentialCommandOutput,
 } from "./commands/ResetServiceSpecificCredentialCommand";
+import { ResetUserPasswordCommandInput, ResetUserPasswordCommandOutput } from "./commands/ResetUserPasswordCommand";
 import { ResyncMFADeviceCommandInput, ResyncMFADeviceCommandOutput } from "./commands/ResyncMFADeviceCommand";
 import {
   SetDefaultPolicyVersionCommandInput,
@@ -493,6 +495,7 @@ export type ServiceInputTypes =
   | ListUserTagsCommandInput
   | ListUsersCommandInput
   | ListVirtualMFADevicesCommandInput
+  | LoginConsoleCommandInput
   | PutGroupPolicyCommandInput
   | PutRolePermissionsBoundaryCommandInput
   | PutRolePolicyCommandInput
@@ -502,6 +505,7 @@ export type ServiceInputTypes =
   | RemoveRoleFromInstanceProfileCommandInput
   | RemoveUserFromGroupCommandInput
   | ResetServiceSpecificCredentialCommandInput
+  | ResetUserPasswordCommandInput
   | ResyncMFADeviceCommandInput
   | SetDefaultPolicyVersionCommandInput
   | SetSecurityTokenServicePreferencesCommandInput
@@ -635,6 +639,7 @@ export type ServiceOutputTypes =
   | ListUserTagsCommandOutput
   | ListUsersCommandOutput
   | ListVirtualMFADevicesCommandOutput
+  | LoginConsoleCommandOutput
   | PutGroupPolicyCommandOutput
   | PutRolePermissionsBoundaryCommandOutput
   | PutRolePolicyCommandOutput
@@ -644,6 +649,7 @@ export type ServiceOutputTypes =
   | RemoveRoleFromInstanceProfileCommandOutput
   | RemoveUserFromGroupCommandOutput
   | ResetServiceSpecificCredentialCommandOutput
+  | ResetUserPasswordCommandOutput
   | ResyncMFADeviceCommandOutput
   | SetDefaultPolicyVersionCommandOutput
   | SetSecurityTokenServicePreferencesCommandOutput

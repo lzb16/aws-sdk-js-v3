@@ -1,6 +1,146 @@
-import { SSHPublicKey, ServerCertificateMetadata, SigningCertificate } from "./models_0";
+import { SSHPublicKey, ServerCertificateMetadata, SigningCertificate, StatusType, UserStatusType } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
+
+export interface UpdateSigningCertificateRequest {
+  /**
+   * <p>The name of the IAM user the signing certificate belongs to.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The ID of the signing certificate you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  CertificateId: string | undefined;
+
+  /**
+   * <p> The status you want to assign to the certificate. <code>Active</code> means that the
+   *          certificate can be used for API calls to AWS <code>Inactive</code> means that the
+   *          certificate cannot be used.</p>
+   */
+  Status: StatusType | string | undefined;
+}
+
+export namespace UpdateSigningCertificateRequest {
+  export const filterSensitiveLog = (obj: UpdateSigningCertificateRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateSSHPublicKeyRequest {
+  /**
+   * <p>The name of the IAM user associated with the SSH public key.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The unique identifier for the SSH public key.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  SSHPublicKeyId: string | undefined;
+
+  /**
+   * <p>The status to assign to the SSH public key. <code>Active</code> means that the key can
+   *          be used for authentication with an AWS CodeCommit repository. <code>Inactive</code> means that the
+   *          key cannot be used.</p>
+   */
+  Status: StatusType | string | undefined;
+}
+
+export namespace UpdateSSHPublicKeyRequest {
+  export const filterSensitiveLog = (obj: UpdateSSHPublicKeyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>New path for the IAM user. Include this parameter only if you're changing the user's
+   *          path.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
+   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
+   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
+   *     most punctuation characters, digits, and upper and lowercased letters.</p>
+   */
+  NewPath?: string;
+
+  /**
+   * <p>New name for the user. Include this parameter only if you're changing the user's
+   *          name.</p>
+   *          <p>IAM user, group, role, and policy names must be unique within the account. Names are
+   *          not distinguished by case. For example, you cannot create resources named both "MyResource"
+   *          and "myresource".</p>
+   */
+  NewUserName?: string;
+
+  /**
+   * <p>0 means default, 1 means custom.</p>
+   */
+  Type?: number;
+
+  /**
+   * <p>Status of user.</p>
+   */
+  UserStatus?: UserStatusType | string;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateUserRequest {
+  export const filterSensitiveLog = (obj: UpdateUserRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The request was rejected because the public key certificate and the private key do not
+ *       match.</p>
+ */
+export interface KeyPairMismatchException extends __SmithyException, $MetadataBearer {
+  name: "KeyPairMismatchException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace KeyPairMismatchException {
+  export const filterSensitiveLog = (obj: KeyPairMismatchException): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The request was rejected because the certificate was malformed or expired. The error
+ *       message describes the specific error.</p>
+ */
+export interface MalformedCertificateException extends __SmithyException, $MetadataBearer {
+  name: "MalformedCertificateException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace MalformedCertificateException {
+  export const filterSensitiveLog = (obj: MalformedCertificateException): any => ({
+    ...obj,
+  });
+}
 
 export interface UploadServerCertificateRequest {
   /**
