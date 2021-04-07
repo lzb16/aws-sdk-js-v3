@@ -349,6 +349,12 @@
           "target": "com.amazonaws.iam#ListVirtualMFADevices"
         },
         {
+          "target": "com.amazonaws.iam#LoginConsole"
+        },
+        {
+          "target": "com.amazonaws.iam#ResetUserPassword"
+        },
+        {
           "target": "com.amazonaws.iam#PutGroupPolicy"
         },
         {
@@ -626,6 +632,12 @@
             "smithy.api#documentation": "<p>The ID for this access key.</p>"
           }
         },
+        "Description": {
+          "target": "com.amazonaws.iam#accessKeyDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>The description of the access key.</p>"
+          }
+        },
         "Status": {
           "target": "com.amazonaws.iam#statusType",
           "traits": {
@@ -641,6 +653,32 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains information about an AWS access key, without its secret key.</p>\n         <p>This data type is used as a response element in the <a>ListAccessKeys</a>\n         operation.</p>"
+      }
+    },
+    "com.amazonaws.iam#AccountType": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account Name.</p>"
+          }
+        },
+        "AccountId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account Id.</p>"
+          }
+        },
+        "User": {
+          "target": "com.amazonaws.iam#User",
+          "traits": {
+            "smithy.api#documentation": "<p>User info.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Account info.</p>"
       }
     },
     "com.amazonaws.iam#ActionNameListType": {
@@ -1948,6 +1986,39 @@
           "target": "com.amazonaws.iam#tagListType",
           "traits": {
             "smithy.api#documentation": "<p>A list of tags that you want to attach to the newly created user. Each tag consists of\n      a key name and an associated value. For more information about tagging, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html\">Tagging IAM Identities</a> in the\n        <i>IAM User Guide</i>.</p>\n         <note>\n            <p>If any one of the tags is invalid or if you exceed the allowed number of tags per\n        user, then the entire request fails and the user is not created.</p>\n         </note>"
+          }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType"
+        },
+        "Email": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>User email.</p>"
+          }
+        },
+        "Password": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>Password</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description</p>"
+          }
+        },
+        "FirstLoginUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>First login is update password, 0 means no, 1 means yes.</p>"
+          }
+        },
+        "Groups": {
+          "target": "com.amazonaws.iam#groupListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of groups.</p>"
           }
         }
       }
@@ -5064,6 +5135,9 @@
           "traits": {
             "smithy.api#documentation": "<p>The name of the user to get information about.</p>\n         <p>This parameter is optional. If it is not included, it defaults to the user making the\n         request. This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
           }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType"
         }
       }
     },
@@ -5362,6 +5436,9 @@
           "traits": {
             "smithy.api#documentation": "<p>Use this only when paginating results to indicate the \n    maximum number of items you want in the response. If additional items exist beyond the maximum \n    you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>\n         <p>If you do not include this parameter, the number of items defaults to 100. Note that\n    IAM might return fewer results, even when there are more results available. In that case, the\n    <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code> \n    contains a value to include in the subsequent call that tells the service where to continue \n    from.</p>"
           }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType"
         }
       }
     },
@@ -7376,6 +7453,115 @@
         "smithy.api#documentation": "<p>Contains the response to a successful <a>ListVirtualMFADevices</a> request.\n    </p>"
       }
     },
+    "com.amazonaws.iam#ResetUserPassword": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ResetUserPasswordRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Reset user password.</p>"
+      }
+    },
+    "com.amazonaws.iam#ResetUserPasswordRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#LoginConsole": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#LoginConsoleRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#LoginConsoleResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Login</p>"
+      }
+    },
+    "com.amazonaws.iam#LoginConsoleRequest": {
+      "type": "structure",
+      "members": {
+        "LoginType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means account; 2 means user; 3 means email</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name, required when LoginType is 1.</p>"
+          }
+        },
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        },
+        "Email": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        },
+        "Password": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>Password</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#LoginConsoleResponse": {
+      "type": "structure",
+      "members": {
+        "Result": {
+          "target": "com.amazonaws.iam#resultType",
+          "traits": {
+            "smithy.api#documentation": "<p>Login succeed or failed.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NeedUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>0 means no need update, 1 means need update.</p>"
+          }
+        },
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account info.</p>"
+          }
+        },
+        "AccessKey": {
+          "target": "com.amazonaws.iam#AccessKey",
+          "traits": {
+            "smithy.api#documentation": "<p>AccessKey info.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.iam#LoginProfile": {
       "type": "structure",
       "members": {
@@ -7722,6 +7908,12 @@
         },
         "Arn": {
           "target": "com.amazonaws.iam#arnType"
+        },
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#policyDocumentType",
+          "traits": {
+            "smithy.api#documentation": "<p>The policy document.</p>"
+          }
         },
         "Path": {
           "target": "com.amazonaws.iam#policyPathType",
@@ -9958,6 +10150,19 @@
             "smithy.api#documentation": "<p> The status you want to assign to the secret access key. <code>Active</code> means that\n         the key can be used for API calls to AWS, while <code>Inactive</code> means that the key\n         cannot be used.</p>",
             "smithy.api#required": {}
           }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p> Type is 2, add custom params.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#accessKeyDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new description that you want to apply to the access key.</p>"
+          }
         }
       }
     },
@@ -10608,6 +10813,24 @@
           "traits": {
             "smithy.api#documentation": "<p>New name for the user. Include this parameter only if you're changing the user's\n         name.</p>\n         <p>IAM user, group, role, and policy names must be unique within the account. Names are\n         not distinguished by case. For example, you cannot create resources named both \"MyResource\"\n         and \"myresource\".</p>"
           }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>0 means default, 1 means custom.</p>"
+          }
+        },
+        "UserStatus": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>Status of user.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
         }
       }
     },
@@ -10877,10 +11100,81 @@
           "traits": {
             "smithy.api#documentation": "<p>A list of tags that are associated with the specified user. For more information about\n      tagging, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html\">Tagging IAM\n        Identities</a> in the <i>IAM User Guide</i>.</p>"
           }
+        },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>0 means default, 1 means custom.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
+        },
+        "UserStatus": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>Status of user.</p>"
+          }
+        },
+        "Groups": {
+          "target": "com.amazonaws.iam#groupListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of groups.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PasswordLastReset": {
+          "target": "com.amazonaws.iam#dateType",
+          "traits": {
+            "smithy.api#documentation": "<p>Last password reset time.</p>"
+          }
+        },
+        "AccessKeyType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means built-in, use to web. 2 means ordinary, use to client.</p>"
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account Name.</p>"
+          }
+        },
+        "AccountId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account Id.</p>"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains information about an IAM user entity.</p>\n         <p>This data type is used as a response element in the following operations:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateUser</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>GetUser</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>ListUsers</a>\n               </p>\n            </li>\n         </ul>"
+      }
+    },
+    "com.amazonaws.iam#userDescriptionType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 0,
+          "max": 255
+        }
+      }
+    },
+    "com.amazonaws.iam#userStatusType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "active"
+          },
+          {
+            "value": "inactive"
+          }
+        ]
       }
     },
     "com.amazonaws.iam#UserDetail": {
@@ -10987,6 +11281,15 @@
         "smithy.api#documentation": "<p>Contains information about a virtual MFA device.</p>"
       }
     },
+    "com.amazonaws.iam#accessKeyDescriptionType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 0,
+          "max": 1000
+        }
+      }
+    },
     "com.amazonaws.iam#accessKeyIdType": {
       "type": "string",
       "traits": {
@@ -11026,6 +11329,16 @@
           "max": 63
         },
         "smithy.api#pattern": "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$"
+      }
+    },
+    "com.amazonaws.iam#accountNameType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 64
+        },
+        "smithy.api#pattern": "[\\w+=,.@-]+"
       }
     },
     "com.amazonaws.iam#arnType": {
@@ -11169,6 +11482,16 @@
     },
     "com.amazonaws.iam#duplicateSSHPublicKeyMessage": {
       "type": "string"
+    },
+    "com.amazonaws.iam#emailType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 64
+        },
+        "smithy.api#pattern": "[\\w+=,.@-]+"
+      }
     },
     "com.amazonaws.iam#encodingType": {
       "type": "string",
@@ -11655,6 +11978,17 @@
     },
     "com.amazonaws.iam#responseMarkerType": {
       "type": "string"
+    },
+    "com.amazonaws.iam#resultType": {
+      "type": "string",
+      "smithy.api#enum": [
+        {
+          "value": "success"
+        },
+        {
+          "value": "fail"
+        }
+      ]
     },
     "com.amazonaws.iam#roleDescriptionType": {
       "type": "string",
