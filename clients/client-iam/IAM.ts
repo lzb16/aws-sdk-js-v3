@@ -35,6 +35,11 @@ import {
   ChangePasswordCommandOutput,
 } from "./commands/ChangePasswordCommand";
 import {
+  CheckServicePermissionCommand,
+  CheckServicePermissionCommandInput,
+  CheckServicePermissionCommandOutput,
+} from "./commands/CheckServicePermissionCommand";
+import {
   CreateAccessKeyCommand,
   CreateAccessKeyCommandInput,
   CreateAccessKeyCommandOutput,
@@ -44,6 +49,11 @@ import {
   CreateAccountAliasCommandInput,
   CreateAccountAliasCommandOutput,
 } from "./commands/CreateAccountAliasCommand";
+import {
+  CreateAccountCommand,
+  CreateAccountCommandInput,
+  CreateAccountCommandOutput,
+} from "./commands/CreateAccountCommand";
 import { CreateGroupCommand, CreateGroupCommandInput, CreateGroupCommandOutput } from "./commands/CreateGroupCommand";
 import {
   CreateInstanceProfileCommand,
@@ -107,6 +117,11 @@ import {
   DeleteAccountAliasCommandInput,
   DeleteAccountAliasCommandOutput,
 } from "./commands/DeleteAccountAliasCommand";
+import {
+  DeleteAccountCommand,
+  DeleteAccountCommandInput,
+  DeleteAccountCommandOutput,
+} from "./commands/DeleteAccountCommand";
 import {
   DeleteAccountPasswordPolicyCommand,
   DeleteAccountPasswordPolicyCommandInput,
@@ -245,6 +260,7 @@ import {
   GetAccountAuthorizationDetailsCommandInput,
   GetAccountAuthorizationDetailsCommandOutput,
 } from "./commands/GetAccountAuthorizationDetailsCommand";
+import { GetAccountCommand, GetAccountCommandInput, GetAccountCommandOutput } from "./commands/GetAccountCommand";
 import {
   GetAccountPasswordPolicyCommand,
   GetAccountPasswordPolicyCommandInput,
@@ -354,6 +370,11 @@ import {
   ListAccountAliasesCommandInput,
   ListAccountAliasesCommandOutput,
 } from "./commands/ListAccountAliasesCommand";
+import {
+  ListAccountsCommand,
+  ListAccountsCommandInput,
+  ListAccountsCommandOutput,
+} from "./commands/ListAccountsCommand";
 import {
   ListAttachedGroupPoliciesCommand,
   ListAttachedGroupPoliciesCommandInput,
@@ -518,6 +539,11 @@ import {
   RemoveUserFromGroupCommandOutput,
 } from "./commands/RemoveUserFromGroupCommand";
 import {
+  ResetAccountPasswordCommand,
+  ResetAccountPasswordCommandInput,
+  ResetAccountPasswordCommandOutput,
+} from "./commands/ResetAccountPasswordCommand";
+import {
   ResetServiceSpecificCredentialCommand,
   ResetServiceSpecificCredentialCommandInput,
   ResetServiceSpecificCredentialCommandOutput,
@@ -561,6 +587,11 @@ import {
   UpdateAccessKeyCommandInput,
   UpdateAccessKeyCommandOutput,
 } from "./commands/UpdateAccessKeyCommand";
+import {
+  UpdateAccountCommand,
+  UpdateAccountCommandInput,
+  UpdateAccountCommandOutput,
+} from "./commands/UpdateAccountCommand";
 import {
   UpdateAccountPasswordPolicyCommand,
   UpdateAccountPasswordPolicyCommandInput,
@@ -902,6 +933,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>CheckServicePermission</p>
+   */
+  public checkServicePermission(
+    args: CheckServicePermissionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CheckServicePermissionCommandOutput>;
+  public checkServicePermission(
+    args: CheckServicePermissionCommandInput,
+    cb: (err: any, data?: CheckServicePermissionCommandOutput) => void
+  ): void;
+  public checkServicePermission(
+    args: CheckServicePermissionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CheckServicePermissionCommandOutput) => void
+  ): void;
+  public checkServicePermission(
+    args: CheckServicePermissionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CheckServicePermissionCommandOutput) => void),
+    cb?: (err: any, data?: CheckServicePermissionCommandOutput) => void
+  ): Promise<CheckServicePermissionCommandOutput> | void {
+    const command = new CheckServicePermissionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p> Creates a new AWS secret access key and corresponding AWS access key ID for the
    *          specified user. The default status for new keys is <code>Active</code>.</p>
    *          <p>If you do not specify a user name, IAM determines the user name implicitly based on
@@ -935,6 +998,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: CreateAccessKeyCommandOutput) => void
   ): Promise<CreateAccessKeyCommandOutput> | void {
     const command = new CreateAccessKeyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Create IAM account.</p>
+   */
+  public createAccount(
+    args: CreateAccountCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateAccountCommandOutput>;
+  public createAccount(
+    args: CreateAccountCommandInput,
+    cb: (err: any, data?: CreateAccountCommandOutput) => void
+  ): void;
+  public createAccount(
+    args: CreateAccountCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateAccountCommandOutput) => void
+  ): void;
+  public createAccount(
+    args: CreateAccountCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateAccountCommandOutput) => void),
+    cb?: (err: any, data?: CreateAccountCommandOutput) => void
+  ): Promise<CreateAccountCommandOutput> | void {
+    const command = new CreateAccountCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -1493,6 +1588,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: DeleteAccessKeyCommandOutput) => void
   ): Promise<DeleteAccessKeyCommandOutput> | void {
     const command = new DeleteAccessKeyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p> Deletes the specified AWS account.</p>
+   */
+  public deleteAccount(
+    args: DeleteAccountCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteAccountCommandOutput>;
+  public deleteAccount(
+    args: DeleteAccountCommandInput,
+    cb: (err: any, data?: DeleteAccountCommandOutput) => void
+  ): void;
+  public deleteAccount(
+    args: DeleteAccountCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteAccountCommandOutput) => void
+  ): void;
+  public deleteAccount(
+    args: DeleteAccountCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteAccountCommandOutput) => void),
+    cb?: (err: any, data?: DeleteAccountCommandOutput) => void
+  ): Promise<DeleteAccountCommandOutput> | void {
+    const command = new DeleteAccountCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -2798,6 +2925,32 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Retrieves information about all IAM account.</p>
+   */
+  public getAccount(args: GetAccountCommandInput, options?: __HttpHandlerOptions): Promise<GetAccountCommandOutput>;
+  public getAccount(args: GetAccountCommandInput, cb: (err: any, data?: GetAccountCommandOutput) => void): void;
+  public getAccount(
+    args: GetAccountCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAccountCommandOutput) => void
+  ): void;
+  public getAccount(
+    args: GetAccountCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountCommandOutput) => void),
+    cb?: (err: any, data?: GetAccountCommandOutput) => void
+  ): Promise<GetAccountCommandOutput> | void {
+    const command = new GetAccountCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves information about all IAM users, groups, roles, and policies in your AWS
    *          account, including their relationships to one another. Use this API to obtain a snapshot of
    *          the configuration of IAM permissions (users, groups, roles, and policies) in your
@@ -3843,6 +3996,47 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: ListAccountAliasesCommandOutput) => void
   ): Promise<ListAccountAliasesCommandOutput> | void {
     const command = new ListAccountAliasesCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Returns information about the access key IDs associated with the specified IAM user.
+   *          If there is none, the operation returns an empty list.</p>
+   *          <p>Although each user is limited to a small number of keys, you can still paginate the
+   *          results using the <code>MaxItems</code> and <code>Marker</code> parameters.</p>
+   *          <p>If the <code>UserName</code> field is not specified, the user name is determined
+   *          implicitly based on the AWS access key ID used to sign the request. This operation works
+   *          for access keys under the AWS account. Consequently, you can use this operation to manage
+   *          AWS account root user credentials even if the AWS account has no associated
+   *          users.</p>
+   *          <note>
+   *             <p>To ensure the security of your AWS account, the secret access key is accessible
+   *             only during key and user creation.</p>
+   *          </note>
+   */
+  public listAccounts(
+    args: ListAccountsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListAccountsCommandOutput>;
+  public listAccounts(args: ListAccountsCommandInput, cb: (err: any, data?: ListAccountsCommandOutput) => void): void;
+  public listAccounts(
+    args: ListAccountsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListAccountsCommandOutput) => void
+  ): void;
+  public listAccounts(
+    args: ListAccountsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListAccountsCommandOutput) => void),
+    cb?: (err: any, data?: ListAccountsCommandOutput) => void
+  ): Promise<ListAccountsCommandOutput> | void {
+    const command = new ListAccountsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5203,6 +5397,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Reset user password.</p>
+   */
+  public resetAccountPassword(
+    args: ResetAccountPasswordCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ResetAccountPasswordCommandOutput>;
+  public resetAccountPassword(
+    args: ResetAccountPasswordCommandInput,
+    cb: (err: any, data?: ResetAccountPasswordCommandOutput) => void
+  ): void;
+  public resetAccountPassword(
+    args: ResetAccountPasswordCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ResetAccountPasswordCommandOutput) => void
+  ): void;
+  public resetAccountPassword(
+    args: ResetAccountPasswordCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ResetAccountPasswordCommandOutput) => void),
+    cb?: (err: any, data?: ResetAccountPasswordCommandOutput) => void
+  ): Promise<ResetAccountPasswordCommandOutput> | void {
+    const command = new ResetAccountPasswordCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Resets the password for a service-specific credential. The new password is AWS
    *          generated and cryptographically strong. It cannot be configured by the user. Resetting the
    *          password immediately invalidates the previous password associated with this user.</p>
@@ -5710,6 +5936,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UpdateAccessKeyCommandOutput) => void
   ): Promise<UpdateAccessKeyCommandOutput> | void {
     const command = new UpdateAccessKeyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Update account.</p>
+   */
+  public updateAccount(
+    args: UpdateAccountCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAccountCommandOutput>;
+  public updateAccount(
+    args: UpdateAccountCommandInput,
+    cb: (err: any, data?: UpdateAccountCommandOutput) => void
+  ): void;
+  public updateAccount(
+    args: UpdateAccountCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAccountCommandOutput) => void
+  ): void;
+  public updateAccount(
+    args: UpdateAccountCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAccountCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAccountCommandOutput) => void
+  ): Promise<UpdateAccountCommandOutput> | void {
+    const command = new UpdateAccountCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

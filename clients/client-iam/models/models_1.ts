@@ -1,6 +1,332 @@
-import { SSHPublicKey, ServerCertificateMetadata, SigningCertificate, StatusType, UserStatusType } from "./models_0";
+import {
+  Role,
+  SSHPublicKey,
+  ServerCertificateMetadata,
+  SigningCertificate,
+  StatusType,
+  UserStatusType,
+} from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
+
+export interface UpdateAssumeRolePolicyRequest {
+  /**
+   * <p>The name of the role to update with the new policy.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>The policy that grants an entity permission to assume the role.</p>
+   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
+   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
+   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
+   *          IAM.</p>
+   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
+   *     used to validate this parameter is a string of characters consisting of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Any printable ASCII
+   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
+   *             </li>
+   *             <li>
+   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
+   *     (through <code>\u00FF</code>)</p>
+   *             </li>
+   *             <li>
+   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
+   *     carriage return (<code>\u000D</code>)</p>
+   *             </li>
+   *          </ul>
+   */
+  PolicyDocument: string | undefined;
+}
+
+export namespace UpdateAssumeRolePolicyRequest {
+  export const filterSensitiveLog = (obj: UpdateAssumeRolePolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateGroupRequest {
+  /**
+   * <p>Name of the IAM group to update. If you're changing the name of the group, this is the
+   *          original name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+
+  /**
+   * <p>New path for the IAM group. Only include this if changing the group's path.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
+   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
+   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
+   *     most punctuation characters, digits, and upper and lowercased letters.</p>
+   */
+  NewPath?: string;
+
+  /**
+   * <p>New name for the IAM group. Only include this if changing the group's name.</p>
+   *          <p>IAM user, group, role, and policy names must be unique within the account. Names are
+   *          not distinguished by case. For example, you cannot create resources named both "MyResource"
+   *          and "myresource".</p>
+   */
+  NewGroupName?: string;
+}
+
+export namespace UpdateGroupRequest {
+  export const filterSensitiveLog = (obj: UpdateGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateLoginProfileRequest {
+  /**
+   * <p>The name of the user whose password you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The new password for the specified IAM user.</p>
+   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
+   *     used to validate this parameter is a string of characters consisting of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Any printable ASCII
+   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
+   *             </li>
+   *             <li>
+   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
+   *     (through <code>\u00FF</code>)</p>
+   *             </li>
+   *             <li>
+   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
+   *     carriage return (<code>\u000D</code>)</p>
+   *             </li>
+   *          </ul>
+   *          <p>However,
+   *          the format can be further restricted by the account administrator by setting a password
+   *          policy on the AWS account. For more information, see <a>UpdateAccountPasswordPolicy</a>.</p>
+   */
+  Password?: string;
+
+  /**
+   * <p>Allows this new password to be used only once by requiring the specified IAM user to
+   *          set a new password on next sign-in.</p>
+   */
+  PasswordResetRequired?: boolean;
+}
+
+export namespace UpdateLoginProfileRequest {
+  export const filterSensitiveLog = (obj: UpdateLoginProfileRequest): any => ({
+    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
+  });
+}
+
+export interface UpdateOpenIDConnectProviderThumbprintRequest {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you
+   *          want to update the thumbprint. You can get a list of OIDC provider ARNs by using the <a>ListOpenIDConnectProviders</a> operation.</p>
+   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
+   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   */
+  OpenIDConnectProviderArn: string | undefined;
+
+  /**
+   * <p>A list of certificate thumbprints that are associated with the specified IAM OpenID
+   *          Connect provider. For more information, see <a>CreateOpenIDConnectProvider</a>.
+   *       </p>
+   */
+  ThumbprintList: string[] | undefined;
+}
+
+export namespace UpdateOpenIDConnectProviderThumbprintRequest {
+  export const filterSensitiveLog = (obj: UpdateOpenIDConnectProviderThumbprintRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateRoleRequest {
+  /**
+   * <p>The name of the role that you want to modify.</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>The new description that you want to apply to the specified role.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The maximum session duration (in seconds) that you want to set for the specified role.
+   *          If you do not specify a value for this setting, the default maximum of one hour is applied.
+   *          This setting can have a value from 1 hour to 12 hours.</p>
+   *          <p>Anyone who assumes the role from the AWS CLI or API can use the
+   *             <code>DurationSeconds</code> API parameter or the <code>duration-seconds</code> CLI
+   *          parameter to request a longer session. The <code>MaxSessionDuration</code> setting
+   *          determines the maximum duration that can be requested using the
+   *             <code>DurationSeconds</code> parameter. If users don't specify a value for the
+   *             <code>DurationSeconds</code> parameter, their security credentials are valid for one
+   *          hour by default. This applies when you use the <code>AssumeRole*</code> API operations or
+   *          the <code>assume-role*</code> CLI operations but does not apply when you use those
+   *          operations to create a console URL. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using IAM Roles</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  MaxSessionDuration?: number;
+}
+
+export namespace UpdateRoleRequest {
+  export const filterSensitiveLog = (obj: UpdateRoleRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateRoleResponse {}
+
+export namespace UpdateRoleResponse {
+  export const filterSensitiveLog = (obj: UpdateRoleResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateRoleDescriptionRequest {
+  /**
+   * <p>The name of the role that you want to modify.</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>The new description that you want to apply to the specified role.</p>
+   */
+  Description: string | undefined;
+}
+
+export namespace UpdateRoleDescriptionRequest {
+  export const filterSensitiveLog = (obj: UpdateRoleDescriptionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateRoleDescriptionResponse {
+  /**
+   * <p>A structure that contains details about the modified role.</p>
+   */
+  Role?: Role;
+}
+
+export namespace UpdateRoleDescriptionResponse {
+  export const filterSensitiveLog = (obj: UpdateRoleDescriptionResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateSAMLProviderRequest {
+  /**
+   * <p>An XML document generated by an identity provider (IdP) that supports SAML 2.0. The
+   *          document includes the issuer's name, expiration information, and keys that can be used to
+   *          validate the SAML authentication response (assertions) that are received from the IdP. You
+   *          must generate the metadata document using the identity management software that is used as
+   *          your organization's IdP.</p>
+   */
+  SAMLMetadataDocument: string | undefined;
+
+  /**
+   * <p>The Amazon Resource Name (ARN) of the SAML provider to update.</p>
+   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
+   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   */
+  SAMLProviderArn: string | undefined;
+}
+
+export namespace UpdateSAMLProviderRequest {
+  export const filterSensitiveLog = (obj: UpdateSAMLProviderRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>UpdateSAMLProvider</a> request.
+ *     </p>
+ */
+export interface UpdateSAMLProviderResponse {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the SAML provider that was updated.</p>
+   */
+  SAMLProviderArn?: string;
+}
+
+export namespace UpdateSAMLProviderResponse {
+  export const filterSensitiveLog = (obj: UpdateSAMLProviderResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateServerCertificateRequest {
+  /**
+   * <p>The name of the server certificate that you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  ServerCertificateName: string | undefined;
+
+  /**
+   * <p>The new path for the server certificate. Include this only if you are updating the
+   *          server certificate's path.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
+   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
+   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
+   *     most punctuation characters, digits, and upper and lowercased letters.</p>
+   */
+  NewPath?: string;
+
+  /**
+   * <p>The new name for the server certificate. Include this only if you are updating the
+   *          server certificate's name. The name of the certificate cannot contain any spaces.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  NewServerCertificateName?: string;
+}
+
+export namespace UpdateServerCertificateRequest {
+  export const filterSensitiveLog = (obj: UpdateServerCertificateRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateServiceSpecificCredentialRequest {
+  /**
+   * <p>The name of the IAM user associated with the service-specific credential. If you do
+   *          not specify this value, then the operation assumes the user whose credentials are used to
+   *          call the operation.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The unique identifier of the service-specific credential.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  ServiceSpecificCredentialId: string | undefined;
+
+  /**
+   * <p>The status to be assigned to the service-specific credential.</p>
+   */
+  Status: StatusType | string | undefined;
+}
+
+export namespace UpdateServiceSpecificCredentialRequest {
+  export const filterSensitiveLog = (obj: UpdateServiceSpecificCredentialRequest): any => ({
+    ...obj,
+  });
+}
 
 export interface UpdateSigningCertificateRequest {
   /**

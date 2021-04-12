@@ -1,8 +1,8 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UpdateAssumeRolePolicyRequest } from "../models/models_1";
+import { ResetAccountPasswordRequest } from "../models/models_0";
 import {
-  deserializeAws_queryUpdateAssumeRolePolicyCommand,
-  serializeAws_queryUpdateAssumeRolePolicyCommand,
+  deserializeAws_queryResetAccountPasswordCommand,
+  serializeAws_queryResetAccountPasswordCommand,
 } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -17,24 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type UpdateAssumeRolePolicyCommandInput = UpdateAssumeRolePolicyRequest;
-export type UpdateAssumeRolePolicyCommandOutput = __MetadataBearer;
+export type ResetAccountPasswordCommandInput = ResetAccountPasswordRequest;
+export type ResetAccountPasswordCommandOutput = __MetadataBearer;
 
 /**
- * <p>Updates the policy that grants an IAM entity permission to assume a role. This is
- *          typically referred to as the "role trust policy". For more information about roles, go to
- *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using Roles to
- *             Delegate Permissions and Federate Identities</a>.</p>
+ * <p>Reset user password.</p>
  */
-export class UpdateAssumeRolePolicyCommand extends $Command<
-  UpdateAssumeRolePolicyCommandInput,
-  UpdateAssumeRolePolicyCommandOutput,
+export class ResetAccountPasswordCommand extends $Command<
+  ResetAccountPasswordCommandInput,
+  ResetAccountPasswordCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: UpdateAssumeRolePolicyCommandInput) {
+  constructor(readonly input: ResetAccountPasswordCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -47,19 +44,19 @@ export class UpdateAssumeRolePolicyCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<UpdateAssumeRolePolicyCommandInput, UpdateAssumeRolePolicyCommandOutput> {
+  ): Handler<ResetAccountPasswordCommandInput, ResetAccountPasswordCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "UpdateAssumeRolePolicyCommand";
+    const commandName = "ResetAccountPasswordCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: UpdateAssumeRolePolicyRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: ResetAccountPasswordRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -70,12 +67,12 @@ export class UpdateAssumeRolePolicyCommand extends $Command<
     );
   }
 
-  private serialize(input: UpdateAssumeRolePolicyCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryUpdateAssumeRolePolicyCommand(input, context);
+  private serialize(input: ResetAccountPasswordCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryResetAccountPasswordCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UpdateAssumeRolePolicyCommandOutput> {
-    return deserializeAws_queryUpdateAssumeRolePolicyCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<ResetAccountPasswordCommandOutput> {
+    return deserializeAws_queryResetAccountPasswordCommand(output, context);
   }
 
   // Start section: command_body_extra

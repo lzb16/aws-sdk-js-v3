@@ -11,8 +11,13 @@ import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from ".
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "./commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "./commands/AttachUserPolicyCommand";
 import { ChangePasswordCommandInput, ChangePasswordCommandOutput } from "./commands/ChangePasswordCommand";
+import {
+  CheckServicePermissionCommandInput,
+  CheckServicePermissionCommandOutput,
+} from "./commands/CheckServicePermissionCommand";
 import { CreateAccessKeyCommandInput, CreateAccessKeyCommandOutput } from "./commands/CreateAccessKeyCommand";
 import { CreateAccountAliasCommandInput, CreateAccountAliasCommandOutput } from "./commands/CreateAccountAliasCommand";
+import { CreateAccountCommandInput, CreateAccountCommandOutput } from "./commands/CreateAccountCommand";
 import { CreateGroupCommandInput, CreateGroupCommandOutput } from "./commands/CreateGroupCommand";
 import {
   CreateInstanceProfileCommandInput,
@@ -49,6 +54,7 @@ import {
 } from "./commands/DeactivateMFADeviceCommand";
 import { DeleteAccessKeyCommandInput, DeleteAccessKeyCommandOutput } from "./commands/DeleteAccessKeyCommand";
 import { DeleteAccountAliasCommandInput, DeleteAccountAliasCommandOutput } from "./commands/DeleteAccountAliasCommand";
+import { DeleteAccountCommandInput, DeleteAccountCommandOutput } from "./commands/DeleteAccountCommand";
 import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
@@ -127,6 +133,7 @@ import {
   GetAccountAuthorizationDetailsCommandInput,
   GetAccountAuthorizationDetailsCommandOutput,
 } from "./commands/GetAccountAuthorizationDetailsCommand";
+import { GetAccountCommandInput, GetAccountCommandOutput } from "./commands/GetAccountCommand";
 import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
@@ -182,6 +189,7 @@ import { GetUserCommandInput, GetUserCommandOutput } from "./commands/GetUserCom
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "./commands/GetUserPolicyCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "./commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "./commands/ListAccountAliasesCommand";
+import { ListAccountsCommandInput, ListAccountsCommandOutput } from "./commands/ListAccountsCommand";
 import {
   ListAttachedGroupPoliciesCommandInput,
   ListAttachedGroupPoliciesCommandOutput,
@@ -269,6 +277,10 @@ import {
   RemoveUserFromGroupCommandOutput,
 } from "./commands/RemoveUserFromGroupCommand";
 import {
+  ResetAccountPasswordCommandInput,
+  ResetAccountPasswordCommandOutput,
+} from "./commands/ResetAccountPasswordCommand";
+import {
   ResetServiceSpecificCredentialCommandInput,
   ResetServiceSpecificCredentialCommandOutput,
 } from "./commands/ResetServiceSpecificCredentialCommand";
@@ -295,6 +307,7 @@ import { TagUserCommandInput, TagUserCommandOutput } from "./commands/TagUserCom
 import { UntagRoleCommandInput, UntagRoleCommandOutput } from "./commands/UntagRoleCommand";
 import { UntagUserCommandInput, UntagUserCommandOutput } from "./commands/UntagUserCommand";
 import { UpdateAccessKeyCommandInput, UpdateAccessKeyCommandOutput } from "./commands/UpdateAccessKeyCommand";
+import { UpdateAccountCommandInput, UpdateAccountCommandOutput } from "./commands/UpdateAccountCommand";
 import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
@@ -397,8 +410,10 @@ export type ServiceInputTypes =
   | AttachRolePolicyCommandInput
   | AttachUserPolicyCommandInput
   | ChangePasswordCommandInput
+  | CheckServicePermissionCommandInput
   | CreateAccessKeyCommandInput
   | CreateAccountAliasCommandInput
+  | CreateAccountCommandInput
   | CreateGroupCommandInput
   | CreateInstanceProfileCommandInput
   | CreateLoginProfileCommandInput
@@ -414,6 +429,7 @@ export type ServiceInputTypes =
   | DeactivateMFADeviceCommandInput
   | DeleteAccessKeyCommandInput
   | DeleteAccountAliasCommandInput
+  | DeleteAccountCommandInput
   | DeleteAccountPasswordPolicyCommandInput
   | DeleteGroupCommandInput
   | DeleteGroupPolicyCommandInput
@@ -444,6 +460,7 @@ export type ServiceInputTypes =
   | GenerateServiceLastAccessedDetailsCommandInput
   | GetAccessKeyLastUsedCommandInput
   | GetAccountAuthorizationDetailsCommandInput
+  | GetAccountCommandInput
   | GetAccountPasswordPolicyCommandInput
   | GetAccountSummaryCommandInput
   | GetContextKeysForCustomPolicyCommandInput
@@ -469,6 +486,7 @@ export type ServiceInputTypes =
   | GetUserPolicyCommandInput
   | ListAccessKeysCommandInput
   | ListAccountAliasesCommandInput
+  | ListAccountsCommandInput
   | ListAttachedGroupPoliciesCommandInput
   | ListAttachedRolePoliciesCommandInput
   | ListAttachedUserPoliciesCommandInput
@@ -504,6 +522,7 @@ export type ServiceInputTypes =
   | RemoveClientIDFromOpenIDConnectProviderCommandInput
   | RemoveRoleFromInstanceProfileCommandInput
   | RemoveUserFromGroupCommandInput
+  | ResetAccountPasswordCommandInput
   | ResetServiceSpecificCredentialCommandInput
   | ResetUserPasswordCommandInput
   | ResyncMFADeviceCommandInput
@@ -516,6 +535,7 @@ export type ServiceInputTypes =
   | UntagRoleCommandInput
   | UntagUserCommandInput
   | UpdateAccessKeyCommandInput
+  | UpdateAccountCommandInput
   | UpdateAccountPasswordPolicyCommandInput
   | UpdateAssumeRolePolicyCommandInput
   | UpdateGroupCommandInput
@@ -541,8 +561,10 @@ export type ServiceOutputTypes =
   | AttachRolePolicyCommandOutput
   | AttachUserPolicyCommandOutput
   | ChangePasswordCommandOutput
+  | CheckServicePermissionCommandOutput
   | CreateAccessKeyCommandOutput
   | CreateAccountAliasCommandOutput
+  | CreateAccountCommandOutput
   | CreateGroupCommandOutput
   | CreateInstanceProfileCommandOutput
   | CreateLoginProfileCommandOutput
@@ -558,6 +580,7 @@ export type ServiceOutputTypes =
   | DeactivateMFADeviceCommandOutput
   | DeleteAccessKeyCommandOutput
   | DeleteAccountAliasCommandOutput
+  | DeleteAccountCommandOutput
   | DeleteAccountPasswordPolicyCommandOutput
   | DeleteGroupCommandOutput
   | DeleteGroupPolicyCommandOutput
@@ -588,6 +611,7 @@ export type ServiceOutputTypes =
   | GenerateServiceLastAccessedDetailsCommandOutput
   | GetAccessKeyLastUsedCommandOutput
   | GetAccountAuthorizationDetailsCommandOutput
+  | GetAccountCommandOutput
   | GetAccountPasswordPolicyCommandOutput
   | GetAccountSummaryCommandOutput
   | GetContextKeysForCustomPolicyCommandOutput
@@ -613,6 +637,7 @@ export type ServiceOutputTypes =
   | GetUserPolicyCommandOutput
   | ListAccessKeysCommandOutput
   | ListAccountAliasesCommandOutput
+  | ListAccountsCommandOutput
   | ListAttachedGroupPoliciesCommandOutput
   | ListAttachedRolePoliciesCommandOutput
   | ListAttachedUserPoliciesCommandOutput
@@ -648,6 +673,7 @@ export type ServiceOutputTypes =
   | RemoveClientIDFromOpenIDConnectProviderCommandOutput
   | RemoveRoleFromInstanceProfileCommandOutput
   | RemoveUserFromGroupCommandOutput
+  | ResetAccountPasswordCommandOutput
   | ResetServiceSpecificCredentialCommandOutput
   | ResetUserPasswordCommandOutput
   | ResyncMFADeviceCommandOutput
@@ -660,6 +686,7 @@ export type ServiceOutputTypes =
   | UntagRoleCommandOutput
   | UntagUserCommandOutput
   | UpdateAccessKeyCommandOutput
+  | UpdateAccountCommandOutput
   | UpdateAccountPasswordPolicyCommandOutput
   | UpdateAssumeRolePolicyCommandOutput
   | UpdateGroupCommandOutput

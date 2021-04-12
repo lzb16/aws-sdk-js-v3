@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UpdateLoginProfileRequest } from "../models/models_0";
+import { UpdateLoginProfileRequest } from "../models/models_1";
 import {
   deserializeAws_queryUpdateLoginProfileCommand,
   serializeAws_queryUpdateLoginProfileCommand,

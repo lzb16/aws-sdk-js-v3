@@ -364,6 +364,9 @@
           "target": "com.amazonaws.iam#LoginConsole"
         },
         {
+          "target": "com.amazonaws.iam#CheckServicePermission"
+        },
+        {
           "target": "com.amazonaws.iam#PutGroupPolicy"
         },
         {
@@ -7830,6 +7833,46 @@
         }
       }
     },
+    "com.amazonaws.iam#CheckServicePermission": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#CheckServicePermissionRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#CheckServicePermissionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>CheckServicePermission</p>"
+      }
+    },
+    "com.amazonaws.iam#CheckServicePermissionRequest": {
+      "type": "structure",
+      "members": {
+        "ServiceType": {
+          "target": "com.amazonaws.iam#serviceType",
+          "traits": {
+            "smithy.api#documentation": "<p>s3, iam, all</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#CheckServicePermissionResponse": {
+      "type": "structure",
+      "members": {
+        "Services": {
+          "target": "com.amazonaws.iam#servicesType",
+          "traits": {
+            "smithy.api#documentation": "<p>Services permission type.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.iam#LoginProfile": {
       "type": "structure",
       "members": {
@@ -11524,6 +11567,35 @@
         "smithy.api#documentation": "<p>Contains information about an IAM user entity.</p>\n         <p>This data type is used as a response element in the following operations:</p>\n         <ul>\n            <li>\n               <p>\n                  <a>CreateUser</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>GetUser</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a>ListUsers</a>\n               </p>\n            </li>\n         </ul>"
       }
     },
+    "com.amazonaws.iam#Service": {
+      "type": "structure",
+      "members": {
+        "Result": {
+          "target": "com.amazonaws.iam#resultType",
+          "traits": {
+            "smithy.api#documentation": "<p>success or failed</p>"
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.iam#serviceType",
+          "traits": {
+            "smithy.api#documentation": "<p>s3 or iam</p>"
+          }
+        },
+        "Permissions": {
+          "target": "com.amazonaws.iam#permissionType",
+          "traits": {
+            "smithy.api#documentation": "<p>permission type.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p></p>"
+      }
+    },
+    "com.amazonaws.iam#Permission": {
+      "type": "string"
+    },
     "com.amazonaws.iam#userDescriptionType": {
       "type": "string",
       "traits": {
@@ -12377,6 +12449,20 @@
         }
       ]
     },
+    "com.amazonaws.iam#serviceType": {
+      "type": "string",
+      "smithy.api#enum": [
+        {
+          "value": "s3"
+        },
+        {
+          "value": "iam"
+        },
+        {
+          "value": "all"
+        }
+      ]
+    },
     "com.amazonaws.iam#roleDescriptionType": {
       "type": "string",
       "traits": {
@@ -12729,6 +12815,24 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains a list of users.</p>\n         <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>"
+      }
+    },
+    "com.amazonaws.iam#servicesType": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#Service"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains a list of services. </p>"
+      }
+    },
+    "com.amazonaws.iam#permissionType": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#Permission"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>permission. </p>"
       }
     },
     "com.amazonaws.iam#userNameType": {
