@@ -10,6 +10,10 @@ import { AddUserToGroupCommandInput, AddUserToGroupCommandOutput } from "./comma
 import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from "./commands/AttachGroupPolicyCommand";
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "./commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "./commands/AttachUserPolicyCommand";
+import {
+  ChangeAccountPasswordCommandInput,
+  ChangeAccountPasswordCommandOutput,
+} from "./commands/ChangeAccountPasswordCommand";
 import { ChangePasswordCommandInput, ChangePasswordCommandOutput } from "./commands/ChangePasswordCommand";
 import {
   CheckServicePermissionCommandInput,
@@ -409,6 +413,7 @@ export type ServiceInputTypes =
   | AttachGroupPolicyCommandInput
   | AttachRolePolicyCommandInput
   | AttachUserPolicyCommandInput
+  | ChangeAccountPasswordCommandInput
   | ChangePasswordCommandInput
   | CheckServicePermissionCommandInput
   | CreateAccessKeyCommandInput
@@ -560,6 +565,7 @@ export type ServiceOutputTypes =
   | AttachGroupPolicyCommandOutput
   | AttachRolePolicyCommandOutput
   | AttachUserPolicyCommandOutput
+  | ChangeAccountPasswordCommandOutput
   | ChangePasswordCommandOutput
   | CheckServicePermissionCommandOutput
   | CreateAccessKeyCommandOutput

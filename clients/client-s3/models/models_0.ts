@@ -5786,7 +5786,7 @@ export namespace TaggingConfiguration {
 
 export type MFADelete = "Disabled" | "Enabled";
 
-export type BucketVersioningStatus = "Enabled" | "Suspended";
+export type BucketVersioningStatus = "Disabled" | "Enabled" | "Suspended";
 
 /**
  * <p>Describes the versioning state of an Amazon S3 bucket. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html">PUT

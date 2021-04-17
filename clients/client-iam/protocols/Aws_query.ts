@@ -10,6 +10,10 @@ import { AddUserToGroupCommandInput, AddUserToGroupCommandOutput } from "../comm
 import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from "../commands/AttachGroupPolicyCommand";
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "../commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "../commands/AttachUserPolicyCommand";
+import {
+  ChangeAccountPasswordCommandInput,
+  ChangeAccountPasswordCommandOutput,
+} from "../commands/ChangeAccountPasswordCommand";
 import { ChangePasswordCommandInput, ChangePasswordCommandOutput } from "../commands/ChangePasswordCommand";
 import {
   CheckServicePermissionCommandInput,
@@ -365,6 +369,7 @@ import {
   AttachUserPolicyRequest,
   AttachedPermissionsBoundary,
   AttachedPolicy,
+  ChangeAccountPasswordRequest,
   ChangePasswordRequest,
   CheckServicePermissionRequest,
   CheckServicePermissionResponse,
@@ -628,7 +633,6 @@ import {
   UntagRoleRequest,
   UntagUserRequest,
   UpdateAccessKeyRequest,
-  UpdateAccountPasswordPolicyRequest,
   UpdateAccountRequest,
   User,
   UserDetail,
@@ -641,6 +645,7 @@ import {
   InvalidPublicKeyException,
   KeyPairMismatchException,
   MalformedCertificateException,
+  UpdateAccountPasswordPolicyRequest,
   UpdateAssumeRolePolicyRequest,
   UpdateGroupRequest,
   UpdateLoginProfileRequest,
@@ -770,6 +775,22 @@ export const serializeAws_queryAttachUserPolicyCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryAttachUserPolicyRequest(input, context),
     Action: "AttachUserPolicy",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryChangeAccountPasswordCommand = async (
+  input: ChangeAccountPasswordCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryChangeAccountPasswordRequest(input, context),
+    Action: "ChangeAccountPassword",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3506,6 +3527,89 @@ const deserializeAws_queryAttachUserPolicyCommandError = async (
     case "com.amazonaws.iam#PolicyNotAttachableException":
       response = {
         ...(await deserializeAws_queryPolicyNotAttachableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryChangeAccountPasswordCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ChangeAccountPasswordCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryChangeAccountPasswordCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: ChangeAccountPasswordCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryChangeAccountPasswordCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ChangeAccountPasswordCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -13744,6 +13848,23 @@ const serializeAws_queryAttachUserPolicyRequest = (input: AttachUserPolicyReques
   return entries;
 };
 
+const serializeAws_queryChangeAccountPasswordRequest = (
+  input: ChangeAccountPasswordRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.OldPassword !== undefined && input.OldPassword !== null) {
+    entries["OldPassword"] = input.OldPassword;
+  }
+  if (input.NewPassword !== undefined && input.NewPassword !== null) {
+    entries["NewPassword"] = input.NewPassword;
+  }
+  return entries;
+};
+
 const serializeAws_queryChangePasswordRequest = (input: ChangePasswordRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.OldPassword !== undefined && input.OldPassword !== null) {
@@ -16213,6 +16334,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     Email: undefined,
     Quota: undefined,
     BucketNumber: undefined,
+    ObjectNumber: undefined,
     UsedSize: undefined,
     AccessKeys: undefined,
     User: undefined,
@@ -16246,6 +16368,9 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   }
   if (output["BucketNumber"] !== undefined) {
     contents.BucketNumber = parseInt(output["BucketNumber"]);
+  }
+  if (output["ObjectNumber"] !== undefined) {
+    contents.ObjectNumber = parseInt(output["ObjectNumber"]);
   }
   if (output["UsedSize"] !== undefined) {
     contents.UsedSize = output["UsedSize"];

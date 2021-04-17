@@ -30,6 +30,11 @@ import {
   AttachUserPolicyCommandOutput,
 } from "./commands/AttachUserPolicyCommand";
 import {
+  ChangeAccountPasswordCommand,
+  ChangeAccountPasswordCommandInput,
+  ChangeAccountPasswordCommandOutput,
+} from "./commands/ChangeAccountPasswordCommand";
+import {
   ChangePasswordCommand,
   ChangePasswordCommandInput,
   ChangePasswordCommandOutput,
@@ -886,6 +891,42 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: AttachUserPolicyCommandOutput) => void
   ): Promise<AttachUserPolicyCommandOutput> | void {
     const command = new AttachUserPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+   *          root user password is not affected by this operation.</p>
+   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  public changeAccountPassword(
+    args: ChangeAccountPasswordCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ChangeAccountPasswordCommandOutput>;
+  public changeAccountPassword(
+    args: ChangeAccountPasswordCommandInput,
+    cb: (err: any, data?: ChangeAccountPasswordCommandOutput) => void
+  ): void;
+  public changeAccountPassword(
+    args: ChangeAccountPasswordCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ChangeAccountPasswordCommandOutput) => void
+  ): void;
+  public changeAccountPassword(
+    args: ChangeAccountPasswordCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ChangeAccountPasswordCommandOutput) => void),
+    cb?: (err: any, data?: ChangeAccountPasswordCommandOutput) => void
+  ): Promise<ChangeAccountPasswordCommandOutput> | void {
+    const command = new ChangeAccountPasswordCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

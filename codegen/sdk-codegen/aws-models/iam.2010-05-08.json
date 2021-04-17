@@ -52,6 +52,9 @@
           "target": "com.amazonaws.iam#AttachUserPolicy"
         },
         {
+          "target": "com.amazonaws.iam#ChangeAccountPassword"
+        },
+        {
           "target": "com.amazonaws.iam#ChangePassword"
         },
         {
@@ -746,6 +749,12 @@
             "smithy.api#documentation": "<p>Account bucket number.</p>"
           }
         },
+        "ObjectNumber": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account object number.</p>"
+          }
+        },
         "UsedSize": {
           "target": "com.amazonaws.iam#stringType",
           "traits": {
@@ -1095,6 +1104,57 @@
       "type": "blob",
       "traits": {
         "smithy.api#sensitive": {}
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountPassword": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ChangeAccountPasswordRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountPasswordRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "OldPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The IAM account's current password.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NewPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new password.</p>",
+            "smithy.api#required": {}
+          }
+        }
       }
     },
     "com.amazonaws.iam#ChangePassword": {

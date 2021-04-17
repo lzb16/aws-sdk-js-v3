@@ -569,6 +569,11 @@ export interface AccountType {
   BucketNumber?: number;
 
   /**
+   * <p>Account object number.</p>
+   */
+  ObjectNumber?: number;
+
+  /**
    * <p>Account used size.</p>
    */
   UsedSize?: string;
@@ -864,6 +869,65 @@ export namespace AttachUserPolicyRequest {
   });
 }
 
+export interface ChangeAccountPasswordRequest {
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>The IAM account's current password.</p>
+   */
+  OldPassword: string | undefined;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword: string | undefined;
+}
+
+export namespace ChangeAccountPasswordRequest {
+  export const filterSensitiveLog = (obj: ChangeAccountPasswordRequest): any => ({
+    ...obj,
+    ...(obj.OldPassword && { OldPassword: SENSITIVE_STRING }),
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
+  });
+}
+
+/**
+ * <p>The request was rejected because it referenced an entity that is temporarily
+ *       unmodifiable, such as a user name that was deleted and then recreated. The error indicates
+ *       that the request is likely to succeed if you try again after waiting several minutes. The
+ *       error message describes the entity.</p>
+ */
+export interface EntityTemporarilyUnmodifiableException extends __SmithyException, $MetadataBearer {
+  name: "EntityTemporarilyUnmodifiableException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace EntityTemporarilyUnmodifiableException {
+  export const filterSensitiveLog = (obj: EntityTemporarilyUnmodifiableException): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The request was rejected because the provided password did not meet the requirements
+ *       imposed by the account password policy.</p>
+ */
+export interface PasswordPolicyViolationException extends __SmithyException, $MetadataBearer {
+  name: "PasswordPolicyViolationException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace PasswordPolicyViolationException {
+  export const filterSensitiveLog = (obj: PasswordPolicyViolationException): any => ({
+    ...obj,
+  });
+}
+
 export interface ChangePasswordRequest {
   /**
    * <p>The IAM user's current password.</p>
@@ -893,24 +957,6 @@ export namespace ChangePasswordRequest {
 }
 
 /**
- * <p>The request was rejected because it referenced an entity that is temporarily
- *       unmodifiable, such as a user name that was deleted and then recreated. The error indicates
- *       that the request is likely to succeed if you try again after waiting several minutes. The
- *       error message describes the entity.</p>
- */
-export interface EntityTemporarilyUnmodifiableException extends __SmithyException, $MetadataBearer {
-  name: "EntityTemporarilyUnmodifiableException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace EntityTemporarilyUnmodifiableException {
-  export const filterSensitiveLog = (obj: EntityTemporarilyUnmodifiableException): any => ({
-    ...obj,
-  });
-}
-
-/**
  * <p>The request was rejected because the type of user for the transaction was
  *       incorrect.</p>
  */
@@ -922,22 +968,6 @@ export interface InvalidUserTypeException extends __SmithyException, $MetadataBe
 
 export namespace InvalidUserTypeException {
   export const filterSensitiveLog = (obj: InvalidUserTypeException): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request was rejected because the provided password did not meet the requirements
- *       imposed by the account password policy.</p>
- */
-export interface PasswordPolicyViolationException extends __SmithyException, $MetadataBearer {
-  name: "PasswordPolicyViolationException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace PasswordPolicyViolationException {
-  export const filterSensitiveLog = (obj: PasswordPolicyViolationException): any => ({
     ...obj,
   });
 }
@@ -8976,93 +9006,6 @@ export interface UpdateAccountRequest {
 
 export namespace UpdateAccountRequest {
   export const filterSensitiveLog = (obj: UpdateAccountRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateAccountPasswordPolicyRequest {
-  /**
-   * <p>The minimum number of characters allowed in an IAM user password.</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>6</code>.</p>
-   */
-  MinimumPasswordLength?: number;
-
-  /**
-   * <p>Specifies whether IAM user passwords must contain at least one of the following
-   *          non-alphanumeric characters:</p>
-   *          <p>! @ # $ % ^ & * ( ) _ + - = [ ] { } | '</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that passwords do not require at least one
-   *          symbol character.</p>
-   */
-  RequireSymbols?: boolean;
-
-  /**
-   * <p>Specifies whether IAM user passwords must contain at least one numeric character (0 to
-   *          9).</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that passwords do not require at least one
-   *          numeric character.</p>
-   */
-  RequireNumbers?: boolean;
-
-  /**
-   * <p>Specifies whether IAM user passwords must contain at least one uppercase character
-   *          from the ISO basic Latin alphabet (A to Z).</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that passwords do not require at least one
-   *          uppercase character.</p>
-   */
-  RequireUppercaseCharacters?: boolean;
-
-  /**
-   * <p>Specifies whether IAM user passwords must contain at least one lowercase character
-   *          from the ISO basic Latin alphabet (a to z).</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that passwords do not require at least one
-   *          lowercase character.</p>
-   */
-  RequireLowercaseCharacters?: boolean;
-
-  /**
-   * <p> Allows all IAM users in your account to use the AWS Management Console to change their own
-   *          passwords. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting IAM Users Change Their Own
-   *             Passwords</a> in the <i>IAM User Guide</i>.</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that IAM users in the account do not
-   *          automatically have permissions to change their own password.</p>
-   */
-  AllowUsersToChangePassword?: boolean;
-
-  /**
-   * <p>The number of days that an IAM user password is valid.</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>0</code>. The result is that IAM user passwords never expire.</p>
-   */
-  MaxPasswordAge?: number;
-
-  /**
-   * <p>Specifies the number of previous passwords that IAM users are prevented from
-   *          reusing.</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>0</code>. The result is that IAM users are not prevented from reusing
-   *          previous passwords.</p>
-   */
-  PasswordReusePrevention?: number;
-
-  /**
-   * <p>Prevents IAM users from setting a new password after their password has expired. The
-   *          IAM user cannot be accessed until an administrator resets the password.</p>
-   *          <p>If you do not specify a value for this parameter, then the operation uses the default
-   *          value of <code>false</code>. The result is that IAM users can change their passwords
-   *          after they expire and continue to sign in as the user.</p>
-   */
-  HardExpiry?: boolean;
-}
-
-export namespace UpdateAccountPasswordPolicyRequest {
-  export const filterSensitiveLog = (obj: UpdateAccountPasswordPolicyRequest): any => ({
     ...obj,
   });
 }

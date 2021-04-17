@@ -6,6 +6,7 @@ export * from "./commands/AddUserToGroupCommand";
 export * from "./commands/AttachGroupPolicyCommand";
 export * from "./commands/AttachRolePolicyCommand";
 export * from "./commands/AttachUserPolicyCommand";
+export * from "./commands/ChangeAccountPasswordCommand";
 export * from "./commands/ChangePasswordCommand";
 export * from "./commands/CheckServicePermissionCommand";
 export * from "./commands/CreateAccessKeyCommand";

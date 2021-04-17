@@ -1013,6 +1013,9 @@
           },
           {
             "value": "Suspended"
+          },
+          {
+            "value": "Disabled"
           }
         ]
       }
