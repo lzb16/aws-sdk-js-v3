@@ -112,6 +112,7 @@ import {
   GetBucketPolicyStatusCommandInput,
   GetBucketPolicyStatusCommandOutput,
 } from "../commands/GetBucketPolicyStatusCommand";
+import { GetBucketQuotaCommandInput, GetBucketQuotaCommandOutput } from "../commands/GetBucketQuotaCommand";
 import {
   GetBucketReplicationCommandInput,
   GetBucketReplicationCommandOutput,
@@ -212,6 +213,7 @@ import {
   PutBucketOwnershipControlsCommandOutput,
 } from "../commands/PutBucketOwnershipControlsCommand";
 import { PutBucketPolicyCommandInput, PutBucketPolicyCommandOutput } from "../commands/PutBucketPolicyCommand";
+import { PutBucketQuotaCommandInput, PutBucketQuotaCommandOutput } from "../commands/PutBucketQuotaCommand";
 import {
   PutBucketReplicationCommandInput,
   PutBucketReplicationCommandOutput,
@@ -364,7 +366,6 @@ import {
   TopicConfiguration,
   Transition,
   VersioningConfiguration,
-  WebsiteConfiguration,
   _Error,
   _Object,
 } from "../models/models_0";
@@ -393,6 +394,7 @@ import {
   SelectObjectContentEventStream,
   SelectParameters,
   StatsEvent,
+  WebsiteConfiguration,
 } from "../models/models_1";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import {
@@ -2076,6 +2078,42 @@ export const serializeAws_restXmlGetBucketPolicyStatusCommand = async (
   }
   const query: any = {
     policyStatus: "",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetBucketQuotaCommand = async (
+  input: GetBucketQuotaCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    ...(isSerializableHeaderValue(input.ExpectedBucketOwner) && {
+      "x-amz-expected-bucket-owner": input.ExpectedBucketOwner!,
+    }),
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    quota: "",
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -3827,6 +3865,47 @@ export const serializeAws_restXmlPutBucketPolicyCommand = async (
   if (input.Policy !== undefined) {
     contents = input.Policy;
     body = contents;
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlPutBucketQuotaCommand = async (
+  input: PutBucketQuotaCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    quota: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Quota !== undefined) {
+    contents = serializeAws_restXmlQuota(input.Quota, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
   }
   const { hostname, protocol = "https", port } = await context.endpoint();
   return new __HttpRequest({
@@ -6854,6 +6933,51 @@ const deserializeAws_restXmlGetBucketPolicyStatusCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlGetBucketQuotaCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetBucketQuotaCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetBucketQuotaCommandError(output, context);
+  }
+  const contents: GetBucketQuotaCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    Quota: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.Quota = deserializeAws_restXmlQuota(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetBucketQuotaCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetBucketQuotaCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlGetBucketReplicationCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -9336,6 +9460,49 @@ const deserializeAws_restXmlPutBucketPolicyCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<PutBucketPolicyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlPutBucketQuotaCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutBucketQuotaCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlPutBucketQuotaCommandError(output, context);
+  }
+  const contents: PutBucketQuotaCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlPutBucketQuotaCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutBucketQuotaCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -11940,6 +12107,23 @@ const serializeAws_restXmlQueueConfigurationList = (input: QueueConfiguration[],
       const node = serializeAws_restXmlQueueConfiguration(entry, context);
       return node.withName("member");
     });
+};
+
+const serializeAws_restXmlQuota = (input: Quota, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("Quota");
+  if (input.StorageQuota !== undefined && input.StorageQuota !== null) {
+    const node = new __XmlNode("StorageQuota")
+      .addChildNode(new __XmlText(String(input.StorageQuota)))
+      .withName("StorageQuota");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectQuota !== undefined && input.ObjectQuota !== null) {
+    const node = new __XmlNode("ObjectQuota")
+      .addChildNode(new __XmlText(String(input.ObjectQuota)))
+      .withName("ObjectQuota");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
 };
 
 const serializeAws_restXmlRedirect = (input: Redirect, context: __SerdeContext): any => {

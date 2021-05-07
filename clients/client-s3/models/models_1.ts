@@ -1,6 +1,8 @@
 import {
   AccessControlPolicy,
+  ErrorDocument,
   Grant,
+  IndexDocument,
   ObjectCannedACL,
   ObjectLockConfiguration,
   ObjectLockLegalHold,
@@ -8,9 +10,11 @@ import {
   ObjectLockMode,
   ObjectLockRetention,
   PublicAccessBlockConfiguration,
+  RedirectAllRequestsTo,
   RefererConfiguration,
   RequestCharged,
   RequestPayer,
+  RoutingRule,
   ServerSideEncryption,
   StorageClass,
   Tagging,
@@ -18,6 +22,144 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>Specifies website configuration parameters for an Amazon S3 bucket.</p>
+ */
+export interface WebsiteConfiguration {
+  /**
+   * <p>The name of the error document for the website.</p>
+   */
+  ErrorDocument?: ErrorDocument;
+
+  /**
+   * <p>The name of the index document for the website.</p>
+   */
+  IndexDocument?: IndexDocument;
+
+  /**
+   * <p>The redirect behavior for every request to this bucket's website endpoint.</p>
+   *          <important>
+   *             <p>If you specify this property, you can't specify any other property.</p>
+   *          </important>
+   */
+  RedirectAllRequestsTo?: RedirectAllRequestsTo;
+
+  /**
+   * <p>Rules that define when a redirect is applied and the redirect behavior.</p>
+   */
+  RoutingRules?: RoutingRule[];
+}
+
+export namespace WebsiteConfiguration {
+  export const filterSensitiveLog = (obj: WebsiteConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketWebsiteRequest {
+  /**
+   * <p>The bucket name.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Container for the request.</p>
+   */
+  WebsiteConfiguration: WebsiteConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketWebsiteRequest {
+  export const filterSensitiveLog = (obj: PutBucketWebsiteRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectOutput {
+  /**
+   * <p> If the expiration is configured for the object (see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>), the response includes this header. It
+   *          includes the expiry-date and rule-id key-value pairs that provide information about object
+   *          expiration. The value of the rule-id is URL encoded.</p>
+   */
+  Expiration?: string;
+
+  /**
+   * <p>Entity tag for the uploaded object.</p>
+   */
+  ETag?: string;
+
+  /**
+   * <p>If you specified server-side encryption either with an AWS KMS customer master key (CMK)
+   *          or Amazon S3-managed encryption key in your PUT request, the response includes this header. It
+   *          confirms the encryption algorithm that Amazon S3 used to encrypt the object.</p>
+   */
+  ServerSideEncryption?: ServerSideEncryption | string;
+
+  /**
+   * <p>Version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>If server-side encryption with a customer-provided encryption key was requested, the
+   *          response will include this header confirming the encryption algorithm used.</p>
+   */
+  SSECustomerAlgorithm?: string;
+
+  /**
+   * <p>If server-side encryption with a customer-provided encryption key was requested, the
+   *          response will include this header to provide round-trip message integrity verification of
+   *          the customer-provided encryption key.</p>
+   */
+  SSECustomerKeyMD5?: string;
+
+  /**
+   * <p>If <code>x-amz-server-side-encryption</code> is present and has the value of
+   *             <code>aws:kms</code>, this header specifies the ID of the AWS Key Management Service
+   *          (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the
+   *          object. </p>
+   */
+  SSEKMSKeyId?: string;
+
+  /**
+   * <p>If present, specifies the AWS KMS Encryption Context to use for object encryption. The
+   *          value of this header is a base64-encoded UTF-8 string holding JSON with the encryption
+   *          context key-value pairs.</p>
+   */
+  SSEKMSEncryptionContext?: string;
+
+  /**
+   * <p>Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).</p>
+   */
+  BucketKeyEnabled?: boolean;
+
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutObjectOutput {
+  export const filterSensitiveLog = (obj: PutObjectOutput): any => ({
+    ...obj,
+    ...(obj.SSEKMSKeyId && { SSEKMSKeyId: SENSITIVE_STRING }),
+    ...(obj.SSEKMSEncryptionContext && { SSEKMSEncryptionContext: SENSITIVE_STRING }),
+  });
+}
 
 export interface PutObjectRequest {
   /**

@@ -112,6 +112,7 @@ import {
   GetBucketPolicyStatusCommandInput,
   GetBucketPolicyStatusCommandOutput,
 } from "./commands/GetBucketPolicyStatusCommand";
+import { GetBucketQuotaCommandInput, GetBucketQuotaCommandOutput } from "./commands/GetBucketQuotaCommand";
 import {
   GetBucketReplicationCommandInput,
   GetBucketReplicationCommandOutput,
@@ -212,6 +213,7 @@ import {
   PutBucketOwnershipControlsCommandOutput,
 } from "./commands/PutBucketOwnershipControlsCommand";
 import { PutBucketPolicyCommandInput, PutBucketPolicyCommandOutput } from "./commands/PutBucketPolicyCommand";
+import { PutBucketQuotaCommandInput, PutBucketQuotaCommandOutput } from "./commands/PutBucketQuotaCommand";
 import {
   PutBucketReplicationCommandInput,
   PutBucketReplicationCommandOutput,
@@ -353,6 +355,7 @@ export type ServiceInputTypes =
   | GetBucketOwnershipControlsCommandInput
   | GetBucketPolicyCommandInput
   | GetBucketPolicyStatusCommandInput
+  | GetBucketQuotaCommandInput
   | GetBucketReplicationCommandInput
   | GetBucketRequestPaymentCommandInput
   | GetBucketStorageInfoCommandInput
@@ -393,6 +396,7 @@ export type ServiceInputTypes =
   | PutBucketNotificationConfigurationCommandInput
   | PutBucketOwnershipControlsCommandInput
   | PutBucketPolicyCommandInput
+  | PutBucketQuotaCommandInput
   | PutBucketReplicationCommandInput
   | PutBucketRequestPaymentCommandInput
   | PutBucketTaggingCommandInput
@@ -451,6 +455,7 @@ export type ServiceOutputTypes =
   | GetBucketOwnershipControlsCommandOutput
   | GetBucketPolicyCommandOutput
   | GetBucketPolicyStatusCommandOutput
+  | GetBucketQuotaCommandOutput
   | GetBucketReplicationCommandOutput
   | GetBucketRequestPaymentCommandOutput
   | GetBucketStorageInfoCommandOutput
@@ -491,6 +496,7 @@ export type ServiceOutputTypes =
   | PutBucketNotificationConfigurationCommandOutput
   | PutBucketOwnershipControlsCommandOutput
   | PutBucketPolicyCommandOutput
+  | PutBucketQuotaCommandOutput
   | PutBucketReplicationCommandOutput
   | PutBucketRequestPaymentCommandOutput
   | PutBucketTaggingCommandOutput

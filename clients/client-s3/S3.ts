@@ -191,6 +191,11 @@ import {
   GetBucketPolicyStatusCommandOutput,
 } from "./commands/GetBucketPolicyStatusCommand";
 import {
+  GetBucketQuotaCommand,
+  GetBucketQuotaCommandInput,
+  GetBucketQuotaCommandOutput,
+} from "./commands/GetBucketQuotaCommand";
+import {
   GetBucketReplicationCommand,
   GetBucketReplicationCommandInput,
   GetBucketReplicationCommandOutput,
@@ -362,6 +367,11 @@ import {
   PutBucketPolicyCommandInput,
   PutBucketPolicyCommandOutput,
 } from "./commands/PutBucketPolicyCommand";
+import {
+  PutBucketQuotaCommand,
+  PutBucketQuotaCommandInput,
+  PutBucketQuotaCommandOutput,
+} from "./commands/PutBucketQuotaCommand";
 import {
   PutBucketReplicationCommand,
   PutBucketReplicationCommandInput,
@@ -3197,6 +3207,53 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketPolicyStatusCommandOutput) => void
   ): Promise<GetBucketPolicyStatusCommandOutput> | void {
     const command = new GetBucketPolicyStatusCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>This implementation of the <code>GET</code> operation uses the <code>overview</code>
+   *          subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to
+   *          return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+   *             <code>READ_ACP</code> permission is granted to the anonymous user, you can return the
+   *          ACL of the bucket without using an authorization header.</p>
+   *
+   *          <p class="title">
+   *             <b>Related Resources</b>
+   *          </p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getBucketQuota(
+    args: GetBucketQuotaCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketQuotaCommandOutput>;
+  public getBucketQuota(
+    args: GetBucketQuotaCommandInput,
+    cb: (err: any, data?: GetBucketQuotaCommandOutput) => void
+  ): void;
+  public getBucketQuota(
+    args: GetBucketQuotaCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketQuotaCommandOutput) => void
+  ): void;
+  public getBucketQuota(
+    args: GetBucketQuotaCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketQuotaCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketQuotaCommandOutput) => void
+  ): Promise<GetBucketQuotaCommandOutput> | void {
+    const command = new GetBucketQuotaCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -6303,6 +6360,70 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketPolicyCommandOutput) => void
   ): Promise<PutBucketPolicyCommandOutput> | void {
     const command = new PutBucketPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity other than
+   *          the root user of the AWS account that owns the bucket, the calling identity must have the
+   *             <code>PutBucketPolicy</code> permissions on the specified bucket and belong to the
+   *          bucket owner's account in order to use this operation.</p>
+   *
+   *          <p>If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3 returns a <code>403
+   *             Access Denied</code> error. If you have the correct permissions, but you're not using an
+   *          identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405 Method Not
+   *             Allowed</code> error.</p>
+   *
+   *          <important>
+   *             <p> As a security precaution, the root user of the AWS account that owns a bucket can
+   *             always use this operation, even if the policy explicitly denies the root user the
+   *             ability to perform this action. </p>
+   *          </important>
+   *
+   *
+   *          <p>For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using Bucket Policies and User
+   *             Policies</a>.</p>
+   *
+   *          <p>The following operations are related to <code>PutBucketPolicy</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public putBucketQuota(
+    args: PutBucketQuotaCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketQuotaCommandOutput>;
+  public putBucketQuota(
+    args: PutBucketQuotaCommandInput,
+    cb: (err: any, data?: PutBucketQuotaCommandOutput) => void
+  ): void;
+  public putBucketQuota(
+    args: PutBucketQuotaCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketQuotaCommandOutput) => void
+  ): void;
+  public putBucketQuota(
+    args: PutBucketQuotaCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketQuotaCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketQuotaCommandOutput) => void
+  ): Promise<PutBucketQuotaCommandOutput> | void {
+    const command = new PutBucketQuotaCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
