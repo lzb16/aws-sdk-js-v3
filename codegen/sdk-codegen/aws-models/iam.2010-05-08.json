@@ -64,6 +64,9 @@
           "target": "com.amazonaws.iam#CreateAccount"
         },
         {
+          "target": "com.amazonaws.iam#CreateSelfdefineAccessKey"
+        },
+        {
           "target": "com.amazonaws.iam#CreateAccountAlias"
         },
         {
@@ -1384,6 +1387,46 @@
         "smithy.api#documentation": "<p>Contains the response to a successful <a>CreateAccessKey</a> request.\n    </p>"
       }
     },
+    "com.amazonaws.iam#CreateSelfdefineAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#CreateSelfdefineAccessKeyRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#CreateAccessKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Create self define AccessKey.</p>"
+      }
+    },
+    "com.amazonaws.iam#CreateSelfdefineAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "SelfdefineAccessKeyId": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom ak of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineSecretAccessKey": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.iam#CreateAccount": {
       "type": "operation",
       "input": {
@@ -1422,6 +1465,12 @@
             "smithy.api#documentation": "<p>Password</p>"
           }
         },
+        "AccessType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Access type, 1 means web, 2 means api, 3 means all.</p>"
+          }
+        },
         "Description": {
           "target": "com.amazonaws.iam#userDescriptionType",
           "traits": {
@@ -1438,6 +1487,18 @@
           "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineAccessKeyId": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom ak of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineSecretAccessKey": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
           }
         }
       }
@@ -2219,6 +2280,12 @@
           "target": "com.amazonaws.iam#passwordType",
           "traits": {
             "smithy.api#documentation": "<p>Password</p>"
+          }
+        },
+        "AccessType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Access type, 1 means web, 2 means api, 3 means all.</p>"
           }
         },
         "Description": {
@@ -5784,6 +5851,12 @@
     "com.amazonaws.iam#ListAccountsRequest": {
       "type": "structure",
       "members": {
+        "ResponseNeedCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Show AK/SK, 0 means no, 1 means yes.</p>"
+          }
+        },
         "Marker": {
           "target": "com.amazonaws.iam#markerType",
           "traits": {
@@ -11541,6 +11614,12 @@
             "smithy.api#required": {}
           }
         },
+        "Email": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        },
         "Arn": {
           "target": "com.amazonaws.iam#arnType",
           "traits": {
@@ -11699,6 +11778,12 @@
             "smithy.api#documentation": "<p>The stable and unique string identifying the user. For more information about IDs, see\n            <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM\n            Identifiers</a> in the <i>IAM User Guide</i>.</p>"
           }
         },
+        "Email": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account email.</p>"
+          }
+        },
         "Arn": {
           "target": "com.amazonaws.iam#arnType"
         },
@@ -11789,6 +11874,16 @@
           "min": 0,
           "max": 1000
         }
+      }
+    },
+    "com.amazonaws.iam#selfdefineAccessKeyType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#length": {
+          "min": 1,
+          "max": 32
+        },
+        "smithy.api#pattern": "[\\w]+"
       }
     },
     "com.amazonaws.iam#accessKeyIdType": {

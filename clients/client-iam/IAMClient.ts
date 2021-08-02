@@ -40,6 +40,10 @@ import {
 import { CreateRoleCommandInput, CreateRoleCommandOutput } from "./commands/CreateRoleCommand";
 import { CreateSAMLProviderCommandInput, CreateSAMLProviderCommandOutput } from "./commands/CreateSAMLProviderCommand";
 import {
+  CreateSelfdefineAccessKeyCommandInput,
+  CreateSelfdefineAccessKeyCommandOutput,
+} from "./commands/CreateSelfdefineAccessKeyCommand";
+import {
   CreateServiceLinkedRoleCommandInput,
   CreateServiceLinkedRoleCommandOutput,
 } from "./commands/CreateServiceLinkedRoleCommand";
@@ -427,6 +431,7 @@ export type ServiceInputTypes =
   | CreatePolicyVersionCommandInput
   | CreateRoleCommandInput
   | CreateSAMLProviderCommandInput
+  | CreateSelfdefineAccessKeyCommandInput
   | CreateServiceLinkedRoleCommandInput
   | CreateServiceSpecificCredentialCommandInput
   | CreateUserCommandInput
@@ -579,6 +584,7 @@ export type ServiceOutputTypes =
   | CreatePolicyVersionCommandOutput
   | CreateRoleCommandOutput
   | CreateSAMLProviderCommandOutput
+  | CreateSelfdefineAccessKeyCommandOutput
   | CreateServiceLinkedRoleCommandOutput
   | CreateServiceSpecificCredentialCommandOutput
   | CreateUserCommandOutput

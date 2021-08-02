@@ -9,6 +9,29 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 
+export interface UpdateAccountRequest {
+  /**
+   * <p>The name of the user whose key you want to update.</p>
+   */
+  AccountName: string | undefined;
+
+  /**
+   * <p>The quota of the account you want to update.</p>
+   */
+  Quota?: string;
+
+  /**
+   * <p>The new description that you want to apply to the account.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateAccountRequest {
+  export const filterSensitiveLog = (obj: UpdateAccountRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface UpdateAccountPasswordPolicyRequest {
   /**
    * <p>The minimum number of characters allowed in an IAM user password.</p>

@@ -245,6 +245,9 @@
           "target": "com.amazonaws.s3#DeleteBucketCors"
         },
         {
+          "target": "com.amazonaws.s3#DeleteBucketQoS"
+        },
+        {
           "target": "com.amazonaws.s3#DeleteBucketEncryption"
         },
         {
@@ -330,6 +333,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetBucketQuota"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketQoS"
         },
         {
           "target": "com.amazonaws.s3#GetBucketOwnershipControls"
@@ -462,6 +468,9 @@
         },
         {
           "target": "com.amazonaws.s3#PutBucketQuota"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketQoS"
         },
         {
           "target": "com.amazonaws.s3#PutBucketReplication"
@@ -2537,6 +2546,40 @@
         }
       }
     },
+    "com.amazonaws.s3#DeleteBucketQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketQoSRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Deletes the <code>cors</code> configuration information set for the bucket.</p>\n         <p>To use this operation, you must have permission to perform the\n            <code>s3:PutBucketCORS</code> action. The bucket owner has this permission by default\n         and can grant this permission to others. </p>\n         <p>For information about <code>cors</code>, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html\">Enabling\n            Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n      \n         <p class=\"title\">\n            <b>Related Resources:</b>\n         </p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html\">PutBucketCors</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html\">RESTOPTIONSobject</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?qos",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketQoSRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#DeleteBucketCors": {
       "type": "operation",
       "input": {
@@ -4428,6 +4471,55 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketQoSRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketQoSResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>This implementation of the <code>GET</code> operation uses the <code>overview</code>\n         subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to\n         return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If\n            <code>READ_ACP</code> permission is granted to the anonymous user, you can return the\n         ACL of the bucket without using an authorization header.</p>\n      \n         <p class=\"title\">\n            <b>Related Resources</b>\n         </p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html\">ListObjects</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?qos",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketQoSRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketQoSResponse": {
+      "type": "structure",
+      "members": {
+        "QoSConfiguration": {
+          "target": "com.amazonaws.s3#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>GetBucketQuota</code> of bucket.</p>",
+            "smithy.api#httpPayload": {}
           }
         }
       }
@@ -6342,6 +6434,13 @@
           "traits": {
             "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>",
             "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "WithoutContentLength": {
+          "target": "com.amazonaws.s3#WithoutContentLength",
+          "traits": {
+            "smithy.api#documentation": "<p>Custom header, when you don't want return Content-Length, set true.</p>",
+            "smithy.api#httpHeader": "x-amz-without-content-length"
           }
         },
         "SSECustomerAlgorithm": {
@@ -9011,6 +9110,12 @@
     "com.amazonaws.s3#ObjectQuota": {
       "type": "long"
     },
+    "com.amazonaws.s3#BucketOps": {
+      "type": "long"
+    },
+    "com.amazonaws.s3#BucketBandWidth": {
+      "type": "long"
+    },
     "com.amazonaws.s3#ObjectStorageClass": {
       "type": "string",
       "traits": {
@@ -10102,6 +10207,48 @@
             "smithy.api#documentation": "<p>The bucket policy as a JSON document.</p>",
             "smithy.api#httpPayload": {},
             "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketQoSRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Applies an Amazon S3 bucket qos. If you are using an identity other than\n         the root user of the AWS account that owns the bucket, the calling identity must have the\n            <code>PutBucketPolicy</code> permissions on the specified bucket and belong to the\n         bucket owner's account in order to use this operation.</p>\n\n         <p>If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3 returns a <code>403\n            Access Denied</code> error. If you have the correct permissions, but you're not using an\n         identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405 Method Not\n            Allowed</code> error.</p>\n\n         <important>\n            <p> As a security precaution, the root user of the AWS account that owns a bucket can\n            always use this operation, even if the policy explicitly denies the root user the\n            ability to perform this action. </p>\n         </important>\n\n\n         <p>For more information about bucket policies, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html\">Using Bucket Policies and User\n            Policies</a>.</p>\n\n         <p>The following operations are related to <code>PutBucketPolicy</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html\">CreateBucket</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html\">DeleteBucket</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?qos",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketQoSRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "QoSConfiguration": {
+          "target": "com.amazonaws.s3#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>GetBucketQuota</code> of bucket.</p>",
+            "smithy.api#httpPayload": {}
           }
         },
         "ExpectedBucketOwner": {
@@ -11332,6 +11479,26 @@
         }
       }
     },
+    "com.amazonaws.s3#QoSConfiguration": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "com.amazonaws.s3#BucketName"
+        },
+        "ReadOps": {
+          "target": "com.amazonaws.s3#BucketOps"
+        },
+        "WriteOps": {
+          "target": "com.amazonaws.s3#BucketOps"
+        },
+        "ReadBandWidth": {
+          "target": "com.amazonaws.s3#BucketBandWidth"
+        },
+        "WriteBandWidth": {
+          "target": "com.amazonaws.s3#BucketBandWidth"
+        }
+      }
+    },
     "com.amazonaws.s3#QuoteCharacter": {
       "type": "string"
     },
@@ -12059,6 +12226,9 @@
       "traits": {
         "smithy.api#documentation": "<p>Describes an Amazon S3 location that will receive the results of the restore request.</p>"
       }
+    },
+    "com.amazonaws.s3#WithoutContentLength": {
+      "type": "boolean"
     },
     "com.amazonaws.s3#SSECustomerAlgorithm": {
       "type": "string"

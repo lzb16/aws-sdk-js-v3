@@ -43,6 +43,7 @@ import {
   DeleteBucketOwnershipControlsCommandOutput,
 } from "./commands/DeleteBucketOwnershipControlsCommand";
 import { DeleteBucketPolicyCommandInput, DeleteBucketPolicyCommandOutput } from "./commands/DeleteBucketPolicyCommand";
+import { DeleteBucketQoSCommandInput, DeleteBucketQoSCommandOutput } from "./commands/DeleteBucketQoSCommand";
 import {
   DeleteBucketReplicationCommandInput,
   DeleteBucketReplicationCommandOutput,
@@ -112,6 +113,7 @@ import {
   GetBucketPolicyStatusCommandInput,
   GetBucketPolicyStatusCommandOutput,
 } from "./commands/GetBucketPolicyStatusCommand";
+import { GetBucketQoSCommandInput, GetBucketQoSCommandOutput } from "./commands/GetBucketQoSCommand";
 import { GetBucketQuotaCommandInput, GetBucketQuotaCommandOutput } from "./commands/GetBucketQuotaCommand";
 import {
   GetBucketReplicationCommandInput,
@@ -213,6 +215,7 @@ import {
   PutBucketOwnershipControlsCommandOutput,
 } from "./commands/PutBucketOwnershipControlsCommand";
 import { PutBucketPolicyCommandInput, PutBucketPolicyCommandOutput } from "./commands/PutBucketPolicyCommand";
+import { PutBucketQoSCommandInput, PutBucketQoSCommandOutput } from "./commands/PutBucketQoSCommand";
 import { PutBucketQuotaCommandInput, PutBucketQuotaCommandOutput } from "./commands/PutBucketQuotaCommand";
 import {
   PutBucketReplicationCommandInput,
@@ -331,6 +334,7 @@ export type ServiceInputTypes =
   | DeleteBucketMetricsConfigurationCommandInput
   | DeleteBucketOwnershipControlsCommandInput
   | DeleteBucketPolicyCommandInput
+  | DeleteBucketQoSCommandInput
   | DeleteBucketReplicationCommandInput
   | DeleteBucketTaggingCommandInput
   | DeleteBucketWebsiteCommandInput
@@ -355,6 +359,7 @@ export type ServiceInputTypes =
   | GetBucketOwnershipControlsCommandInput
   | GetBucketPolicyCommandInput
   | GetBucketPolicyStatusCommandInput
+  | GetBucketQoSCommandInput
   | GetBucketQuotaCommandInput
   | GetBucketReplicationCommandInput
   | GetBucketRequestPaymentCommandInput
@@ -396,6 +401,7 @@ export type ServiceInputTypes =
   | PutBucketNotificationConfigurationCommandInput
   | PutBucketOwnershipControlsCommandInput
   | PutBucketPolicyCommandInput
+  | PutBucketQoSCommandInput
   | PutBucketQuotaCommandInput
   | PutBucketReplicationCommandInput
   | PutBucketRequestPaymentCommandInput
@@ -431,6 +437,7 @@ export type ServiceOutputTypes =
   | DeleteBucketMetricsConfigurationCommandOutput
   | DeleteBucketOwnershipControlsCommandOutput
   | DeleteBucketPolicyCommandOutput
+  | DeleteBucketQoSCommandOutput
   | DeleteBucketReplicationCommandOutput
   | DeleteBucketTaggingCommandOutput
   | DeleteBucketWebsiteCommandOutput
@@ -455,6 +462,7 @@ export type ServiceOutputTypes =
   | GetBucketOwnershipControlsCommandOutput
   | GetBucketPolicyCommandOutput
   | GetBucketPolicyStatusCommandOutput
+  | GetBucketQoSCommandOutput
   | GetBucketQuotaCommandOutput
   | GetBucketReplicationCommandOutput
   | GetBucketRequestPaymentCommandOutput
@@ -496,6 +504,7 @@ export type ServiceOutputTypes =
   | PutBucketNotificationConfigurationCommandOutput
   | PutBucketOwnershipControlsCommandOutput
   | PutBucketPolicyCommandOutput
+  | PutBucketQoSCommandOutput
   | PutBucketQuotaCommandOutput
   | PutBucketReplicationCommandOutput
   | PutBucketRequestPaymentCommandOutput

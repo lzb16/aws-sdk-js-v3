@@ -397,6 +397,11 @@ export interface User {
   UserId: string | undefined;
 
   /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  Email?: string;
+
+  /**
    * <p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs
    *          and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
    *             <i>IAM User Guide</i>. </p>
@@ -1074,6 +1079,11 @@ export interface CreateAccountRequest {
   Password?: string;
 
   /**
+   * <p>Access type, 1 means web, 2 means api, 3 means all.</p>
+   */
+  AccessType?: number;
+
+  /**
    * <p>Description</p>
    */
   Description?: string;
@@ -1087,6 +1097,16 @@ export interface CreateAccountRequest {
    * <p>The quota of the account you want to create.</p>
    */
   Quota?: string;
+
+  /**
+   * <p>The custom ak of the account you want to create.</p>
+   */
+  SelfdefineAccessKeyId?: string;
+
+  /**
+   * <p>The custom sk of the account you want to create.</p>
+   */
+  SelfdefineSecretAccessKey?: string;
 }
 
 export namespace CreateAccountRequest {
@@ -2011,6 +2031,29 @@ export namespace CreateSAMLProviderResponse {
   });
 }
 
+export interface CreateSelfdefineAccessKeyRequest {
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>The custom ak of the account you want to create.</p>
+   */
+  SelfdefineAccessKeyId?: string;
+
+  /**
+   * <p>The custom sk of the account you want to create.</p>
+   */
+  SelfdefineSecretAccessKey?: string;
+}
+
+export namespace CreateSelfdefineAccessKeyRequest {
+  export const filterSensitiveLog = (obj: CreateSelfdefineAccessKeyRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface CreateServiceLinkedRoleRequest {
   /**
    * <p>The service principal for the AWS service to which this role is attached. You use a
@@ -2219,6 +2262,11 @@ export interface CreateUserRequest {
    * <p>Password</p>
    */
   Password?: string;
+
+  /**
+   * <p>Access type, 1 means web, 2 means api, 3 means all.</p>
+   */
+  AccessType?: number;
 
   /**
    * <p>Description</p>
@@ -3159,6 +3207,11 @@ export interface UserDetail {
    *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
    */
   UserId?: string;
+
+  /**
+   * <p>Account email.</p>
+   */
+  Email?: string;
 
   /**
    * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
@@ -5364,6 +5417,11 @@ export namespace ListAccountAliasesResponse {
 }
 
 export interface ListAccountsRequest {
+  /**
+   * <p>Show AK/SK, 0 means no, 1 means yes.</p>
+   */
+  ResponseNeedCert?: number;
+
   /**
    * <p>Use this parameter only when paginating results and only after
    *     you receive a response indicating that the results are truncated. Set it to the value of the
@@ -8983,29 +9041,6 @@ export interface UpdateAccessKeyRequest {
 
 export namespace UpdateAccessKeyRequest {
   export const filterSensitiveLog = (obj: UpdateAccessKeyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateAccountRequest {
-  /**
-   * <p>The name of the user whose key you want to update.</p>
-   */
-  AccountName: string | undefined;
-
-  /**
-   * <p>The quota of the account you want to update.</p>
-   */
-  Quota?: string;
-
-  /**
-   * <p>The new description that you want to apply to the account.</p>
-   */
-  Description?: string;
-}
-
-export namespace UpdateAccountRequest {
-  export const filterSensitiveLog = (obj: UpdateAccountRequest): any => ({
     ...obj,
   });
 }

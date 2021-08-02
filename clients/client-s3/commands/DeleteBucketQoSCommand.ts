@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketRequestPaymentRequest } from "../models/models_1";
+import { DeleteBucketQoSRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutBucketRequestPaymentCommand,
-  serializeAws_restXmlPutBucketRequestPaymentCommand,
+  deserializeAws_restXmlDeleteBucketQoSCommand,
+  serializeAws_restXmlDeleteBucketQoSCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,39 +18,42 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketRequestPaymentCommandInput = PutBucketRequestPaymentRequest;
-export type PutBucketRequestPaymentCommandOutput = __MetadataBearer;
+export type DeleteBucketQoSCommandInput = DeleteBucketQoSRequest;
+export type DeleteBucketQoSCommandOutput = __MetadataBearer;
 
 /**
- * <p>Sets the request payment configuration for a bucket. By default, the bucket owner pays
- *          for downloads from the bucket. This configuration parameter enables the bucket owner (only)
- *          to specify that the person requesting the download will be charged for the download. For
- *          more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester Pays
- *             Buckets</a>.</p>
+ * <p>Deletes the <code>cors</code> configuration information set for the bucket.</p>
+ *          <p>To use this operation, you must have permission to perform the
+ *             <code>s3:PutBucketCORS</code> action. The bucket owner has this permission by default
+ *          and can grant this permission to others. </p>
+ *          <p>For information about <code>cors</code>, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+ *             Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
  *
- *          <p>The following operations are related to <code>PutBucketRequestPayment</code>:</p>
+ *          <p class="title">
+ *             <b>Related Resources:</b>
+ *          </p>
  *          <ul>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
+ *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html">PutBucketCors</a>
  *                </p>
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html">GetBucketRequestPayment</a>
+ *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html">RESTOPTIONSobject</a>
  *                </p>
  *             </li>
  *          </ul>
  */
-export class PutBucketRequestPaymentCommand extends $Command<
-  PutBucketRequestPaymentCommandInput,
-  PutBucketRequestPaymentCommandOutput,
+export class DeleteBucketQoSCommand extends $Command<
+  DeleteBucketQoSCommandInput,
+  DeleteBucketQoSCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketRequestPaymentCommandInput) {
+  constructor(readonly input: DeleteBucketQoSCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -63,7 +66,7 @@ export class PutBucketRequestPaymentCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketRequestPaymentCommandInput, PutBucketRequestPaymentCommandOutput> {
+  ): Handler<DeleteBucketQoSCommandInput, DeleteBucketQoSCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -71,12 +74,12 @@ export class PutBucketRequestPaymentCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutBucketRequestPaymentCommand";
+    const commandName = "DeleteBucketQoSCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketRequestPaymentRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteBucketQoSRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -87,12 +90,12 @@ export class PutBucketRequestPaymentCommand extends $Command<
     );
   }
 
-  private serialize(input: PutBucketRequestPaymentCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketRequestPaymentCommand(input, context);
+  private serialize(input: DeleteBucketQoSCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlDeleteBucketQoSCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketRequestPaymentCommandOutput> {
-    return deserializeAws_restXmlPutBucketRequestPaymentCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteBucketQoSCommandOutput> {
+    return deserializeAws_restXmlDeleteBucketQoSCommand(output, context);
   }
 
   // Start section: command_body_extra

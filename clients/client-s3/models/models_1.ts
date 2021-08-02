@@ -9,6 +9,7 @@ import {
   ObjectLockLegalHoldStatus,
   ObjectLockMode,
   ObjectLockRetention,
+  Payer,
   PublicAccessBlockConfiguration,
   RedirectAllRequestsTo,
   RefererConfiguration,
@@ -17,11 +18,145 @@ import {
   RoutingRule,
   ServerSideEncryption,
   StorageClass,
-  Tagging,
+  Tag,
+  VersioningConfiguration,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>Container for Payer.</p>
+ */
+export interface RequestPaymentConfiguration {
+  /**
+   * <p>Specifies who pays for the download and request fees.</p>
+   */
+  Payer: Payer | string | undefined;
+}
+
+export namespace RequestPaymentConfiguration {
+  export const filterSensitiveLog = (obj: RequestPaymentConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketRequestPaymentRequest {
+  /**
+   * <p>The bucket name.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a
+   *          message integrity check to verify that the request body was not corrupted in transit. For
+   *          more information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
+   *          1864</a>.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Container for Payer.</p>
+   */
+  RequestPaymentConfiguration: RequestPaymentConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketRequestPaymentRequest {
+  export const filterSensitiveLog = (obj: PutBucketRequestPaymentRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Container for <code>TagSet</code> elements.</p>
+ */
+export interface Tagging {
+  /**
+   * <p>A collection for a set of tags</p>
+   */
+  TagSet: Tag[] | undefined;
+}
+
+export namespace Tagging {
+  export const filterSensitiveLog = (obj: Tagging): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketTaggingRequest {
+  /**
+   * <p>The bucket name.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Container for the <code>TagSet</code> and <code>Tag</code> elements.</p>
+   */
+  Tagging: Tagging | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketTaggingRequest {
+  export const filterSensitiveLog = (obj: PutBucketTaggingRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketVersioningRequest {
+  /**
+   * <p>The bucket name.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a
+   *          message integrity check to verify that the request body was not corrupted in transit. For
+   *          more information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
+   *          1864</a>.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The concatenation of the authentication device's serial number, a space, and the value
+   *          that is displayed on your authentication device.</p>
+   */
+  MFA?: string;
+
+  /**
+   * <p>Container for setting the versioning state.</p>
+   */
+  VersioningConfiguration: VersioningConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketVersioningRequest {
+  export const filterSensitiveLog = (obj: PutBucketVersioningRequest): any => ({
+    ...obj,
+  });
+}
 
 /**
  * <p>Specifies website configuration parameters for an Amazon S3 bucket.</p>

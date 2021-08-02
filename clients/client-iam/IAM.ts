@@ -92,6 +92,11 @@ import {
   CreateSAMLProviderCommandOutput,
 } from "./commands/CreateSAMLProviderCommand";
 import {
+  CreateSelfdefineAccessKeyCommand,
+  CreateSelfdefineAccessKeyCommandInput,
+  CreateSelfdefineAccessKeyCommandOutput,
+} from "./commands/CreateSelfdefineAccessKeyCommand";
+import {
   CreateServiceLinkedRoleCommand,
   CreateServiceLinkedRoleCommandInput,
   CreateServiceLinkedRoleCommandOutput,
@@ -1406,6 +1411,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: CreateSAMLProviderCommandOutput) => void
   ): Promise<CreateSAMLProviderCommandOutput> | void {
     const command = new CreateSAMLProviderCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Create self define AccessKey.</p>
+   */
+  public createSelfdefineAccessKey(
+    args: CreateSelfdefineAccessKeyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateSelfdefineAccessKeyCommandOutput>;
+  public createSelfdefineAccessKey(
+    args: CreateSelfdefineAccessKeyCommandInput,
+    cb: (err: any, data?: CreateSelfdefineAccessKeyCommandOutput) => void
+  ): void;
+  public createSelfdefineAccessKey(
+    args: CreateSelfdefineAccessKeyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateSelfdefineAccessKeyCommandOutput) => void
+  ): void;
+  public createSelfdefineAccessKey(
+    args: CreateSelfdefineAccessKeyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateSelfdefineAccessKeyCommandOutput) => void),
+    cb?: (err: any, data?: CreateSelfdefineAccessKeyCommandOutput) => void
+  ): Promise<CreateSelfdefineAccessKeyCommandOutput> | void {
+    const command = new CreateSelfdefineAccessKeyCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

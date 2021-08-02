@@ -20,6 +20,7 @@ export * from "./commands/CreatePolicyCommand";
 export * from "./commands/CreatePolicyVersionCommand";
 export * from "./commands/CreateRoleCommand";
 export * from "./commands/CreateSAMLProviderCommand";
+export * from "./commands/CreateSelfdefineAccessKeyCommand";
 export * from "./commands/CreateServiceLinkedRoleCommand";
 export * from "./commands/CreateServiceSpecificCredentialCommand";
 export * from "./commands/CreateUserCommand";

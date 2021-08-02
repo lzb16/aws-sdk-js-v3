@@ -1487,6 +1487,24 @@ export namespace DeleteBucketPolicyRequest {
   });
 }
 
+export interface DeleteBucketQoSRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteBucketQoSRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketQoSRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface DeleteBucketReplicationRequest {
   /**
    * <p> The bucket name. </p>
@@ -6122,6 +6140,51 @@ export namespace GetBucketPolicyStatusRequest {
   });
 }
 
+export interface GetBucketQoSRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetBucketQoSRequest {
+  export const filterSensitiveLog = (obj: GetBucketQoSRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface QoSConfiguration {
+  Name?: string;
+  ReadOps?: number;
+  WriteOps?: number;
+  ReadBandWidth?: number;
+  WriteBandWidth?: number;
+}
+
+export namespace QoSConfiguration {
+  export const filterSensitiveLog = (obj: QoSConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface GetBucketQoSResponse {
+  /**
+   * <p>The <code>GetBucketQuota</code> of bucket.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
+}
+
+export namespace GetBucketQoSResponse {
+  export const filterSensitiveLog = (obj: GetBucketQoSResponse): any => ({
+    ...obj,
+  });
+}
+
 export interface GetBucketQuotaOutput {
   /**
    * <p>The <code>GetBucketQuota</code> of bucket.</p>
@@ -8222,6 +8285,11 @@ export interface HeadObjectRequest {
   VersionId?: string;
 
   /**
+   * <p>Custom header, when you don't want return Content-Length, set true.</p>
+   */
+  WithoutContentLength?: boolean;
+
+  /**
    * <p>Specifies the algorithm to use to when encrypting the object (for example,
    *          AES256).</p>
    */
@@ -10027,6 +10095,29 @@ export namespace PutBucketPolicyRequest {
   });
 }
 
+export interface PutBucketQoSRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The <code>GetBucketQuota</code> of bucket.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketQoSRequest {
+  export const filterSensitiveLog = (obj: PutBucketQoSRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface PutBucketQuotaRequest {
   /**
    * <p>The name of the bucket.</p>
@@ -10082,138 +10173,5 @@ export namespace PutBucketReplicationRequest {
     ...(obj.ReplicationConfiguration && {
       ReplicationConfiguration: ReplicationConfiguration.filterSensitiveLog(obj.ReplicationConfiguration),
     }),
-  });
-}
-
-/**
- * <p>Container for Payer.</p>
- */
-export interface RequestPaymentConfiguration {
-  /**
-   * <p>Specifies who pays for the download and request fees.</p>
-   */
-  Payer: Payer | string | undefined;
-}
-
-export namespace RequestPaymentConfiguration {
-  export const filterSensitiveLog = (obj: RequestPaymentConfiguration): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketRequestPaymentRequest {
-  /**
-   * <p>The bucket name.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a
-   *          message integrity check to verify that the request body was not corrupted in transit. For
-   *          more information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
-   *          1864</a>.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>Container for Payer.</p>
-   */
-  RequestPaymentConfiguration: RequestPaymentConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketRequestPaymentRequest {
-  export const filterSensitiveLog = (obj: PutBucketRequestPaymentRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Container for <code>TagSet</code> elements.</p>
- */
-export interface Tagging {
-  /**
-   * <p>A collection for a set of tags</p>
-   */
-  TagSet: Tag[] | undefined;
-}
-
-export namespace Tagging {
-  export const filterSensitiveLog = (obj: Tagging): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketTaggingRequest {
-  /**
-   * <p>The bucket name.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message
-   *          integrity check to verify that the request body was not corrupted in transit. For more
-   *          information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>Container for the <code>TagSet</code> and <code>Tag</code> elements.</p>
-   */
-  Tagging: Tagging | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketTaggingRequest {
-  export const filterSensitiveLog = (obj: PutBucketTaggingRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketVersioningRequest {
-  /**
-   * <p>The bucket name.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a
-   *          message integrity check to verify that the request body was not corrupted in transit. For
-   *          more information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
-   *          1864</a>.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>The concatenation of the authentication device's serial number, a space, and the value
-   *          that is displayed on your authentication device.</p>
-   */
-  MFA?: string;
-
-  /**
-   * <p>Container for setting the versioning state.</p>
-   */
-  VersioningConfiguration: VersioningConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketVersioningRequest {
-  export const filterSensitiveLog = (obj: PutBucketVersioningRequest): any => ({
-    ...obj,
   });
 }

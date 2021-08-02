@@ -71,6 +71,11 @@ import {
   DeleteBucketPolicyCommandOutput,
 } from "./commands/DeleteBucketPolicyCommand";
 import {
+  DeleteBucketQoSCommand,
+  DeleteBucketQoSCommandInput,
+  DeleteBucketQoSCommandOutput,
+} from "./commands/DeleteBucketQoSCommand";
+import {
   DeleteBucketReplicationCommand,
   DeleteBucketReplicationCommandInput,
   DeleteBucketReplicationCommandOutput,
@@ -190,6 +195,11 @@ import {
   GetBucketPolicyStatusCommandInput,
   GetBucketPolicyStatusCommandOutput,
 } from "./commands/GetBucketPolicyStatusCommand";
+import {
+  GetBucketQoSCommand,
+  GetBucketQoSCommandInput,
+  GetBucketQoSCommandOutput,
+} from "./commands/GetBucketQoSCommand";
 import {
   GetBucketQuotaCommand,
   GetBucketQuotaCommandInput,
@@ -367,6 +377,11 @@ import {
   PutBucketPolicyCommandInput,
   PutBucketPolicyCommandOutput,
 } from "./commands/PutBucketPolicyCommand";
+import {
+  PutBucketQoSCommand,
+  PutBucketQoSCommandInput,
+  PutBucketQoSCommandOutput,
+} from "./commands/PutBucketQoSCommand";
 import {
   PutBucketQuotaCommand,
   PutBucketQuotaCommandInput,
@@ -1854,6 +1869,59 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>Deletes the <code>cors</code> configuration information set for the bucket.</p>
+   *          <p>To use this operation, you must have permission to perform the
+   *             <code>s3:PutBucketCORS</code> action. The bucket owner has this permission by default
+   *          and can grant this permission to others. </p>
+   *          <p>For information about <code>cors</code>, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
+   *             Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *
+   *          <p class="title">
+   *             <b>Related Resources:</b>
+   *          </p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html">PutBucketCors</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html">RESTOPTIONSobject</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public deleteBucketQoS(
+    args: DeleteBucketQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketQoSCommandOutput>;
+  public deleteBucketQoS(
+    args: DeleteBucketQoSCommandInput,
+    cb: (err: any, data?: DeleteBucketQoSCommandOutput) => void
+  ): void;
+  public deleteBucketQoS(
+    args: DeleteBucketQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketQoSCommandOutput) => void
+  ): void;
+  public deleteBucketQoS(
+    args: DeleteBucketQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketQoSCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketQoSCommandOutput) => void
+  ): Promise<DeleteBucketQoSCommandOutput> | void {
+    const command = new DeleteBucketQoSCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p> Deletes the replication configuration from the bucket.</p>
    *          <p>To use this operation, you must have permissions to perform the
    *             <code>s3:PutReplicationConfiguration</code> action. The bucket owner has these
@@ -3207,6 +3275,50 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketPolicyStatusCommandOutput) => void
   ): Promise<GetBucketPolicyStatusCommandOutput> | void {
     const command = new GetBucketPolicyStatusCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>This implementation of the <code>GET</code> operation uses the <code>overview</code>
+   *          subresource to return the access control list (ACL) of a bucket. To use <code>GET</code> to
+   *          return the ACL of the bucket, you must have <code>READ_ACP</code> access to the bucket. If
+   *             <code>READ_ACP</code> permission is granted to the anonymous user, you can return the
+   *          ACL of the bucket without using an authorization header.</p>
+   *
+   *          <p class="title">
+   *             <b>Related Resources</b>
+   *          </p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getBucketQoS(
+    args: GetBucketQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketQoSCommandOutput>;
+  public getBucketQoS(args: GetBucketQoSCommandInput, cb: (err: any, data?: GetBucketQoSCommandOutput) => void): void;
+  public getBucketQoS(
+    args: GetBucketQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketQoSCommandOutput) => void
+  ): void;
+  public getBucketQoS(
+    args: GetBucketQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketQoSCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketQoSCommandOutput) => void
+  ): Promise<GetBucketQoSCommandOutput> | void {
+    const command = new GetBucketQoSCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -6360,6 +6472,67 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketPolicyCommandOutput) => void
   ): Promise<PutBucketPolicyCommandOutput> | void {
     const command = new PutBucketPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Applies an Amazon S3 bucket qos. If you are using an identity other than
+   *          the root user of the AWS account that owns the bucket, the calling identity must have the
+   *             <code>PutBucketPolicy</code> permissions on the specified bucket and belong to the
+   *          bucket owner's account in order to use this operation.</p>
+   *
+   *          <p>If you don't have <code>PutBucketPolicy</code> permissions, Amazon S3 returns a <code>403
+   *             Access Denied</code> error. If you have the correct permissions, but you're not using an
+   *          identity that belongs to the bucket owner's account, Amazon S3 returns a <code>405 Method Not
+   *             Allowed</code> error.</p>
+   *
+   *          <important>
+   *             <p> As a security precaution, the root user of the AWS account that owns a bucket can
+   *             always use this operation, even if the policy explicitly denies the root user the
+   *             ability to perform this action. </p>
+   *          </important>
+   *
+   *
+   *          <p>For more information about bucket policies, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using Bucket Policies and User
+   *             Policies</a>.</p>
+   *
+   *          <p>The following operations are related to <code>PutBucketPolicy</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html">CreateBucket</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html">DeleteBucket</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public putBucketQoS(
+    args: PutBucketQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketQoSCommandOutput>;
+  public putBucketQoS(args: PutBucketQoSCommandInput, cb: (err: any, data?: PutBucketQoSCommandOutput) => void): void;
+  public putBucketQoS(
+    args: PutBucketQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketQoSCommandOutput) => void
+  ): void;
+  public putBucketQoS(
+    args: PutBucketQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketQoSCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketQoSCommandOutput) => void
+  ): Promise<PutBucketQoSCommandOutput> | void {
+    const command = new PutBucketQoSCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

@@ -40,6 +40,10 @@ import {
 import { CreateRoleCommandInput, CreateRoleCommandOutput } from "../commands/CreateRoleCommand";
 import { CreateSAMLProviderCommandInput, CreateSAMLProviderCommandOutput } from "../commands/CreateSAMLProviderCommand";
 import {
+  CreateSelfdefineAccessKeyCommandInput,
+  CreateSelfdefineAccessKeyCommandOutput,
+} from "../commands/CreateSelfdefineAccessKeyCommand";
+import {
   CreateServiceLinkedRoleCommandInput,
   CreateServiceLinkedRoleCommandOutput,
 } from "../commands/CreateServiceLinkedRoleCommand";
@@ -396,6 +400,7 @@ import {
   CreateRoleResponse,
   CreateSAMLProviderRequest,
   CreateSAMLProviderResponse,
+  CreateSelfdefineAccessKeyRequest,
   CreateServiceLinkedRoleRequest,
   CreateServiceLinkedRoleResponse,
   CreateServiceSpecificCredentialRequest,
@@ -633,7 +638,6 @@ import {
   UntagRoleRequest,
   UntagUserRequest,
   UpdateAccessKeyRequest,
-  UpdateAccountRequest,
   User,
   UserDetail,
   VirtualMFADevice,
@@ -646,6 +650,7 @@ import {
   KeyPairMismatchException,
   MalformedCertificateException,
   UpdateAccountPasswordPolicyRequest,
+  UpdateAccountRequest,
   UpdateAssumeRolePolicyRequest,
   UpdateGroupRequest,
   UpdateLoginProfileRequest,
@@ -999,6 +1004,22 @@ export const serializeAws_queryCreateSAMLProviderCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryCreateSAMLProviderRequest(input, context),
     Action: "CreateSAMLProvider",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryCreateSelfdefineAccessKeyCommand = async (
+  input: CreateSelfdefineAccessKeyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryCreateSelfdefineAccessKeyRequest(input, context),
+    Action: "CreateSelfdefineAccessKey",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -4606,6 +4627,60 @@ const deserializeAws_queryCreateSAMLProviderCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryCreateSelfdefineAccessKeyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSelfdefineAccessKeyCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryCreateSelfdefineAccessKeyCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryCreateAccessKeyResponse(data.CreateSelfdefineAccessKeyResult, context);
+  const response: CreateSelfdefineAccessKeyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryCreateSelfdefineAccessKeyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSelfdefineAccessKeyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "ServiceFailureException":
     case "com.amazonaws.iam#ServiceFailureException":
       response = {
@@ -13977,6 +14052,9 @@ const serializeAws_queryCreateAccountRequest = (input: CreateAccountRequest, con
   if (input.Password !== undefined && input.Password !== null) {
     entries["Password"] = input.Password;
   }
+  if (input.AccessType !== undefined && input.AccessType !== null) {
+    entries["AccessType"] = input.AccessType;
+  }
   if (input.Description !== undefined && input.Description !== null) {
     entries["Description"] = input.Description;
   }
@@ -13985,6 +14063,12 @@ const serializeAws_queryCreateAccountRequest = (input: CreateAccountRequest, con
   }
   if (input.Quota !== undefined && input.Quota !== null) {
     entries["Quota"] = input.Quota;
+  }
+  if (input.SelfdefineAccessKeyId !== undefined && input.SelfdefineAccessKeyId !== null) {
+    entries["SelfdefineAccessKeyId"] = input.SelfdefineAccessKeyId;
+  }
+  if (input.SelfdefineSecretAccessKey !== undefined && input.SelfdefineSecretAccessKey !== null) {
+    entries["SelfdefineSecretAccessKey"] = input.SelfdefineSecretAccessKey;
   }
   return entries;
 };
@@ -14134,6 +14218,23 @@ const serializeAws_queryCreateSAMLProviderRequest = (
   return entries;
 };
 
+const serializeAws_queryCreateSelfdefineAccessKeyRequest = (
+  input: CreateSelfdefineAccessKeyRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.SelfdefineAccessKeyId !== undefined && input.SelfdefineAccessKeyId !== null) {
+    entries["SelfdefineAccessKeyId"] = input.SelfdefineAccessKeyId;
+  }
+  if (input.SelfdefineSecretAccessKey !== undefined && input.SelfdefineSecretAccessKey !== null) {
+    entries["SelfdefineSecretAccessKey"] = input.SelfdefineSecretAccessKey;
+  }
+  return entries;
+};
+
 const serializeAws_queryCreateServiceLinkedRoleRequest = (
   input: CreateServiceLinkedRoleRequest,
   context: __SerdeContext
@@ -14191,6 +14292,9 @@ const serializeAws_queryCreateUserRequest = (input: CreateUserRequest, context: 
   }
   if (input.Password !== undefined && input.Password !== null) {
     entries["Password"] = input.Password;
+  }
+  if (input.AccessType !== undefined && input.AccessType !== null) {
+    entries["AccessType"] = input.AccessType;
   }
   if (input.Description !== undefined && input.Description !== null) {
     entries["Description"] = input.Description;
@@ -14935,6 +15039,9 @@ const serializeAws_queryListAccountAliasesRequest = (
 
 const serializeAws_queryListAccountsRequest = (input: ListAccountsRequest, context: __SerdeContext): any => {
   const entries: any = {};
+  if (input.ResponseNeedCert !== undefined && input.ResponseNeedCert !== null) {
+    entries["ResponseNeedCert"] = input.ResponseNeedCert;
+  }
   if (input.Marker !== undefined && input.Marker !== null) {
     entries["Marker"] = input.Marker;
   }
@@ -20094,6 +20201,7 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
     Path: undefined,
     UserName: undefined,
     UserId: undefined,
+    Email: undefined,
     Arn: undefined,
     CreateDate: undefined,
     PasswordLastUsed: undefined,
@@ -20116,6 +20224,9 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
   }
   if (output["UserId"] !== undefined) {
     contents.UserId = output["UserId"];
+  }
+  if (output["Email"] !== undefined) {
+    contents.Email = output["Email"];
   }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];
@@ -20173,6 +20284,7 @@ const deserializeAws_queryUserDetail = (output: any, context: __SerdeContext): U
     Path: undefined,
     UserName: undefined,
     UserId: undefined,
+    Email: undefined,
     Arn: undefined,
     CreateDate: undefined,
     UserPolicyList: undefined,
@@ -20189,6 +20301,9 @@ const deserializeAws_queryUserDetail = (output: any, context: __SerdeContext): U
   }
   if (output["UserId"] !== undefined) {
     contents.UserId = output["UserId"];
+  }
+  if (output["Email"] !== undefined) {
+    contents.Email = output["Email"];
   }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];

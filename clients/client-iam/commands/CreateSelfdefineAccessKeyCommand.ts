@@ -1,8 +1,8 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UpdateAccountRequest } from "../models/models_1";
+import { CreateAccessKeyResponse, CreateSelfdefineAccessKeyRequest } from "../models/models_0";
 import {
-  deserializeAws_queryUpdateAccountCommand,
-  serializeAws_queryUpdateAccountCommand,
+  deserializeAws_queryCreateSelfdefineAccessKeyCommand,
+  serializeAws_queryCreateSelfdefineAccessKeyCommand,
 } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -17,21 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type UpdateAccountCommandInput = UpdateAccountRequest;
-export type UpdateAccountCommandOutput = __MetadataBearer;
+export type CreateSelfdefineAccessKeyCommandInput = CreateSelfdefineAccessKeyRequest;
+export type CreateSelfdefineAccessKeyCommandOutput = CreateAccessKeyResponse & __MetadataBearer;
 
 /**
- * <p>Update account.</p>
+ * <p>Create self define AccessKey.</p>
  */
-export class UpdateAccountCommand extends $Command<
-  UpdateAccountCommandInput,
-  UpdateAccountCommandOutput,
+export class CreateSelfdefineAccessKeyCommand extends $Command<
+  CreateSelfdefineAccessKeyCommandInput,
+  CreateSelfdefineAccessKeyCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: UpdateAccountCommandInput) {
+  constructor(readonly input: CreateSelfdefineAccessKeyCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -44,20 +44,20 @@ export class UpdateAccountCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<UpdateAccountCommandInput, UpdateAccountCommandOutput> {
+  ): Handler<CreateSelfdefineAccessKeyCommandInput, CreateSelfdefineAccessKeyCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "UpdateAccountCommand";
+    const commandName = "CreateSelfdefineAccessKeyCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: UpdateAccountRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      inputFilterSensitiveLog: CreateSelfdefineAccessKeyRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: CreateAccessKeyResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -67,12 +67,15 @@ export class UpdateAccountCommand extends $Command<
     );
   }
 
-  private serialize(input: UpdateAccountCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryUpdateAccountCommand(input, context);
+  private serialize(input: CreateSelfdefineAccessKeyCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryCreateSelfdefineAccessKeyCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UpdateAccountCommandOutput> {
-    return deserializeAws_queryUpdateAccountCommand(output, context);
+  private deserialize(
+    output: __HttpResponse,
+    context: __SerdeContext
+  ): Promise<CreateSelfdefineAccessKeyCommandOutput> {
+    return deserializeAws_queryCreateSelfdefineAccessKeyCommand(output, context);
   }
 
   // Start section: command_body_extra
