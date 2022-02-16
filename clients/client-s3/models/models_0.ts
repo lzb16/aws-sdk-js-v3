@@ -934,6 +934,11 @@ export type PolicyMode = "private" | "public-read" | "public-read-write";
 
 export interface CreateBucketRequest {
   /**
+   * <p>The enabled dedup to apply to the bucket.</p>
+   */
+  EnableDedup?: number;
+
+  /**
    * <p>The canned ACL to apply to the bucket.</p>
    */
   ACL?: BucketCannedACL | string;
@@ -5861,6 +5866,13 @@ export interface Bucket {
   Size?: number;
 
   /**
+   * <p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that
+   *          Amazon S3 assumes when replicating objects. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html">How to Set Up
+   *             Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  PhysicalSize: number | undefined;
+
+  /**
    * <p>Date the StoragePoolId of bucket was created.</p>
    */
   StoragePoolId?: string;
@@ -6816,6 +6828,13 @@ export interface GetBucketStorageInfoResult {
    *             Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
    */
   ObjectNumber: number | undefined;
+
+  /**
+   * <p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that
+   *          Amazon S3 assumes when replicating objects. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html">How to Set Up
+   *             Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  PhysicalSize: number | undefined;
 
   /**
    * <p>A container for one or more replication rules. A replication configuration must have at
@@ -7965,6 +7984,11 @@ export interface HeadBucketRequest {
   Bucket: string | undefined;
 
   /**
+   * <p>Custom header, when you don't want return Content-Length, set true.</p>
+   */
+  WithoutContentLength?: boolean;
+
+  /**
    * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
    */
   ExpectedBucketOwner?: string;
@@ -8596,6 +8620,19 @@ export interface ListBucketsOutput {
 
 export namespace ListBucketsOutput {
   export const filterSensitiveLog = (obj: ListBucketsOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface ListBucketsRequest {
+  /**
+   * <p>The name of the bucket containing the inventory configurations to retrieve.</p>
+   */
+  FetchStorageInfo?: boolean;
+}
+
+export namespace ListBucketsRequest {
+  export const filterSensitiveLog = (obj: ListBucketsRequest): any => ({
     ...obj,
   });
 }
@@ -9975,6 +10012,42 @@ export namespace PutBucketLoggingRequest {
   });
 }
 
+export enum MetadataDirective2 {
+  REPLACE = "REPLACE",
+  REPLACE_NEW = "REPLACE_NEW",
+}
+
+export interface PutBucketMetadataRequest {
+  /**
+   * <p>Name of the bucket to which the multipart upload was initiated.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。
+   *  REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。
+   *  REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。
+   *  类型:字符串</p>
+   */
+  MetadataDirective?: MetadataDirective2 | string;
+
+  /**
+   * <p>A map of metadata to store with the object in S3.</p>
+   */
+  Metadata?: { [key: string]: string };
+}
+
+export namespace PutBucketMetadataRequest {
+  export const filterSensitiveLog = (obj: PutBucketMetadataRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface PutBucketMetricsConfigurationRequest {
   /**
    * <p>The name of the bucket for which the metrics configuration is set.</p>
@@ -10092,86 +10165,5 @@ export interface PutBucketPolicyRequest {
 export namespace PutBucketPolicyRequest {
   export const filterSensitiveLog = (obj: PutBucketPolicyRequest): any => ({
     ...obj,
-  });
-}
-
-export interface PutBucketQoSRequest {
-  /**
-   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The <code>GetBucketQuota</code> of bucket.</p>
-   */
-  QoSConfiguration?: QoSConfiguration;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketQoSRequest {
-  export const filterSensitiveLog = (obj: PutBucketQoSRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketQuotaRequest {
-  /**
-   * <p>The name of the bucket.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The <code>GetBucketQuota</code> of bucket.</p>
-   */
-  Quota?: Quota;
-}
-
-export namespace PutBucketQuotaRequest {
-  export const filterSensitiveLog = (obj: PutBucketQuotaRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketReplicationRequest {
-  /**
-   * <p>The name of the bucket</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message
-   *          integrity check to verify that the request body was not corrupted in transit. For more
-   *          information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>A container for replication rules. You can add up to 1,000 rules. The maximum size of a
-   *          replication configuration is 2 MB.</p>
-   */
-  ReplicationConfiguration: ReplicationConfiguration | undefined;
-
-  /**
-   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
-   */
-  Token?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketReplicationRequest {
-  export const filterSensitiveLog = (obj: PutBucketReplicationRequest): any => ({
-    ...obj,
-    ...(obj.ReplicationConfiguration && {
-      ReplicationConfiguration: ReplicationConfiguration.filterSensitiveLog(obj.ReplicationConfiguration),
-    }),
   });
 }

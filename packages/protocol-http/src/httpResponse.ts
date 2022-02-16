@@ -2,6 +2,7 @@ import { HeaderBag, HttpMessage, HttpResponse as IHttpResponse } from "@aws-sdk/
 
 type HttpResponseOptions = Partial<HttpMessage> & {
   statusCode: number;
+  responseHeaders?: { [key: string]: any };
 };
 
 export interface HttpResponse extends IHttpResponse {}

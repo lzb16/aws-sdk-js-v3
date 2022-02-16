@@ -202,6 +202,7 @@ import {
   PutBucketLifecycleConfigurationCommandOutput,
 } from "./commands/PutBucketLifecycleConfigurationCommand";
 import { PutBucketLoggingCommandInput, PutBucketLoggingCommandOutput } from "./commands/PutBucketLoggingCommand";
+import { PutBucketMetadataCommandInput, PutBucketMetadataCommandOutput } from "./commands/PutBucketMetadataCommand";
 import {
   PutBucketMetricsConfigurationCommandInput,
   PutBucketMetricsConfigurationCommandOutput,
@@ -238,6 +239,7 @@ import {
   PutObjectLockConfigurationCommandInput,
   PutObjectLockConfigurationCommandOutput,
 } from "./commands/PutObjectLockConfigurationCommand";
+import { PutObjectMetadataCommandInput, PutObjectMetadataCommandOutput } from "./commands/PutObjectMetadataCommand";
 import { PutObjectRetentionCommandInput, PutObjectRetentionCommandOutput } from "./commands/PutObjectRetentionCommand";
 import { PutObjectTaggingCommandInput, PutObjectTaggingCommandOutput } from "./commands/PutObjectTaggingCommand";
 import {
@@ -397,6 +399,7 @@ export type ServiceInputTypes =
   | PutBucketInventoryConfigurationCommandInput
   | PutBucketLifecycleConfigurationCommandInput
   | PutBucketLoggingCommandInput
+  | PutBucketMetadataCommandInput
   | PutBucketMetricsConfigurationCommandInput
   | PutBucketNotificationConfigurationCommandInput
   | PutBucketOwnershipControlsCommandInput
@@ -412,6 +415,7 @@ export type ServiceInputTypes =
   | PutObjectCommandInput
   | PutObjectLegalHoldCommandInput
   | PutObjectLockConfigurationCommandInput
+  | PutObjectMetadataCommandInput
   | PutObjectRetentionCommandInput
   | PutObjectTaggingCommandInput
   | PutPublicAccessBlockCommandInput
@@ -500,6 +504,7 @@ export type ServiceOutputTypes =
   | PutBucketInventoryConfigurationCommandOutput
   | PutBucketLifecycleConfigurationCommandOutput
   | PutBucketLoggingCommandOutput
+  | PutBucketMetadataCommandOutput
   | PutBucketMetricsConfigurationCommandOutput
   | PutBucketNotificationConfigurationCommandOutput
   | PutBucketOwnershipControlsCommandOutput
@@ -515,6 +520,7 @@ export type ServiceOutputTypes =
   | PutObjectCommandOutput
   | PutObjectLegalHoldCommandOutput
   | PutObjectLockConfigurationCommandOutput
+  | PutObjectMetadataCommandOutput
   | PutObjectRetentionCommandOutput
   | PutObjectTaggingCommandOutput
   | PutPublicAccessBlockCommandOutput

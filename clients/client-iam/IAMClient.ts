@@ -195,6 +195,7 @@ import {
 } from "./commands/GetServiceLinkedRoleDeletionStatusCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "./commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "./commands/GetUserPolicyCommand";
+import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "./commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "./commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "./commands/ListAccountAliasesCommand";
 import { ListAccountsCommandInput, ListAccountsCommandOutput } from "./commands/ListAccountsCommand";
@@ -494,6 +495,7 @@ export type ServiceInputTypes =
   | GetServiceLinkedRoleDeletionStatusCommandInput
   | GetUserCommandInput
   | GetUserPolicyCommandInput
+  | IamadminLoginCommandInput
   | ListAccessKeysCommandInput
   | ListAccountAliasesCommandInput
   | ListAccountsCommandInput
@@ -647,6 +649,7 @@ export type ServiceOutputTypes =
   | GetServiceLinkedRoleDeletionStatusCommandOutput
   | GetUserCommandOutput
   | GetUserPolicyCommandOutput
+  | IamadminLoginCommandOutput
   | ListAccessKeysCommandOutput
   | ListAccountAliasesCommandOutput
   | ListAccountsCommandOutput

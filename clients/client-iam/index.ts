@@ -86,6 +86,7 @@ export * from "./commands/GetServiceLinkedRoleDeletionStatusCommand";
 export * from "./commands/GetSSHPublicKeyCommand";
 export * from "./commands/GetUserCommand";
 export * from "./commands/GetUserPolicyCommand";
+export * from "./commands/IamadminLoginCommand";
 export * from "./commands/ListAccessKeysCommand";
 export * from "./pagination/ListAccessKeysPaginator";
 export * from "./commands/ListAccountAliasesCommand";

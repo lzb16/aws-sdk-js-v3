@@ -371,6 +371,11 @@ import {
   GetUserPolicyCommandOutput,
 } from "./commands/GetUserPolicyCommand";
 import {
+  IamadminLoginCommand,
+  IamadminLoginCommandInput,
+  IamadminLoginCommandOutput,
+} from "./commands/IamadminLoginCommand";
+import {
   ListAccessKeysCommand,
   ListAccessKeysCommandInput,
   ListAccessKeysCommandOutput,
@@ -3996,6 +4001,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: GetUserPolicyCommandOutput) => void
   ): Promise<GetUserPolicyCommandOutput> | void {
     const command = new GetUserPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>IAM login.</p>
+   */
+  public iamadminLogin(
+    args: IamadminLoginCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<IamadminLoginCommandOutput>;
+  public iamadminLogin(
+    args: IamadminLoginCommandInput,
+    cb: (err: any, data?: IamadminLoginCommandOutput) => void
+  ): void;
+  public iamadminLogin(
+    args: IamadminLoginCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: IamadminLoginCommandOutput) => void
+  ): void;
+  public iamadminLogin(
+    args: IamadminLoginCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: IamadminLoginCommandOutput) => void),
+    cb?: (err: any, data?: IamadminLoginCommandOutput) => void
+  ): Promise<IamadminLoginCommandOutput> | void {
+    const command = new IamadminLoginCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

@@ -358,6 +358,11 @@ import {
   PutBucketLoggingCommandOutput,
 } from "./commands/PutBucketLoggingCommand";
 import {
+  PutBucketMetadataCommand,
+  PutBucketMetadataCommandInput,
+  PutBucketMetadataCommandOutput,
+} from "./commands/PutBucketMetadataCommand";
+import {
   PutBucketMetricsConfigurationCommand,
   PutBucketMetricsConfigurationCommandInput,
   PutBucketMetricsConfigurationCommandOutput,
@@ -428,6 +433,11 @@ import {
   PutObjectLockConfigurationCommandInput,
   PutObjectLockConfigurationCommandOutput,
 } from "./commands/PutObjectLockConfigurationCommand";
+import {
+  PutObjectMetadataCommand,
+  PutObjectMetadataCommandInput,
+  PutObjectMetadataCommandOutput,
+} from "./commands/PutObjectMetadataCommand";
 import {
   PutObjectRetentionCommand,
   PutObjectRetentionCommandInput,
@@ -6191,6 +6201,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>Update bucket metadata.</p>
+   */
+  public putBucketMetadata(
+    args: PutBucketMetadataCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketMetadataCommandOutput>;
+  public putBucketMetadata(
+    args: PutBucketMetadataCommandInput,
+    cb: (err: any, data?: PutBucketMetadataCommandOutput) => void
+  ): void;
+  public putBucketMetadata(
+    args: PutBucketMetadataCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketMetadataCommandOutput) => void
+  ): void;
+  public putBucketMetadata(
+    args: PutBucketMetadataCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketMetadataCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketMetadataCommandOutput) => void
+  ): Promise<PutBucketMetadataCommandOutput> | void {
+    const command = new PutBucketMetadataCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
    *          You can have up to 1,000 metrics configurations per bucket. If you're updating an existing
    *          metrics configuration, note that this is a full replacement of the existing metrics
@@ -7494,6 +7536,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutObjectLockConfigurationCommandOutput) => void
   ): Promise<PutObjectLockConfigurationCommandOutput> | void {
     const command = new PutObjectLockConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Update object metadata.</p>
+   */
+  public putObjectMetadata(
+    args: PutObjectMetadataCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutObjectMetadataCommandOutput>;
+  public putObjectMetadata(
+    args: PutObjectMetadataCommandInput,
+    cb: (err: any, data?: PutObjectMetadataCommandOutput) => void
+  ): void;
+  public putObjectMetadata(
+    args: PutObjectMetadataCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutObjectMetadataCommandOutput) => void
+  ): void;
+  public putObjectMetadata(
+    args: PutObjectMetadataCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutObjectMetadataCommandOutput) => void),
+    cb?: (err: any, data?: PutObjectMetadataCommandOutput) => void
+  ): Promise<PutObjectMetadataCommandOutput> | void {
+    const command = new PutObjectMetadataCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

@@ -3163,106 +3163,6 @@ export namespace GetAccountRequest {
 }
 
 /**
- * <p>Contains information about an IAM policy, including the policy document.</p>
- *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
- */
-export interface PolicyDetail {
-  /**
-   * <p>The name of the policy.</p>
-   */
-  PolicyName?: string;
-
-  /**
-   * <p>The policy document.</p>
-   */
-  PolicyDocument?: string;
-}
-
-export namespace PolicyDetail {
-  export const filterSensitiveLog = (obj: PolicyDetail): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about an IAM user, including all the user's policies and all the
- *          IAM groups the user is in.</p>
- *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
- */
-export interface UserDetail {
-  /**
-   * <p>The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  Path?: string;
-
-  /**
-   * <p>The friendly name identifying the user.</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>The stable and unique string identifying the user. For more information about IDs, see
-   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-   *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
-   */
-  UserId?: string;
-
-  /**
-   * <p>Account email.</p>
-   */
-  Email?: string;
-
-  /**
-   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
-   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
-   */
-  Arn?: string;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the user was created.</p>
-   */
-  CreateDate?: Date;
-
-  /**
-   * <p>A list of the inline policies embedded in the user.</p>
-   */
-  UserPolicyList?: PolicyDetail[];
-
-  /**
-   * <p>A list of IAM groups that the user is in.</p>
-   */
-  GroupList?: string[];
-
-  /**
-   * <p>A list of the managed policies attached to the user.</p>
-   */
-  AttachedManagedPolicies?: AttachedPolicy[];
-
-  /**
-   * <p>The ARN of the policy used to set the permissions boundary for the user.</p>
-   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
-   *             Identities </a> in the <i>IAM User Guide</i>.</p>
-   */
-  PermissionsBoundary?: AttachedPermissionsBoundary;
-
-  /**
-   * <p>A list of tags that are associated with the specified user. For more information about
-   *       tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
-   *         Identities</a> in the <i>IAM User Guide</i>.</p>
-   */
-  Tags?: Tag[];
-}
-
-export namespace UserDetail {
-  export const filterSensitiveLog = (obj: UserDetail): any => ({
-    ...obj,
-  });
-}
-
-/**
  * <p>Contains the response to a successful <a>GetAccountAuthorizationDetails</a>
  *       request. </p>
  */
@@ -3270,12 +3170,13 @@ export interface GetAccountResponse {
   /**
    * <p>A list containing information about IAM users.</p>
    */
-  Account?: UserDetail[];
+  Account?: AccountType;
 }
 
 export namespace GetAccountResponse {
   export const filterSensitiveLog = (obj: GetAccountResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -3320,6 +3221,28 @@ export interface GetAccountAuthorizationDetailsRequest {
 
 export namespace GetAccountAuthorizationDetailsRequest {
   export const filterSensitiveLog = (obj: GetAccountAuthorizationDetailsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about an IAM policy, including the policy document.</p>
+ *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
+ */
+export interface PolicyDetail {
+  /**
+   * <p>The name of the policy.</p>
+   */
+  PolicyName?: string;
+
+  /**
+   * <p>The policy document.</p>
+   */
+  PolicyDocument?: string;
+}
+
+export namespace PolicyDetail {
+  export const filterSensitiveLog = (obj: PolicyDetail): any => ({
     ...obj,
   });
 }
@@ -3556,6 +3479,84 @@ export interface RoleDetail {
 
 export namespace RoleDetail {
   export const filterSensitiveLog = (obj: RoleDetail): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about an IAM user, including all the user's policies and all the
+ *          IAM groups the user is in.</p>
+ *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
+ */
+export interface UserDetail {
+  /**
+   * <p>The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  Path?: string;
+
+  /**
+   * <p>The friendly name identifying the user.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The stable and unique string identifying the user. For more information about IDs, see
+   *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
+   *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
+   */
+  UserId?: string;
+
+  /**
+   * <p>Account email.</p>
+   */
+  Email?: string;
+
+  /**
+   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
+   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
+   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
+   */
+  Arn?: string;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the user was created.</p>
+   */
+  CreateDate?: Date;
+
+  /**
+   * <p>A list of the inline policies embedded in the user.</p>
+   */
+  UserPolicyList?: PolicyDetail[];
+
+  /**
+   * <p>A list of IAM groups that the user is in.</p>
+   */
+  GroupList?: string[];
+
+  /**
+   * <p>A list of the managed policies attached to the user.</p>
+   */
+  AttachedManagedPolicies?: AttachedPolicy[];
+
+  /**
+   * <p>The ARN of the policy used to set the permissions boundary for the user.</p>
+   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
+   *             Identities </a> in the <i>IAM User Guide</i>.</p>
+   */
+  PermissionsBoundary?: AttachedPermissionsBoundary;
+
+  /**
+   * <p>A list of tags that are associated with the specified user. For more information about
+   *       tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM
+   *         Identities</a> in the <i>IAM User Guide</i>.</p>
+   */
+  Tags?: Tag[];
+}
+
+export namespace UserDetail {
+  export const filterSensitiveLog = (obj: UserDetail): any => ({
     ...obj,
   });
 }
@@ -5279,6 +5280,44 @@ export interface GetUserPolicyResponse {
 export namespace GetUserPolicyResponse {
   export const filterSensitiveLog = (obj: GetUserPolicyResponse): any => ({
     ...obj,
+  });
+}
+
+export interface IamadminLoginRequest {
+  /**
+   * <p>Password</p>
+   */
+  Password?: string;
+}
+
+export namespace IamadminLoginRequest {
+  export const filterSensitiveLog = (obj: IamadminLoginRequest): any => ({
+    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
+  });
+}
+
+export interface IamadminLoginResponse {
+  /**
+   * <p>Login succeed or failed.</p>
+   */
+  Result: string | undefined;
+
+  /**
+   * <p>iamadmin</p>
+   */
+  Name?: string;
+
+  /**
+   * <p>AccessKey info.</p>
+   */
+  AccessKey?: AccessKey;
+}
+
+export namespace IamadminLoginResponse {
+  export const filterSensitiveLog = (obj: IamadminLoginResponse): any => ({
+    ...obj,
+    ...(obj.AccessKey && { AccessKey: AccessKey.filterSensitiveLog(obj.AccessKey) }),
   });
 }
 
@@ -8981,66 +9020,6 @@ export interface UntagRoleRequest {
 
 export namespace UntagRoleRequest {
   export const filterSensitiveLog = (obj: UntagRoleRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UntagUserRequest {
-  /**
-   * <p>The name of the IAM user from which you want to remove tags.</p>
-   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: =,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>A list of key names as a simple array of strings. The tags with matching keys are
-   *       removed from the specified user.</p>
-   */
-  TagKeys: string[] | undefined;
-}
-
-export namespace UntagUserRequest {
-  export const filterSensitiveLog = (obj: UntagUserRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface UpdateAccessKeyRequest {
-  /**
-   * <p>The name of the user whose key you want to update.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>The access key ID of the secret access key you want to update.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
-   *     consist of any upper or lowercased letter or digit.</p>
-   */
-  AccessKeyId: string | undefined;
-
-  /**
-   * <p> The status you want to assign to the secret access key. <code>Active</code> means that
-   *          the key can be used for API calls to AWS, while <code>Inactive</code> means that the key
-   *          cannot be used.</p>
-   */
-  Status: StatusType | string | undefined;
-
-  /**
-   * <p> Type is 2, add custom params.</p>
-   */
-  Type: number | undefined;
-
-  /**
-   * <p>The new description that you want to apply to the access key.</p>
-   */
-  Description?: string;
-}
-
-export namespace UpdateAccessKeyRequest {
-  export const filterSensitiveLog = (obj: UpdateAccessKeyRequest): any => ({
     ...obj,
   });
 }

@@ -3,6 +3,7 @@ import {
   ErrorDocument,
   Grant,
   IndexDocument,
+  MetadataDirective2,
   ObjectCannedACL,
   ObjectLockConfiguration,
   ObjectLockLegalHold,
@@ -11,8 +12,11 @@ import {
   ObjectLockRetention,
   Payer,
   PublicAccessBlockConfiguration,
+  QoSConfiguration,
+  Quota,
   RedirectAllRequestsTo,
   RefererConfiguration,
+  ReplicationConfiguration,
   RequestCharged,
   RequestPayer,
   RoutingRule,
@@ -24,6 +28,87 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface PutBucketQoSRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The <code>GetBucketQuota</code> of bucket.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketQoSRequest {
+  export const filterSensitiveLog = (obj: PutBucketQoSRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketQuotaRequest {
+  /**
+   * <p>The name of the bucket.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The <code>GetBucketQuota</code> of bucket.</p>
+   */
+  Quota?: Quota;
+}
+
+export namespace PutBucketQuotaRequest {
+  export const filterSensitiveLog = (obj: PutBucketQuotaRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketReplicationRequest {
+  /**
+   * <p>The name of the bucket</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, see <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>A container for replication rules. You can add up to 1,000 rules. The maximum size of a
+   *          replication configuration is 2 MB.</p>
+   */
+  ReplicationConfiguration: ReplicationConfiguration | undefined;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketReplicationRequest {
+  export const filterSensitiveLog = (obj: PutBucketReplicationRequest): any => ({
+    ...obj,
+    ...(obj.ReplicationConfiguration && {
+      ReplicationConfiguration: ReplicationConfiguration.filterSensitiveLog(obj.ReplicationConfiguration),
+    }),
+  });
+}
 
 /**
  * <p>Container for Payer.</p>
@@ -756,6 +841,78 @@ export interface PutObjectLockConfigurationRequest {
 
 export namespace PutObjectLockConfigurationRequest {
   export const filterSensitiveLog = (obj: PutObjectLockConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectMetadataRequest {
+  /**
+   * <p>Name of the bucket to which the multipart upload was initiated.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>Object key for which the multipart upload was initiated.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。 REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。 REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。 类型:字符串</p>
+   */
+  MetadataDirective?: MetadataDirective2 | string;
+
+  /**
+   * <p>A map of metadata to store with the object in S3.</p>
+   */
+  Metadata?: { [key: string]: string };
+
+  /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>Specifies presentational information for the object.</p>
+   */
+  ContentDisposition?: string;
+
+  /**
+   * <p>The language the content is in.</p>
+   */
+  ContentLanguage?: string;
+
+  /**
+   * <p>If the bucket is configured as a website, redirects requests for this object to another
+   *          object in the same bucket or to an external URL. Amazon S3 stores the value of this header in
+   *          the object metadata.</p>
+   */
+  WebsiteRedirectLocation?: string;
+
+  /**
+   * <p>Specifies caching behavior along the request/reply chain.</p>
+   */
+  CacheControl?: string;
+
+  /**
+   * <p>Specifies what content encodings have been applied to the object and thus what decoding
+   *          mechanisms must be applied to obtain the media-type referenced by the Content-Type header
+   *          field.</p>
+   */
+  ContentEncoding?: string;
+
+  /**
+   * <p>The date and time at which the object is no longer cacheable.</p>
+   */
+  Expires?: Date;
+}
+
+export namespace PutObjectMetadataRequest {
+  export const filterSensitiveLog = (obj: PutObjectMetadataRequest): any => ({
     ...obj,
   });
 }

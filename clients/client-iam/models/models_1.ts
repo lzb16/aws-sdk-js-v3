@@ -9,6 +9,66 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 
+export interface UntagUserRequest {
+  /**
+   * <p>The name of the IAM user from which you want to remove tags.</p>
+   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: =,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>A list of key names as a simple array of strings. The tags with matching keys are
+   *       removed from the specified user.</p>
+   */
+  TagKeys: string[] | undefined;
+}
+
+export namespace UntagUserRequest {
+  export const filterSensitiveLog = (obj: UntagUserRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateAccessKeyRequest {
+  /**
+   * <p>The name of the user whose key you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The access key ID of the secret access key you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  AccessKeyId: string | undefined;
+
+  /**
+   * <p> The status you want to assign to the secret access key. <code>Active</code> means that
+   *          the key can be used for API calls to AWS, while <code>Inactive</code> means that the key
+   *          cannot be used.</p>
+   */
+  Status: StatusType | string | undefined;
+
+  /**
+   * <p> Type is 2, add custom params.</p>
+   */
+  Type: number | undefined;
+
+  /**
+   * <p>The new description that you want to apply to the access key.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateAccessKeyRequest {
+  export const filterSensitiveLog = (obj: UpdateAccessKeyRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface UpdateAccountRequest {
   /**
    * <p>The name of the user whose key you want to update.</p>

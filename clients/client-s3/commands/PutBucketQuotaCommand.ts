@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketQuotaRequest } from "../models/models_0";
+import { PutBucketQuotaRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlPutBucketQuotaCommand,
   serializeAws_restXmlPutBucketQuotaCommand,

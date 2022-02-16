@@ -1,6 +1,9 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UntagUserRequest } from "../models/models_1";
-import { deserializeAws_queryUntagUserCommand, serializeAws_queryUntagUserCommand } from "../protocols/Aws_query";
+import { IamadminLoginRequest, IamadminLoginResponse } from "../models/models_0";
+import {
+  deserializeAws_queryIamadminLoginCommand,
+  serializeAws_queryIamadminLoginCommand,
+} from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -14,19 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type UntagUserCommandInput = UntagUserRequest;
-export type UntagUserCommandOutput = __MetadataBearer;
+export type IamadminLoginCommandInput = IamadminLoginRequest;
+export type IamadminLoginCommandOutput = IamadminLoginResponse & __MetadataBearer;
 
 /**
- * <p>Removes the specified tags from the user. For more information about tagging, see
- *         <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a>
- *       in the <i>IAM User Guide</i>.</p>
+ * <p>IAM login.</p>
  */
-export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserCommandOutput, IAMClientResolvedConfig> {
+export class IamadminLoginCommand extends $Command<
+  IamadminLoginCommandInput,
+  IamadminLoginCommandOutput,
+  IAMClientResolvedConfig
+> {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: UntagUserCommandInput) {
+  constructor(readonly input: IamadminLoginCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -39,20 +44,20 @@ export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserC
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<UntagUserCommandInput, UntagUserCommandOutput> {
+  ): Handler<IamadminLoginCommandInput, IamadminLoginCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "UntagUserCommand";
+    const commandName = "IamadminLoginCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: UntagUserRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      inputFilterSensitiveLog: IamadminLoginRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: IamadminLoginResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -62,12 +67,12 @@ export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserC
     );
   }
 
-  private serialize(input: UntagUserCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryUntagUserCommand(input, context);
+  private serialize(input: IamadminLoginCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryIamadminLoginCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UntagUserCommandOutput> {
-    return deserializeAws_queryUntagUserCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<IamadminLoginCommandOutput> {
+    return deserializeAws_queryIamadminLoginCommand(output, context);
   }
 
   // Start section: command_body_extra

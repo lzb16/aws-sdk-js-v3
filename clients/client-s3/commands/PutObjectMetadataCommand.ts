@@ -1,6 +1,10 @@
-import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UntagUserRequest } from "../models/models_1";
-import { deserializeAws_queryUntagUserCommand, serializeAws_queryUntagUserCommand } from "../protocols/Aws_query";
+import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
+import { PutObjectMetadataRequest } from "../models/models_1";
+import {
+  deserializeAws_restXmlPutObjectMetadataCommand,
+  serializeAws_restXmlPutObjectMetadataCommand,
+} from "../protocols/Aws_restXml";
+import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -14,19 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type UntagUserCommandInput = UntagUserRequest;
-export type UntagUserCommandOutput = __MetadataBearer;
+export type PutObjectMetadataCommandInput = PutObjectMetadataRequest;
+export type PutObjectMetadataCommandOutput = __MetadataBearer;
 
 /**
- * <p>Removes the specified tags from the user. For more information about tagging, see
- *         <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a>
- *       in the <i>IAM User Guide</i>.</p>
+ * <p>Update object metadata.</p>
  */
-export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserCommandOutput, IAMClientResolvedConfig> {
+export class PutObjectMetadataCommand extends $Command<
+  PutObjectMetadataCommandInput,
+  PutObjectMetadataCommandOutput,
+  S3ClientResolvedConfig
+> {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: UntagUserCommandInput) {
+  constructor(readonly input: PutObjectMetadataCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -37,21 +43,22 @@ export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserC
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: IAMClientResolvedConfig,
+    configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<UntagUserCommandInput, UntagUserCommandOutput> {
+  ): Handler<PutObjectMetadataCommandInput, PutObjectMetadataCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
+    this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "IAMClient";
-    const commandName = "UntagUserCommand";
+    const clientName = "S3Client";
+    const commandName = "PutObjectMetadataCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: UntagUserRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: PutObjectMetadataRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -62,12 +69,12 @@ export class UntagUserCommand extends $Command<UntagUserCommandInput, UntagUserC
     );
   }
 
-  private serialize(input: UntagUserCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryUntagUserCommand(input, context);
+  private serialize(input: PutObjectMetadataCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlPutObjectMetadataCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UntagUserCommandOutput> {
-    return deserializeAws_queryUntagUserCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutObjectMetadataCommandOutput> {
+    return deserializeAws_restXmlPutObjectMetadataCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -195,6 +195,7 @@ import {
 } from "../commands/GetServiceLinkedRoleDeletionStatusCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "../commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "../commands/GetUserPolicyCommand";
+import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "../commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "../commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "../commands/ListAccountAliasesCommand";
 import { ListAccountsCommandInput, ListAccountsCommandOutput } from "../commands/ListAccountsCommand";
@@ -505,6 +506,8 @@ import {
   GetUserResponse,
   Group,
   GroupDetail,
+  IamadminLoginRequest,
+  IamadminLoginResponse,
   InstanceProfile,
   InvalidAuthenticationCodeException,
   InvalidInputException,
@@ -636,8 +639,6 @@ import {
   UnmodifiableEntityException,
   UnrecognizedPublicKeyEncodingException,
   UntagRoleRequest,
-  UntagUserRequest,
-  UpdateAccessKeyRequest,
   User,
   UserDetail,
   VirtualMFADevice,
@@ -649,6 +650,8 @@ import {
   InvalidPublicKeyException,
   KeyPairMismatchException,
   MalformedCertificateException,
+  UntagUserRequest,
+  UpdateAccessKeyRequest,
   UpdateAccountPasswordPolicyRequest,
   UpdateAccountRequest,
   UpdateAssumeRolePolicyRequest,
@@ -2002,6 +2005,22 @@ export const serializeAws_queryGetUserPolicyCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryGetUserPolicyRequest(input, context),
     Action: "GetUserPolicy",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryIamadminLoginCommand = async (
+  input: IamadminLoginCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryIamadminLoginRequest(input, context),
+    Action: "IamadminLogin",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -8919,6 +8938,60 @@ const deserializeAws_queryGetUserPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryIamadminLoginCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<IamadminLoginCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryIamadminLoginCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryIamadminLoginResponse(data.IamadminLoginResult, context);
+  const response: IamadminLoginCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryIamadminLoginCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<IamadminLoginCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryListAccessKeysCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -15006,6 +15079,14 @@ const serializeAws_querygroupListType = (input: Group[], context: __SerdeContext
   return entries;
 };
 
+const serializeAws_queryIamadminLoginRequest = (input: IamadminLoginRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.Password !== undefined && input.Password !== null) {
+    entries["Password"] = input.Password;
+  }
+  return entries;
+};
+
 const serializeAws_queryListAccessKeysRequest = (input: ListAccessKeysRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -17213,14 +17294,8 @@ const deserializeAws_queryGetAccountResponse = (output: any, context: __SerdeCon
   let contents: any = {
     Account: undefined,
   };
-  if (output.Account === "") {
-    contents.Account = [];
-  }
-  if (output["Account"] !== undefined && output["Account"]["member"] !== undefined) {
-    contents.Account = deserializeAws_queryuserDetailListType(
-      __getArrayIfSingleItem(output["Account"]["member"]),
-      context
-    );
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
   return contents;
 };
@@ -17768,6 +17843,24 @@ const deserializeAws_querygroupNameListType = (output: any, context: __SerdeCont
       }
       return entry;
     });
+};
+
+const deserializeAws_queryIamadminLoginResponse = (output: any, context: __SerdeContext): IamadminLoginResponse => {
+  let contents: any = {
+    Result: undefined,
+    Name: undefined,
+    AccessKey: undefined,
+  };
+  if (output["Result"] !== undefined) {
+    contents.Result = output["Result"];
+  }
+  if (output["Name"] !== undefined) {
+    contents.Name = output["Name"];
+  }
+  if (output["AccessKey"] !== undefined) {
+    contents.AccessKey = deserializeAws_queryAccessKey(output["AccessKey"], context);
+  }
+  return contents;
 };
 
 const deserializeAws_queryInstanceProfile = (output: any, context: __SerdeContext): InstanceProfile => {

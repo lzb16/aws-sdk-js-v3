@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { ListBucketsOutput } from "../models/models_0";
+import { ListBucketsOutput, ListBucketsRequest } from "../models/models_0";
 import {
   deserializeAws_restXmlListBucketsCommand,
   serializeAws_restXmlListBucketsCommand,
@@ -17,7 +17,7 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type ListBucketsCommandInput = {};
+export type ListBucketsCommandInput = ListBucketsRequest;
 export type ListBucketsCommandOutput = ListBucketsOutput & __MetadataBearer;
 
 /**
@@ -56,7 +56,7 @@ export class ListBucketsCommand extends $Command<
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: (input: any) => input,
+      inputFilterSensitiveLog: ListBucketsRequest.filterSensitiveLog,
       outputFilterSensitiveLog: ListBucketsOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;

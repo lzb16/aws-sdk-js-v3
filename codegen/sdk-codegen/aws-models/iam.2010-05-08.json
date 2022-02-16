@@ -34,6 +34,9 @@
       "version": "2010-05-08",
       "operations": [
         {
+          "target": "com.amazonaws.iam#IamadminLogin"
+        },
+        {
           "target": "com.amazonaws.iam#AddClientIDToOpenIDConnectProvider"
         },
         {
@@ -1423,6 +1426,58 @@
           "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#IamadminLogin": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#IamadminLoginRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#IamadminLoginResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>IAM login.</p>"
+      }
+    },
+    "com.amazonaws.iam#IamadminLoginRequest": {
+      "type": "structure",
+      "members": {
+        "Password": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>Password</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#IamadminLoginResponse": {
+      "type": "structure",
+      "members": {
+        "Result": {
+          "target": "com.amazonaws.iam#resultType",
+          "traits": {
+            "smithy.api#documentation": "<p>Login succeed or failed.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>iamadmin</p>"
+          }
+        },
+        "AccessKey": {
+          "target": "com.amazonaws.iam#AccessKey",
+          "traits": {
+            "smithy.api#documentation": "<p>AccessKey info.</p>"
           }
         }
       }
@@ -4025,7 +4080,7 @@
       "type": "structure",
       "members": {
         "Account": {
-          "target": "com.amazonaws.iam#userDetailListType",
+          "target": "com.amazonaws.iam#AccountType",
           "traits": {
             "smithy.api#documentation": "<p>A list containing information about IAM users.</p>"
           }

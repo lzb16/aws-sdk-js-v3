@@ -522,6 +522,12 @@
         },
         {
           "target": "com.amazonaws.s3#PutReferer"
+        },
+        {
+          "target": "com.amazonaws.s3#PutObjectMetadata"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketMetadata"
         }
       ],
       "traits": {
@@ -542,6 +548,159 @@
         "smithy.api#title": "Amazon Simple Storage Service",
         "smithy.api#xmlNamespace": {
           "uri": "http://s3.amazonaws.com/doc/2006-03-01/"
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectMetadata": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutObjectMetadataRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Update object metadata.</p> ",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}/{Key+}?metadata",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectMetadataRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the bucket to which the multipart upload was initiated.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>Object key for which the multipart upload was initiated.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "MetadataDirective": {
+          "target": "com.amazonaws.s3#MetadataDirective2",
+          "traits": {
+            "smithy.api#documentation": "<p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。 REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。 REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。 类型:字符串</p>",
+            "smithy.api#httpHeader": "x-amz-metadata-directive"
+          }
+        },
+        "Metadata": {
+          "target": "com.amazonaws.s3#Metadata",
+          "traits": {
+            "smithy.api#documentation": "<p>A map of metadata to store with the object in S3.</p>",
+            "smithy.api#httpPrefixHeaders": "x-amz-meta-"
+          }
+        },
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
+        "ContentDisposition": {
+          "target": "com.amazonaws.s3#ContentDisposition",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies presentational information for the object.</p>",
+            "smithy.api#httpHeader": "Content-Disposition"
+          }
+        },
+        "ContentLanguage": {
+          "target": "com.amazonaws.s3#ContentLanguage",
+          "traits": {
+            "smithy.api#documentation": "<p>The language the content is in.</p>",
+            "smithy.api#httpHeader": "Content-Language"
+          }
+        },
+        "WebsiteRedirectLocation": {
+          "target": "com.amazonaws.s3#WebsiteRedirectLocation",
+          "traits": {
+            "smithy.api#documentation": "<p>If the bucket is configured as a website, redirects requests for this object to another\n         object in the same bucket or to an external URL. Amazon S3 stores the value of this header in\n         the object metadata.</p>",
+            "smithy.api#httpHeader": "x-amz-website-redirect-location"
+          }
+        },
+        "CacheControl": {
+          "target": "com.amazonaws.s3#CacheControl",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies caching behavior along the request/reply chain.</p>",
+            "smithy.api#httpHeader": "Cache-Control"
+          }
+        },
+        "ContentEncoding": {
+          "target": "com.amazonaws.s3#ContentEncoding",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies what content encodings have been applied to the object and thus what decoding\n         mechanisms must be applied to obtain the media-type referenced by the Content-Type header\n         field.</p>",
+            "smithy.api#httpHeader": "Content-Encoding"
+          }
+        },
+        "Expires": {
+          "target": "com.amazonaws.s3#Expires",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time at which the object is no longer cacheable.</p>",
+            "smithy.api#httpHeader": "Expires"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketMetadata": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketMetadataRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Update bucket metadata.</p> ",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?metadata",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketMetadataRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the bucket to which the multipart upload was initiated.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "MetadataDirective": {
+          "target": "com.amazonaws.s3#MetadataDirective2",
+          "traits": {
+            "smithy.api#documentation": "<p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。\n REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。\n REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。\n 类型:字符串</p>",
+            "smithy.api#httpHeader": "x-amz-metadata-directive"
+          }
+        },
+        "Metadata": {
+          "target": "com.amazonaws.s3#Metadata",
+          "traits": {
+            "smithy.api#documentation": "<p>A map of metadata to store with the object in S3.</p>",
+            "smithy.api#httpPrefixHeaders": "x-amz-meta-"
+          }
         }
       }
     },
@@ -746,6 +905,13 @@
           "target": "com.amazonaws.s3#Size",
           "traits": {
             "smithy.api#documentation": "<p>Date the Size of bucket was created.</p>"
+          }
+        },
+        "PhysicalSize": {
+          "target": "com.amazonaws.s3#PhysicalSize",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that\n         Amazon S3 assumes when replicating objects. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html\">How to Set Up\n            Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#required": {}
           }
         },
         "StoragePoolId": {
@@ -1018,6 +1184,9 @@
     },
     "com.amazonaws.s3#BucketName": {
       "type": "string"
+    },
+    "com.amazonaws.s3#EnableDedup": {
+      "type": "integer"
     },
     "com.amazonaws.s3#BucketVersioningStatus": {
       "type": "string",
@@ -2013,6 +2182,13 @@
     "com.amazonaws.s3#CreateBucketRequest": {
       "type": "structure",
       "members": {
+        "EnableDedup": {
+          "target": "com.amazonaws.s3#EnableDedup",
+          "traits": {
+            "smithy.api#documentation": "<p>The enabled dedup to apply to the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-enable-dedup"
+          }
+        },
         "ACL": {
           "target": "com.amazonaws.s3#BucketCannedACL",
           "traits": {
@@ -3757,6 +3933,9 @@
     "com.amazonaws.s3#FetchOwner": {
       "type": "boolean"
     },
+    "com.amazonaws.s3#FetchStorageInfo": {
+      "type": "boolean"
+    },
     "com.amazonaws.s3#FieldDelimiter": {
       "type": "string"
     },
@@ -4870,6 +5049,13 @@
       "members": {
         "ObjectNumber": {
           "target": "com.amazonaws.s3#ObjectNumber",
+          "traits": {
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that\n         Amazon S3 assumes when replicating objects. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html\">How to Set Up\n            Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PhysicalSize": {
+          "target": "com.amazonaws.s3#PhysicalSize",
           "traits": {
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that\n         Amazon S3 assumes when replicating objects. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html\">How to Set Up\n            Replication</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
             "smithy.api#required": {}
@@ -5991,7 +6177,11 @@
         "Grantee": {
           "target": "com.amazonaws.s3#Grantee",
           "traits": {
-            "smithy.api#documentation": "<p>The person being granted permissions.</p>"
+            "smithy.api#documentation": "<p>The person being granted permissions.</p>",
+            "smithy.api#xmlNamespace": {
+              "uri": "http://www.w3.org/2001/XMLSchema-instance",
+              "prefix": "xsi"
+            }
           }
         },
         "Permission": {
@@ -6115,6 +6305,13 @@
             "smithy.api#documentation": "<p>The bucket name.</p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "WithoutContentLength": {
+          "target": "com.amazonaws.s3#WithoutContentLength",
+          "traits": {
+            "smithy.api#documentation": "<p>Custom header, when you don't want return Content-Length, set true.</p>",
+            "smithy.api#httpHeader": "x-amz-without-content-length"
           }
         },
         "ExpectedBucketOwner": {
@@ -7518,6 +7715,9 @@
     },
     "com.amazonaws.s3#ListBuckets": {
       "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#ListBucketsRequest"
+      },
       "output": {
         "target": "com.amazonaws.s3#ListBucketsOutput"
       },
@@ -7543,6 +7743,18 @@
           "target": "com.amazonaws.s3#Owner",
           "traits": {
             "smithy.api#documentation": "<p>The owner of the buckets listed.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketsRequest": {
+      "type": "structure",
+      "members": {
+        "FetchStorageInfo": {
+          "target": "com.amazonaws.s3#FetchStorageInfo",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket containing the inventory configurations to retrieve.</p>",
+            "smithy.api#httpQuery": "fetch-storageinfo"
           }
         }
       }
@@ -8495,6 +8707,21 @@
         ]
       }
     },
+    "com.amazonaws.s3#MetadataDirective2": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "REPLACE_NEW",
+            "name": "REPLACE_NEW"
+          },
+          {
+            "value": "REPLACE",
+            "name": "REPLACE"
+          }
+        ]
+      }
+    },
     "com.amazonaws.s3#MetadataEntry": {
       "type": "structure",
       "members": {
@@ -9091,6 +9318,9 @@
       }
     },
     "com.amazonaws.s3#ObjectNumber": {
+      "type": "long"
+    },
+    "com.amazonaws.s3#PhysicalSize": {
       "type": "long"
     },
     "com.amazonaws.s3#ObjectOwnership": {
