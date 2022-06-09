@@ -516,6 +516,7 @@ export const serializeAws_restXmlCompleteMultipartUploadCommand = async (
   let contents: any;
   if (input.MultipartUpload !== undefined) {
     contents = serializeAws_restXmlCompletedMultipartUpload(input.MultipartUpload, context);
+    contents = contents.withName("CompleteMultipartUpload");
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -3292,6 +3293,9 @@ export const serializeAws_restXmlListObjectVersionsCommand = async (
     ...(isSerializableHeaderValue(input.ExpectedBucketOwner) && {
       "x-amz-expected-bucket-owner": input.ExpectedBucketOwner!,
     }),
+    ...(isSerializableHeaderValue(input.DeletedObjects) && {
+      "x-amz-deleted-objects": input.DeletedObjects!.toString(),
+    }),
   };
   let resolvedPath = "/{Bucket}";
   if (input.Bucket !== undefined) {
@@ -3725,6 +3729,7 @@ export const serializeAws_restXmlPutBucketLifecycleConfigurationCommand = async 
   let contents: any;
   if (input.LifecycleConfiguration !== undefined) {
     contents = serializeAws_restXmlBucketLifecycleConfiguration(input.LifecycleConfiguration, context);
+    contents = contents.withName("LifecycleConfiguration");
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -4551,6 +4556,7 @@ export const serializeAws_restXmlPutObjectLegalHoldCommand = async (
   let contents: any;
   if (input.LegalHold !== undefined) {
     contents = serializeAws_restXmlObjectLockLegalHold(input.LegalHold, context);
+    contents = contents.withName("LegalHold");
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -4732,6 +4738,7 @@ export const serializeAws_restXmlPutObjectRetentionCommand = async (
   let contents: any;
   if (input.Retention !== undefined) {
     contents = serializeAws_restXmlObjectLockRetention(input.Retention, context);
+    contents = contents.withName("Retention");
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -12058,6 +12065,10 @@ const serializeAws_restXmlLifecycleRule = (input: LifecycleRule, context: __Serd
     const node = serializeAws_restXmlLifecycleExpiration(input.Expiration, context).withName("Expiration");
     bodyNode.addChildNode(node);
   }
+  if (input.BucketExpiration !== undefined && input.BucketExpiration !== null) {
+    const node = serializeAws_restXmlLifecycleExpiration(input.BucketExpiration, context).withName("BucketExpiration");
+    bodyNode.addChildNode(node);
+  }
   if (input.ID !== undefined && input.ID !== null) {
     const node = new __XmlNode("ID").addChildNode(new __XmlText(input.ID)).withName("ID");
     bodyNode.addChildNode(node);
@@ -12539,10 +12550,6 @@ const serializeAws_restXmlPublicAccessBlockConfiguration = (
 
 const serializeAws_restXmlQoSConfiguration = (input: QoSConfiguration, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("QoSConfiguration");
-  if (input.Name !== undefined && input.Name !== null) {
-    const node = new __XmlNode("BucketName").addChildNode(new __XmlText(input.Name)).withName("Name");
-    bodyNode.addChildNode(node);
-  }
   if (input.ReadOps !== undefined && input.ReadOps !== null) {
     const node = new __XmlNode("BucketOps").addChildNode(new __XmlText(String(input.ReadOps))).withName("ReadOps");
     bodyNode.addChildNode(node);
@@ -12551,16 +12558,20 @@ const serializeAws_restXmlQoSConfiguration = (input: QoSConfiguration, context: 
     const node = new __XmlNode("BucketOps").addChildNode(new __XmlText(String(input.WriteOps))).withName("WriteOps");
     bodyNode.addChildNode(node);
   }
-  if (input.ReadBandWidth !== undefined && input.ReadBandWidth !== null) {
+  if (input.ReadBandwidth !== undefined && input.ReadBandwidth !== null) {
     const node = new __XmlNode("BucketBandWidth")
-      .addChildNode(new __XmlText(String(input.ReadBandWidth)))
-      .withName("ReadBandWidth");
+      .addChildNode(new __XmlText(String(input.ReadBandwidth)))
+      .withName("ReadBandwidth");
     bodyNode.addChildNode(node);
   }
-  if (input.WriteBandWidth !== undefined && input.WriteBandWidth !== null) {
+  if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
     const node = new __XmlNode("BucketBandWidth")
-      .addChildNode(new __XmlText(String(input.WriteBandWidth)))
-      .withName("WriteBandWidth");
+      .addChildNode(new __XmlText(String(input.WriteBandwidth)))
+      .withName("WriteBandwidth");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    const node = new __XmlNode("Status").addChildNode(new __XmlText(input.Status)).withName("Status");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -12605,15 +12616,11 @@ const serializeAws_restXmlQueueConfigurationList = (input: QueueConfiguration[],
 const serializeAws_restXmlQuota = (input: Quota, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("Quota");
   if (input.StorageQuota !== undefined && input.StorageQuota !== null) {
-    const node = new __XmlNode("StorageQuota")
-      .addChildNode(new __XmlText(String(input.StorageQuota)))
-      .withName("StorageQuota");
+    const node = new __XmlNode("StorageQuota").addChildNode(new __XmlText(input.StorageQuota)).withName("StorageQuota");
     bodyNode.addChildNode(node);
   }
   if (input.ObjectQuota !== undefined && input.ObjectQuota !== null) {
-    const node = new __XmlNode("ObjectQuota")
-      .addChildNode(new __XmlText(String(input.ObjectQuota)))
-      .withName("ObjectQuota");
+    const node = new __XmlNode("ObjectQuota").addChildNode(new __XmlText(input.ObjectQuota)).withName("ObjectQuota");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -13608,6 +13615,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     BucketLoggingConfiguration: undefined,
     TaggingConfiguration: undefined,
     PolicyConfiguration: undefined,
+    QoSConfiguration: undefined,
   };
   if (output["Name"] !== undefined) {
     contents.Name = output["Name"];
@@ -13677,6 +13685,9 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["PolicyConfiguration"] !== undefined) {
     contents.PolicyConfiguration = deserializeAws_restXmlPolicyConfiguration(output["PolicyConfiguration"], context);
+  }
+  if (output["QoSConfiguration"] !== undefined) {
+    contents.QoSConfiguration = deserializeAws_restXmlQoSConfiguration(output["QoSConfiguration"], context);
   }
   return contents;
 };
@@ -14509,6 +14520,7 @@ const deserializeAws_restXmlLifecycleExpiration = (output: any, context: __Serde
 const deserializeAws_restXmlLifecycleRule = (output: any, context: __SerdeContext): LifecycleRule => {
   let contents: any = {
     Expiration: undefined,
+    BucketExpiration: undefined,
     ID: undefined,
     Prefix: undefined,
     Filter: undefined,
@@ -14520,6 +14532,9 @@ const deserializeAws_restXmlLifecycleRule = (output: any, context: __SerdeContex
   };
   if (output["Expiration"] !== undefined) {
     contents.Expiration = deserializeAws_restXmlLifecycleExpiration(output["Expiration"], context);
+  }
+  if (output["BucketExpiration"] !== undefined) {
+    contents.BucketExpiration = deserializeAws_restXmlLifecycleExpiration(output["BucketExpiration"], context);
   }
   if (output["ID"] !== undefined) {
     contents.ID = output["ID"];
@@ -15107,26 +15122,26 @@ const deserializeAws_restXmlPublicAccessBlockConfiguration = (
 
 const deserializeAws_restXmlQoSConfiguration = (output: any, context: __SerdeContext): QoSConfiguration => {
   let contents: any = {
-    Name: undefined,
     ReadOps: undefined,
     WriteOps: undefined,
-    ReadBandWidth: undefined,
-    WriteBandWidth: undefined,
+    ReadBandwidth: undefined,
+    WriteBandwidth: undefined,
+    Status: undefined,
   };
-  if (output["Name"] !== undefined) {
-    contents.Name = output["Name"];
-  }
   if (output["ReadOps"] !== undefined) {
     contents.ReadOps = parseInt(output["ReadOps"]);
   }
   if (output["WriteOps"] !== undefined) {
     contents.WriteOps = parseInt(output["WriteOps"]);
   }
-  if (output["ReadBandWidth"] !== undefined) {
-    contents.ReadBandWidth = parseInt(output["ReadBandWidth"]);
+  if (output["ReadBandwidth"] !== undefined) {
+    contents.ReadBandwidth = parseInt(output["ReadBandwidth"]);
   }
-  if (output["WriteBandWidth"] !== undefined) {
-    contents.WriteBandWidth = parseInt(output["WriteBandWidth"]);
+  if (output["WriteBandwidth"] !== undefined) {
+    contents.WriteBandwidth = parseInt(output["WriteBandwidth"]);
+  }
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
   }
   return contents;
 };
@@ -15173,10 +15188,10 @@ const deserializeAws_restXmlQuota = (output: any, context: __SerdeContext): Quot
     ObjectQuota: undefined,
   };
   if (output["StorageQuota"] !== undefined) {
-    contents.StorageQuota = parseInt(output["StorageQuota"]);
+    contents.StorageQuota = output["StorageQuota"];
   }
   if (output["ObjectQuota"] !== undefined) {
-    contents.ObjectQuota = parseInt(output["ObjectQuota"]);
+    contents.ObjectQuota = output["ObjectQuota"];
   }
   return contents;
 };

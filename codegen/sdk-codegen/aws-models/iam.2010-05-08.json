@@ -58,6 +58,18 @@
           "target": "com.amazonaws.iam#ChangeAccountPassword"
         },
         {
+          "target": "com.amazonaws.iam#ChangeAccountDescription"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateAccountQuota"
+        },
+        {
+          "target": "com.amazonaws.iam#PutAccountQos"
+        },
+        {
+          "target": "com.amazonaws.iam#GetAccountQos"
+        },
+        {
           "target": "com.amazonaws.iam#ChangePassword"
         },
         {
@@ -743,10 +755,16 @@
             "smithy.api#documentation": "<p>Account email.</p>"
           }
         },
-        "Quota": {
+        "QuotaCapacitySize": {
           "target": "com.amazonaws.iam#stringType",
           "traits": {
-            "smithy.api#documentation": "<p>Account quota.</p>"
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        },
+        "QuotaObjectNumber": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
           }
         },
         "BucketNumber": {
@@ -1110,6 +1128,211 @@
       "type": "blob",
       "traits": {
         "smithy.api#sensitive": {}
+      }
+    },
+    "com.amazonaws.iam#PutAccountQos": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#PutAccountQosRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#GetAccountQos": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetAccountQosRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetAccountQosResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateAccountQuotaRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ChangeAccountDescriptionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountQosRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountQosResponse": {
+      "type": "structure",
+      "members": {
+        "QoSConfiguration": {
+          "target": "com.amazonaws.iam#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The qos of account.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#PutAccountQosRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "ReadOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadOps of the account.</p>"
+          }
+        },
+        "WriteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteOps of the account.</p>"
+          }
+        },
+        "ReadBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadBandwidth of the account.</p>"
+          }
+        },
+        "WriteBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "ObjectNumberQuota": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        },
+        "CapacitySizeQuota": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        }
       }
     },
     "com.amazonaws.iam#ChangeAccountPassword": {
@@ -10755,7 +10978,7 @@
         "Quota": {
           "target": "com.amazonaws.iam#stringType",
           "traits": {
-            "smithy.api#documentation": "<p>The quota of the account you want to update.</p>"
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
           }
         },
         "Description": {
@@ -12009,6 +12232,29 @@
         },
         "smithy.api#pattern": "[\\w+=,.@-]+"
       }
+    },
+    "com.amazonaws.iam#QoSConfiguration": {
+      "type": "structure",
+      "members": {
+        "ReadOps": {
+          "target": "com.amazonaws.iam#AccountOps"
+        },
+        "WriteOps": {
+          "target": "com.amazonaws.iam#AccountOps"
+        },
+        "ReadBandwidth": {
+          "target": "com.amazonaws.iam#AccountBandWidth"
+        },
+        "WriteBandwidth": {
+          "target": "com.amazonaws.iam#AccountBandWidth"
+        }
+      }
+    },
+    "com.amazonaws.iam#AccountOps": {
+      "type": "long"
+    },
+    "com.amazonaws.iam#AccountBandWidth": {
+      "type": "long"
     },
     "com.amazonaws.iam#arnType": {
       "type": "string",

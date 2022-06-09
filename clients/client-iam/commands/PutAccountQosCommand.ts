@@ -1,6 +1,9 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { UntagRoleRequest } from "../models/models_1";
-import { deserializeAws_queryUntagRoleCommand, serializeAws_queryUntagRoleCommand } from "../protocols/Aws_query";
+import { PutAccountQosRequest } from "../models/models_0";
+import {
+  deserializeAws_queryPutAccountQosCommand,
+  serializeAws_queryPutAccountQosCommand,
+} from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -14,19 +17,25 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type UntagRoleCommandInput = UntagRoleRequest;
-export type UntagRoleCommandOutput = __MetadataBearer;
+export type PutAccountQosCommandInput = PutAccountQosRequest;
+export type PutAccountQosCommandOutput = __MetadataBearer;
 
 /**
- * <p>Removes the specified tags from the role. For more information about tagging, see
- *         <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a>
- *       in the <i>IAM User Guide</i>.</p>
+ * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+ *          root user password is not affected by this operation.</p>
+ *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+ *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+ *             <i>IAM User Guide</i>.</p>
  */
-export class UntagRoleCommand extends $Command<UntagRoleCommandInput, UntagRoleCommandOutput, IAMClientResolvedConfig> {
+export class PutAccountQosCommand extends $Command<
+  PutAccountQosCommandInput,
+  PutAccountQosCommandOutput,
+  IAMClientResolvedConfig
+> {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: UntagRoleCommandInput) {
+  constructor(readonly input: PutAccountQosCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -39,19 +48,19 @@ export class UntagRoleCommand extends $Command<UntagRoleCommandInput, UntagRoleC
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<UntagRoleCommandInput, UntagRoleCommandOutput> {
+  ): Handler<PutAccountQosCommandInput, PutAccountQosCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "UntagRoleCommand";
+    const commandName = "PutAccountQosCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: UntagRoleRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: PutAccountQosRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -62,12 +71,12 @@ export class UntagRoleCommand extends $Command<UntagRoleCommandInput, UntagRoleC
     );
   }
 
-  private serialize(input: UntagRoleCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryUntagRoleCommand(input, context);
+  private serialize(input: PutAccountQosCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryPutAccountQosCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UntagRoleCommandOutput> {
-    return deserializeAws_queryUntagRoleCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutAccountQosCommandOutput> {
+    return deserializeAws_queryPutAccountQosCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -31,7 +31,7 @@ const { models, globs, output: clientsDir } = yargs
 (async () => {
   try {
     await generateClients(models || globs);
-    await generateProtocolTests();
+    //await generateProtocolTests();
 
     await prettifyCode(CODE_GEN_SDK_OUTPUT_DIR);
     await prettifyCode(CODE_GEN_PROTOCOL_TESTS_OUTPUT_DIR);

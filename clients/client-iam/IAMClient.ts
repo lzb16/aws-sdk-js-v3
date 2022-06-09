@@ -11,6 +11,10 @@ import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from ".
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "./commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "./commands/AttachUserPolicyCommand";
 import {
+  ChangeAccountDescriptionCommandInput,
+  ChangeAccountDescriptionCommandOutput,
+} from "./commands/ChangeAccountDescriptionCommand";
+import {
   ChangeAccountPasswordCommandInput,
   ChangeAccountPasswordCommandOutput,
 } from "./commands/ChangeAccountPasswordCommand";
@@ -146,6 +150,7 @@ import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
 } from "./commands/GetAccountPasswordPolicyCommand";
+import { GetAccountQosCommandInput, GetAccountQosCommandOutput } from "./commands/GetAccountQosCommand";
 import { GetAccountSummaryCommandInput, GetAccountSummaryCommandOutput } from "./commands/GetAccountSummaryCommand";
 import {
   GetContextKeysForCustomPolicyCommandInput,
@@ -262,6 +267,7 @@ import {
   ListVirtualMFADevicesCommandOutput,
 } from "./commands/ListVirtualMFADevicesCommand";
 import { LoginConsoleCommandInput, LoginConsoleCommandOutput } from "./commands/LoginConsoleCommand";
+import { PutAccountQosCommandInput, PutAccountQosCommandOutput } from "./commands/PutAccountQosCommand";
 import { PutGroupPolicyCommandInput, PutGroupPolicyCommandOutput } from "./commands/PutGroupPolicyCommand";
 import {
   PutRolePermissionsBoundaryCommandInput,
@@ -321,6 +327,7 @@ import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
 } from "./commands/UpdateAccountPasswordPolicyCommand";
+import { UpdateAccountQuotaCommandInput, UpdateAccountQuotaCommandOutput } from "./commands/UpdateAccountQuotaCommand";
 import {
   UpdateAssumeRolePolicyCommandInput,
   UpdateAssumeRolePolicyCommandOutput,
@@ -418,6 +425,7 @@ export type ServiceInputTypes =
   | AttachGroupPolicyCommandInput
   | AttachRolePolicyCommandInput
   | AttachUserPolicyCommandInput
+  | ChangeAccountDescriptionCommandInput
   | ChangeAccountPasswordCommandInput
   | ChangePasswordCommandInput
   | CheckServicePermissionCommandInput
@@ -473,6 +481,7 @@ export type ServiceInputTypes =
   | GetAccountAuthorizationDetailsCommandInput
   | GetAccountCommandInput
   | GetAccountPasswordPolicyCommandInput
+  | GetAccountQosCommandInput
   | GetAccountSummaryCommandInput
   | GetContextKeysForCustomPolicyCommandInput
   | GetContextKeysForPrincipalPolicyCommandInput
@@ -526,6 +535,7 @@ export type ServiceInputTypes =
   | ListUsersCommandInput
   | ListVirtualMFADevicesCommandInput
   | LoginConsoleCommandInput
+  | PutAccountQosCommandInput
   | PutGroupPolicyCommandInput
   | PutRolePermissionsBoundaryCommandInput
   | PutRolePolicyCommandInput
@@ -549,6 +559,7 @@ export type ServiceInputTypes =
   | UpdateAccessKeyCommandInput
   | UpdateAccountCommandInput
   | UpdateAccountPasswordPolicyCommandInput
+  | UpdateAccountQuotaCommandInput
   | UpdateAssumeRolePolicyCommandInput
   | UpdateGroupCommandInput
   | UpdateLoginProfileCommandInput
@@ -572,6 +583,7 @@ export type ServiceOutputTypes =
   | AttachGroupPolicyCommandOutput
   | AttachRolePolicyCommandOutput
   | AttachUserPolicyCommandOutput
+  | ChangeAccountDescriptionCommandOutput
   | ChangeAccountPasswordCommandOutput
   | ChangePasswordCommandOutput
   | CheckServicePermissionCommandOutput
@@ -627,6 +639,7 @@ export type ServiceOutputTypes =
   | GetAccountAuthorizationDetailsCommandOutput
   | GetAccountCommandOutput
   | GetAccountPasswordPolicyCommandOutput
+  | GetAccountQosCommandOutput
   | GetAccountSummaryCommandOutput
   | GetContextKeysForCustomPolicyCommandOutput
   | GetContextKeysForPrincipalPolicyCommandOutput
@@ -680,6 +693,7 @@ export type ServiceOutputTypes =
   | ListUsersCommandOutput
   | ListVirtualMFADevicesCommandOutput
   | LoginConsoleCommandOutput
+  | PutAccountQosCommandOutput
   | PutGroupPolicyCommandOutput
   | PutRolePermissionsBoundaryCommandOutput
   | PutRolePolicyCommandOutput
@@ -703,6 +717,7 @@ export type ServiceOutputTypes =
   | UpdateAccessKeyCommandOutput
   | UpdateAccountCommandOutput
   | UpdateAccountPasswordPolicyCommandOutput
+  | UpdateAccountQuotaCommandOutput
   | UpdateAssumeRolePolicyCommandOutput
   | UpdateGroupCommandOutput
   | UpdateLoginProfileCommandOutput

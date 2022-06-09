@@ -30,6 +30,11 @@ import {
   AttachUserPolicyCommandOutput,
 } from "./commands/AttachUserPolicyCommand";
 import {
+  ChangeAccountDescriptionCommand,
+  ChangeAccountDescriptionCommandInput,
+  ChangeAccountDescriptionCommandOutput,
+} from "./commands/ChangeAccountDescriptionCommand";
+import {
   ChangeAccountPasswordCommand,
   ChangeAccountPasswordCommandInput,
   ChangeAccountPasswordCommandOutput,
@@ -277,6 +282,11 @@ import {
   GetAccountPasswordPolicyCommandOutput,
 } from "./commands/GetAccountPasswordPolicyCommand";
 import {
+  GetAccountQosCommand,
+  GetAccountQosCommandInput,
+  GetAccountQosCommandOutput,
+} from "./commands/GetAccountQosCommand";
+import {
   GetAccountSummaryCommand,
   GetAccountSummaryCommandInput,
   GetAccountSummaryCommandOutput,
@@ -514,6 +524,11 @@ import {
   LoginConsoleCommandOutput,
 } from "./commands/LoginConsoleCommand";
 import {
+  PutAccountQosCommand,
+  PutAccountQosCommandInput,
+  PutAccountQosCommandOutput,
+} from "./commands/PutAccountQosCommand";
+import {
   PutGroupPolicyCommand,
   PutGroupPolicyCommandInput,
   PutGroupPolicyCommandOutput,
@@ -612,6 +627,11 @@ import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
 } from "./commands/UpdateAccountPasswordPolicyCommand";
+import {
+  UpdateAccountQuotaCommand,
+  UpdateAccountQuotaCommandInput,
+  UpdateAccountQuotaCommandOutput,
+} from "./commands/UpdateAccountQuotaCommand";
 import {
   UpdateAssumeRolePolicyCommand,
   UpdateAssumeRolePolicyCommandInput,
@@ -901,6 +921,42 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: AttachUserPolicyCommandOutput) => void
   ): Promise<AttachUserPolicyCommandOutput> | void {
     const command = new AttachUserPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+   *          root user password is not affected by this operation.</p>
+   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  public changeAccountDescription(
+    args: ChangeAccountDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ChangeAccountDescriptionCommandOutput>;
+  public changeAccountDescription(
+    args: ChangeAccountDescriptionCommandInput,
+    cb: (err: any, data?: ChangeAccountDescriptionCommandOutput) => void
+  ): void;
+  public changeAccountDescription(
+    args: ChangeAccountDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ChangeAccountDescriptionCommandOutput) => void
+  ): void;
+  public changeAccountDescription(
+    args: ChangeAccountDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ChangeAccountDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: ChangeAccountDescriptionCommandOutput) => void
+  ): Promise<ChangeAccountDescriptionCommandOutput> | void {
+    const command = new ChangeAccountDescriptionCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3113,6 +3169,42 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+   *          root user password is not affected by this operation.</p>
+   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  public getAccountQos(
+    args: GetAccountQosCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetAccountQosCommandOutput>;
+  public getAccountQos(
+    args: GetAccountQosCommandInput,
+    cb: (err: any, data?: GetAccountQosCommandOutput) => void
+  ): void;
+  public getAccountQos(
+    args: GetAccountQosCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAccountQosCommandOutput) => void
+  ): void;
+  public getAccountQos(
+    args: GetAccountQosCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountQosCommandOutput) => void),
+    cb?: (err: any, data?: GetAccountQosCommandOutput) => void
+  ): Promise<GetAccountQosCommandOutput> | void {
+    const command = new GetAccountQosCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves information about IAM entity usage and IAM quotas in the AWS
    *          account.</p>
    *          <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>
@@ -5173,6 +5265,42 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+   *          root user password is not affected by this operation.</p>
+   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  public putAccountQos(
+    args: PutAccountQosCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutAccountQosCommandOutput>;
+  public putAccountQos(
+    args: PutAccountQosCommandInput,
+    cb: (err: any, data?: PutAccountQosCommandOutput) => void
+  ): void;
+  public putAccountQos(
+    args: PutAccountQosCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutAccountQosCommandOutput) => void
+  ): void;
+  public putAccountQos(
+    args: PutAccountQosCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutAccountQosCommandOutput) => void),
+    cb?: (err: any, data?: PutAccountQosCommandOutput) => void
+  ): Promise<PutAccountQosCommandOutput> | void {
+    const command = new PutAccountQosCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Adds or updates an inline policy document that is embedded in the specified IAM
    *          group.</p>
    *          <p>A user can also have managed policies attached to it. To attach a managed policy to a
@@ -6129,6 +6257,42 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UpdateAccountPasswordPolicyCommandOutput) => void
   ): Promise<UpdateAccountPasswordPolicyCommandOutput> | void {
     const command = new UpdateAccountPasswordPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
+   *          root user password is not affected by this operation.</p>
+   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
+   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  public updateAccountQuota(
+    args: UpdateAccountQuotaCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAccountQuotaCommandOutput>;
+  public updateAccountQuota(
+    args: UpdateAccountQuotaCommandInput,
+    cb: (err: any, data?: UpdateAccountQuotaCommandOutput) => void
+  ): void;
+  public updateAccountQuota(
+    args: UpdateAccountQuotaCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAccountQuotaCommandOutput) => void
+  ): void;
+  public updateAccountQuota(
+    args: UpdateAccountQuotaCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAccountQuotaCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAccountQuotaCommandOutput) => void
+  ): Promise<UpdateAccountQuotaCommandOutput> | void {
+    const command = new UpdateAccountQuotaCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

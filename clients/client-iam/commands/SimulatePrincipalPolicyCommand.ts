@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { SimulatePolicyResponse, SimulatePrincipalPolicyRequest } from "../models/models_0";
+import { SimulatePolicyResponse, SimulatePrincipalPolicyRequest } from "../models/models_1";
 import {
   deserializeAws_querySimulatePrincipalPolicyCommand,
   serializeAws_querySimulatePrincipalPolicyCommand,

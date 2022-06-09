@@ -4970,6 +4970,12 @@ export interface LifecycleRule {
   Expiration?: LifecycleExpiration;
 
   /**
+   * <p>Specifies the expiration for the lifecycle of the object in the form of date, days and,
+   *          whether the object has a delete marker.</p>
+   */
+  BucketExpiration?: LifecycleExpiration;
+
+  /**
    * <p>Unique identifier for the rule. The value cannot be longer than 255 characters.</p>
    */
   ID?: string;
@@ -5741,9 +5747,23 @@ export namespace PolicyConfiguration {
   });
 }
 
+export interface QoSConfiguration {
+  ReadOps?: number;
+  WriteOps?: number;
+  ReadBandwidth?: number;
+  WriteBandwidth?: number;
+  Status?: Status | string;
+}
+
+export namespace QoSConfiguration {
+  export const filterSensitiveLog = (obj: QoSConfiguration): any => ({
+    ...obj,
+  });
+}
+
 export interface Quota {
-  StorageQuota?: number;
-  ObjectQuota?: number;
+  StorageQuota?: string;
+  ObjectQuota?: string;
 }
 
 export namespace Quota {
@@ -5933,6 +5953,11 @@ export interface Bucket {
    * <p>The configuration information for the bucket.</p>
    */
   PolicyConfiguration?: PolicyConfiguration;
+
+  /**
+   * <p>The configuration information for the bucket.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
 }
 
 export namespace Bucket {
@@ -6166,20 +6191,6 @@ export interface GetBucketQoSRequest {
 
 export namespace GetBucketQoSRequest {
   export const filterSensitiveLog = (obj: GetBucketQoSRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface QoSConfiguration {
-  Name?: string;
-  ReadOps?: number;
-  WriteOps?: number;
-  ReadBandWidth?: number;
-  WriteBandWidth?: number;
-}
-
-export namespace QoSConfiguration {
-  export const filterSensitiveLog = (obj: QoSConfiguration): any => ({
     ...obj,
   });
 }
@@ -9505,6 +9516,11 @@ export interface ListObjectVersionsRequest {
    * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
    */
   ExpectedBucketOwner?: string;
+
+  /**
+   * <p>List Object markers in first level.</p>
+   */
+  DeletedObjects?: boolean;
 }
 
 export namespace ListObjectVersionsRequest {
