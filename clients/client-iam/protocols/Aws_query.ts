@@ -1,3 +1,4 @@
+import { AddAccountToGroupCommandInput, AddAccountToGroupCommandOutput } from "../commands/AddAccountToGroupCommand";
 import {
   AddClientIDToOpenIDConnectProviderCommandInput,
   AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -26,6 +27,7 @@ import {
 import { CreateAccessKeyCommandInput, CreateAccessKeyCommandOutput } from "../commands/CreateAccessKeyCommand";
 import { CreateAccountAliasCommandInput, CreateAccountAliasCommandOutput } from "../commands/CreateAccountAliasCommand";
 import { CreateAccountCommandInput, CreateAccountCommandOutput } from "../commands/CreateAccountCommand";
+import { CreateAccountGroupCommandInput, CreateAccountGroupCommandOutput } from "../commands/CreateAccountGroupCommand";
 import { CreateGroupCommandInput, CreateGroupCommandOutput } from "../commands/CreateGroupCommand";
 import {
   CreateInstanceProfileCommandInput,
@@ -67,6 +69,7 @@ import {
 import { DeleteAccessKeyCommandInput, DeleteAccessKeyCommandOutput } from "../commands/DeleteAccessKeyCommand";
 import { DeleteAccountAliasCommandInput, DeleteAccountAliasCommandOutput } from "../commands/DeleteAccountAliasCommand";
 import { DeleteAccountCommandInput, DeleteAccountCommandOutput } from "../commands/DeleteAccountCommand";
+import { DeleteAccountGroupCommandInput, DeleteAccountGroupCommandOutput } from "../commands/DeleteAccountGroupCommand";
 import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
@@ -146,6 +149,11 @@ import {
   GetAccountAuthorizationDetailsCommandOutput,
 } from "../commands/GetAccountAuthorizationDetailsCommand";
 import { GetAccountCommandInput, GetAccountCommandOutput } from "../commands/GetAccountCommand";
+import { GetAccountGroupCommandInput, GetAccountGroupCommandOutput } from "../commands/GetAccountGroupCommand";
+import {
+  GetAccountGroupMetaCommandInput,
+  GetAccountGroupMetaCommandOutput,
+} from "../commands/GetAccountGroupMetaCommand";
 import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
@@ -203,6 +211,7 @@ import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "../comman
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "../commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "../commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "../commands/ListAccountAliasesCommand";
+import { ListAccountGroupsCommandInput, ListAccountGroupsCommandOutput } from "../commands/ListAccountGroupsCommand";
 import { ListAccountsCommandInput, ListAccountsCommandOutput } from "../commands/ListAccountsCommand";
 import {
   ListAttachedGroupPoliciesCommandInput,
@@ -280,6 +289,10 @@ import {
 } from "../commands/PutUserPermissionsBoundaryCommand";
 import { PutUserPolicyCommandInput, PutUserPolicyCommandOutput } from "../commands/PutUserPolicyCommand";
 import {
+  RemoveAccountFromGroupCommandInput,
+  RemoveAccountFromGroupCommandOutput,
+} from "../commands/RemoveAccountFromGroupCommand";
+import {
   RemoveClientIDFromOpenIDConnectProviderCommandInput,
   RemoveClientIDFromOpenIDConnectProviderCommandOutput,
 } from "../commands/RemoveClientIDFromOpenIDConnectProviderCommand";
@@ -323,6 +336,11 @@ import { UntagRoleCommandInput, UntagRoleCommandOutput } from "../commands/Untag
 import { UntagUserCommandInput, UntagUserCommandOutput } from "../commands/UntagUserCommand";
 import { UpdateAccessKeyCommandInput, UpdateAccessKeyCommandOutput } from "../commands/UpdateAccessKeyCommand";
 import { UpdateAccountCommandInput, UpdateAccountCommandOutput } from "../commands/UpdateAccountCommand";
+import { UpdateAccountGroupCommandInput, UpdateAccountGroupCommandOutput } from "../commands/UpdateAccountGroupCommand";
+import {
+  UpdateAccountGroupQuotaCommandInput,
+  UpdateAccountGroupQuotaCommandOutput,
+} from "../commands/UpdateAccountGroupQuotaCommand";
 import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
@@ -372,7 +390,9 @@ import {
   AccessKey,
   AccessKeyLastUsed,
   AccessKeyMetadata,
+  AccountGroupType,
   AccountType,
+  AddAccountToGroupRequest,
   AddClientIDToOpenIDConnectProviderRequest,
   AddRoleToInstanceProfileRequest,
   AddUserToGroupRequest,
@@ -387,10 +407,11 @@ import {
   CheckServicePermissionRequest,
   CheckServicePermissionResponse,
   ConcurrentModificationException,
-  ContextEntry,
   CreateAccessKeyRequest,
   CreateAccessKeyResponse,
   CreateAccountAliasRequest,
+  CreateAccountGroupRequest,
+  CreateAccountGroupResponse,
   CreateAccountRequest,
   CreateAccountResponse,
   CreateGroupRequest,
@@ -424,6 +445,7 @@ import {
   DeactivateMFADeviceRequest,
   DeleteAccessKeyRequest,
   DeleteAccountAliasRequest,
+  DeleteAccountGroupRequest,
   DeleteAccountRequest,
   DeleteConflictException,
   DeleteGroupPolicyRequest,
@@ -458,7 +480,6 @@ import {
   EntityTemporarilyUnmodifiableException,
   EntityType,
   ErrorDetails,
-  EvaluationResult,
   GenerateCredentialReportResponse,
   GenerateOrganizationsAccessReportRequest,
   GenerateOrganizationsAccessReportResponse,
@@ -468,6 +489,10 @@ import {
   GetAccessKeyLastUsedResponse,
   GetAccountAuthorizationDetailsRequest,
   GetAccountAuthorizationDetailsResponse,
+  GetAccountGroupMetaRequest,
+  GetAccountGroupMetaResponse,
+  GetAccountGroupRequest,
+  GetAccountGroupResponse,
   GetAccountPasswordPolicyResponse,
   GetAccountQosRequest,
   GetAccountQosResponse,
@@ -527,6 +552,8 @@ import {
   ListAccessKeysResponse,
   ListAccountAliasesRequest,
   ListAccountAliasesResponse,
+  ListAccountGroupsRequest,
+  ListAccountGroupsResponse,
   ListAccountsRequest,
   ListAccountsResponse,
   ListAttachedGroupPoliciesRequest,
@@ -590,21 +617,16 @@ import {
   ManagedPolicyDetail,
   NoSuchEntityException,
   OpenIDConnectProviderListEntry,
-  OrganizationsDecisionDetail,
   PasswordPolicy,
   PasswordPolicyViolationException,
-  PermissionsBoundaryDecisionDetail,
   Policy,
   PolicyDetail,
-  PolicyEvaluationDecisionType,
-  PolicyEvaluationException,
   PolicyGrantingServiceAccess,
   PolicyGroup,
   PolicyNotAttachableException,
   PolicyRole,
   PolicyUser,
   PolicyVersion,
-  Position,
   PutAccountQosRequest,
   PutGroupPolicyRequest,
   PutRolePermissionsBoundaryRequest,
@@ -612,6 +634,7 @@ import {
   PutUserPermissionsBoundaryRequest,
   PutUserPolicyRequest,
   QoSConfiguration,
+  RemoveAccountFromGroupRequest,
   RemoveClientIDFromOpenIDConnectProviderRequest,
   RemoveRoleFromInstanceProfileRequest,
   RemoveUserFromGroupRequest,
@@ -620,7 +643,6 @@ import {
   ResetServiceSpecificCredentialRequest,
   ResetServiceSpecificCredentialResponse,
   ResetUserPasswordRequest,
-  ResourceSpecificResult,
   ResyncMFADeviceRequest,
   Role,
   RoleDetail,
@@ -640,8 +662,6 @@ import {
   SetDefaultPolicyVersionRequest,
   SetSecurityTokenServicePreferencesRequest,
   SigningCertificate,
-  SimulateCustomPolicyRequest,
-  Statement,
   Tag,
   TrackedActionLastAccessed,
   UnmodifiableEntityException,
@@ -651,19 +671,31 @@ import {
   VirtualMFADevice,
 } from "../models/models_0";
 import {
+  ContextEntry,
   DuplicateCertificateException,
   DuplicateSSHPublicKeyException,
+  EvaluationResult,
   InvalidCertificateException,
   InvalidPublicKeyException,
   KeyPairMismatchException,
   MalformedCertificateException,
+  OrganizationsDecisionDetail,
+  PermissionsBoundaryDecisionDetail,
+  PolicyEvaluationDecisionType,
+  PolicyEvaluationException,
+  Position,
+  ResourceSpecificResult,
+  SimulateCustomPolicyRequest,
   SimulatePolicyResponse,
   SimulatePrincipalPolicyRequest,
+  Statement,
   TagRoleRequest,
   TagUserRequest,
   UntagRoleRequest,
   UntagUserRequest,
   UpdateAccessKeyRequest,
+  UpdateAccountGroupQuotaRequest,
+  UpdateAccountGroupRequest,
   UpdateAccountPasswordPolicyRequest,
   UpdateAccountQuotaRequest,
   UpdateAccountRequest,
@@ -704,6 +736,22 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 import { parse as xmlParse } from "fast-xml-parser";
+
+export const serializeAws_queryAddAccountToGroupCommand = async (
+  input: AddAccountToGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryAddAccountToGroupRequest(input, context),
+    Action: "AddAccountToGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
 
 export const serializeAws_queryAddClientIDToOpenIDConnectProviderCommand = async (
   input: AddClientIDToOpenIDConnectProviderCommandInput,
@@ -908,6 +956,22 @@ export const serializeAws_queryCreateAccountAliasCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryCreateAccountAliasRequest(input, context),
     Action: "CreateAccountAlias",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryCreateAccountGroupCommand = async (
+  input: CreateAccountGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryCreateAccountGroupRequest(input, context),
+    Action: "CreateAccountGroup",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -1180,6 +1244,22 @@ export const serializeAws_queryDeleteAccountAliasCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryDeleteAccountAliasRequest(input, context),
     Action: "DeleteAccountAlias",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryDeleteAccountGroupCommand = async (
+  input: DeleteAccountGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryDeleteAccountGroupRequest(input, context),
+    Action: "DeleteAccountGroup",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -1677,6 +1757,38 @@ export const serializeAws_queryGetAccountAuthorizationDetailsCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryGetAccountGroupCommand = async (
+  input: GetAccountGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryGetAccountGroupRequest(input, context),
+    Action: "GetAccountGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryGetAccountGroupMetaCommand = async (
+  input: GetAccountGroupMetaCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryGetAccountGroupMetaRequest(input, context),
+    Action: "GetAccountGroupMeta",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryGetAccountPasswordPolicyCommand = async (
   input: GetAccountPasswordPolicyCommandInput,
   context: __SerdeContext
@@ -2098,6 +2210,22 @@ export const serializeAws_queryListAccountAliasesCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryListAccountAliasesRequest(input, context),
     Action: "ListAccountAliases",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryListAccountGroupsCommand = async (
+  input: ListAccountGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryListAccountGroupsRequest(input, context),
+    Action: "ListAccountGroups",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -2647,6 +2775,22 @@ export const serializeAws_queryPutUserPolicyCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryRemoveAccountFromGroupCommand = async (
+  input: RemoveAccountFromGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryRemoveAccountFromGroupRequest(input, context),
+    Action: "RemoveAccountFromGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryRemoveClientIDFromOpenIDConnectProviderCommand = async (
   input: RemoveClientIDFromOpenIDConnectProviderCommandInput,
   context: __SerdeContext
@@ -2914,6 +3058,38 @@ export const serializeAws_queryUpdateAccountCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryUpdateAccountRequest(input, context),
     Action: "UpdateAccount",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateAccountGroupCommand = async (
+  input: UpdateAccountGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateAccountGroupRequest(input, context),
+    Action: "UpdateAccountGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateAccountGroupQuotaCommand = async (
+  input: UpdateAccountGroupQuotaCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateAccountGroupQuotaRequest(input, context),
+    Action: "UpdateAccountGroupQuota",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3189,6 +3365,57 @@ export const serializeAws_queryUploadSSHPublicKeyCommand = async (
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const deserializeAws_queryAddAccountToGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<AddAccountToGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryAddAccountToGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: AddAccountToGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryAddAccountToGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<AddAccountToGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
 };
 
 export const deserializeAws_queryAddClientIDToOpenIDConnectProviderCommand = async (
@@ -4150,6 +4377,60 @@ const deserializeAws_queryCreateAccountAliasCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryCreateAccountGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateAccountGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryCreateAccountGroupCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryCreateAccountGroupResponse(data.CreateAccountGroupResult, context);
+  const response: CreateAccountGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryCreateAccountGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateAccountGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "ServiceFailureException":
     case "com.amazonaws.iam#ServiceFailureException":
       response = {
@@ -5435,6 +5716,65 @@ const deserializeAws_queryDeleteAccountAliasCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryDeleteAccountGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAccountGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryDeleteAccountGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: DeleteAccountGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryDeleteAccountGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAccountGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "NoSuchEntityException":
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
@@ -7631,6 +7971,114 @@ const deserializeAws_queryGetAccountAuthorizationDetailsCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryGetAccountGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAccountGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryGetAccountGroupCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryGetAccountGroupResponse(data.GetAccountGroupResult, context);
+  const response: GetAccountGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryGetAccountGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAccountGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryGetAccountGroupMetaCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAccountGroupMetaCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryGetAccountGroupMetaCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryGetAccountGroupMetaResponse(data.GetAccountGroupMetaResult, context);
+  const response: GetAccountGroupMetaCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryGetAccountGroupMetaCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAccountGroupMetaCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryGetAccountPasswordPolicyCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -9321,6 +9769,60 @@ const deserializeAws_queryListAccountAliasesCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<ListAccountAliasesCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryListAccountGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListAccountGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryListAccountGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryListAccountGroupsResponse(data.ListAccountGroupsResult, context);
+  const response: ListAccountGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryListAccountGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListAccountGroupsCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -11506,6 +12008,57 @@ const deserializeAws_queryPutUserPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryRemoveAccountFromGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<RemoveAccountFromGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryRemoveAccountFromGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: RemoveAccountFromGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryRemoveAccountFromGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<RemoveAccountFromGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryRemoveClientIDFromOpenIDConnectProviderCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -12592,6 +13145,108 @@ const deserializeAws_queryUpdateAccountCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<UpdateAccountCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateAccountGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateAccountGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateAccountGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateAccountGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateAccountGroupQuotaCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountGroupQuotaCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateAccountGroupQuotaCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateAccountGroupQuotaCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateAccountGroupQuotaCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountGroupQuotaCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -14336,6 +14991,17 @@ const serializeAws_queryActionNameListType = (input: string[], context: __SerdeC
   return entries;
 };
 
+const serializeAws_queryAddAccountToGroupRequest = (input: AddAccountToGroupRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  return entries;
+};
+
 const serializeAws_queryAddClientIDToOpenIDConnectProviderRequest = (
   input: AddClientIDToOpenIDConnectProviderRequest,
   context: __SerdeContext
@@ -14536,6 +15202,20 @@ const serializeAws_queryCreateAccountAliasRequest = (
   const entries: any = {};
   if (input.AccountAlias !== undefined && input.AccountAlias !== null) {
     entries["AccountAlias"] = input.AccountAlias;
+  }
+  return entries;
+};
+
+const serializeAws_queryCreateAccountGroupRequest = (
+  input: CreateAccountGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
   }
   return entries;
 };
@@ -14857,6 +15537,17 @@ const serializeAws_queryDeleteAccountAliasRequest = (
   const entries: any = {};
   if (input.AccountAlias !== undefined && input.AccountAlias !== null) {
     entries["AccountAlias"] = input.AccountAlias;
+  }
+  return entries;
+};
+
+const serializeAws_queryDeleteAccountGroupRequest = (
+  input: DeleteAccountGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
   }
   return entries;
 };
@@ -15212,6 +15903,25 @@ const serializeAws_queryGetAccountAuthorizationDetailsRequest = (
   return entries;
 };
 
+const serializeAws_queryGetAccountGroupMetaRequest = (
+  input: GetAccountGroupMetaRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  return entries;
+};
+
+const serializeAws_queryGetAccountGroupRequest = (input: GetAccountGroupRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  return entries;
+};
+
 const serializeAws_queryGetAccountQosRequest = (input: GetAccountQosRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.AccountName !== undefined && input.AccountName !== null) {
@@ -15535,6 +16245,9 @@ const serializeAws_queryListAccessKeysRequest = (input: ListAccessKeysRequest, c
   if (input.Type !== undefined && input.Type !== null) {
     entries["Type"] = input.Type;
   }
+  if (input.ResponseNeedSk !== undefined && input.ResponseNeedSk !== null) {
+    entries["ResponseNeedSk"] = input.ResponseNeedSk;
+  }
   return entries;
 };
 
@@ -15552,16 +16265,30 @@ const serializeAws_queryListAccountAliasesRequest = (
   return entries;
 };
 
-const serializeAws_queryListAccountsRequest = (input: ListAccountsRequest, context: __SerdeContext): any => {
+const serializeAws_queryListAccountGroupsRequest = (input: ListAccountGroupsRequest, context: __SerdeContext): any => {
   const entries: any = {};
-  if (input.ResponseNeedCert !== undefined && input.ResponseNeedCert !== null) {
-    entries["ResponseNeedCert"] = input.ResponseNeedCert;
-  }
   if (input.Marker !== undefined && input.Marker !== null) {
     entries["Marker"] = input.Marker;
   }
   if (input.MaxItems !== undefined && input.MaxItems !== null) {
     entries["MaxItems"] = input.MaxItems;
+  }
+  return entries;
+};
+
+const serializeAws_queryListAccountsRequest = (input: ListAccountsRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.ResponseNeedCert !== undefined && input.ResponseNeedCert !== null) {
+    entries["ResponseNeedCert"] = input.ResponseNeedCert;
+  }
+  if (input.AccountNameMarker !== undefined && input.AccountNameMarker !== null) {
+    entries["AccountNameMarker"] = input.AccountNameMarker;
+  }
+  if (input.MaxKeys !== undefined && input.MaxKeys !== null) {
+    entries["MaxKeys"] = input.MaxKeys;
+  }
+  if (input.Prefix !== undefined && input.Prefix !== null) {
+    entries["Prefix"] = input.Prefix;
   }
   return entries;
 };
@@ -16089,6 +16816,20 @@ const serializeAws_queryPutUserPolicyRequest = (input: PutUserPolicyRequest, con
   return entries;
 };
 
+const serializeAws_queryRemoveAccountFromGroupRequest = (
+  input: RemoveAccountFromGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  return entries;
+};
+
 const serializeAws_queryRemoveClientIDFromOpenIDConnectProviderRequest = (
   input: RemoveClientIDFromOpenIDConnectProviderRequest,
   context: __SerdeContext
@@ -16502,6 +17243,43 @@ const serializeAws_queryUpdateAccessKeyRequest = (input: UpdateAccessKeyRequest,
   }
   if (input.Type !== undefined && input.Type !== null) {
     entries["Type"] = input.Type;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateAccountGroupQuotaRequest = (
+  input: UpdateAccountGroupQuotaRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.ObjectNumberQuota !== undefined && input.ObjectNumberQuota !== null) {
+    entries["ObjectNumberQuota"] = input.ObjectNumberQuota;
+  }
+  if (input.CapacitySizeQuota !== undefined && input.CapacitySizeQuota !== null) {
+    entries["CapacitySizeQuota"] = input.CapacitySizeQuota;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateAccountGroupRequest = (
+  input: UpdateAccountGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.GroupId !== undefined && input.GroupId !== null) {
+    entries["GroupId"] = input.GroupId;
+  }
+  if (input.NewGroupName !== undefined && input.NewGroupName !== null) {
+    entries["NewGroupName"] = input.NewGroupName;
   }
   if (input.Description !== undefined && input.Description !== null) {
     entries["Description"] = input.Description;
@@ -16926,6 +17704,7 @@ const deserializeAws_queryAccessKeyMetadata = (output: any, context: __SerdeCont
   let contents: any = {
     UserName: undefined,
     AccessKeyId: undefined,
+    SecretAccessKey: undefined,
     Description: undefined,
     Status: undefined,
     CreateDate: undefined,
@@ -16935,6 +17714,9 @@ const deserializeAws_queryAccessKeyMetadata = (output: any, context: __SerdeCont
   }
   if (output["AccessKeyId"] !== undefined) {
     contents.AccessKeyId = output["AccessKeyId"];
+  }
+  if (output["SecretAccessKey"] !== undefined) {
+    contents.SecretAccessKey = output["SecretAccessKey"];
   }
   if (output["Description"] !== undefined) {
     contents.Description = output["Description"];
@@ -16970,6 +17752,51 @@ const deserializeAws_queryaccountAliasListType = (output: any, context: __SerdeC
     });
 };
 
+const deserializeAws_queryaccountgroupListType = (output: any, context: __SerdeContext): AccountGroupType[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_queryAccountGroupType(entry, context);
+    });
+};
+
+const deserializeAws_queryAccountGroupType = (output: any, context: __SerdeContext): AccountGroupType => {
+  let contents: any = {
+    GroupName: undefined,
+    GroupId: undefined,
+    Description: undefined,
+    QuotaCapacitySize: undefined,
+    QuotaObjectNumber: undefined,
+    ObjectNumber: undefined,
+    UsedSize: undefined,
+  };
+  if (output["GroupName"] !== undefined) {
+    contents.GroupName = output["GroupName"];
+  }
+  if (output["GroupId"] !== undefined) {
+    contents.GroupId = output["GroupId"];
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
+  }
+  if (output["QuotaCapacitySize"] !== undefined) {
+    contents.QuotaCapacitySize = output["QuotaCapacitySize"];
+  }
+  if (output["QuotaObjectNumber"] !== undefined) {
+    contents.QuotaObjectNumber = output["QuotaObjectNumber"];
+  }
+  if (output["ObjectNumber"] !== undefined) {
+    contents.ObjectNumber = output["ObjectNumber"];
+  }
+  if (output["UsedSize"] !== undefined) {
+    contents.UsedSize = output["UsedSize"];
+  }
+  return contents;
+};
+
 const deserializeAws_queryaccountListType = (output: any, context: __SerdeContext): AccountType[] => {
   return (output || [])
     .filter((e: any) => e != null)
@@ -16985,6 +17812,8 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   let contents: any = {
     AccountName: undefined,
     AccountId: undefined,
+    GroupName: undefined,
+    GroupId: undefined,
     Path: undefined,
     AccountDesc: undefined,
     Arn: undefined,
@@ -17004,6 +17833,12 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   }
   if (output["AccountId"] !== undefined) {
     contents.AccountId = output["AccountId"];
+  }
+  if (output["GroupName"] !== undefined) {
+    contents.GroupName = output["GroupName"];
+  }
+  if (output["GroupId"] !== undefined) {
+    contents.GroupId = output["GroupId"];
   }
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -17033,7 +17868,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     contents.BucketNumber = parseInt(output["BucketNumber"]);
   }
   if (output["ObjectNumber"] !== undefined) {
-    contents.ObjectNumber = parseInt(output["ObjectNumber"]);
+    contents.ObjectNumber = output["ObjectNumber"];
   }
   if (output["UsedSize"] !== undefined) {
     contents.UsedSize = output["UsedSize"];
@@ -17174,6 +18009,19 @@ const deserializeAws_queryCreateAccessKeyResponse = (output: any, context: __Ser
   };
   if (output["AccessKey"] !== undefined) {
     contents.AccessKey = deserializeAws_queryAccessKey(output["AccessKey"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryCreateAccountGroupResponse = (
+  output: any,
+  context: __SerdeContext
+): CreateAccountGroupResponse => {
+  let contents: any = {
+    Group: undefined,
+  };
+  if (output["Group"] !== undefined) {
+    contents.Group = deserializeAws_queryAccountGroupType(output["Group"], context);
   }
   return contents;
 };
@@ -17748,6 +18596,35 @@ const deserializeAws_queryGetAccountAuthorizationDetailsResponse = (
   }
   if (output["Marker"] !== undefined) {
     contents.Marker = output["Marker"];
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetAccountGroupMetaResponse = (
+  output: any,
+  context: __SerdeContext
+): GetAccountGroupMetaResponse => {
+  let contents: any = {
+    Group: undefined,
+  };
+  if (output["Group"] !== undefined) {
+    contents.Group = deserializeAws_queryAccountGroupType(output["Group"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetAccountGroupResponse = (output: any, context: __SerdeContext): GetAccountGroupResponse => {
+  let contents: any = {
+    Accounts: undefined,
+  };
+  if (output.Accounts === "") {
+    contents.Accounts = [];
+  }
+  if (output["Accounts"] !== undefined && output["Accounts"]["member"] !== undefined) {
+    contents.Accounts = deserializeAws_queryaccountListType(
+      __getArrayIfSingleItem(output["Accounts"]["member"]),
+      context
+    );
   }
   return contents;
 };
@@ -18528,11 +19405,38 @@ const deserializeAws_queryListAccountAliasesResponse = (
   return contents;
 };
 
+const deserializeAws_queryListAccountGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): ListAccountGroupsResponse => {
+  let contents: any = {
+    Groups: undefined,
+    IsTruncated: undefined,
+    Marker: undefined,
+  };
+  if (output.Groups === "") {
+    contents.Groups = [];
+  }
+  if (output["Groups"] !== undefined && output["Groups"]["member"] !== undefined) {
+    contents.Groups = deserializeAws_queryaccountgroupListType(
+      __getArrayIfSingleItem(output["Groups"]["member"]),
+      context
+    );
+  }
+  if (output["IsTruncated"] !== undefined) {
+    contents.IsTruncated = output["IsTruncated"] == "true";
+  }
+  if (output["Marker"] !== undefined) {
+    contents.Marker = output["Marker"];
+  }
+  return contents;
+};
+
 const deserializeAws_queryListAccountsResponse = (output: any, context: __SerdeContext): ListAccountsResponse => {
   let contents: any = {
     Accounts: undefined,
     IsTruncated: undefined,
-    Marker: undefined,
+    NextAccountName: undefined,
   };
   if (output.Accounts === "") {
     contents.Accounts = [];
@@ -18546,8 +19450,8 @@ const deserializeAws_queryListAccountsResponse = (output: any, context: __SerdeC
   if (output["IsTruncated"] !== undefined) {
     contents.IsTruncated = output["IsTruncated"] == "true";
   }
-  if (output["Marker"] !== undefined) {
-    contents.Marker = output["Marker"];
+  if (output["NextAccountName"] !== undefined) {
+    contents.NextAccountName = output["NextAccountName"];
   }
   return contents;
 };

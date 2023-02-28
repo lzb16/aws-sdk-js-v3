@@ -196,6 +196,11 @@ export interface Grant {
    * <p>Specifies the permission given to the grantee.</p>
    */
   Permission?: Permission | string;
+
+  /**
+   * <p>Specifies the permission given to the grantee.</p>
+   */
+  Delivered?: boolean;
 }
 
 export namespace Grant {
@@ -531,10 +536,12 @@ export type ObjectLockMode = "COMPLIANCE" | "GOVERNANCE";
 
 export type StorageClass =
   | "DEEP_ARCHIVE"
+  | "EXTREME"
   | "GLACIER"
   | "INTELLIGENT_TIERING"
   | "ONEZONE_IA"
   | "OUTPOSTS"
+  | "PERFORMANCE"
   | "REDUCED_REDUNDANCY"
   | "STANDARD"
   | "STANDARD_IA";
@@ -542,6 +549,12 @@ export type StorageClass =
 export type TaggingDirective = "COPY" | "REPLACE";
 
 export interface CopyObjectRequest {
+  /**
+   * <p>The date and time when you want this object's WORM to expire. Must be formatted
+   *          as a timestamp parameter.</p>
+   */
+  WormRetainUntilDate?: Date;
+
   /**
    * <p>The canned ACL to apply to the object.</p>
    *          <p>This action is not supported by Amazon S3 on Outposts.</p>
@@ -810,6 +823,11 @@ export interface CopyObjectRequest {
    * <p>The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
    */
   ExpectedSourceBucketOwner?: string;
+
+  /**
+   * <p>Indicates whether this action should bypass Governance-mode restrictions.</p>
+   */
+  BypassRetentionTimeLimit?: boolean;
 }
 
 export namespace CopyObjectRequest {
@@ -1008,6 +1026,11 @@ export interface CreateBucketRequest {
    * <p>The tag-set for the bucket. The tag-set must be encoded as URL Query parameters.</p>
    */
   Tagging?: string;
+
+  /**
+   * <p>The storage-class for the bucket.</p>
+   */
+  StorageClass?: StorageClass | string;
 }
 
 export namespace CreateBucketRequest {
@@ -3731,6 +3754,24 @@ export namespace DeleteObjectTaggingRequest {
   });
 }
 
+export interface DeleteOSCPRequest {
+  /**
+   * <p>The bucket name of the lifecycle to delete.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteOSCPRequest {
+  export const filterSensitiveLog = (obj: DeleteOSCPRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface DeletePublicAccessBlockRequest {
   /**
    * <p>The Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want to delete.
@@ -4776,15 +4817,81 @@ export namespace LifecycleExpiration {
 }
 
 /**
+ * <p>文件大小区间</p>
+ */
+export interface ObjectSizeRange {
+  /**
+   * <p>文件大小的较小值</p>
+   */
+  Start?: number;
+
+  /**
+   * <p>文件大小的较大值</p>
+   */
+  End?: number;
+}
+
+export namespace ObjectSizeRange {
+  export const filterSensitiveLog = (obj: ObjectSizeRange): any => ({
+    ...obj,
+  });
+}
+
+/**
  * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
  *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
  *          configured inside the And operator.</p>
  */
-export interface LifecycleRuleAndOperator {
+export interface LifecycleRuleOperator {
   /**
    * <p>Prefix identifying one or more objects to which the rule applies.</p>
    */
   Prefix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  PrefixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Suffix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  SuffixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeBetween?: ObjectSizeRange;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThan?: number;
 
   /**
    * <p>All of these tags must exist in the object's tag set in order for the rule to
@@ -4793,8 +4900,8 @@ export interface LifecycleRuleAndOperator {
   Tags?: Tag[];
 }
 
-export namespace LifecycleRuleAndOperator {
-  export const filterSensitiveLog = (obj: LifecycleRuleAndOperator): any => ({
+export namespace LifecycleRuleOperator {
+  export const filterSensitiveLog = (obj: LifecycleRuleOperator): any => ({
     ...obj,
   });
 }
@@ -4806,28 +4913,38 @@ export namespace LifecycleRuleAndOperator {
  */
 export type LifecycleRuleFilter =
   | LifecycleRuleFilter.AndMember
+  | LifecycleRuleFilter.ObjectSizeBetweenMember
+  | LifecycleRuleFilter.ObjectSizeEqualToMember
+  | LifecycleRuleFilter.ObjectSizeGreaterThanMember
+  | LifecycleRuleFilter.ObjectSizeGreaterThanOrEqualToMember
+  | LifecycleRuleFilter.ObjectSizeLessThanMember
+  | LifecycleRuleFilter.ObjectSizeLessThanOrEqualToMember
+  | LifecycleRuleFilter.OrMember
   | LifecycleRuleFilter.PrefixMember
-  | LifecycleRuleFilter.TagMember
+  | LifecycleRuleFilter.PrefixNotMatchMember
+  | LifecycleRuleFilter.SuffixMember
+  | LifecycleRuleFilter.SuffixNotMatchMember
   | LifecycleRuleFilter.$UnknownMember;
 
 export namespace LifecycleRuleFilter {
   /**
-   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+   *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+   *          configured inside the And operator.</p>
    */
-  export interface PrefixMember {
-    Prefix: string;
-    Tag?: never;
-    And?: never;
-    $unknown?: never;
-  }
-
-  /**
-   * <p>This tag must exist in the object's tag set in order for the rule to apply.</p>
-   */
-  export interface TagMember {
+  export interface AndMember {
+    And: LifecycleRuleOperator;
+    Or?: never;
     Prefix?: never;
-    Tag: Tag;
-    And?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
     $unknown?: never;
   }
 
@@ -4836,38 +4953,278 @@ export namespace LifecycleRuleFilter {
    *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
    *          configured inside the And operator.</p>
    */
-  export interface AndMember {
+  export interface OrMember {
+    And?: never;
+    Or: LifecycleRuleOperator;
     Prefix?: never;
-    Tag?: never;
-    And: LifecycleRuleAndOperator;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixMember {
+    And?: never;
+    Or?: never;
+    Prefix: string;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch: string;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix: string;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch: string;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan: number;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo: number;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo: number;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeBetweenMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween: ObjectSizeRange;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo: number;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan: number;
     $unknown?: never;
   }
 
   export interface $UnknownMember {
-    Prefix?: never;
-    Tag?: never;
     And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
     $unknown: [string, any];
   }
 
   export interface Visitor<T> {
+    And: (value: LifecycleRuleOperator) => T;
+    Or: (value: LifecycleRuleOperator) => T;
     Prefix: (value: string) => T;
-    Tag: (value: Tag) => T;
-    And: (value: LifecycleRuleAndOperator) => T;
+    PrefixNotMatch: (value: string) => T;
+    Suffix: (value: string) => T;
+    SuffixNotMatch: (value: string) => T;
+    ObjectSizeLessThan: (value: number) => T;
+    ObjectSizeLessThanOrEqualTo: (value: number) => T;
+    ObjectSizeEqualTo: (value: number) => T;
+    ObjectSizeBetween: (value: ObjectSizeRange) => T;
+    ObjectSizeGreaterThanOrEqualTo: (value: number) => T;
+    ObjectSizeGreaterThan: (value: number) => T;
     _: (name: string, value: any) => T;
   }
 
   export const visit = <T>(value: LifecycleRuleFilter, visitor: Visitor<T>): T => {
-    if (value.Prefix !== undefined) return visitor.Prefix(value.Prefix);
-    if (value.Tag !== undefined) return visitor.Tag(value.Tag);
     if (value.And !== undefined) return visitor.And(value.And);
+    if (value.Or !== undefined) return visitor.Or(value.Or);
+    if (value.Prefix !== undefined) return visitor.Prefix(value.Prefix);
+    if (value.PrefixNotMatch !== undefined) return visitor.PrefixNotMatch(value.PrefixNotMatch);
+    if (value.Suffix !== undefined) return visitor.Suffix(value.Suffix);
+    if (value.SuffixNotMatch !== undefined) return visitor.SuffixNotMatch(value.SuffixNotMatch);
+    if (value.ObjectSizeLessThan !== undefined) return visitor.ObjectSizeLessThan(value.ObjectSizeLessThan);
+    if (value.ObjectSizeLessThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeLessThanOrEqualTo(value.ObjectSizeLessThanOrEqualTo);
+    if (value.ObjectSizeEqualTo !== undefined) return visitor.ObjectSizeEqualTo(value.ObjectSizeEqualTo);
+    if (value.ObjectSizeBetween !== undefined) return visitor.ObjectSizeBetween(value.ObjectSizeBetween);
+    if (value.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeGreaterThanOrEqualTo(value.ObjectSizeGreaterThanOrEqualTo);
+    if (value.ObjectSizeGreaterThan !== undefined) return visitor.ObjectSizeGreaterThan(value.ObjectSizeGreaterThan);
     return visitor._(value.$unknown[0], value.$unknown[1]);
   };
 
   export const filterSensitiveLog = (obj: LifecycleRuleFilter): any => {
+    if (obj.And !== undefined) return { And: LifecycleRuleOperator.filterSensitiveLog(obj.And) };
+    if (obj.Or !== undefined) return { Or: LifecycleRuleOperator.filterSensitiveLog(obj.Or) };
     if (obj.Prefix !== undefined) return { Prefix: obj.Prefix };
-    if (obj.Tag !== undefined) return { Tag: Tag.filterSensitiveLog(obj.Tag) };
-    if (obj.And !== undefined) return { And: LifecycleRuleAndOperator.filterSensitiveLog(obj.And) };
+    if (obj.PrefixNotMatch !== undefined) return { PrefixNotMatch: obj.PrefixNotMatch };
+    if (obj.Suffix !== undefined) return { Suffix: obj.Suffix };
+    if (obj.SuffixNotMatch !== undefined) return { SuffixNotMatch: obj.SuffixNotMatch };
+    if (obj.ObjectSizeLessThan !== undefined) return { ObjectSizeLessThan: obj.ObjectSizeLessThan };
+    if (obj.ObjectSizeLessThanOrEqualTo !== undefined)
+      return { ObjectSizeLessThanOrEqualTo: obj.ObjectSizeLessThanOrEqualTo };
+    if (obj.ObjectSizeEqualTo !== undefined) return { ObjectSizeEqualTo: obj.ObjectSizeEqualTo };
+    if (obj.ObjectSizeBetween !== undefined)
+      return { ObjectSizeBetween: ObjectSizeRange.filterSensitiveLog(obj.ObjectSizeBetween) };
+    if (obj.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return { ObjectSizeGreaterThanOrEqualTo: obj.ObjectSizeGreaterThanOrEqualTo };
+    if (obj.ObjectSizeGreaterThan !== undefined) return { ObjectSizeGreaterThan: obj.ObjectSizeGreaterThan };
     if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
   };
 }
@@ -4923,6 +5280,42 @@ export interface NoncurrentVersionTransition {
 
 export namespace NoncurrentVersionTransition {
   export const filterSensitiveLog = (obj: NoncurrentVersionTransition): any => ({
+    ...obj,
+  });
+}
+
+export interface LifecyclePeriod {
+  /**
+   * <p>Specifies the expiration for the lifecycle of the object in the form of date, days and,
+   *          whether the object has a delete marker.</p>
+   */
+  Start?: string;
+
+  /**
+   * <p>Specifies the expiration for the lifecycle of the object in the form of date, days and,
+   *          whether the object has a delete marker.</p>
+   */
+  End?: string;
+}
+
+export namespace LifecyclePeriod {
+  export const filterSensitiveLog = (obj: LifecyclePeriod): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Running times.</p>
+ */
+export interface LifecycleRunningTimes {
+  /**
+   * <p>A lifecycle period list.</p>
+   */
+  Period?: LifecyclePeriod[];
+}
+
+export namespace LifecycleRunningTimes {
+  export const filterSensitiveLog = (obj: LifecycleRunningTimes): any => ({
     ...obj,
   });
 }
@@ -5030,6 +5423,11 @@ export interface LifecycleRule {
    *             <i>Amazon Simple Storage Service Developer Guide</i>.</p>
    */
   AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
+
+  /**
+   * <p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>
+   */
+  RunningTimes?: LifecycleRunningTimes;
 }
 
 export namespace LifecycleRule {
@@ -5603,20 +6001,17 @@ export namespace NotificationConfiguration {
   });
 }
 
-export type Status = "Disabled" | "Enabled";
-
-/**
- * <p>Container for logging status information.</p>
- */
-export interface BucketLoggingConfiguration {
-  Status?: Status | string;
+export interface BucketRedundancyConfiguration {
+  Status?: string;
 }
 
-export namespace BucketLoggingConfiguration {
-  export const filterSensitiveLog = (obj: BucketLoggingConfiguration): any => ({
+export namespace BucketRedundancyConfiguration {
+  export const filterSensitiveLog = (obj: BucketRedundancyConfiguration): any => ({
     ...obj,
   });
 }
+
+export type Status = "Disabled" | "Enabled";
 
 /**
  * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
@@ -5658,6 +6053,19 @@ export namespace BucketLifecycleConfiguration {
   export const filterSensitiveLog = (obj: BucketLifecycleConfiguration): any => ({
     ...obj,
     ...(obj.Rules && { Rules: obj.Rules.map((item) => LifecycleRule.filterSensitiveLog(item)) }),
+  });
+}
+
+/**
+ * <p>Container for logging status information.</p>
+ */
+export interface BucketLoggingConfiguration {
+  Status?: Status | string;
+}
+
+export namespace BucketLoggingConfiguration {
+  export const filterSensitiveLog = (obj: BucketLoggingConfiguration): any => ({
+    ...obj,
   });
 }
 
@@ -5732,6 +6140,21 @@ export interface ObjectLockConfiguration {
 
 export namespace ObjectLockConfiguration {
   export const filterSensitiveLog = (obj: ObjectLockConfiguration): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Specifies the lifecycle configuration for objects in an Amazon S3 bucket. For more
+ *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object Lifecycle Management</a>
+ *          in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+ */
+export interface BucketOSCPConfiguration {
+  Status?: Status | string;
+}
+
+export namespace BucketOSCPConfiguration {
+  export const filterSensitiveLog = (obj: BucketOSCPConfiguration): any => ({
     ...obj,
   });
 }
@@ -5817,6 +6240,19 @@ export namespace RefererConfiguration {
   });
 }
 
+/**
+ * <p>Container for rep pair status information.</p>
+ */
+export interface RepPairConfiguration {
+  Status?: Status | string;
+}
+
+export namespace RepPairConfiguration {
+  export const filterSensitiveLog = (obj: RepPairConfiguration): any => ({
+    ...obj,
+  });
+}
+
 export interface TaggingConfiguration {
   Status?: Status | string;
 }
@@ -5860,6 +6296,11 @@ export namespace VersioningConfiguration {
  *          unique, and the namespace is shared by all AWS accounts. </p>
  */
 export interface Bucket {
+  /**
+   * <p>The ID of the bucket.</p>
+   */
+  ID?: number;
+
   /**
    * <p>The name of the bucket.</p>
    */
@@ -5923,6 +6364,11 @@ export interface Bucket {
   LifecycleConfiguration?: BucketLifecycleConfiguration;
 
   /**
+   * <p>OSCP configuration.</p>
+   */
+  OSCPConfiguration?: BucketOSCPConfiguration;
+
+  /**
    * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
    *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling Cross-Origin Resource
    *             Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
@@ -5942,7 +6388,7 @@ export interface Bucket {
   /**
    * <p>The configuration information for the bucket.</p>
    */
-  BucketLoggingConfiguration?: BucketLoggingConfiguration;
+  LoggingConfiguration?: BucketLoggingConfiguration;
 
   /**
    * <p>The configuration information for the bucket.</p>
@@ -5958,6 +6404,23 @@ export interface Bucket {
    * <p>The configuration information for the bucket.</p>
    */
   QoSConfiguration?: QoSConfiguration;
+
+  /**
+   * <p>The configuration information for the bucket.</p>
+   */
+  BucketRedundancyConfiguration?: BucketRedundancyConfiguration;
+
+  /**
+   * <p>bucket storage class.</p>
+   */
+  DefaultStorageClass?: StorageClass | string;
+
+  /**
+   * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
+   *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling Cross-Origin Resource
+   *             Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  RepPairConfiguration?: RepPairConfiguration;
 }
 
 export namespace Bucket {
@@ -7861,6 +8324,546 @@ export namespace GetObjectTorrentRequest {
 }
 
 /**
+ * <p>A metadata key-value pair to store with an object.</p>
+ */
+export interface UserMetadataSingle {
+  /**
+   * <p>Name of the Object.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>Value of the Object.</p>
+   */
+  Value?: string;
+}
+
+export namespace UserMetadataSingle {
+  export const filterSensitiveLog = (obj: UserMetadataSingle): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+ *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+ *          configured inside the And operator.</p>
+ */
+export interface OSCPPolicyOperator {
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  PrefixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Suffix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  SuffixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeBetween?: ObjectSizeRange;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  UserMetadata?: UserMetadataSingle;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  Tags?: Tag[];
+}
+
+export namespace OSCPPolicyOperator {
+  export const filterSensitiveLog = (obj: OSCPPolicyOperator): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A
+ *             <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or
+ *             <code>And</code> specified.</p>
+ */
+export type OSCPPolicyFilter =
+  | OSCPPolicyFilter.AndMember
+  | OSCPPolicyFilter.ObjectSizeBetweenMember
+  | OSCPPolicyFilter.ObjectSizeEqualToMember
+  | OSCPPolicyFilter.ObjectSizeGreaterThanMember
+  | OSCPPolicyFilter.ObjectSizeGreaterThanOrEqualToMember
+  | OSCPPolicyFilter.ObjectSizeLessThanMember
+  | OSCPPolicyFilter.ObjectSizeLessThanOrEqualToMember
+  | OSCPPolicyFilter.OrMember
+  | OSCPPolicyFilter.PrefixMember
+  | OSCPPolicyFilter.PrefixNotMatchMember
+  | OSCPPolicyFilter.SuffixMember
+  | OSCPPolicyFilter.SuffixNotMatchMember
+  | OSCPPolicyFilter.UserMetadataMember
+  | OSCPPolicyFilter.$UnknownMember;
+
+export namespace OSCPPolicyFilter {
+  /**
+   * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+   *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+   *          configured inside the And operator.</p>
+   */
+  export interface AndMember {
+    And: OSCPPolicyOperator;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+   *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+   *          configured inside the And operator.</p>
+   */
+  export interface OrMember {
+    And?: never;
+    Or: OSCPPolicyOperator;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixMember {
+    And?: never;
+    Or?: never;
+    Prefix: string;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch: string;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix: string;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch: string;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan: number;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo: number;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo: number;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeBetweenMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween: ObjectSizeRange;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo: number;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan: number;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface UserMetadataMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata: UserMetadataSingle;
+    $unknown?: never;
+  }
+
+  export interface $UnknownMember {
+    And?: never;
+    Or?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown: [string, any];
+  }
+
+  export interface Visitor<T> {
+    And: (value: OSCPPolicyOperator) => T;
+    Or: (value: OSCPPolicyOperator) => T;
+    Prefix: (value: string) => T;
+    PrefixNotMatch: (value: string) => T;
+    Suffix: (value: string) => T;
+    SuffixNotMatch: (value: string) => T;
+    ObjectSizeLessThan: (value: number) => T;
+    ObjectSizeLessThanOrEqualTo: (value: number) => T;
+    ObjectSizeEqualTo: (value: number) => T;
+    ObjectSizeBetween: (value: ObjectSizeRange) => T;
+    ObjectSizeGreaterThanOrEqualTo: (value: number) => T;
+    ObjectSizeGreaterThan: (value: number) => T;
+    UserMetadata: (value: UserMetadataSingle) => T;
+    _: (name: string, value: any) => T;
+  }
+
+  export const visit = <T>(value: OSCPPolicyFilter, visitor: Visitor<T>): T => {
+    if (value.And !== undefined) return visitor.And(value.And);
+    if (value.Or !== undefined) return visitor.Or(value.Or);
+    if (value.Prefix !== undefined) return visitor.Prefix(value.Prefix);
+    if (value.PrefixNotMatch !== undefined) return visitor.PrefixNotMatch(value.PrefixNotMatch);
+    if (value.Suffix !== undefined) return visitor.Suffix(value.Suffix);
+    if (value.SuffixNotMatch !== undefined) return visitor.SuffixNotMatch(value.SuffixNotMatch);
+    if (value.ObjectSizeLessThan !== undefined) return visitor.ObjectSizeLessThan(value.ObjectSizeLessThan);
+    if (value.ObjectSizeLessThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeLessThanOrEqualTo(value.ObjectSizeLessThanOrEqualTo);
+    if (value.ObjectSizeEqualTo !== undefined) return visitor.ObjectSizeEqualTo(value.ObjectSizeEqualTo);
+    if (value.ObjectSizeBetween !== undefined) return visitor.ObjectSizeBetween(value.ObjectSizeBetween);
+    if (value.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeGreaterThanOrEqualTo(value.ObjectSizeGreaterThanOrEqualTo);
+    if (value.ObjectSizeGreaterThan !== undefined) return visitor.ObjectSizeGreaterThan(value.ObjectSizeGreaterThan);
+    if (value.UserMetadata !== undefined) return visitor.UserMetadata(value.UserMetadata);
+    return visitor._(value.$unknown[0], value.$unknown[1]);
+  };
+
+  export const filterSensitiveLog = (obj: OSCPPolicyFilter): any => {
+    if (obj.And !== undefined) return { And: OSCPPolicyOperator.filterSensitiveLog(obj.And) };
+    if (obj.Or !== undefined) return { Or: OSCPPolicyOperator.filterSensitiveLog(obj.Or) };
+    if (obj.Prefix !== undefined) return { Prefix: obj.Prefix };
+    if (obj.PrefixNotMatch !== undefined) return { PrefixNotMatch: obj.PrefixNotMatch };
+    if (obj.Suffix !== undefined) return { Suffix: obj.Suffix };
+    if (obj.SuffixNotMatch !== undefined) return { SuffixNotMatch: obj.SuffixNotMatch };
+    if (obj.ObjectSizeLessThan !== undefined) return { ObjectSizeLessThan: obj.ObjectSizeLessThan };
+    if (obj.ObjectSizeLessThanOrEqualTo !== undefined)
+      return { ObjectSizeLessThanOrEqualTo: obj.ObjectSizeLessThanOrEqualTo };
+    if (obj.ObjectSizeEqualTo !== undefined) return { ObjectSizeEqualTo: obj.ObjectSizeEqualTo };
+    if (obj.ObjectSizeBetween !== undefined)
+      return { ObjectSizeBetween: ObjectSizeRange.filterSensitiveLog(obj.ObjectSizeBetween) };
+    if (obj.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return { ObjectSizeGreaterThanOrEqualTo: obj.ObjectSizeGreaterThanOrEqualTo };
+    if (obj.ObjectSizeGreaterThan !== undefined) return { ObjectSizeGreaterThan: obj.ObjectSizeGreaterThan };
+    if (obj.UserMetadata !== undefined)
+      return { UserMetadata: UserMetadataSingle.filterSensitiveLog(obj.UserMetadata) };
+    if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
+  };
+}
+
+/**
+ * <p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>
+ */
+export interface OSCPPolicy {
+  /**
+   * <p>Unique identifier for the rule. The value cannot be longer than 255 characters.</p>
+   */
+  ID?: string;
+
+  /**
+   * <p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A
+   *          <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or
+   *          <code>And</code> specified. <code>Filter</code> is required if the <code>LifecycleRule</code>
+   *          does not containt a <code>Prefix</code> element.</p>
+   */
+  Filter?: OSCPPolicyFilter;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  Priority?: number;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  Comment?: string;
+}
+
+export namespace OSCPPolicy {
+  export const filterSensitiveLog = (obj: OSCPPolicy): any => ({
+    ...obj,
+    ...(obj.Filter && { Filter: OSCPPolicyFilter.filterSensitiveLog(obj.Filter) }),
+  });
+}
+
+export interface GetOSCPConfigurationOutput {
+  /**
+   * <p>Container for a lifecycle rule.</p>
+   */
+  Policies?: OSCPPolicy[];
+}
+
+export namespace GetOSCPConfigurationOutput {
+  export const filterSensitiveLog = (obj: GetOSCPConfigurationOutput): any => ({
+    ...obj,
+    ...(obj.Policies && { Policies: obj.Policies.map((item) => OSCPPolicy.filterSensitiveLog(item)) }),
+  });
+}
+
+export interface GetOSCPConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which to get the lifecycle information.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetOSCPConfigurationRequest {
+  export const filterSensitiveLog = (obj: GetOSCPConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
  * <p>The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can
  *          enable the configuration options in any combination. For more information about when Amazon S3
  *          considers a bucket or object public, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer Guide</i>. </p>
@@ -7982,6 +8985,188 @@ export interface GetRefererRequest {
 
 export namespace GetRefererRequest {
   export const filterSensitiveLog = (obj: GetRefererRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The container element for specifying the default WORM retention settings for new
+ *          objects placed in the specified bucket.</p>
+ *          <note>
+ *             <ul>
+ *                <li>
+ *                   <p>The <code>DefaultRetention</code> settings require a
+ *                period.</p>
+ *                </li>
+ *                <li>
+ *                   <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>
+ *                or <code>Years</code> but you must select one. You cannot specify <code>Days</code>
+ *                and <code>Years</code> at the same time.</p>
+ *                </li>
+ *             </ul>
+ *          </note>
+ */
+export interface WORMDefaultRetention {
+  /**
+   * <p>The number of days that you want to specify for the default retention period.</p>
+   */
+  Days?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Years?: number;
+}
+
+export namespace WORMDefaultRetention {
+  export const filterSensitiveLog = (obj: WORMDefaultRetention): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The container element for an WORM rule.</p>
+ */
+export interface WORMRule {
+  /**
+   * <p>The default WORM retention mode and period that you want to apply to new objects
+   *          placed in the specified bucket. Bucket settings require a period.
+   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
+   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
+   */
+  DefaultRetention?: WORMDefaultRetention;
+}
+
+export namespace WORMRule {
+  export const filterSensitiveLog = (obj: WORMRule): any => ({
+    ...obj,
+  });
+}
+
+export enum WORMEnabled {
+  Enabled = "Enabled",
+}
+
+/**
+ * <p>The container element for WORM configuration parameters.</p>
+ */
+export interface WORMConfiguration {
+  /**
+   * <p>Indicates whether this bucket has an WORM configuration enabled.
+   *          Enable <code>WORMEnabled</code> when you apply <code>WORMConfiguration</code>
+   *          to a bucket. </p>
+   */
+  WORMEnabled?: WORMEnabled | string;
+
+  /**
+   * <p>Specifies the WORM rule for the specified object. Enable the this rule when you apply
+   *          <code>WORMConfiguration</code> to a bucket. Bucket settings require both a mode and a period.
+   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
+   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
+   */
+  Rule?: WORMRule;
+}
+
+export namespace WORMConfiguration {
+  export const filterSensitiveLog = (obj: WORMConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMConfigurationOutput {
+  /**
+   * <p>The specified bucket's WORM configuration.</p>
+   */
+  WORMConfiguration?: WORMConfiguration;
+}
+
+export namespace GetWORMConfigurationOutput {
+  export const filterSensitiveLog = (obj: GetWORMConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMConfigurationRequest {
+  /**
+   * <p>The bucket whose WORM configuration you want to retrieve.</p>
+   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetWORMConfigurationRequest {
+  export const filterSensitiveLog = (obj: GetWORMConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A Retain Period configuration for an object.</p>
+ */
+export interface WORMRetainPeriod {
+  /**
+   * <p>The date on which this Worm Retain Period will expire.</p>
+   */
+  RetainUntilDate?: Date;
+}
+
+export namespace WORMRetainPeriod {
+  export const filterSensitiveLog = (obj: WORMRetainPeriod): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMRetainPeriodOutput {
+  /**
+   * <p>The current Retain Period status for the specified object.</p>
+   */
+  RetainPeriod?: WORMRetainPeriod;
+}
+
+export namespace GetWORMRetainPeriodOutput {
+  export const filterSensitiveLog = (obj: GetWORMRetainPeriodOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMRetainPeriodRequest {
+  /**
+   * <p>The bucket name containing the object whose Retain Period status you want to retrieve. </p>
+   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object whose Retain Period status you want to retrieve.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The version ID of the object whose Retain Period status you want to retrieve.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetWORMRetainPeriodRequest {
+  export const filterSensitiveLog = (obj: GetWORMRetainPeriodRequest): any => ({
     ...obj,
   });
 }
@@ -8809,6 +9994,12 @@ export interface ListMultipartUploadsOutput {
    *             <code>NextKeyMarker</code>, <code>Key</code>.</p>
    */
   EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   */
+  StorageClass?: StorageClass | string;
 }
 
 export namespace ListMultipartUploadsOutput {
@@ -9037,6 +10228,12 @@ export interface ListObjectsOutput {
    * <p>Encoding type used by Amazon S3 to encode object keys in the response.</p>
    */
   EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   */
+  StorageClass?: StorageClass | string;
 }
 
 export namespace ListObjectsOutput {
@@ -9201,6 +10398,22 @@ export interface ListObjectsV2Output {
    * <p>If StartAfter was sent with the request, it is included in the response.</p>
    */
   StartAfter?: string;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>When response is truncated (the IsTruncated element value in the response is true), you
+   *          can use the key name in this field as marker in the subsequent request to get next set of
+   *          objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if
+   *          you have delimiter request parameter specified. If response does not include the NextMarker
+   *          and it is truncated, you can use the value of the last Key in the response as the marker in
+   *          the subsequent request to get the next set of object keys.</p>
+   */
+  NextMarker?: string;
 }
 
 export namespace ListObjectsV2Output {
@@ -9314,872 +10527,3 @@ export namespace DeleteMarkerEntry {
 }
 
 export type ObjectVersionStorageClass = "STANDARD";
-
-/**
- * <p>The version of an object.</p>
- */
-export interface ObjectVersion {
-  /**
-   * <p>The entity tag is an MD5 hash of that version of the object.</p>
-   */
-  ETag?: string;
-
-  /**
-   * <p>Size in bytes of the object.</p>
-   */
-  Size?: number;
-
-  /**
-   * <p>The class of storage used to store the object.</p>
-   */
-  StorageClass?: ObjectVersionStorageClass | string;
-
-  /**
-   * <p>The object key.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>Version ID of an object.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Specifies whether the object is (true) or is not (false) the latest version of an
-   *          object.</p>
-   */
-  IsLatest?: boolean;
-
-  /**
-   * <p>Date and time the object was last modified.</p>
-   */
-  LastModified?: Date;
-
-  /**
-   * <p>Specifies the owner of the object.</p>
-   */
-  Owner?: Owner;
-}
-
-export namespace ObjectVersion {
-  export const filterSensitiveLog = (obj: ObjectVersion): any => ({
-    ...obj,
-  });
-}
-
-export interface ListObjectVersionsOutput {
-  /**
-   * <p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search
-   *          criteria. If your results were truncated, you can make a follow-up paginated request using
-   *          the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in
-   *          another request to return the rest of the results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>Marks the last key returned in a truncated response.</p>
-   */
-  KeyMarker?: string;
-
-  /**
-   * <p>Marks the last version of the key returned in a truncated response.</p>
-   */
-  VersionIdMarker?: string;
-
-  /**
-   * <p>When the number of responses exceeds the value of <code>MaxKeys</code>,
-   *             <code>NextKeyMarker</code> specifies the first key not returned that satisfies the
-   *          search criteria. Use this value for the key-marker request parameter in a subsequent
-   *          request.</p>
-   */
-  NextKeyMarker?: string;
-
-  /**
-   * <p>When the number of responses exceeds the value of <code>MaxKeys</code>,
-   *             <code>NextVersionIdMarker</code> specifies the first object version not returned that
-   *          satisfies the search criteria. Use this value for the version-id-marker request parameter
-   *          in a subsequent request.</p>
-   */
-  NextVersionIdMarker?: string;
-
-  /**
-   * <p>Container for version information.</p>
-   */
-  Versions?: ObjectVersion[];
-
-  /**
-   * <p>Container for an object that is a delete marker.</p>
-   */
-  DeleteMarkers?: DeleteMarkerEntry[];
-
-  /**
-   * <p>The bucket name.</p>
-   */
-  Name?: string;
-
-  /**
-   * <p>Selects objects that start with the value supplied by this parameter.</p>
-   */
-  Prefix?: string;
-
-  /**
-   * <p>The delimiter grouping the included keys. A delimiter is a character that you specify to
-   *          group keys. All keys that contain the same string between the prefix and the first
-   *          occurrence of the delimiter are grouped under a single result element in
-   *             <code>CommonPrefixes</code>. These groups are counted as one result against the max-keys
-   *          limitation. These keys are not returned elsewhere in the response.</p>
-   */
-  Delimiter?: string;
-
-  /**
-   * <p>Specifies the maximum number of objects to return.</p>
-   */
-  MaxKeys?: number;
-
-  /**
-   * <p>All of the keys rolled up into a common prefix count as a single return when calculating
-   *          the number of returns.</p>
-   */
-  CommonPrefixes?: CommonPrefix[];
-
-  /**
-   * <p> Encoding type used by Amazon S3 to encode object key names in the XML response.</p>
-   *
-   *          <p>If you specify encoding-type request parameter, Amazon S3 includes this element in the
-   *          response, and returns encoded key name values in the following response elements:</p>
-   *
-   *          <p>
-   *             <code>KeyMarker, NextKeyMarker, Prefix, Key</code>, and <code>Delimiter</code>.</p>
-   */
-  EncodingType?: EncodingType | string;
-}
-
-export namespace ListObjectVersionsOutput {
-  export const filterSensitiveLog = (obj: ListObjectVersionsOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface ListObjectVersionsRequest {
-  /**
-   * <p>The bucket name that contains the objects. </p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>A delimiter is a character that you specify to group keys. All keys that contain the
-   *          same string between the <code>prefix</code> and the first occurrence of the delimiter are
-   *          grouped under a single result element in CommonPrefixes. These groups are counted as one
-   *          result against the max-keys limitation. These keys are not returned elsewhere in the
-   *          response.</p>
-   */
-  Delimiter?: string;
-
-  /**
-   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
-   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
-   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
-   *          characters that are not supported in XML 1.0, you can add this parameter to request that
-   *          Amazon S3 encode the keys in the response.</p>
-   */
-  EncodingType?: EncodingType | string;
-
-  /**
-   * <p>Specifies the key to start with when listing objects in a bucket.</p>
-   */
-  KeyMarker?: string;
-
-  /**
-   * <p>Sets the maximum number of keys returned in the response. By default the API returns up
-   *          to 1,000 key names. The response might contain fewer keys but will never contain more. If
-   *          additional keys satisfy the search criteria, but were not returned because max-keys was
-   *          exceeded, the response contains <isTruncated>true</isTruncated>. To return the
-   *          additional keys, see key-marker and version-id-marker.</p>
-   */
-  MaxKeys?: number;
-
-  /**
-   * <p>Use this parameter to select only those keys that begin with the specified prefix. You
-   *          can use prefixes to separate a bucket into different groupings of keys. (You can think of
-   *          using prefix to make groups in the same way you'd use a folder in a file system.) You can
-   *          use prefix with delimiter to roll up numerous objects into a single result under
-   *          CommonPrefixes. </p>
-   */
-  Prefix?: string;
-
-  /**
-   * <p>Specifies the object version you want to start listing from.</p>
-   */
-  VersionIdMarker?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-
-  /**
-   * <p>List Object markers in first level.</p>
-   */
-  DeletedObjects?: boolean;
-}
-
-export namespace ListObjectVersionsRequest {
-  export const filterSensitiveLog = (obj: ListObjectVersionsRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Container for elements related to a part.</p>
- */
-export interface Part {
-  /**
-   * <p>Part number identifying the part. This is a positive integer between 1 and
-   *          10,000.</p>
-   */
-  PartNumber?: number;
-
-  /**
-   * <p>Date and time at which the part was uploaded.</p>
-   */
-  LastModified?: Date;
-
-  /**
-   * <p>Entity tag returned when the part was uploaded.</p>
-   */
-  ETag?: string;
-
-  /**
-   * <p>Size in bytes of the uploaded part data.</p>
-   */
-  Size?: number;
-}
-
-export namespace Part {
-  export const filterSensitiveLog = (obj: Part): any => ({
-    ...obj,
-  });
-}
-
-export interface ListPartsOutput {
-  /**
-   * <p>If the bucket has a lifecycle rule configured with an action to abort incomplete
-   *          multipart uploads and the prefix in the lifecycle rule matches the object name in the
-   *          request, then the response includes this header indicating when the initiated multipart
-   *          upload will become eligible for abort operation. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">Aborting
-   *             Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a>.</p>
-   *
-   *          <p>The response will also include the <code>x-amz-abort-rule-id</code> header that will
-   *          provide the ID of the lifecycle configuration rule that defines this action.</p>
-   */
-  AbortDate?: Date;
-
-  /**
-   * <p>This header is returned along with the <code>x-amz-abort-date</code> header. It
-   *          identifies applicable lifecycle configuration rule that defines the action to abort
-   *          incomplete multipart uploads.</p>
-   */
-  AbortRuleId?: string;
-
-  /**
-   * <p>The name of the bucket to which the multipart upload was initiated.</p>
-   */
-  Bucket?: string;
-
-  /**
-   * <p>Object key for which the multipart upload was initiated.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>Upload ID identifying the multipart upload whose parts are being listed.</p>
-   */
-  UploadId?: string;
-
-  /**
-   * <p>When a list is truncated, this element specifies the last part in the list, as well as
-   *          the value to use for the part-number-marker request parameter in a subsequent
-   *          request.</p>
-   */
-  PartNumberMarker?: string;
-
-  /**
-   * <p>When a list is truncated, this element specifies the last part in the list, as well as
-   *          the value to use for the part-number-marker request parameter in a subsequent
-   *          request.</p>
-   */
-  NextPartNumberMarker?: string;
-
-  /**
-   * <p>Maximum number of parts that were allowed in the response.</p>
-   */
-  MaxParts?: number;
-
-  /**
-   * <p> Indicates whether the returned list of parts is truncated. A true value indicates that
-   *          the list was truncated. A list can be truncated if the number of parts exceeds the limit
-   *          returned in the MaxParts element.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p> Container for elements related to a particular part. A response can contain zero or
-   *          more <code>Part</code> elements.</p>
-   */
-  Parts?: Part[];
-
-  /**
-   * <p>Container element that identifies who initiated the multipart upload. If the initiator
-   *          is an AWS account, this element provides the same information as the <code>Owner</code>
-   *          element. If the initiator is an IAM User, this element provides the user ARN and display
-   *          name.</p>
-   */
-  Initiator?: Initiator;
-
-  /**
-   * <p> Container element that identifies the object owner, after the object is created. If
-   *          multipart upload is initiated by an IAM user, this element provides the parent account ID
-   *          and display name.</p>
-   */
-  Owner?: Owner;
-
-  /**
-   * <p>Class of storage (STANDARD or REDUCED_REDUNDANCY) used to store the uploaded
-   *          object.</p>
-   */
-  StorageClass?: StorageClass | string;
-
-  /**
-   * <p>If present, indicates that the requester was successfully charged for the
-   *          request.</p>
-   */
-  RequestCharged?: RequestCharged | string;
-}
-
-export namespace ListPartsOutput {
-  export const filterSensitiveLog = (obj: ListPartsOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface ListPartsRequest {
-  /**
-   * <p>The name of the bucket to which the parts are being uploaded. </p>
-   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Object key for which the multipart upload was initiated.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>Sets the maximum number of parts to return.</p>
-   */
-  MaxParts?: number;
-
-  /**
-   * <p>Specifies the part after which listing should begin. Only parts with higher part numbers
-   *          will be listed.</p>
-   */
-  PartNumberMarker?: string;
-
-  /**
-   * <p>Upload ID identifying the multipart upload whose parts are being listed.</p>
-   */
-  UploadId: string | undefined;
-
-  /**
-   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
-   *          owners need not specify this parameter in their requests. For information about downloading
-   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
-   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
-   */
-  RequestPayer?: RequestPayer | string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace ListPartsRequest {
-  export const filterSensitiveLog = (obj: ListPartsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketAccelerateConfigurationRequest {
-  /**
-   * <p>The name of the bucket for which the accelerate configuration is set.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Container for setting the transfer acceleration state.</p>
-   */
-  AccelerateConfiguration: AccelerateConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketAccelerateConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketAccelerateConfigurationRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketAclRequest {
-  /**
-   * <p>The canned ACL to apply to the bucket.</p>
-   */
-  ACL?: BucketCannedACL | string;
-
-  /**
-   * <p>Contains the elements that set the ACL permissions for an object per grantee.</p>
-   */
-  AccessControlPolicy?: AccessControlPolicy;
-
-  /**
-   * <p>The bucket to which to apply the ACL.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message
-   *          integrity check to verify that the request body was not corrupted in transit. For more
-   *          information, go to <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
-   *          1864.</a>
-   *          </p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>Allows grantee the read, write, read ACP, and write ACP permissions on the
-   *          bucket.</p>
-   */
-  GrantFullControl?: string;
-
-  /**
-   * <p>Allows grantee to list the objects in the bucket.</p>
-   */
-  GrantRead?: string;
-
-  /**
-   * <p>Allows grantee to read the bucket ACL.</p>
-   */
-  GrantReadACP?: string;
-
-  /**
-   * <p>Allows grantee to create, overwrite, and delete any object in the bucket.</p>
-   */
-  GrantWrite?: string;
-
-  /**
-   * <p>Allows grantee to write the ACL for the applicable bucket.</p>
-   */
-  GrantWriteACP?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketAclRequest {
-  export const filterSensitiveLog = (obj: PutBucketAclRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketAnalyticsConfigurationRequest {
-  /**
-   * <p>The name of the bucket to which an analytics configuration is stored.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The ID that identifies the analytics configuration.</p>
-   */
-  Id: string | undefined;
-
-  /**
-   * <p>The configuration and any analyses for the analytics filter.</p>
-   */
-  AnalyticsConfiguration: AnalyticsConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketAnalyticsConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketAnalyticsConfigurationRequest): any => ({
-    ...obj,
-    ...(obj.AnalyticsConfiguration && {
-      AnalyticsConfiguration: AnalyticsConfiguration.filterSensitiveLog(obj.AnalyticsConfiguration),
-    }),
-  });
-}
-
-export interface PutBucketCorsRequest {
-  /**
-   * <p>Specifies the bucket impacted by the <code>cors</code>configuration.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
-   *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling Cross-Origin Resource
-   *             Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  CORSConfiguration: CORSConfiguration | undefined;
-
-  /**
-   * <p>The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message
-   *          integrity check to verify that the request body was not corrupted in transit. For more
-   *          information, go to <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
-   *          1864.</a>
-   *          </p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketCorsRequest {
-  export const filterSensitiveLog = (obj: PutBucketCorsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketEncryptionRequest {
-  /**
-   * <p>Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed
-   *          keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For information about
-   *          the Amazon S3 default encryption feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon S3 Default Bucket Encryption</a>
-   *          in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>Specifies the default server-side-encryption configuration.</p>
-   */
-  ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketEncryptionRequest {
-  export const filterSensitiveLog = (obj: PutBucketEncryptionRequest): any => ({
-    ...obj,
-    ...(obj.ServerSideEncryptionConfiguration && {
-      ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration.filterSensitiveLog(
-        obj.ServerSideEncryptionConfiguration
-      ),
-    }),
-  });
-}
-
-export interface PutBucketIntelligentTieringConfigurationRequest {
-  /**
-   * <p>The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The ID used to identify the S3 Intelligent-Tiering configuration.</p>
-   */
-  Id: string | undefined;
-
-  /**
-   * <p>Container for S3 Intelligent-Tiering configuration.</p>
-   */
-  IntelligentTieringConfiguration: IntelligentTieringConfiguration | undefined;
-}
-
-export namespace PutBucketIntelligentTieringConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketIntelligentTieringConfigurationRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketInventoryConfigurationRequest {
-  /**
-   * <p>The name of the bucket where the inventory configuration will be stored.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The ID used to identify the inventory configuration.</p>
-   */
-  Id: string | undefined;
-
-  /**
-   * <p>Specifies the inventory configuration.</p>
-   */
-  InventoryConfiguration: InventoryConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketInventoryConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketInventoryConfigurationRequest): any => ({
-    ...obj,
-    ...(obj.InventoryConfiguration && {
-      InventoryConfiguration: InventoryConfiguration.filterSensitiveLog(obj.InventoryConfiguration),
-    }),
-  });
-}
-
-export interface PutBucketLifecycleConfigurationRequest {
-  /**
-   * <p>The name of the bucket for which to set the configuration.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>
-   */
-  LifecycleConfiguration?: BucketLifecycleConfiguration;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketLifecycleConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketLifecycleConfigurationRequest): any => ({
-    ...obj,
-    ...(obj.LifecycleConfiguration && {
-      LifecycleConfiguration: BucketLifecycleConfiguration.filterSensitiveLog(obj.LifecycleConfiguration),
-    }),
-  });
-}
-
-/**
- * <p>Container for logging status information.</p>
- */
-export interface BucketLoggingStatus {
-  /**
-   * <p>Describes where logs are stored and the prefix that Amazon S3 assigns to all log object keys
-   *          for a bucket. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlogging.html">PUT Bucket logging</a> in the
-   *             <i>Amazon Simple Storage Service API Reference</i>.</p>
-   */
-  LoggingEnabled?: LoggingEnabled;
-}
-
-export namespace BucketLoggingStatus {
-  export const filterSensitiveLog = (obj: BucketLoggingStatus): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketLoggingRequest {
-  /**
-   * <p>The name of the bucket for which to set the logging parameters.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Container for logging status information.</p>
-   */
-  BucketLoggingStatus: BucketLoggingStatus | undefined;
-
-  /**
-   * <p>The MD5 hash of the <code>PutBucketLogging</code> request body.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketLoggingRequest {
-  export const filterSensitiveLog = (obj: PutBucketLoggingRequest): any => ({
-    ...obj,
-  });
-}
-
-export enum MetadataDirective2 {
-  REPLACE = "REPLACE",
-  REPLACE_NEW = "REPLACE_NEW",
-}
-
-export interface PutBucketMetadataRequest {
-  /**
-   * <p>Name of the bucket to which the multipart upload was initiated.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-
-  /**
-   * <p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。
-   *  REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。
-   *  REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。
-   *  类型:字符串</p>
-   */
-  MetadataDirective?: MetadataDirective2 | string;
-
-  /**
-   * <p>A map of metadata to store with the object in S3.</p>
-   */
-  Metadata?: { [key: string]: string };
-}
-
-export namespace PutBucketMetadataRequest {
-  export const filterSensitiveLog = (obj: PutBucketMetadataRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketMetricsConfigurationRequest {
-  /**
-   * <p>The name of the bucket for which the metrics configuration is set.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The ID used to identify the metrics configuration.</p>
-   */
-  Id: string | undefined;
-
-  /**
-   * <p>Specifies the metrics configuration.</p>
-   */
-  MetricsConfiguration: MetricsConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketMetricsConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketMetricsConfigurationRequest): any => ({
-    ...obj,
-    ...(obj.MetricsConfiguration && {
-      MetricsConfiguration: MetricsConfiguration.filterSensitiveLog(obj.MetricsConfiguration),
-    }),
-  });
-}
-
-export interface PutBucketNotificationConfigurationRequest {
-  /**
-   * <p>The name of the bucket.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>A container for specifying the notification configuration of the bucket. If this element
-   *          is empty, notifications are turned off for the bucket.</p>
-   */
-  NotificationConfiguration: NotificationConfiguration | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketNotificationConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutBucketNotificationConfigurationRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketOwnershipControlsRequest {
-  /**
-   * <p>The name of the Amazon S3 bucket whose <code>OwnershipControls</code> you want to set.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The MD5 hash of the <code>OwnershipControls</code> request body. </p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-
-  /**
-   * <p>The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter) that you want
-   *          to apply to this Amazon S3 bucket.</p>
-   */
-  OwnershipControls: OwnershipControls | undefined;
-}
-
-export namespace PutBucketOwnershipControlsRequest {
-  export const filterSensitiveLog = (obj: PutBucketOwnershipControlsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutBucketPolicyRequest {
-  /**
-   * <p>The name of the bucket.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The MD5 hash of the request body.</p>
-   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
-   */
-  ContentMD5?: string;
-
-  /**
-   * <p>Set this parameter to true to confirm that you want to remove your permissions to change
-   *          this bucket policy in the future.</p>
-   */
-  ConfirmRemoveSelfBucketAccess?: boolean;
-
-  /**
-   * <p>The bucket policy as a JSON document.</p>
-   */
-  Policy: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace PutBucketPolicyRequest {
-  export const filterSensitiveLog = (obj: PutBucketPolicyRequest): any => ({
-    ...obj,
-  });
-}

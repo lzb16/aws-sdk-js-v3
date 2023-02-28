@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketIntelligentTieringConfigurationRequest } from "../models/models_0";
+import { PutBucketIntelligentTieringConfigurationRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlPutBucketIntelligentTieringConfigurationCommand,
   serializeAws_restXmlPutBucketIntelligentTieringConfigurationCommand,

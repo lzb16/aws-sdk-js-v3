@@ -207,6 +207,11 @@ export interface AccessKeyMetadata {
   AccessKeyId?: string;
 
   /**
+   * <p>The secret key(SK).</p>
+   */
+  SecretAccessKey?: string;
+
+  /**
    * <p>The description of the access key.</p>
    */
   Description?: string;
@@ -225,6 +230,53 @@ export interface AccessKeyMetadata {
 
 export namespace AccessKeyMetadata {
   export const filterSensitiveLog = (obj: AccessKeyMetadata): any => ({
+    ...obj,
+    ...(obj.SecretAccessKey && { SecretAccessKey: SENSITIVE_STRING }),
+  });
+}
+
+/**
+ * <p>Account group info.</p>
+ */
+export interface AccountGroupType {
+  /**
+   * <p>Account group Name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Account group Id.</p>
+   */
+  GroupId?: string;
+
+  /**
+   * <p>Account group description.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The quota of the account group you want to create.</p>
+   */
+  QuotaCapacitySize?: string;
+
+  /**
+   * <p>The quota of the account group you want to create.</p>
+   */
+  QuotaObjectNumber?: string;
+
+  /**
+   * <p>Account group object number.</p>
+   */
+  ObjectNumber?: string;
+
+  /**
+   * <p>Account group used size.</p>
+   */
+  UsedSize?: string;
+}
+
+export namespace AccountGroupType {
+  export const filterSensitiveLog = (obj: AccountGroupType): any => ({
     ...obj,
   });
 }
@@ -514,6 +566,16 @@ export interface AccountType {
   AccountId?: string;
 
   /**
+   * <p>Account group Name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Account group Id.</p>
+   */
+  GroupId?: string;
+
+  /**
    * <p>Path.</p>
    */
   Path?: string;
@@ -581,7 +643,7 @@ export interface AccountType {
   /**
    * <p>Account object number.</p>
    */
-  ObjectNumber?: number;
+  ObjectNumber?: string;
 
   /**
    * <p>Account used size.</p>
@@ -603,6 +665,40 @@ export namespace AccountType {
   export const filterSensitiveLog = (obj: AccountType): any => ({
     ...obj,
     ...(obj.AccessKeys && { AccessKeys: obj.AccessKeys.map((item) => AccessKey.filterSensitiveLog(item)) }),
+  });
+}
+
+export interface AddAccountToGroupRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+}
+
+export namespace AddAccountToGroupRequest {
+  export const filterSensitiveLog = (obj: AddAccountToGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The request processing has failed because of an unknown error, exception or
+ *       failure.</p>
+ */
+export interface ServiceFailureException extends __SmithyException, $MetadataBearer {
+  name: "ServiceFailureException";
+  $fault: "server";
+  message?: string;
+}
+
+export namespace ServiceFailureException {
+  export const filterSensitiveLog = (obj: ServiceFailureException): any => ({
+    ...obj,
   });
 }
 
@@ -670,22 +766,6 @@ export interface NoSuchEntityException extends __SmithyException, $MetadataBeare
 
 export namespace NoSuchEntityException {
   export const filterSensitiveLog = (obj: NoSuchEntityException): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request processing has failed because of an unknown error, exception or
- *       failure.</p>
- */
-export interface ServiceFailureException extends __SmithyException, $MetadataBearer {
-  name: "ServiceFailureException";
-  $fault: "server";
-  message?: string;
-}
-
-export namespace ServiceFailureException {
-  export const filterSensitiveLog = (obj: ServiceFailureException): any => ({
     ...obj,
   });
 }
@@ -1165,6 +1245,37 @@ export interface CreateAccountAliasRequest {
 
 export namespace CreateAccountAliasRequest {
   export const filterSensitiveLog = (obj: CreateAccountAliasRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface CreateAccountGroupRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Description</p>
+   */
+  Description?: string;
+}
+
+export namespace CreateAccountGroupRequest {
+  export const filterSensitiveLog = (obj: CreateAccountGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface CreateAccountGroupResponse {
+  /**
+   * <p>The account group to create.</p>
+   */
+  Group: AccountGroupType | undefined;
+}
+
+export namespace CreateAccountGroupResponse {
+  export const filterSensitiveLog = (obj: CreateAccountGroupResponse): any => ({
     ...obj,
   });
 }
@@ -2493,6 +2604,19 @@ export namespace DeleteAccountAliasRequest {
   });
 }
 
+export interface DeleteAccountGroupRequest {
+  /**
+   * <p>The name of the account group to delete.</p>
+   */
+  GroupName: string | undefined;
+}
+
+export namespace DeleteAccountGroupRequest {
+  export const filterSensitiveLog = (obj: DeleteAccountGroupRequest): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p>The request was rejected because it attempted to delete a resource that has attached
  *       subordinate entities. The error message describes these entities.</p>
@@ -3629,6 +3753,66 @@ export interface GetAccountAuthorizationDetailsResponse {
 
 export namespace GetAccountAuthorizationDetailsResponse {
   export const filterSensitiveLog = (obj: GetAccountAuthorizationDetailsResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAccountGroupRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+}
+
+export namespace GetAccountGroupRequest {
+  export const filterSensitiveLog = (obj: GetAccountGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GetAccountAuthorizationDetails</a>
+ *       request. </p>
+ */
+export interface GetAccountGroupResponse {
+  /**
+   * <p>A list containing information about IAM users.</p>
+   */
+  Accounts?: AccountType[];
+}
+
+export namespace GetAccountGroupResponse {
+  export const filterSensitiveLog = (obj: GetAccountGroupResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAccountGroupMetaRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+}
+
+export namespace GetAccountGroupMetaRequest {
+  export const filterSensitiveLog = (obj: GetAccountGroupMetaRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GetAccountAuthorizationDetails</a>
+ *       request. </p>
+ */
+export interface GetAccountGroupMetaResponse {
+  /**
+   * <p>A list containing information about IAM users.</p>
+   */
+  Group?: AccountGroupType;
+}
+
+export namespace GetAccountGroupMetaResponse {
+  export const filterSensitiveLog = (obj: GetAccountGroupMetaResponse): any => ({
     ...obj,
   });
 }
@@ -5412,6 +5596,7 @@ export interface ListAccessKeysRequest {
   MaxItems?: number;
 
   Type?: number;
+  ResponseNeedSk?: boolean;
 }
 
 export namespace ListAccessKeysRequest {
@@ -5451,6 +5636,9 @@ export interface ListAccessKeysResponse {
 export namespace ListAccessKeysResponse {
   export const filterSensitiveLog = (obj: ListAccessKeysResponse): any => ({
     ...obj,
+    ...(obj.AccessKeyMetadata && {
+      AccessKeyMetadata: obj.AccessKeyMetadata.map((item) => AccessKeyMetadata.filterSensitiveLog(item)),
+    }),
   });
 }
 
@@ -5517,12 +5705,7 @@ export namespace ListAccountAliasesResponse {
   });
 }
 
-export interface ListAccountsRequest {
-  /**
-   * <p>Show AK/SK, 0 means no, 1 means yes.</p>
-   */
-  ResponseNeedCert?: number;
-
+export interface ListAccountGroupsRequest {
   /**
    * <p>Use this parameter only when paginating results and only after
    *     you receive a response indicating that the results are truncated. Set it to the value of the
@@ -5542,6 +5725,71 @@ export interface ListAccountsRequest {
    *     from.</p>
    */
   MaxItems?: number;
+}
+
+export namespace ListAccountGroupsRequest {
+  export const filterSensitiveLog = (obj: ListAccountGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListAccounts</a> request.
+ *     </p>
+ */
+export interface ListAccountGroupsResponse {
+  /**
+   * <p>A list of accounts.</p>
+   */
+  Groups: AccountGroupType[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListAccountGroupsResponse {
+  export const filterSensitiveLog = (obj: ListAccountGroupsResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListAccountsRequest {
+  /**
+   * <p>Show AK/SK, 0 means no, 1 means yes.</p>
+   */
+  ResponseNeedCert?: number;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  AccountNameMarker?: string;
+
+  /**
+   * <p>The maximum number of keys returned in the response body.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  Prefix?: string;
 }
 
 export namespace ListAccountsRequest {
@@ -5575,7 +5823,7 @@ export interface ListAccountsResponse {
    *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
    *     pagination request.</p>
    */
-  Marker?: string;
+  NextAccountName?: string;
 }
 
 export namespace ListAccountsResponse {
@@ -8017,6 +8265,24 @@ export namespace PutUserPolicyRequest {
   });
 }
 
+export interface RemoveAccountFromGroupRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+}
+
+export namespace RemoveAccountFromGroupRequest {
+  export const filterSensitiveLog = (obj: RemoveAccountFromGroupRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface RemoveClientIDFromOpenIDConnectProviderRequest {
   /**
    * <p>The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client
@@ -8242,552 +8508,6 @@ export interface SetSecurityTokenServicePreferencesRequest {
 
 export namespace SetSecurityTokenServicePreferencesRequest {
   export const filterSensitiveLog = (obj: SetSecurityTokenServicePreferencesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request failed because a provided policy could not be successfully evaluated. An
- *       additional detailed message indicates the source of the failure.</p>
- */
-export interface PolicyEvaluationException extends __SmithyException, $MetadataBearer {
-  name: "PolicyEvaluationException";
-  $fault: "server";
-  message?: string;
-}
-
-export namespace PolicyEvaluationException {
-  export const filterSensitiveLog = (obj: PolicyEvaluationException): any => ({
-    ...obj,
-  });
-}
-
-export enum ContextKeyTypeEnum {
-  BINARY = "binary",
-  BINARY_LIST = "binaryList",
-  BOOLEAN = "boolean",
-  BOOLEAN_LIST = "booleanList",
-  DATE = "date",
-  DATE_LIST = "dateList",
-  IP = "ip",
-  IP_LIST = "ipList",
-  NUMERIC = "numeric",
-  NUMERIC_LIST = "numericList",
-  STRING = "string",
-  STRING_LIST = "stringList",
-}
-
-/**
- * <p>Contains information about a condition context key. It includes the name of the key and
- *          specifies the value (or values, if the context key supports multiple values) to use in the
- *          simulation. This information is used when evaluating the <code>Condition</code> elements of
- *          the input policies.</p>
- *          <p>This data type is used as an input parameter to <a>SimulateCustomPolicy</a> and <a>SimulatePrincipalPolicy</a>.</p>
- */
-export interface ContextEntry {
-  /**
-   * <p>The full name of a condition context key, including the service prefix. For example,
-   *             <code>aws:SourceIp</code> or <code>s3:VersionId</code>.</p>
-   */
-  ContextKeyName?: string;
-
-  /**
-   * <p>The value (or values, if the condition context key supports multiple values) to provide
-   *          to the simulation when the key is referenced by a <code>Condition</code> element in an
-   *          input policy.</p>
-   */
-  ContextKeyValues?: string[];
-
-  /**
-   * <p>The data type of the value (or values) specified in the <code>ContextKeyValues</code>
-   *          parameter.</p>
-   */
-  ContextKeyType?: ContextKeyTypeEnum | string;
-}
-
-export namespace ContextEntry {
-  export const filterSensitiveLog = (obj: ContextEntry): any => ({
-    ...obj,
-  });
-}
-
-export interface SimulateCustomPolicyRequest {
-  /**
-   * <p>A list of policy documents to include in the simulation. Each document is specified as a
-   *          string containing the complete, valid JSON text of an IAM policy. Do not include any
-   *          resource-based policies in this parameter. Any resource-based policy must be submitted with
-   *          the <code>ResourcePolicy</code> parameter. The policies cannot be "scope-down" policies,
-   *          such as you could include in a call to <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html">GetFederationToken</a> or one of the
-   *             <a href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
-   *          API operations. In other words, do not use policies designed to restrict what a user can do
-   *          while using the temporary credentials.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  PolicyInputList: string[] | undefined;
-
-  /**
-   * <p>The IAM permissions boundary policy to simulate. The permissions boundary sets the
-   *          maximum permissions that an IAM entity can have. You can input only one permissions
-   *          boundary when you pass a policy to this operation. For more information about permissions
-   *          boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
-   *             Entities</a> in the <i>IAM User Guide</i>. The policy input is
-   *          specified as a string that contains the complete, valid JSON text of a permissions boundary
-   *          policy.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  PermissionsBoundaryPolicyInputList?: string[];
-
-  /**
-   * <p>A list of names of API operations to evaluate in the simulation. Each operation is
-   *          evaluated against each resource. Each operation must include the service identifier, such
-   *          as <code>iam:CreateUser</code>. This operation does not support using wildcards (*) in an
-   *          action name.</p>
-   */
-  ActionNames: string[] | undefined;
-
-  /**
-   * <p>A list of ARNs of AWS resources to include in the simulation. If this parameter is not
-   *          provided, then the value defaults to <code>*</code> (all resources). Each API in the
-   *             <code>ActionNames</code> parameter is evaluated for each resource in this list. The
-   *          simulation determines the access result (allowed or denied) of each combination and reports
-   *          it in the response.</p>
-   *          <p>The simulation does not automatically retrieve policies for the specified resources. If
-   *          you want to include a resource policy in the simulation, then you must include the policy
-   *          as a string in the <code>ResourcePolicy</code> parameter.</p>
-   *          <p>If you include a <code>ResourcePolicy</code>, then it must be applicable to all of the
-   *          resources included in the simulation or you receive an invalid input error.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  ResourceArns?: string[];
-
-  /**
-   * <p>A resource-based policy to include in the simulation provided as a string. Each resource
-   *          in the simulation is treated as if it had this policy attached. You can include only one
-   *          resource-based policy in a simulation.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  ResourcePolicy?: string;
-
-  /**
-   * <p>An ARN representing the AWS account ID that specifies the owner of any simulated
-   *          resource that does not identify its owner in the resource ARN. Examples of resource ARNs
-   *          include an S3 bucket or object. If <code>ResourceOwner</code> is specified, it is also used
-   *          as the account owner of any <code>ResourcePolicy</code> included in the simulation. If the
-   *             <code>ResourceOwner</code> parameter is not specified, then the owner of the resources
-   *          and the resource policy defaults to the account of the identity provided in
-   *             <code>CallerArn</code>. This parameter is required only if you specify a resource-based
-   *          policy and account that owns the resource is different from the account that owns the
-   *          simulated calling user <code>CallerArn</code>.</p>
-   *          <p>The ARN for an account uses the following syntax:
-   *                <code>arn:aws:iam::<i>AWS-account-ID</i>:root</code>. For example, to
-   *          represent the account with the 112233445566 ID, use the following ARN:
-   *             <code>arn:aws:iam::112233445566-ID:root</code>. </p>
-   */
-  ResourceOwner?: string;
-
-  /**
-   * <p>The ARN of the IAM user that you want to use as the simulated caller of the API
-   *          operations. <code>CallerArn</code> is required if you include a <code>ResourcePolicy</code>
-   *          so that the policy's <code>Principal</code> element has a value to use in evaluating the
-   *          policy.</p>
-   *          <p>You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed
-   *          role, federated user, or a service principal.</p>
-   */
-  CallerArn?: string;
-
-  /**
-   * <p>A list of context keys and corresponding values for the simulation to use. Whenever a
-   *          context key is evaluated in one of the simulated IAM permissions policies, the
-   *          corresponding value is supplied.</p>
-   */
-  ContextEntries?: ContextEntry[];
-
-  /**
-   * <p>Specifies the type of simulation to run. Different API operations that support
-   *          resource-based policies require different combinations of resources. By specifying the type
-   *          of simulation to run, you enable the policy simulator to enforce the presence of the
-   *          required resources to ensure reliable simulation results. If your simulation does not match
-   *          one of the following scenarios, then you can omit this parameter. The following list shows
-   *          each of the supported scenario values and the resources that you must define to run the
-   *          simulation.</p>
-   *          <p>Each of the EC2 scenarios requires that you specify instance, image, and security-group
-   *          resources. If your scenario includes an EBS volume, then you must specify that volume as a
-   *          resource. If the EC2 scenario includes VPC, then you must supply the network-interface
-   *          resource. If it includes an IP subnet, then you must specify the subnet resource. For more
-   *          information on the EC2 scenario options, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported Platforms</a>
-   *          in the <i>Amazon EC2 User Guide</i>.</p>
-   *          <ul>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-Classic-InstanceStore</b>
-   *                </p>
-   *                <p>instance, image, security-group</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-Classic-EBS</b>
-   *                </p>
-   *                <p>instance, image, security-group, volume</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-VPC-InstanceStore</b>
-   *                </p>
-   *                <p>instance, image, security-group, network-interface</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-VPC-InstanceStore-Subnet</b>
-   *                </p>
-   *                <p>instance, image, security-group, network-interface, subnet</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-VPC-EBS</b>
-   *                </p>
-   *                <p>instance, image, security-group, network-interface, volume</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <b>EC2-VPC-EBS-Subnet</b>
-   *                </p>
-   *                <p>instance, image, security-group, network-interface, subnet, volume</p>
-   *             </li>
-   *          </ul>
-   */
-  ResourceHandlingOption?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-}
-
-export namespace SimulateCustomPolicyRequest {
-  export const filterSensitiveLog = (obj: SimulateCustomPolicyRequest): any => ({
-    ...obj,
-  });
-}
-
-export enum PolicyEvaluationDecisionType {
-  ALLOWED = "allowed",
-  EXPLICIT_DENY = "explicitDeny",
-  IMPLICIT_DENY = "implicitDeny",
-}
-
-/**
- * <p>Contains the row and column of a location of a <code>Statement</code> element in a
- *          policy document.</p>
- *          <p>This data type is used as a member of the <code>
- *                <a>Statement</a>
- *             </code> type.</p>
- */
-export interface Position {
-  /**
-   * <p>The line containing the specified position in the document.</p>
-   */
-  Line?: number;
-
-  /**
-   * <p>The column in the line containing the specified position in the document.</p>
-   */
-  Column?: number;
-}
-
-export namespace Position {
-  export const filterSensitiveLog = (obj: Position): any => ({
-    ...obj,
-  });
-}
-
-export enum PolicySourceType {
-  AWS_MANAGED = "aws-managed",
-  GROUP = "group",
-  NONE = "none",
-  RESOURCE = "resource",
-  ROLE = "role",
-  USER = "user",
-  USER_MANAGED = "user-managed",
-}
-
-/**
- * <p>Contains a reference to a <code>Statement</code> element in a policy document that
- *          determines the result of the simulation.</p>
- *          <p>This data type is used by the <code>MatchedStatements</code> member of the <code>
- *                <a>EvaluationResult</a>
- *             </code> type.</p>
- */
-export interface Statement {
-  /**
-   * <p>The identifier of the policy that was provided as an input.</p>
-   */
-  SourcePolicyId?: string;
-
-  /**
-   * <p>The type of the policy.</p>
-   */
-  SourcePolicyType?: PolicySourceType | string;
-
-  /**
-   * <p>The row and column of the beginning of the <code>Statement</code> in an IAM
-   *          policy.</p>
-   */
-  StartPosition?: Position;
-
-  /**
-   * <p>The row and column of the end of a <code>Statement</code> in an IAM policy.</p>
-   */
-  EndPosition?: Position;
-}
-
-export namespace Statement {
-  export const filterSensitiveLog = (obj: Statement): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about the effect that Organizations has on a policy simulation.</p>
- */
-export interface OrganizationsDecisionDetail {
-  /**
-   * <p>Specifies whether the simulated operation is allowed by the Organizations service control
-   *          policies that impact the simulated user's account.</p>
-   */
-  AllowedByOrganizations?: boolean;
-}
-
-export namespace OrganizationsDecisionDetail {
-  export const filterSensitiveLog = (obj: OrganizationsDecisionDetail): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about the effect that a permissions boundary has on a policy
- *          simulation when the boundary is applied to an IAM entity.</p>
- */
-export interface PermissionsBoundaryDecisionDetail {
-  /**
-   * <p>Specifies whether an action is allowed by a permissions boundary that is applied to an
-   *          IAM entity (user or role). A value of <code>true</code> means that the permissions
-   *          boundary does not deny the action. This means that the policy includes an
-   *             <code>Allow</code> statement that matches the request. In this case, if an
-   *          identity-based policy also allows the action, the request is allowed. A value of
-   *             <code>false</code> means that either the requested action is not allowed (implicitly
-   *          denied) or that the action is explicitly denied by the permissions boundary. In both of
-   *          these cases, the action is not allowed, regardless of the identity-based policy.</p>
-   */
-  AllowedByPermissionsBoundary?: boolean;
-}
-
-export namespace PermissionsBoundaryDecisionDetail {
-  export const filterSensitiveLog = (obj: PermissionsBoundaryDecisionDetail): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the result of the simulation of a single API operation call on a single
- *          resource.</p>
- *          <p>This data type is used by a member of the <a>EvaluationResult</a> data
- *          type.</p>
- */
-export interface ResourceSpecificResult {
-  /**
-   * <p>The name of the simulated resource, in Amazon Resource Name (ARN) format.</p>
-   */
-  EvalResourceName: string | undefined;
-
-  /**
-   * <p>The result of the simulation of the simulated API operation on the resource specified in
-   *             <code>EvalResourceName</code>.</p>
-   */
-  EvalResourceDecision: PolicyEvaluationDecisionType | string | undefined;
-
-  /**
-   * <p>A list of the statements in the input policies that determine the result for this part
-   *          of the simulation. Remember that even if multiple statements allow the operation on the
-   *          resource, if <i>any</i> statement denies that operation, then the explicit
-   *          deny overrides any allow. In addition, the deny statement is the only entry included in the
-   *          result.</p>
-   */
-  MatchedStatements?: Statement[];
-
-  /**
-   * <p>A list of context keys that are required by the included input policies but that were
-   *          not provided by one of the input parameters. This list is used when a list of ARNs is
-   *          included in the <code>ResourceArns</code> parameter instead of "*". If you do not specify
-   *          individual resources, by setting <code>ResourceArns</code> to "*" or by not including the
-   *             <code>ResourceArns</code> parameter, then any missing context values are instead
-   *          included under the <code>EvaluationResults</code> section. To discover the context keys
-   *          used by a set of policies, you can call <a>GetContextKeysForCustomPolicy</a> or
-   *             <a>GetContextKeysForPrincipalPolicy</a>.</p>
-   */
-  MissingContextValues?: string[];
-
-  /**
-   * <p>Additional details about the results of the evaluation decision on a single resource.
-   *          This parameter is returned only for cross-account simulations. This parameter explains how
-   *          each policy type contributes to the resource-specific evaluation decision.</p>
-   */
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | string };
-
-  /**
-   * <p>Contains information about the effect that a permissions boundary has on a policy
-   *          simulation when that boundary is applied to an IAM entity.</p>
-   */
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-}
-
-export namespace ResourceSpecificResult {
-  export const filterSensitiveLog = (obj: ResourceSpecificResult): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the results of a simulation.</p>
- *          <p>This data type is used by the return parameter of <code>
- *                <a>SimulateCustomPolicy</a>
- *             </code> and <code>
- *                <a>SimulatePrincipalPolicy</a>
- *             </code>.</p>
- */
-export interface EvaluationResult {
-  /**
-   * <p>The name of the API operation tested on the indicated resource.</p>
-   */
-  EvalActionName: string | undefined;
-
-  /**
-   * <p>The ARN of the resource that the indicated API operation was tested on.</p>
-   */
-  EvalResourceName?: string;
-
-  /**
-   * <p>The result of the simulation.</p>
-   */
-  EvalDecision: PolicyEvaluationDecisionType | string | undefined;
-
-  /**
-   * <p>A list of the statements in the input policies that determine the result for this
-   *          scenario. Remember that even if multiple statements allow the operation on the resource, if
-   *          only one statement denies that operation, then the explicit deny overrides any allow. In
-   *          addition, the deny statement is the only entry included in the result.</p>
-   */
-  MatchedStatements?: Statement[];
-
-  /**
-   * <p>A list of context keys that are required by the included input policies but that were
-   *          not provided by one of the input parameters. This list is used when the resource in a
-   *          simulation is "*", either explicitly, or when the <code>ResourceArns</code> parameter
-   *          blank. If you include a list of resources, then any missing context values are instead
-   *          included under the <code>ResourceSpecificResults</code> section. To discover the context
-   *          keys used by a set of policies, you can call <a>GetContextKeysForCustomPolicy</a> or <a>GetContextKeysForPrincipalPolicy</a>.</p>
-   */
-  MissingContextValues?: string[];
-
-  /**
-   * <p>A structure that details how Organizations and its service control policies affect the results of
-   *          the simulation. Only applies if the simulated user's account is part of an
-   *          organization.</p>
-   */
-  OrganizationsDecisionDetail?: OrganizationsDecisionDetail;
-
-  /**
-   * <p>Contains information about the effect that a permissions boundary has on a policy
-   *          simulation when the boundary is applied to an IAM entity.</p>
-   */
-  PermissionsBoundaryDecisionDetail?: PermissionsBoundaryDecisionDetail;
-
-  /**
-   * <p>Additional details about the results of the cross-account evaluation decision. This
-   *          parameter is populated for only cross-account simulations. It contains a brief summary of
-   *          how each policy type contributes to the final evaluation decision.</p>
-   *          <p>If the simulation evaluates policies within the same account and includes a resource
-   *          ARN, then the parameter is present but the response is empty. If the simulation evaluates
-   *          policies within the same account and specifies all resources (<code>*</code>), then the
-   *          parameter is not returned.</p>
-   *          <p>When you make a cross-account request, AWS evaluates the request in the trusting
-   *          account and the trusted account. The request is allowed only if both evaluations return
-   *             <code>true</code>. For more information about how policies are evaluated, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating Policies Within a Single Account</a>.</p>
-   *          <p>If an AWS Organizations SCP included in the evaluation denies access, the simulation ends. In
-   *          this case, policy evaluation does not proceed any further and this parameter is not
-   *          returned.</p>
-   */
-  EvalDecisionDetails?: { [key: string]: PolicyEvaluationDecisionType | string };
-
-  /**
-   * <p>The individual results of the simulation of the API operation specified in
-   *          EvalActionName on each resource.</p>
-   */
-  ResourceSpecificResults?: ResourceSpecificResult[];
-}
-
-export namespace EvaluationResult {
-  export const filterSensitiveLog = (obj: EvaluationResult): any => ({
     ...obj,
   });
 }

@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketMetadataRequest } from "../models/models_1";
+import { PutBucketStorageClassRequest } from "../models/models_1";
 import {
-  deserializeAws_restXmlPutBucketMetadataCommand,
-  serializeAws_restXmlPutBucketMetadataCommand,
+  deserializeAws_restXmlPutBucketStorageClassCommand,
+  serializeAws_restXmlPutBucketStorageClassCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketMetadataCommandInput = PutBucketMetadataRequest;
-export type PutBucketMetadataCommandOutput = __MetadataBearer;
+export type PutBucketStorageClassCommandInput = PutBucketStorageClassRequest;
+export type PutBucketStorageClassCommandOutput = __MetadataBearer;
 
 /**
- * <p>Update bucket metadata.</p>
+ * <p>put bucket storage class.</p>
  */
-export class PutBucketMetadataCommand extends $Command<
-  PutBucketMetadataCommandInput,
-  PutBucketMetadataCommandOutput,
+export class PutBucketStorageClassCommand extends $Command<
+  PutBucketStorageClassCommandInput,
+  PutBucketStorageClassCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketMetadataCommandInput) {
+  constructor(readonly input: PutBucketStorageClassCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class PutBucketMetadataCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketMetadataCommandInput, PutBucketMetadataCommandOutput> {
+  ): Handler<PutBucketStorageClassCommandInput, PutBucketStorageClassCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,12 +53,12 @@ export class PutBucketMetadataCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutBucketMetadataCommand";
+    const commandName = "PutBucketStorageClassCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketMetadataRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: PutBucketStorageClassRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -69,12 +69,12 @@ export class PutBucketMetadataCommand extends $Command<
     );
   }
 
-  private serialize(input: PutBucketMetadataCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketMetadataCommand(input, context);
+  private serialize(input: PutBucketStorageClassCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlPutBucketStorageClassCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketMetadataCommandOutput> {
-    return deserializeAws_restXmlPutBucketMetadataCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketStorageClassCommandOutput> {
+    return deserializeAws_restXmlPutBucketStorageClassCommand(output, context);
   }
 
   // Start section: command_body_extra

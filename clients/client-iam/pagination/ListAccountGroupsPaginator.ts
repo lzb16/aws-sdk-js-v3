@@ -1,10 +1,10 @@
 import { IAM } from "../IAM";
 import { IAMClient } from "../IAMClient";
 import {
-  ListAccountsCommand,
-  ListAccountsCommandInput,
-  ListAccountsCommandOutput,
-} from "../commands/ListAccountsCommand";
+  ListAccountGroupsCommand,
+  ListAccountGroupsCommandInput,
+  ListAccountGroupsCommandOutput,
+} from "../commands/ListAccountGroupsCommand";
 import { IAMPaginationConfiguration } from "./Interfaces";
 import { Paginator } from "@aws-sdk/types";
 
@@ -13,35 +13,35 @@ import { Paginator } from "@aws-sdk/types";
  */
 const makePagedClientRequest = async (
   client: IAMClient,
-  input: ListAccountsCommandInput,
+  input: ListAccountGroupsCommandInput,
   ...args: any
-): Promise<ListAccountsCommandOutput> => {
+): Promise<ListAccountGroupsCommandOutput> => {
   // @ts-ignore
-  return await client.send(new ListAccountsCommand(input), ...args);
+  return await client.send(new ListAccountGroupsCommand(input), ...args);
 };
 /**
  * @private
  */
 const makePagedRequest = async (
   client: IAM,
-  input: ListAccountsCommandInput,
+  input: ListAccountGroupsCommandInput,
   ...args: any
-): Promise<ListAccountsCommandOutput> => {
+): Promise<ListAccountGroupsCommandOutput> => {
   // @ts-ignore
-  return await client.listAccounts(input, ...args);
+  return await client.listAccountGroups(input, ...args);
 };
-export async function* paginateListAccounts(
+export async function* paginateListAccountGroups(
   config: IAMPaginationConfiguration,
-  input: ListAccountsCommandInput,
+  input: ListAccountGroupsCommandInput,
   ...additionalArguments: any
-): Paginator<ListAccountsCommandOutput> {
-  // ToDo: replace with actual type instead of typeof input.AccountNameMarker
-  let token: typeof input.AccountNameMarker | undefined = config.startingToken || undefined;
+): Paginator<ListAccountGroupsCommandOutput> {
+  // ToDo: replace with actual type instead of typeof input.Marker
+  let token: typeof input.Marker | undefined = config.startingToken || undefined;
   let hasNext = true;
-  let page: ListAccountsCommandOutput;
+  let page: ListAccountGroupsCommandOutput;
   while (hasNext) {
-    input.AccountNameMarker = token;
-    input["MaxKeys"] = config.pageSize;
+    input.Marker = token;
+    input["MaxItems"] = config.pageSize;
     if (config.client instanceof IAM) {
       page = await makePagedRequest(config.client, input, ...additionalArguments);
     } else if (config.client instanceof IAMClient) {
@@ -50,7 +50,7 @@ export async function* paginateListAccounts(
       throw new Error("Invalid client, expected IAM | IAMClient");
     }
     yield page;
-    token = page.NextAccountName;
+    token = page.Marker;
     hasNext = !!token;
   }
   // @ts-ignore

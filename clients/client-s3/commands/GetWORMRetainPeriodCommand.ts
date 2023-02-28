@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketMetadataRequest } from "../models/models_1";
+import { GetWORMRetainPeriodOutput, GetWORMRetainPeriodRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutBucketMetadataCommand,
-  serializeAws_restXmlPutBucketMetadataCommand,
+  deserializeAws_restXmlGetWORMRetainPeriodCommand,
+  serializeAws_restXmlGetWORMRetainPeriodCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,22 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketMetadataCommandInput = PutBucketMetadataRequest;
-export type PutBucketMetadataCommandOutput = __MetadataBearer;
+export type GetWORMRetainPeriodCommandInput = GetWORMRetainPeriodRequest;
+export type GetWORMRetainPeriodCommandOutput = GetWORMRetainPeriodOutput & __MetadataBearer;
 
 /**
- * <p>Update bucket metadata.</p>
+ * <p>Gets an object's current Retain Period status. </p>
+ *          <p>This action is not supported by Amazon S3 on Outposts.</p>
  */
-export class PutBucketMetadataCommand extends $Command<
-  PutBucketMetadataCommandInput,
-  PutBucketMetadataCommandOutput,
+export class GetWORMRetainPeriodCommand extends $Command<
+  GetWORMRetainPeriodCommandInput,
+  GetWORMRetainPeriodCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketMetadataCommandInput) {
+  constructor(readonly input: GetWORMRetainPeriodCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +46,7 @@ export class PutBucketMetadataCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketMetadataCommandInput, PutBucketMetadataCommandOutput> {
+  ): Handler<GetWORMRetainPeriodCommandInput, GetWORMRetainPeriodCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +54,13 @@ export class PutBucketMetadataCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutBucketMetadataCommand";
+    const commandName = "GetWORMRetainPeriodCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketMetadataRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      inputFilterSensitiveLog: GetWORMRetainPeriodRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetWORMRetainPeriodOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +70,12 @@ export class PutBucketMetadataCommand extends $Command<
     );
   }
 
-  private serialize(input: PutBucketMetadataCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketMetadataCommand(input, context);
+  private serialize(input: GetWORMRetainPeriodCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetWORMRetainPeriodCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketMetadataCommandOutput> {
-    return deserializeAws_restXmlPutBucketMetadataCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetWORMRetainPeriodCommandOutput> {
+    return deserializeAws_restXmlGetWORMRetainPeriodCommand(output, context);
   }
 
   // Start section: command_body_extra

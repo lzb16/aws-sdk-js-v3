@@ -90,6 +90,7 @@ import {
   DeleteBucketWebsiteCommandInput,
   DeleteBucketWebsiteCommandOutput,
 } from "./commands/DeleteBucketWebsiteCommand";
+import { DeleteOSCPCommand, DeleteOSCPCommandInput, DeleteOSCPCommandOutput } from "./commands/DeleteOSCPCommand";
 import {
   DeleteObjectCommand,
   DeleteObjectCommandInput,
@@ -236,6 +237,11 @@ import {
   GetBucketWebsiteCommandOutput,
 } from "./commands/GetBucketWebsiteCommand";
 import {
+  GetOSCPConfigurationCommand,
+  GetOSCPConfigurationCommandInput,
+  GetOSCPConfigurationCommandOutput,
+} from "./commands/GetOSCPConfigurationCommand";
+import {
   GetObjectAclCommand,
   GetObjectAclCommandInput,
   GetObjectAclCommandOutput,
@@ -272,6 +278,16 @@ import {
   GetPublicAccessBlockCommandOutput,
 } from "./commands/GetPublicAccessBlockCommand";
 import { GetRefererCommand, GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
+import {
+  GetWORMConfigurationCommand,
+  GetWORMConfigurationCommandInput,
+  GetWORMConfigurationCommandOutput,
+} from "./commands/GetWORMConfigurationCommand";
+import {
+  GetWORMRetainPeriodCommand,
+  GetWORMRetainPeriodCommandInput,
+  GetWORMRetainPeriodCommandOutput,
+} from "./commands/GetWORMRetainPeriodCommand";
 import { HeadBucketCommand, HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
 import { HeadObjectCommand, HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
@@ -393,6 +409,11 @@ import {
   PutBucketQuotaCommandOutput,
 } from "./commands/PutBucketQuotaCommand";
 import {
+  PutBucketRedundancyCommand,
+  PutBucketRedundancyCommandInput,
+  PutBucketRedundancyCommandOutput,
+} from "./commands/PutBucketRedundancyCommand";
+import {
   PutBucketReplicationCommand,
   PutBucketReplicationCommandInput,
   PutBucketReplicationCommandOutput,
@@ -402,6 +423,11 @@ import {
   PutBucketRequestPaymentCommandInput,
   PutBucketRequestPaymentCommandOutput,
 } from "./commands/PutBucketRequestPaymentCommand";
+import {
+  PutBucketStorageClassCommand,
+  PutBucketStorageClassCommandInput,
+  PutBucketStorageClassCommandOutput,
+} from "./commands/PutBucketStorageClassCommand";
 import {
   PutBucketTaggingCommand,
   PutBucketTaggingCommandInput,
@@ -417,6 +443,11 @@ import {
   PutBucketWebsiteCommandInput,
   PutBucketWebsiteCommandOutput,
 } from "./commands/PutBucketWebsiteCommand";
+import {
+  PutOSCPConfigurationCommand,
+  PutOSCPConfigurationCommandInput,
+  PutOSCPConfigurationCommandOutput,
+} from "./commands/PutOSCPConfigurationCommand";
 import {
   PutObjectAclCommand,
   PutObjectAclCommandInput,
@@ -454,6 +485,16 @@ import {
   PutPublicAccessBlockCommandOutput,
 } from "./commands/PutPublicAccessBlockCommand";
 import { PutRefererCommand, PutRefererCommandInput, PutRefererCommandOutput } from "./commands/PutRefererCommand";
+import {
+  PutWORMConfigurationCommand,
+  PutWORMConfigurationCommandInput,
+  PutWORMConfigurationCommandOutput,
+} from "./commands/PutWORMConfigurationCommand";
+import {
+  PutWORMRetainPeriodCommand,
+  PutWORMRetainPeriodCommandInput,
+  PutWORMRetainPeriodCommandOutput,
+} from "./commands/PutWORMRetainPeriodCommand";
 import {
   RestoreObjectCommand,
   RestoreObjectCommandInput,
@@ -2289,6 +2330,57 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteObjectTaggingCommandOutput) => void
   ): Promise<DeleteObjectTaggingCommandOutput> | void {
     const command = new DeleteObjectTaggingCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the
+   *          lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your
+   *          objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of
+   *          rules contained in the deleted lifecycle configuration.</p>
+   *          <p>To use this operation, you must have permission to perform the
+   *             <code>s3:PutLifecycleConfiguration</code> action. By default, the bucket owner has this
+   *          permission and the bucket owner can grant this permission to others.</p>
+   *
+   *          <p>There is usually some time lag before lifecycle configuration deletion is fully
+   *          propagated to all the Amazon S3 systems.</p>
+   *
+   *          <p>For more information about the object expiration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions">Elements to
+   *             Describe Lifecycle Actions</a>.</p>
+   *          <p>Related actions include:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public deleteOSCP(args: DeleteOSCPCommandInput, options?: __HttpHandlerOptions): Promise<DeleteOSCPCommandOutput>;
+  public deleteOSCP(args: DeleteOSCPCommandInput, cb: (err: any, data?: DeleteOSCPCommandOutput) => void): void;
+  public deleteOSCP(
+    args: DeleteOSCPCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteOSCPCommandOutput) => void
+  ): void;
+  public deleteOSCP(
+    args: DeleteOSCPCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteOSCPCommandOutput) => void),
+    cb?: (err: any, data?: DeleteOSCPCommandOutput) => void
+  ): Promise<DeleteOSCPCommandOutput> | void {
+    const command = new DeleteOSCPCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -4165,6 +4257,93 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <note>
+   *             <p>Bucket lifecycle configuration now supports specifying a lifecycle rule using an
+   *             object key name prefix, one or more object tags, or a combination of both. Accordingly,
+   *             this section describes the latest API. The response describes the new filter element
+   *             that you can use to specify a filter to select a subset of objects to which the rule
+   *             applies. If you are using a previous version of the lifecycle configuration, it still
+   *             works. For the earlier action, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>.</p>
+   *          </note>
+   *          <p>Returns the lifecycle configuration information set on the bucket. For information about
+   *          lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+   *             Lifecycle Management</a>.</p>
+   *
+   *          <p>To use this operation, you must have permission to perform the
+   *             <code>s3:GetLifecycleConfiguration</code> action. The bucket owner has this permission,
+   *          by default. The bucket owner can grant this permission to others. For more information
+   *          about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions Related to Bucket Subresource Operations</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing Access Permissions to Your Amazon S3
+   *             Resources</a>.</p>
+   *
+   *          <p>
+   *             <code>GetBucketLifecycleConfiguration</code> has the following special error:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Error code: <code>NoSuchLifecycleConfiguration</code>
+   *                </p>
+   *                <ul>
+   *                   <li>
+   *                      <p>Description: The lifecycle configuration does not exist.</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>HTTP Status Code: 404 Not Found</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>SOAP Fault Code Prefix: Client</p>
+   *                   </li>
+   *                </ul>
+   *             </li>
+   *          </ul>
+   *          <p>The following operations are related to
+   *          <code>GetBucketLifecycleConfiguration</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public getOSCPConfiguration(
+    args: GetOSCPConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetOSCPConfigurationCommandOutput>;
+  public getOSCPConfiguration(
+    args: GetOSCPConfigurationCommandInput,
+    cb: (err: any, data?: GetOSCPConfigurationCommandOutput) => void
+  ): void;
+  public getOSCPConfiguration(
+    args: GetOSCPConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetOSCPConfigurationCommandOutput) => void
+  ): void;
+  public getOSCPConfiguration(
+    args: GetOSCPConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetOSCPConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: GetOSCPConfigurationCommandOutput) => void
+  ): Promise<GetOSCPConfigurationCommandOutput> | void {
+    const command = new GetOSCPConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon S3 bucket. To use
    *          this operation, you must have the <code>s3:GetBucketPublicAccessBlock</code> permission.
    *          For more information about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying Permissions in a
@@ -4362,6 +4541,71 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetRefererCommandOutput) => void
   ): Promise<GetRefererCommandOutput> | void {
     const command = new GetRefererCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Gets the WORM configuration for a bucket.</p>
+   */
+  public getWORMConfiguration(
+    args: GetWORMConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetWORMConfigurationCommandOutput>;
+  public getWORMConfiguration(
+    args: GetWORMConfigurationCommandInput,
+    cb: (err: any, data?: GetWORMConfigurationCommandOutput) => void
+  ): void;
+  public getWORMConfiguration(
+    args: GetWORMConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetWORMConfigurationCommandOutput) => void
+  ): void;
+  public getWORMConfiguration(
+    args: GetWORMConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetWORMConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: GetWORMConfigurationCommandOutput) => void
+  ): Promise<GetWORMConfigurationCommandOutput> | void {
+    const command = new GetWORMConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Gets an object's current Retain Period status. </p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  public getWORMRetainPeriod(
+    args: GetWORMRetainPeriodCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetWORMRetainPeriodCommandOutput>;
+  public getWORMRetainPeriod(
+    args: GetWORMRetainPeriodCommandInput,
+    cb: (err: any, data?: GetWORMRetainPeriodCommandOutput) => void
+  ): void;
+  public getWORMRetainPeriod(
+    args: GetWORMRetainPeriodCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetWORMRetainPeriodCommandOutput) => void
+  ): void;
+  public getWORMRetainPeriod(
+    args: GetWORMRetainPeriodCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetWORMRetainPeriodCommandOutput) => void),
+    cb?: (err: any, data?: GetWORMRetainPeriodCommandOutput) => void
+  ): Promise<GetWORMRetainPeriodCommandOutput> | void {
+    const command = new GetWORMRetainPeriodCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -6650,6 +6894,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   *
+   */
+  public putBucketRedundancy(
+    args: PutBucketRedundancyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketRedundancyCommandOutput>;
+  public putBucketRedundancy(
+    args: PutBucketRedundancyCommandInput,
+    cb: (err: any, data?: PutBucketRedundancyCommandOutput) => void
+  ): void;
+  public putBucketRedundancy(
+    args: PutBucketRedundancyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketRedundancyCommandOutput) => void
+  ): void;
+  public putBucketRedundancy(
+    args: PutBucketRedundancyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketRedundancyCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketRedundancyCommandOutput) => void
+  ): Promise<PutBucketRedundancyCommandOutput> | void {
+    const command = new PutBucketRedundancyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p> Creates a replication configuration or replaces an existing one. For more information,
    *          see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a> in the <i>Amazon S3 Developer Guide</i>. </p>
    *          <note>
@@ -6784,6 +7060,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketRequestPaymentCommandOutput) => void
   ): Promise<PutBucketRequestPaymentCommandOutput> | void {
     const command = new PutBucketRequestPaymentCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>put bucket storage class.</p>
+   */
+  public putBucketStorageClass(
+    args: PutBucketStorageClassCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketStorageClassCommandOutput>;
+  public putBucketStorageClass(
+    args: PutBucketStorageClassCommandInput,
+    cb: (err: any, data?: PutBucketStorageClassCommandOutput) => void
+  ): void;
+  public putBucketStorageClass(
+    args: PutBucketStorageClassCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketStorageClassCommandOutput) => void
+  ): void;
+  public putBucketStorageClass(
+    args: PutBucketStorageClassCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketStorageClassCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketStorageClassCommandOutput) => void
+  ): Promise<PutBucketStorageClassCommandOutput> | void {
+    const command = new PutBucketStorageClassCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7752,6 +8060,130 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>Creates a new OSCP configuration for the bucket or replaces an existing OSCP
+   *          configuration. For information about OSCP configuration.</p>
+   *
+   *          <note>
+   *             <p>Bucket lifecycle configuration now supports specifying a lifecycle rule using an
+   *             object key name prefix, one or more object tags, or a combination of both. Accordingly,
+   *             this section describes the latest API. The previous version of the API supported
+   *             filtering based only on an object key name prefix, which is supported for backward
+   *             compatibility. For the related API description, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>.</p>
+   *          </note>
+   *
+   *
+   *
+   *          <p>
+   *             <b>Rules</b>
+   *          </p>
+   *          <p>You specify the lifecycle configuration in your request body. The lifecycle
+   *          configuration is specified as XML consisting of one or more rules. Each rule consists of
+   *          the following:</p>
+   *
+   *          <ul>
+   *             <li>
+   *                <p>Filter identifying a subset of objects to which the rule applies. The filter can
+   *                be based on a key name prefix, object tags, or a combination of both.</p>
+   *             </li>
+   *             <li>
+   *                <p>Status whether the rule is in effect.</p>
+   *             </li>
+   *             <li>
+   *                <p>One or more lifecycle transition and expiration actions that you want Amazon S3 to
+   *                perform on the objects identified by the filter. If the state of your bucket is
+   *                versioning-enabled or versioning-suspended, you can have many versions of the same
+   *                object (one current version and zero or more noncurrent versions). Amazon S3 provides
+   *                predefined actions that you can specify for current and noncurrent object
+   *                versions.</p>
+   *             </li>
+   *          </ul>
+   *
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
+   *             Lifecycle Management</a> and <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html">Lifecycle Configuration Elements</a>.</p>
+   *
+   *
+   *          <p>
+   *             <b>Permissions</b>
+   *          </p>
+   *
+   *
+   *          <p>By default, all Amazon S3 resources are private, including buckets, objects, and related
+   *          subresources (for example, lifecycle configuration and website configuration). Only the
+   *          resource owner (that is, the AWS account that created it) can access the resource. The
+   *          resource owner can optionally grant access permissions to others by writing an access
+   *          policy. For this operation, a user must get the s3:PutLifecycleConfiguration
+   *          permission.</p>
+   *
+   *          <p>You can also explicitly deny permissions. Explicit deny also supersedes any other
+   *          permissions. If you want to block users or accounts from removing or deleting objects from
+   *          your bucket, you must deny them permissions for the following actions:</p>
+   *
+   *          <ul>
+   *             <li>
+   *                <p>s3:DeleteObject</p>
+   *             </li>
+   *             <li>
+   *                <p>s3:DeleteObjectVersion</p>
+   *             </li>
+   *             <li>
+   *                <p>s3:PutLifecycleConfiguration</p>
+   *             </li>
+   *          </ul>
+   *
+   *
+   *          <p>For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing Access Permissions to Your Amazon S3
+   *             Resources</a>.</p>
+   *
+   *          <p>The following are related to <code>PutBucketLifecycleConfiguration</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-configuration-examples.html">Examples of
+   *                   Lifecycle Configuration</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html">GetBucketLifecycleConfiguration</a>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html">DeleteBucketLifecycle</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
+  public putOSCPConfiguration(
+    args: PutOSCPConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutOSCPConfigurationCommandOutput>;
+  public putOSCPConfiguration(
+    args: PutOSCPConfigurationCommandInput,
+    cb: (err: any, data?: PutOSCPConfigurationCommandOutput) => void
+  ): void;
+  public putOSCPConfiguration(
+    args: PutOSCPConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutOSCPConfigurationCommandOutput) => void
+  ): void;
+  public putOSCPConfiguration(
+    args: PutOSCPConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutOSCPConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutOSCPConfigurationCommandOutput) => void
+  ): Promise<PutOSCPConfigurationCommandOutput> | void {
+    const command = new PutOSCPConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Creates or modifies the <code>PublicAccessBlock</code> configuration for an Amazon S3 bucket.
    *          To use this operation, you must have the <code>s3:PutBucketPublicAccessBlock</code>
    *          permission. For more information about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying Permissions in a
@@ -7954,6 +8386,91 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutRefererCommandOutput) => void
   ): Promise<PutRefererCommandOutput> | void {
     const command = new PutRefererCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Places an WORM configuration on the specified bucket. The rule specified in the
+   *          WORM configuration will be applied by default to every new object placed in the
+   *          specified bucket.
+   *       </p>
+   *          <note>
+   *             <ul>
+   *                <li>
+   *                   <p>The <code>WORMDefaultRetention</code> settings require a
+   *                period.</p>
+   *                </li>
+   *                <li>
+   *                   <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>
+   *                or <code>Years</code> but you must select one. You cannot specify <code>Days</code>
+   *                and <code>Years</code> at the same time.</p>
+   *                </li>
+   *                <li>
+   *                   <p>You can only enable WORM for new buckets. If you want to turn on
+   *                WORM for an existing bucket, contact AWS Support.</p>
+   *                </li>
+   *             </ul>
+   *          </note>
+   */
+  public putWORMConfiguration(
+    args: PutWORMConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutWORMConfigurationCommandOutput>;
+  public putWORMConfiguration(
+    args: PutWORMConfigurationCommandInput,
+    cb: (err: any, data?: PutWORMConfigurationCommandOutput) => void
+  ): void;
+  public putWORMConfiguration(
+    args: PutWORMConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutWORMConfigurationCommandOutput) => void
+  ): void;
+  public putWORMConfiguration(
+    args: PutWORMConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutWORMConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutWORMConfigurationCommandOutput) => void
+  ): Promise<PutWORMConfigurationCommandOutput> | void {
+    const command = new PutWORMConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Applies a Retain Period configuration to the specified object.</p>
+   *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+   */
+  public putWORMRetainPeriod(
+    args: PutWORMRetainPeriodCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutWORMRetainPeriodCommandOutput>;
+  public putWORMRetainPeriod(
+    args: PutWORMRetainPeriodCommandInput,
+    cb: (err: any, data?: PutWORMRetainPeriodCommandOutput) => void
+  ): void;
+  public putWORMRetainPeriod(
+    args: PutWORMRetainPeriodCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutWORMRetainPeriodCommandOutput) => void
+  ): void;
+  public putWORMRetainPeriod(
+    args: PutWORMRetainPeriodCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutWORMRetainPeriodCommandOutput) => void),
+    cb?: (err: any, data?: PutWORMRetainPeriodCommandOutput) => void
+  ): Promise<PutWORMRetainPeriodCommandOutput> | void {
+    const command = new PutWORMRetainPeriodCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

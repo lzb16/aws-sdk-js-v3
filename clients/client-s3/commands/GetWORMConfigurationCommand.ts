@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketMetadataRequest } from "../models/models_1";
+import { GetWORMConfigurationOutput, GetWORMConfigurationRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutBucketMetadataCommand,
-  serializeAws_restXmlPutBucketMetadataCommand,
+  deserializeAws_restXmlGetWORMConfigurationCommand,
+  serializeAws_restXmlGetWORMConfigurationCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketMetadataCommandInput = PutBucketMetadataRequest;
-export type PutBucketMetadataCommandOutput = __MetadataBearer;
+export type GetWORMConfigurationCommandInput = GetWORMConfigurationRequest;
+export type GetWORMConfigurationCommandOutput = GetWORMConfigurationOutput & __MetadataBearer;
 
 /**
- * <p>Update bucket metadata.</p>
+ * <p>Gets the WORM configuration for a bucket.</p>
  */
-export class PutBucketMetadataCommand extends $Command<
-  PutBucketMetadataCommandInput,
-  PutBucketMetadataCommandOutput,
+export class GetWORMConfigurationCommand extends $Command<
+  GetWORMConfigurationCommandInput,
+  GetWORMConfigurationCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketMetadataCommandInput) {
+  constructor(readonly input: GetWORMConfigurationCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class PutBucketMetadataCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketMetadataCommandInput, PutBucketMetadataCommandOutput> {
+  ): Handler<GetWORMConfigurationCommandInput, GetWORMConfigurationCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class PutBucketMetadataCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutBucketMetadataCommand";
+    const commandName = "GetWORMConfigurationCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketMetadataRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      inputFilterSensitiveLog: GetWORMConfigurationRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetWORMConfigurationOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class PutBucketMetadataCommand extends $Command<
     );
   }
 
-  private serialize(input: PutBucketMetadataCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketMetadataCommand(input, context);
+  private serialize(input: GetWORMConfigurationCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetWORMConfigurationCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketMetadataCommandOutput> {
-    return deserializeAws_restXmlPutBucketMetadataCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetWORMConfigurationCommandOutput> {
+    return deserializeAws_restXmlGetWORMConfigurationCommand(output, context);
   }
 
   // Start section: command_body_extra

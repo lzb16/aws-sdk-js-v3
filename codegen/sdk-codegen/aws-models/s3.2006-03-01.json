@@ -260,6 +260,9 @@
           "target": "com.amazonaws.s3#DeleteBucketLifecycle"
         },
         {
+          "target": "com.amazonaws.s3#DeleteOSCP"
+        },
+        {
           "target": "com.amazonaws.s3#DeleteBucketMetricsConfiguration"
         },
         {
@@ -315,6 +318,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetBucketLifecycleConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#GetOSCPConfiguration"
         },
         {
           "target": "com.amazonaws.s3#GetBucketLocation"
@@ -374,7 +380,13 @@
           "target": "com.amazonaws.s3#GetObjectLegalHold"
         },
         {
+          "target": "com.amazonaws.s3#GetWORMRetainPeriod"
+        },
+        {
           "target": "com.amazonaws.s3#GetObjectLockConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#GetWORMConfiguration"
         },
         {
           "target": "com.amazonaws.s3#GetObjectRetention"
@@ -434,6 +446,12 @@
           "target": "com.amazonaws.s3#PutBucketAcl"
         },
         {
+          "target": "com.amazonaws.s3#PutBucketStorageClass"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketRedundancy"
+        },
+        {
           "target": "com.amazonaws.s3#PutBucketAnalyticsConfiguration"
         },
         {
@@ -450,6 +468,9 @@
         },
         {
           "target": "com.amazonaws.s3#PutBucketLifecycleConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#PutOSCPConfiguration"
         },
         {
           "target": "com.amazonaws.s3#PutBucketLogging"
@@ -497,7 +518,13 @@
           "target": "com.amazonaws.s3#PutObjectLegalHold"
         },
         {
+          "target": "com.amazonaws.s3#PutWORMRetainPeriod"
+        },
+        {
           "target": "com.amazonaws.s3#PutObjectLockConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#PutWORMConfiguration"
         },
         {
           "target": "com.amazonaws.s3#PutObjectRetention"
@@ -581,6 +608,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>Version ID of an object.</p>",
+            "smithy.api#httpQuery": "versionId"
           }
         },
         "Key": {
@@ -877,6 +911,12 @@
     "com.amazonaws.s3#Bucket": {
       "type": "structure",
       "members": {
+        "ID": {
+          "target": "com.amazonaws.s3#BucketID",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the bucket.</p>"
+          }
+        },
         "Name": {
           "target": "com.amazonaws.s3#BucketName",
           "traits": {
@@ -950,6 +990,12 @@
             "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>"
           }
         },
+        "OSCPConfiguration": {
+          "target": "com.amazonaws.s3#BucketOSCPConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>OSCP configuration.</p>"
+          }
+        },
         "CORSConfiguration": {
           "target": "com.amazonaws.s3#CORSConfiguration",
           "traits": {
@@ -968,7 +1014,7 @@
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
         },
-        "BucketLoggingConfiguration": {
+        "LoggingConfiguration": {
           "target": "com.amazonaws.s3#BucketLoggingConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
@@ -990,6 +1036,24 @@
           "target": "com.amazonaws.s3#QoSConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "BucketRedundancyConfiguration": {
+          "target": "com.amazonaws.s3#BucketRedundancyConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "DefaultStorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>bucket storage class.</p>"
+          }
+        },
+        "RepPairConfiguration": {
+          "target": "com.amazonaws.s3#RepPairConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html\">Enabling Cross-Origin Resource\n            Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>"
           }
         }
       },
@@ -1047,6 +1111,241 @@
     },
     "com.amazonaws.s3#BucketKeyEnabled": {
       "type": "boolean"
+    },
+    "com.amazonaws.s3#OSCPPolicyOperator": {
+      "type": "structure",
+      "members": {
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "UserMetadata": {
+          "target": "com.amazonaws.s3#UserMetadataSingle",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Tags": {
+          "target": "com.amazonaws.s3#TagSet",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Tag"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more\n         predicates. The Lifecycle Rule will apply to any object matching all of the predicates\n         configured inside the And operator.</p>"
+      }
+    },
+    "com.amazonaws.s3#OSCPPolicyFilter": {
+      "type": "union",
+      "members": {
+        "And": {
+          "target": "com.amazonaws.s3#OSCPPolicyOperator"
+        },
+        "Or": {
+          "target": "com.amazonaws.s3#OSCPPolicyOperator"
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "UserMetadata": {
+          "target": "com.amazonaws.s3#UserMetadataSingle",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A\n            <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or\n            <code>And</code> specified.</p>"
+      }
+    },
+    "com.amazonaws.s3#OSCPPolicy": {
+      "type": "structure",
+      "members": {
+        "ID": {
+          "target": "com.amazonaws.s3#ID",
+          "traits": {
+            "smithy.api#documentation": "<p>Unique identifier for the rule. The value cannot be longer than 255 characters.</p>"
+          }
+        },
+        "Filter": {
+          "target": "com.amazonaws.s3#OSCPPolicyFilter",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A\n         <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or\n         <code>And</code> specified. <code>Filter</code> is required if the <code>LifecycleRule</code>\n         does not containt a <code>Prefix</code> element.</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The\n         STANDARD storage class provides high durability and high availability. Depending on\n         performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses\n         the OUTPOSTS Storage Class. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage Classes</a> in the\n         <i>Amazon S3 User Guide</i>.</p>",
+            "smithy.api#httpHeader": "x-amz-storage-class"
+          }
+        },
+        "Priority": {
+          "target": "com.amazonaws.s3#Priority",
+          "traits": {
+            "smithy.api#documentation": "<p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The\n         STANDARD storage class provides high durability and high availability. Depending on\n         performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses\n         the OUTPOSTS Storage Class. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage Classes</a> in the\n         <i>Amazon S3 User Guide</i>.</p>"
+          }
+        },
+        "Comment": {
+          "target": "com.amazonaws.s3#Comments",
+          "traits": {
+            "smithy.api#documentation": "<p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The\n         STANDARD storage class provides high durability and high availability. Depending on\n         performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses\n         the OUTPOSTS Storage Class. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage Classes</a> in the\n         <i>Amazon S3 User Guide</i>.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>"
+      }
+    },
+    "com.amazonaws.s3#OSCPPolicies": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#OSCPPolicy"
+      }
+    },
+    "com.amazonaws.s3#OSCPConfiguration": {
+      "type": "structure",
+      "members": {
+        "Policies": {
+          "target": "com.amazonaws.s3#OSCPPolicies",
+          "traits": {
+            "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Policy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Object Storage Class Policy</p>"
+      }
+    },
+    "com.amazonaws.s3#BucketOSCPConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Specifies the lifecycle configuration for objects in an Amazon S3 bucket. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html\">Object Lifecycle Management</a>\n         in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>"
+      }
     },
     "com.amazonaws.s3#BucketLifecycleConfiguration": {
       "type": "structure",
@@ -1150,6 +1449,17 @@
         ]
       }
     },
+    "com.amazonaws.s3#RepPairConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Container for rep pair status information.</p>"
+      }
+    },
     "com.amazonaws.s3#BucketLoggingConfiguration": {
       "type": "structure",
       "members": {
@@ -1191,6 +1501,9 @@
     "com.amazonaws.s3#BucketName": {
       "type": "string"
     },
+    "com.amazonaws.s3#BucketID": {
+      "type": "integer"
+    },
     "com.amazonaws.s3#EnableDedup": {
       "type": "integer"
     },
@@ -1220,6 +1533,9 @@
       }
     },
     "com.amazonaws.s3#BypassGovernanceRetention": {
+      "type": "boolean"
+    },
+    "com.amazonaws.s3#BypassRetentionTimeLimit": {
       "type": "boolean"
     },
     "com.amazonaws.s3#BytesProcessed": {
@@ -1774,6 +2090,13 @@
     "com.amazonaws.s3#CopyObjectRequest": {
       "type": "structure",
       "members": {
+        "WormRetainUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-retain-until-date"
+          }
+        },
         "ACL": {
           "target": "com.amazonaws.s3#ObjectCannedACL",
           "traits": {
@@ -2055,6 +2378,13 @@
             "smithy.api#documentation": "<p>The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-source-expected-bucket-owner"
           }
+        },
+        "BypassRetentionTimeLimit": {
+          "target": "com.amazonaws.s3#BypassRetentionTimeLimit",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this action should bypass Governance-mode restrictions.</p>",
+            "smithy.api#httpHeader": "x-amz-bypass-retention-time-limit"
+          }
         }
       }
     },
@@ -2292,6 +2622,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The tag-set for the bucket. The tag-set must be encoded as URL Query parameters.</p>",
             "smithy.api#httpHeader": "x-amz-tagging"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>The storage-class for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-default-storage-class"
           }
         }
       }
@@ -2902,6 +3239,40 @@
           "target": "com.amazonaws.s3#AccountId",
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteOSCP": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteOSCPRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the\n         lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your\n         objects never expire, and Amazon S3 no longer automatically deletes any objects on the basis of\n         rules contained in the deleted lifecycle configuration.</p>\n         <p>To use this operation, you must have permission to perform the\n            <code>s3:PutLifecycleConfiguration</code> action. By default, the bucket owner has this\n         permission and the bucket owner can grant this permission to others.</p>\n\n         <p>There is usually some time lag before lifecycle configuration deletion is fully\n         propagated to all the Amazon S3 systems.</p>\n\n         <p>For more information about the object expiration, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions\">Elements to\n            Describe Lifecycle Actions</a>.</p>\n         <p>Related actions include:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html\">PutBucketLifecycleConfiguration</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html\">GetBucketLifecycleConfiguration</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?oscp",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteOSCPRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name of the lifecycle to delete.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
@@ -4374,6 +4745,59 @@
         }
       }
     },
+    "com.amazonaws.s3#GetOSCPConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetOSCPConfigurationRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetOSCPConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<note>\n            <p>Bucket lifecycle configuration now supports specifying a lifecycle rule using an\n            object key name prefix, one or more object tags, or a combination of both. Accordingly,\n            this section describes the latest API. The response describes the new filter element\n            that you can use to specify a filter to select a subset of objects to which the rule\n            applies. If you are using a previous version of the lifecycle configuration, it still\n            works. For the earlier action, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html\">GetBucketLifecycle</a>.</p>\n         </note>\n         <p>Returns the lifecycle configuration information set on the bucket. For information about\n         lifecycle configuration, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html\">Object\n            Lifecycle Management</a>.</p>\n\n         <p>To use this operation, you must have permission to perform the\n            <code>s3:GetLifecycleConfiguration</code> action. The bucket owner has this permission,\n         by default. The bucket owner can grant this permission to others. For more information\n         about permissions, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources\">Permissions Related to Bucket Subresource Operations</a> and <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html\">Managing Access Permissions to Your Amazon S3\n            Resources</a>.</p>\n\n         <p>\n            <code>GetBucketLifecycleConfiguration</code> has the following special error:</p>\n         <ul>\n            <li>\n               <p>Error code: <code>NoSuchLifecycleConfiguration</code>\n               </p>\n               <ul>\n                  <li>\n                     <p>Description: The lifecycle configuration does not exist.</p>\n                  </li>\n                  <li>\n                     <p>HTTP Status Code: 404 Not Found</p>\n                  </li>\n                  <li>\n                     <p>SOAP Fault Code Prefix: Client</p>\n                  </li>\n               </ul>\n            </li>\n         </ul>\n         <p>The following operations are related to\n         <code>GetBucketLifecycleConfiguration</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html\">GetBucketLifecycle</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html\">PutBucketLifecycle</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html\">DeleteBucketLifecycle</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?oscp",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetOSCPConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket for which to get the lifecycle information.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetOSCPConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "Policies": {
+          "target": "com.amazonaws.s3#OSCPPolicies",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a lifecycle rule.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Policy"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#xmlName": "OSCPConfiguration"
+      }
+    },
     "com.amazonaws.s3#GetBucketLifecycleConfiguration": {
       "type": "operation",
       "input": {
@@ -5361,6 +5785,90 @@
         }
       }
     },
+    "com.amazonaws.s3#GetWORMRetainPeriod": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetWORMRetainPeriodRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetWORMRetainPeriodOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Gets an object's current Retain Period status. </p>\n         <p>This action is not supported by Amazon S3 on Outposts.</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}/{Key+}?retain-period",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetWORMRetainPeriodRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the object whose Retain Period status you want to retrieve. </p>\n         <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html\">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>The key name for the object whose Retain Period status you want to retrieve.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>The version ID of the object whose Retain Period status you want to retrieve.</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetWORMRetainPeriodOutput": {
+      "type": "structure",
+      "members": {
+        "RetainPeriod": {
+          "target": "com.amazonaws.s3#WORMRetainPeriod",
+          "traits": {
+            "smithy.api#documentation": "<p>The current Retain Period status for the specified object.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#WORMRetainPeriod": {
+      "type": "structure",
+      "members": {
+        "RetainUntilDate": {
+          "target": "com.amazonaws.s3#Date",
+          "traits": {
+            "smithy.api#documentation": "<p>The date on which this Worm Retain Period will expire.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A Retain Period configuration for an object.</p>"
+      }
+    },
     "com.amazonaws.s3#GetObjectLegalHold": {
       "type": "operation",
       "input": {
@@ -5429,6 +5937,120 @@
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
+      }
+    },
+    "com.amazonaws.s3#GetWORMConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetWORMConfigurationRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetWORMConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Gets the WORM configuration for a bucket.</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?worm",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetWORMConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket whose WORM configuration you want to retrieve.</p>\n         <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html\">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetWORMConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "WORMConfiguration": {
+          "target": "com.amazonaws.s3#WORMConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The specified bucket's WORM configuration.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#WORMConfiguration": {
+      "type": "structure",
+      "members": {
+        "WORMEnabled": {
+          "target": "com.amazonaws.s3#WORMEnabled",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this bucket has an WORM configuration enabled.\n         Enable <code>WORMEnabled</code> when you apply <code>WORMConfiguration</code>\n         to a bucket. </p>"
+          }
+        },
+        "Rule": {
+          "target": "com.amazonaws.s3#WORMRule",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the WORM rule for the specified object. Enable the this rule when you apply\n         <code>WORMConfiguration</code> to a bucket. Bucket settings require both a mode and a period.\n         The period can be either <code>Days</code> or <code>Years</code> but you must select one.\n         You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The container element for WORM configuration parameters.</p>"
+      }
+    },
+    "com.amazonaws.s3#WORMEnabled": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "Enabled",
+            "name": "Enabled"
+          }
+        ]
+      }
+    },
+    "com.amazonaws.s3#WORMRule": {
+      "type": "structure",
+      "members": {
+        "DefaultRetention": {
+          "target": "com.amazonaws.s3#WORMDefaultRetention",
+          "traits": {
+            "smithy.api#documentation": "<p>The default WORM retention mode and period that you want to apply to new objects\n         placed in the specified bucket. Bucket settings require a period.\n         The period can be either <code>Days</code> or <code>Years</code> but you must select one.\n         You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The container element for an WORM rule.</p>"
+      }
+    },
+    "com.amazonaws.s3#WORMDefaultRetention": {
+      "type": "structure",
+      "members": {
+        "Days": {
+          "target": "com.amazonaws.s3#Days",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of days that you want to specify for the default retention period.</p>"
+          }
+        },
+        "Years": {
+          "target": "com.amazonaws.s3#Years",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The container element for specifying the default WORM retention settings for new\n         objects placed in the specified bucket.</p>\n         <note>\n            <ul>\n               <li>\n                  <p>The <code>DefaultRetention</code> settings require a\n               period.</p>\n               </li>\n               <li>\n                  <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>\n               or <code>Years</code> but you must select one. You cannot specify <code>Days</code>\n               and <code>Years</code> at the same time.</p>\n               </li>\n            </ul>\n         </note>"
       }
     },
     "com.amazonaws.s3#GetObjectLockConfiguration": {
@@ -6195,6 +6817,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Specifies the permission given to the grantee.</p>"
           }
+        },
+        "Delivered": {
+          "target": "com.amazonaws.s3#Delivered",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the permission given to the grantee.</p>"
+          }
         }
       },
       "traits": {
@@ -6202,6 +6830,12 @@
       }
     },
     "com.amazonaws.s3#GrantFullControl": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#GrantFullControlDelivered": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#GrantReadDelivered": {
       "type": "string"
     },
     "com.amazonaws.s3#GrantRead": {
@@ -7316,6 +7950,29 @@
         "smithy.api#documentation": "<p>Container for the expiration for the lifecycle of the object.</p>"
       }
     },
+    "com.amazonaws.s3#LifecyclePeriodList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#LifecyclePeriod"
+      }
+    },
+    "com.amazonaws.s3#LifecyclePeriod": {
+      "type": "structure",
+      "members": {
+        "Start": {
+          "target": "com.amazonaws.s3#StartAfter",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the expiration for the lifecycle of the object in the form of date, days and,\n         whether the object has a delete marker.</p>"
+          }
+        },
+        "End": {
+          "target": "com.amazonaws.s3#EndBefore",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the expiration for the lifecycle of the object in the form of date, days and,\n         whether the object has a delete marker.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#LifecycleRule": {
       "type": "structure",
       "members": {
@@ -7375,17 +8032,78 @@
         },
         "AbortIncompleteMultipartUpload": {
           "target": "com.amazonaws.s3#AbortIncompleteMultipartUpload"
+        },
+        "RunningTimes": {
+          "target": "com.amazonaws.s3#LifecycleRunningTimes",
+          "traits": {
+            "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>",
+            "smithy.api#xmlName": "RunningTime"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>"
       }
     },
-    "com.amazonaws.s3#LifecycleRuleAndOperator": {
+    "com.amazonaws.s3#LifecycleRuleOperator": {
       "type": "structure",
       "members": {
         "Prefix": {
           "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
           "traits": {
             "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
           }
@@ -7406,20 +8124,71 @@
     "com.amazonaws.s3#LifecycleRuleFilter": {
       "type": "union",
       "members": {
+        "And": {
+          "target": "com.amazonaws.s3#LifecycleRuleOperator"
+        },
+        "Or": {
+          "target": "com.amazonaws.s3#LifecycleRuleOperator"
+        },
         "Prefix": {
           "target": "com.amazonaws.s3#Prefix",
           "traits": {
             "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
           }
         },
-        "Tag": {
-          "target": "com.amazonaws.s3#Tag",
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
           "traits": {
-            "smithy.api#documentation": "<p>This tag must exist in the object's tag set in order for the rule to apply.</p>"
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
           }
         },
-        "And": {
-          "target": "com.amazonaws.s3#LifecycleRuleAndOperator"
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
         }
       },
       "traits": {
@@ -7430,6 +8199,21 @@
       "type": "list",
       "member": {
         "target": "com.amazonaws.s3#LifecycleRule"
+      }
+    },
+    "com.amazonaws.s3#LifecycleRunningTimes": {
+      "type": "structure",
+      "members": {
+        "Period": {
+          "target": "com.amazonaws.s3#LifecyclePeriodList",
+          "traits": {
+            "smithy.api#documentation": "<p>A lifecycle period list.</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Running times.</p>"
       }
     },
     "com.amazonaws.s3#ListBucketAnalyticsConfigurations": {
@@ -7882,6 +8666,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Encoding type used by Amazon S3 to encode object keys in the response.</p>\n         <p>If you specify <code>encoding-type</code> request parameter, Amazon S3 includes this element\n         in the response, and returns encoded key name values in the following response\n         elements:</p>\n\n         <p>\n            <code>Delimiter</code>, <code>KeyMarker</code>, <code>Prefix</code>,\n            <code>NextKeyMarker</code>, <code>Key</code>.</p>"
           }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>"
+          }
         }
       }
     },
@@ -8048,6 +8838,12 @@
           "traits": {
             "smithy.api#documentation": "<p> Encoding type used by Amazon S3 to encode object key names in the XML response.</p>\n\n         <p>If you specify encoding-type request parameter, Amazon S3 includes this element in the\n         response, and returns encoded key name values in the following response elements:</p>\n\n         <p>\n            <code>KeyMarker, NextKeyMarker, Prefix, Key</code>, and <code>Delimiter</code>.</p>"
           }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>"
+          }
         }
       }
     },
@@ -8204,6 +9000,12 @@
           "target": "com.amazonaws.s3#EncodingType",
           "traits": {
             "smithy.api#documentation": "<p>Encoding type used by Amazon S3 to encode object keys in the response.</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>"
           }
         }
       }
@@ -8371,6 +9173,18 @@
           "target": "com.amazonaws.s3#StartAfter",
           "traits": {
             "smithy.api#documentation": "<p>If StartAfter was sent with the request, it is included in the response.</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>"
+          }
+        },
+        "NextMarker": {
+          "target": "com.amazonaws.s3#NextMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>When response is truncated (the IsTruncated element value in the response is true), you\n         can use the key name in this field as marker in the subsequent request to get next set of\n         objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if\n         you have delimiter request parameter specified. If response does not include the NextMarker\n         and it is truncated, you can use the value of the last Key in the response as the marker in\n         the subsequent request to get the next set of object keys.</p>"
           }
         }
       }
@@ -8742,6 +9556,26 @@
             "name": "REPLACE"
           }
         ]
+      }
+    },
+    "com.amazonaws.s3#UserMetadataSingle": {
+      "type": "structure",
+      "members": {
+        "Key": {
+          "target": "com.amazonaws.s3#MetadataKey",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the Object.</p>"
+          }
+        },
+        "Value": {
+          "target": "com.amazonaws.s3#MetadataValue",
+          "traits": {
+            "smithy.api#documentation": "<p>Value of the Object.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A metadata key-value pair to store with an object.</p>"
       }
     },
     "com.amazonaws.s3#MetadataEntry": {
@@ -9642,6 +10476,9 @@
         ]
       }
     },
+    "com.amazonaws.s3#Delivered": {
+      "type": "boolean"
+    },
     "com.amazonaws.s3#Permission": {
       "type": "string",
       "traits": {
@@ -9894,6 +10731,13 @@
             "smithy.api#httpHeader": "Content-MD5"
           }
         },
+        "GrantFullControlDelivered": {
+          "target": "com.amazonaws.s3#GrantFullControlDelivered",
+          "traits": {
+            "smithy.api#documentation": "<p>Allows grantee the read, write, read ACP, and write ACP permissions on the\n         bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-grant-full-control-delivered"
+          }
+        },
         "GrantFullControl": {
           "target": "com.amazonaws.s3#GrantFullControl",
           "traits": {
@@ -9906,6 +10750,13 @@
           "traits": {
             "smithy.api#documentation": "<p>Allows grantee to list the objects in the bucket.</p>",
             "smithy.api#httpHeader": "x-amz-grant-read"
+          }
+        },
+        "GrantReadDelivered": {
+          "target": "com.amazonaws.s3#GrantReadDelivered",
+          "traits": {
+            "smithy.api#documentation": "<p>Allows grantee to list the objects in the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-grant-read-delivered"
           }
         },
         "GrantReadACP": {
@@ -9934,6 +10785,41 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketRedundancy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketRedundancyRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?redundancy",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketRedundancyRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket to which to apply the redundancy.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Redundancy": {
+          "target": "com.amazonaws.s3#BucketRedundancy",
+          "traits": {
+            "smithy.api#documentation": "<p>The canned redundancy to apply to the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-redundancy"
           }
         }
       }
@@ -10180,6 +11066,21 @@
         }
       }
     },
+    "com.amazonaws.s3#PutOSCPConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutOSCPConfigurationRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Creates a new OSCP configuration for the bucket or replaces an existing OSCP\n         configuration. For information about OSCP configuration.</p>\n\n         <note>\n            <p>Bucket lifecycle configuration now supports specifying a lifecycle rule using an\n            object key name prefix, one or more object tags, or a combination of both. Accordingly,\n            this section describes the latest API. The previous version of the API supported\n            filtering based only on an object key name prefix, which is supported for backward\n            compatibility. For the related API description, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html\">PutBucketLifecycle</a>.</p>\n         </note>\n\n      \n\n         <p>\n            <b>Rules</b>\n         </p>\n         <p>You specify the lifecycle configuration in your request body. The lifecycle\n         configuration is specified as XML consisting of one or more rules. Each rule consists of\n         the following:</p>\n\n         <ul>\n            <li>\n               <p>Filter identifying a subset of objects to which the rule applies. The filter can\n               be based on a key name prefix, object tags, or a combination of both.</p>\n            </li>\n            <li>\n               <p>Status whether the rule is in effect.</p>\n            </li>\n            <li>\n               <p>One or more lifecycle transition and expiration actions that you want Amazon S3 to\n               perform on the objects identified by the filter. If the state of your bucket is\n               versioning-enabled or versioning-suspended, you can have many versions of the same\n               object (one current version and zero or more noncurrent versions). Amazon S3 provides\n               predefined actions that you can specify for current and noncurrent object\n               versions.</p>\n            </li>\n         </ul>\n\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html\">Object\n            Lifecycle Management</a> and <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html\">Lifecycle Configuration Elements</a>.</p>\n\n\n         <p>\n            <b>Permissions</b>\n         </p>\n\n\n         <p>By default, all Amazon S3 resources are private, including buckets, objects, and related\n         subresources (for example, lifecycle configuration and website configuration). Only the\n         resource owner (that is, the AWS account that created it) can access the resource. The\n         resource owner can optionally grant access permissions to others by writing an access\n         policy. For this operation, a user must get the s3:PutLifecycleConfiguration\n         permission.</p>\n\n         <p>You can also explicitly deny permissions. Explicit deny also supersedes any other\n         permissions. If you want to block users or accounts from removing or deleting objects from\n         your bucket, you must deny them permissions for the following actions:</p>\n\n         <ul>\n            <li>\n               <p>s3:DeleteObject</p>\n            </li>\n            <li>\n               <p>s3:DeleteObjectVersion</p>\n            </li>\n            <li>\n               <p>s3:PutLifecycleConfiguration</p>\n            </li>\n         </ul>\n\n\n         <p>For more information about permissions, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html\">Managing Access Permissions to Your Amazon S3\n            Resources</a>.</p>\n\n         <p>The following are related to <code>PutBucketLifecycleConfiguration</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-configuration-examples.html\">Examples of\n                  Lifecycle Configuration</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html\">GetBucketLifecycleConfiguration</a>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html\">DeleteBucketLifecycle</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?oscp",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
     "com.amazonaws.s3#PutBucketLifecycleConfiguration": {
       "type": "operation",
       "input": {
@@ -10193,6 +11094,34 @@
           "code": 200
         },
         "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutOSCPConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket for which to set the configuration.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "OSCPConfiguration": {
+          "target": "com.amazonaws.s3#OSCPConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "OSCPConfiguration"
+          }
+        }
       }
     },
     "com.amazonaws.s3#PutBucketLifecycleConfigurationRequest": {
@@ -10467,6 +11396,41 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketStorageClass": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketStorageClassRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>put bucket storage class.</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?storageClass",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketStorageClassRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>The storage-class for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-default-storage-class"
           }
         }
       }
@@ -10959,6 +11923,91 @@
         }
       }
     },
+    "com.amazonaws.s3#PutWORMRetainPeriod": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutWORMRetainPeriodRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#PutWORMRetainPeriodOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Applies a Retain Period configuration to the specified object.</p>\n         <p>This action is not supported by Amazon S3 on Outposts.</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}/{Key+}?retain-period",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutWORMRetainPeriodRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the object that you want to place a Retain Period on. </p>\n         <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html\">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>The key name for the object that you want to place a Retain Period on.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>The version ID of the object that you want to place a Retain Period on.</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "ContentMD5": {
+          "target": "com.amazonaws.s3#ContentMD5",
+          "traits": {
+            "smithy.api#documentation": "<p>The MD5 hash for the request body.</p>\n         <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>",
+            "smithy.api#httpHeader": "Content-MD5"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "RetainPeriod": {
+          "target": "com.amazonaws.s3#WORMRetainPeriod",
+          "traits": {
+            "smithy.api#documentation": "<p>Container element for the Retain Period configuration you want to apply to the specified\n         object.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "RetainPeriod"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutWORMRetainPeriodOutput": {
+      "type": "structure",
+      "members": {
+        "RequestCharged": {
+          "target": "com.amazonaws.s3#RequestCharged",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-charged"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#PutObjectLegalHold": {
       "type": "operation",
       "input": {
@@ -11040,6 +12089,83 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutWORMConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutWORMConfigurationRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#PutWORMConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Places an WORM configuration on the specified bucket. The rule specified in the\n         WORM configuration will be applied by default to every new object placed in the\n         specified bucket.\n      </p>\n         <note>\n            <ul>\n               <li>\n                  <p>The <code>WORMDefaultRetention</code> settings require a\n               period.</p>\n               </li>\n               <li>\n                  <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>\n               or <code>Years</code> but you must select one. You cannot specify <code>Days</code>\n               and <code>Years</code> at the same time.</p>\n               </li>\n               <li>\n                  <p>You can only enable WORM for new buckets. If you want to turn on\n               WORM for an existing bucket, contact AWS Support.</p>\n               </li>\n            </ul>\n         </note>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?worm",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutWORMConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket whose WORM configuration you want to create or replace.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow WORM to be enabled for an existing bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-bucket-object-lock-token"
+          }
+        },
+        "ContentMD5": {
+          "target": "com.amazonaws.s3#ContentMD5",
+          "traits": {
+            "smithy.api#documentation": "<p>The MD5 hash for the request body.</p>\n         <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>",
+            "smithy.api#httpHeader": "Content-MD5"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "WORMConfiguration": {
+          "target": "com.amazonaws.s3#WORMConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The WORM configuration that you want to apply to the specified bucket.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "WORMConfiguration"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutWORMConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "RequestCharged": {
+          "target": "com.amazonaws.s3#RequestCharged",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-charged"
           }
         }
       }
@@ -11408,6 +12534,13 @@
             "smithy.api#httpHeader": "x-amz-object-lock-retain-until-date"
           }
         },
+        "WormRetainUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-retain-until-date"
+          }
+        },
         "ObjectLockLegalHoldStatus": {
           "target": "com.amazonaws.s3#ObjectLockLegalHoldStatus",
           "traits": {
@@ -11420,6 +12553,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "BypassRetentionTimeLimit": {
+          "target": "com.amazonaws.s3#BypassRetentionTimeLimit",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this action should bypass Governance-mode restrictions.</p>",
+            "smithy.api#httpHeader": "x-amz-bypass-retention-time-limit"
           }
         }
       }
@@ -11498,6 +12638,13 @@
           "traits": {
             "smithy.api#documentation": "<p>Indicates whether this operation should bypass Governance-mode restrictions.</p>",
             "smithy.api#httpHeader": "x-amz-bypass-governance-retention"
+          }
+        },
+        "BypassRetentionTimeLimit": {
+          "target": "com.amazonaws.s3#BypassRetentionTimeLimit",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates whether this action should bypass Governance-mode restrictions.</p>",
+            "smithy.api#httpHeader": "x-amz-bypass-retention-time-limit"
           }
         },
         "ContentMD5": {
@@ -11751,6 +12898,14 @@
         },
         "Status": {
           "target": "com.amazonaws.s3#Status"
+        }
+      }
+    },
+    "com.amazonaws.s3#BucketRedundancyConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#BucketRedundancy"
         }
       }
     },
@@ -12889,6 +14044,32 @@
     "com.amazonaws.s3#StartAfter": {
       "type": "string"
     },
+    "com.amazonaws.s3#EndBefore": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#ObjectSize": {
+      "type": "long"
+    },
+    "com.amazonaws.s3#ObjectSizeRange": {
+      "type": "structure",
+      "members": {
+        "Start": {
+          "target": "com.amazonaws.s3#Start",
+          "traits": {
+            "smithy.api#documentation": "<p>文件大小的较小值</p>"
+          }
+        },
+        "End": {
+          "target": "com.amazonaws.s3#End",
+          "traits": {
+            "smithy.api#documentation": "<p>文件大小的较大值</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>文件大小区间</p>"
+      }
+    },
     "com.amazonaws.s3#Stats": {
       "type": "structure",
       "members": {
@@ -12943,6 +14124,9 @@
         ]
       }
     },
+    "com.amazonaws.s3#BucketRedundancy": {
+      "type": "string"
+    },
     "com.amazonaws.s3#StorageClass": {
       "type": "string",
       "traits": {
@@ -12970,6 +14154,12 @@
           },
           {
             "value": "OUTPOSTS"
+          },
+          {
+            "value": "PERFORMANCE"
+          },
+          {
+            "value": "EXTREME"
           }
         ]
       }

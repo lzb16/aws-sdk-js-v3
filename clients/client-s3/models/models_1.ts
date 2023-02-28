@@ -1,15 +1,32 @@
 import {
+  AccelerateConfiguration,
   AccessControlPolicy,
+  AnalyticsConfiguration,
+  BucketCannedACL,
+  BucketLifecycleConfiguration,
+  CORSConfiguration,
+  CommonPrefix,
+  DeleteMarkerEntry,
+  EncodingType,
   ErrorDocument,
   Grant,
   IndexDocument,
-  MetadataDirective2,
+  Initiator,
+  IntelligentTieringConfiguration,
+  InventoryConfiguration,
+  LoggingEnabled,
+  MetricsConfiguration,
+  NotificationConfiguration,
+  OSCPPolicy,
   ObjectCannedACL,
   ObjectLockConfiguration,
   ObjectLockLegalHold,
   ObjectLockLegalHoldStatus,
   ObjectLockMode,
   ObjectLockRetention,
+  ObjectVersionStorageClass,
+  Owner,
+  OwnershipControls,
   Payer,
   PublicAccessBlockConfiguration,
   QoSConfiguration,
@@ -21,13 +38,902 @@ import {
   RequestPayer,
   RoutingRule,
   ServerSideEncryption,
+  ServerSideEncryptionConfiguration,
   StorageClass,
   Tag,
   VersioningConfiguration,
+  WORMConfiguration,
+  WORMRetainPeriod,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>The version of an object.</p>
+ */
+export interface ObjectVersion {
+  /**
+   * <p>The entity tag is an MD5 hash of that version of the object.</p>
+   */
+  ETag?: string;
+
+  /**
+   * <p>Size in bytes of the object.</p>
+   */
+  Size?: number;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  StorageClass?: ObjectVersionStorageClass | string;
+
+  /**
+   * <p>The object key.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>Version ID of an object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Specifies whether the object is (true) or is not (false) the latest version of an
+   *          object.</p>
+   */
+  IsLatest?: boolean;
+
+  /**
+   * <p>Date and time the object was last modified.</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>Specifies the owner of the object.</p>
+   */
+  Owner?: Owner;
+}
+
+export namespace ObjectVersion {
+  export const filterSensitiveLog = (obj: ObjectVersion): any => ({
+    ...obj,
+  });
+}
+
+export interface ListObjectVersionsOutput {
+  /**
+   * <p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search
+   *          criteria. If your results were truncated, you can make a follow-up paginated request using
+   *          the NextKeyMarker and NextVersionIdMarker response parameters as a starting place in
+   *          another request to return the rest of the results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>Marks the last key returned in a truncated response.</p>
+   */
+  KeyMarker?: string;
+
+  /**
+   * <p>Marks the last version of the key returned in a truncated response.</p>
+   */
+  VersionIdMarker?: string;
+
+  /**
+   * <p>When the number of responses exceeds the value of <code>MaxKeys</code>,
+   *             <code>NextKeyMarker</code> specifies the first key not returned that satisfies the
+   *          search criteria. Use this value for the key-marker request parameter in a subsequent
+   *          request.</p>
+   */
+  NextKeyMarker?: string;
+
+  /**
+   * <p>When the number of responses exceeds the value of <code>MaxKeys</code>,
+   *             <code>NextVersionIdMarker</code> specifies the first object version not returned that
+   *          satisfies the search criteria. Use this value for the version-id-marker request parameter
+   *          in a subsequent request.</p>
+   */
+  NextVersionIdMarker?: string;
+
+  /**
+   * <p>Container for version information.</p>
+   */
+  Versions?: ObjectVersion[];
+
+  /**
+   * <p>Container for an object that is a delete marker.</p>
+   */
+  DeleteMarkers?: DeleteMarkerEntry[];
+
+  /**
+   * <p>The bucket name.</p>
+   */
+  Name?: string;
+
+  /**
+   * <p>Selects objects that start with the value supplied by this parameter.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>The delimiter grouping the included keys. A delimiter is a character that you specify to
+   *          group keys. All keys that contain the same string between the prefix and the first
+   *          occurrence of the delimiter are grouped under a single result element in
+   *             <code>CommonPrefixes</code>. These groups are counted as one result against the max-keys
+   *          limitation. These keys are not returned elsewhere in the response.</p>
+   */
+  Delimiter?: string;
+
+  /**
+   * <p>Specifies the maximum number of objects to return.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>All of the keys rolled up into a common prefix count as a single return when calculating
+   *          the number of returns.</p>
+   */
+  CommonPrefixes?: CommonPrefix[];
+
+  /**
+   * <p> Encoding type used by Amazon S3 to encode object key names in the XML response.</p>
+   *
+   *          <p>If you specify encoding-type request parameter, Amazon S3 includes this element in the
+   *          response, and returns encoded key name values in the following response elements:</p>
+   *
+   *          <p>
+   *             <code>KeyMarker, NextKeyMarker, Prefix, Key</code>, and <code>Delimiter</code>.</p>
+   */
+  EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   */
+  StorageClass?: StorageClass | string;
+}
+
+export namespace ListObjectVersionsOutput {
+  export const filterSensitiveLog = (obj: ListObjectVersionsOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface ListObjectVersionsRequest {
+  /**
+   * <p>The bucket name that contains the objects. </p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>A delimiter is a character that you specify to group keys. All keys that contain the
+   *          same string between the <code>prefix</code> and the first occurrence of the delimiter are
+   *          grouped under a single result element in CommonPrefixes. These groups are counted as one
+   *          result against the max-keys limitation. These keys are not returned elsewhere in the
+   *          response.</p>
+   */
+  Delimiter?: string;
+
+  /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Specifies the key to start with when listing objects in a bucket.</p>
+   */
+  KeyMarker?: string;
+
+  /**
+   * <p>Sets the maximum number of keys returned in the response. By default the API returns up
+   *          to 1,000 key names. The response might contain fewer keys but will never contain more. If
+   *          additional keys satisfy the search criteria, but were not returned because max-keys was
+   *          exceeded, the response contains <isTruncated>true</isTruncated>. To return the
+   *          additional keys, see key-marker and version-id-marker.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>Use this parameter to select only those keys that begin with the specified prefix. You
+   *          can use prefixes to separate a bucket into different groupings of keys. (You can think of
+   *          using prefix to make groups in the same way you'd use a folder in a file system.) You can
+   *          use prefix with delimiter to roll up numerous objects into a single result under
+   *          CommonPrefixes. </p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Specifies the object version you want to start listing from.</p>
+   */
+  VersionIdMarker?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>List Object markers in first level.</p>
+   */
+  DeletedObjects?: boolean;
+}
+
+export namespace ListObjectVersionsRequest {
+  export const filterSensitiveLog = (obj: ListObjectVersionsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Container for elements related to a part.</p>
+ */
+export interface Part {
+  /**
+   * <p>Part number identifying the part. This is a positive integer between 1 and
+   *          10,000.</p>
+   */
+  PartNumber?: number;
+
+  /**
+   * <p>Date and time at which the part was uploaded.</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>Entity tag returned when the part was uploaded.</p>
+   */
+  ETag?: string;
+
+  /**
+   * <p>Size in bytes of the uploaded part data.</p>
+   */
+  Size?: number;
+}
+
+export namespace Part {
+  export const filterSensitiveLog = (obj: Part): any => ({
+    ...obj,
+  });
+}
+
+export interface ListPartsOutput {
+  /**
+   * <p>If the bucket has a lifecycle rule configured with an action to abort incomplete
+   *          multipart uploads and the prefix in the lifecycle rule matches the object name in the
+   *          request, then the response includes this header indicating when the initiated multipart
+   *          upload will become eligible for abort operation. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">Aborting
+   *             Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a>.</p>
+   *
+   *          <p>The response will also include the <code>x-amz-abort-rule-id</code> header that will
+   *          provide the ID of the lifecycle configuration rule that defines this action.</p>
+   */
+  AbortDate?: Date;
+
+  /**
+   * <p>This header is returned along with the <code>x-amz-abort-date</code> header. It
+   *          identifies applicable lifecycle configuration rule that defines the action to abort
+   *          incomplete multipart uploads.</p>
+   */
+  AbortRuleId?: string;
+
+  /**
+   * <p>The name of the bucket to which the multipart upload was initiated.</p>
+   */
+  Bucket?: string;
+
+  /**
+   * <p>Object key for which the multipart upload was initiated.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>Upload ID identifying the multipart upload whose parts are being listed.</p>
+   */
+  UploadId?: string;
+
+  /**
+   * <p>When a list is truncated, this element specifies the last part in the list, as well as
+   *          the value to use for the part-number-marker request parameter in a subsequent
+   *          request.</p>
+   */
+  PartNumberMarker?: string;
+
+  /**
+   * <p>When a list is truncated, this element specifies the last part in the list, as well as
+   *          the value to use for the part-number-marker request parameter in a subsequent
+   *          request.</p>
+   */
+  NextPartNumberMarker?: string;
+
+  /**
+   * <p>Maximum number of parts that were allowed in the response.</p>
+   */
+  MaxParts?: number;
+
+  /**
+   * <p> Indicates whether the returned list of parts is truncated. A true value indicates that
+   *          the list was truncated. A list can be truncated if the number of parts exceeds the limit
+   *          returned in the MaxParts element.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p> Container for elements related to a particular part. A response can contain zero or
+   *          more <code>Part</code> elements.</p>
+   */
+  Parts?: Part[];
+
+  /**
+   * <p>Container element that identifies who initiated the multipart upload. If the initiator
+   *          is an AWS account, this element provides the same information as the <code>Owner</code>
+   *          element. If the initiator is an IAM User, this element provides the user ARN and display
+   *          name.</p>
+   */
+  Initiator?: Initiator;
+
+  /**
+   * <p> Container element that identifies the object owner, after the object is created. If
+   *          multipart upload is initiated by an IAM user, this element provides the parent account ID
+   *          and display name.</p>
+   */
+  Owner?: Owner;
+
+  /**
+   * <p>Class of storage (STANDARD or REDUCED_REDUNDANCY) used to store the uploaded
+   *          object.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace ListPartsOutput {
+  export const filterSensitiveLog = (obj: ListPartsOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface ListPartsRequest {
+  /**
+   * <p>The name of the bucket to which the parts are being uploaded. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Object key for which the multipart upload was initiated.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Sets the maximum number of parts to return.</p>
+   */
+  MaxParts?: number;
+
+  /**
+   * <p>Specifies the part after which listing should begin. Only parts with higher part numbers
+   *          will be listed.</p>
+   */
+  PartNumberMarker?: string;
+
+  /**
+   * <p>Upload ID identifying the multipart upload whose parts are being listed.</p>
+   */
+  UploadId: string | undefined;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace ListPartsRequest {
+  export const filterSensitiveLog = (obj: ListPartsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketAccelerateConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which the accelerate configuration is set.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Container for setting the transfer acceleration state.</p>
+   */
+  AccelerateConfiguration: AccelerateConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketAccelerateConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketAccelerateConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketAclRequest {
+  /**
+   * <p>The canned ACL to apply to the bucket.</p>
+   */
+  ACL?: BucketCannedACL | string;
+
+  /**
+   * <p>Contains the elements that set the ACL permissions for an object per grantee.</p>
+   */
+  AccessControlPolicy?: AccessControlPolicy;
+
+  /**
+   * <p>The bucket to which to apply the ACL.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, go to <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
+   *          1864.</a>
+   *          </p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Allows grantee the read, write, read ACP, and write ACP permissions on the
+   *          bucket.</p>
+   */
+  GrantFullControlDelivered?: string;
+
+  /**
+   * <p>Allows grantee the read, write, read ACP, and write ACP permissions on the
+   *          bucket.</p>
+   */
+  GrantFullControl?: string;
+
+  /**
+   * <p>Allows grantee to list the objects in the bucket.</p>
+   */
+  GrantRead?: string;
+
+  /**
+   * <p>Allows grantee to list the objects in the bucket.</p>
+   */
+  GrantReadDelivered?: string;
+
+  /**
+   * <p>Allows grantee to read the bucket ACL.</p>
+   */
+  GrantReadACP?: string;
+
+  /**
+   * <p>Allows grantee to create, overwrite, and delete any object in the bucket.</p>
+   */
+  GrantWrite?: string;
+
+  /**
+   * <p>Allows grantee to write the ACL for the applicable bucket.</p>
+   */
+  GrantWriteACP?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketAclRequest {
+  export const filterSensitiveLog = (obj: PutBucketAclRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketAnalyticsConfigurationRequest {
+  /**
+   * <p>The name of the bucket to which an analytics configuration is stored.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The ID that identifies the analytics configuration.</p>
+   */
+  Id: string | undefined;
+
+  /**
+   * <p>The configuration and any analyses for the analytics filter.</p>
+   */
+  AnalyticsConfiguration: AnalyticsConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketAnalyticsConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketAnalyticsConfigurationRequest): any => ({
+    ...obj,
+    ...(obj.AnalyticsConfiguration && {
+      AnalyticsConfiguration: AnalyticsConfiguration.filterSensitiveLog(obj.AnalyticsConfiguration),
+    }),
+  });
+}
+
+export interface PutBucketCorsRequest {
+  /**
+   * <p>Specifies the bucket impacted by the <code>cors</code>configuration.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
+   *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling Cross-Origin Resource
+   *             Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  CORSConfiguration: CORSConfiguration | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message
+   *          integrity check to verify that the request body was not corrupted in transit. For more
+   *          information, go to <a href="http://www.ietf.org/rfc/rfc1864.txt">RFC
+   *          1864.</a>
+   *          </p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketCorsRequest {
+  export const filterSensitiveLog = (obj: PutBucketCorsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketEncryptionRequest {
+  /**
+   * <p>Specifies default encryption for a bucket using server-side encryption with Amazon S3-managed
+   *          keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For information about
+   *          the Amazon S3 default encryption feature, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon S3 Default Bucket Encryption</a>
+   *          in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Specifies the default server-side-encryption configuration.</p>
+   */
+  ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketEncryptionRequest {
+  export const filterSensitiveLog = (obj: PutBucketEncryptionRequest): any => ({
+    ...obj,
+    ...(obj.ServerSideEncryptionConfiguration && {
+      ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration.filterSensitiveLog(
+        obj.ServerSideEncryptionConfiguration
+      ),
+    }),
+  });
+}
+
+export interface PutBucketIntelligentTieringConfigurationRequest {
+  /**
+   * <p>The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The ID used to identify the S3 Intelligent-Tiering configuration.</p>
+   */
+  Id: string | undefined;
+
+  /**
+   * <p>Container for S3 Intelligent-Tiering configuration.</p>
+   */
+  IntelligentTieringConfiguration: IntelligentTieringConfiguration | undefined;
+}
+
+export namespace PutBucketIntelligentTieringConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketIntelligentTieringConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketInventoryConfigurationRequest {
+  /**
+   * <p>The name of the bucket where the inventory configuration will be stored.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The ID used to identify the inventory configuration.</p>
+   */
+  Id: string | undefined;
+
+  /**
+   * <p>Specifies the inventory configuration.</p>
+   */
+  InventoryConfiguration: InventoryConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketInventoryConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketInventoryConfigurationRequest): any => ({
+    ...obj,
+    ...(obj.InventoryConfiguration && {
+      InventoryConfiguration: InventoryConfiguration.filterSensitiveLog(obj.InventoryConfiguration),
+    }),
+  });
+}
+
+export interface PutBucketLifecycleConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which to set the configuration.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>
+   */
+  LifecycleConfiguration?: BucketLifecycleConfiguration;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketLifecycleConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketLifecycleConfigurationRequest): any => ({
+    ...obj,
+    ...(obj.LifecycleConfiguration && {
+      LifecycleConfiguration: BucketLifecycleConfiguration.filterSensitiveLog(obj.LifecycleConfiguration),
+    }),
+  });
+}
+
+/**
+ * <p>Container for logging status information.</p>
+ */
+export interface BucketLoggingStatus {
+  /**
+   * <p>Describes where logs are stored and the prefix that Amazon S3 assigns to all log object keys
+   *          for a bucket. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlogging.html">PUT Bucket logging</a> in the
+   *             <i>Amazon Simple Storage Service API Reference</i>.</p>
+   */
+  LoggingEnabled?: LoggingEnabled;
+}
+
+export namespace BucketLoggingStatus {
+  export const filterSensitiveLog = (obj: BucketLoggingStatus): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketLoggingRequest {
+  /**
+   * <p>The name of the bucket for which to set the logging parameters.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Container for logging status information.</p>
+   */
+  BucketLoggingStatus: BucketLoggingStatus | undefined;
+
+  /**
+   * <p>The MD5 hash of the <code>PutBucketLogging</code> request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketLoggingRequest {
+  export const filterSensitiveLog = (obj: PutBucketLoggingRequest): any => ({
+    ...obj,
+  });
+}
+
+export enum MetadataDirective2 {
+  REPLACE = "REPLACE",
+  REPLACE_NEW = "REPLACE_NEW",
+}
+
+export interface PutBucketMetadataRequest {
+  /**
+   * <p>Name of the bucket to which the multipart upload was initiated.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>元数据操作指示符。取值为 REPLACE_NEW 或 REPLACE。
+   *  REPLACE_NEW 表示:对于已经存在值 的元数据进行替换，不存在值的元数据 进行赋值，未指定的元数据保持不变。
+   *  REPLACE 表示:若请求中携带的 x-amz-meta-头域，将会删除指定的自定义元数据，未指定 x-amz-meta-头域 将会删除全部的自定义元数据。
+   *  类型:字符串</p>
+   */
+  MetadataDirective?: MetadataDirective2 | string;
+
+  /**
+   * <p>A map of metadata to store with the object in S3.</p>
+   */
+  Metadata?: { [key: string]: string };
+}
+
+export namespace PutBucketMetadataRequest {
+  export const filterSensitiveLog = (obj: PutBucketMetadataRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketMetricsConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which the metrics configuration is set.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The ID used to identify the metrics configuration.</p>
+   */
+  Id: string | undefined;
+
+  /**
+   * <p>Specifies the metrics configuration.</p>
+   */
+  MetricsConfiguration: MetricsConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketMetricsConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketMetricsConfigurationRequest): any => ({
+    ...obj,
+    ...(obj.MetricsConfiguration && {
+      MetricsConfiguration: MetricsConfiguration.filterSensitiveLog(obj.MetricsConfiguration),
+    }),
+  });
+}
+
+export interface PutBucketNotificationConfigurationRequest {
+  /**
+   * <p>The name of the bucket.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>A container for specifying the notification configuration of the bucket. If this element
+   *          is empty, notifications are turned off for the bucket.</p>
+   */
+  NotificationConfiguration: NotificationConfiguration | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketNotificationConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketNotificationConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketOwnershipControlsRequest {
+  /**
+   * <p>The name of the Amazon S3 bucket whose <code>OwnershipControls</code> you want to set.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The MD5 hash of the <code>OwnershipControls</code> request body. </p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter) that you want
+   *          to apply to this Amazon S3 bucket.</p>
+   */
+  OwnershipControls: OwnershipControls | undefined;
+}
+
+export namespace PutBucketOwnershipControlsRequest {
+  export const filterSensitiveLog = (obj: PutBucketOwnershipControlsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketPolicyRequest {
+  /**
+   * <p>The name of the bucket.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The MD5 hash of the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>Set this parameter to true to confirm that you want to remove your permissions to change
+   *          this bucket policy in the future.</p>
+   */
+  ConfirmRemoveSelfBucketAccess?: boolean;
+
+  /**
+   * <p>The bucket policy as a JSON document.</p>
+   */
+  Policy: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace PutBucketPolicyRequest {
+  export const filterSensitiveLog = (obj: PutBucketPolicyRequest): any => ({
+    ...obj,
+  });
+}
 
 export interface PutBucketQoSRequest {
   /**
@@ -66,6 +972,24 @@ export interface PutBucketQuotaRequest {
 
 export namespace PutBucketQuotaRequest {
   export const filterSensitiveLog = (obj: PutBucketQuotaRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketRedundancyRequest {
+  /**
+   * <p>The bucket to which to apply the redundancy.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The canned redundancy to apply to the bucket.</p>
+   */
+  Redundancy?: string;
+}
+
+export namespace PutBucketRedundancyRequest {
+  export const filterSensitiveLog = (obj: PutBucketRedundancyRequest): any => ({
     ...obj,
   });
 }
@@ -154,6 +1078,24 @@ export interface PutBucketRequestPaymentRequest {
 
 export namespace PutBucketRequestPaymentRequest {
   export const filterSensitiveLog = (obj: PutBucketRequestPaymentRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketStorageClassRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The storage-class for the bucket.</p>
+   */
+  StorageClass?: StorageClass | string;
+}
+
+export namespace PutBucketStorageClassRequest {
+  export const filterSensitiveLog = (obj: PutBucketStorageClassRequest): any => ({
     ...obj,
   });
 }
@@ -600,6 +1542,12 @@ export interface PutObjectRequest {
   ObjectLockRetainUntilDate?: Date;
 
   /**
+   * <p>The date and time when you want this object's WORM to expire. Must be formatted
+   *          as a timestamp parameter.</p>
+   */
+  WormRetainUntilDate?: Date;
+
+  /**
    * <p>Specifies whether a legal hold will be applied to this object. For more information
    *          about S3 Object Lock, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Object
    *          Lock</a>.</p>
@@ -610,6 +1558,11 @@ export interface PutObjectRequest {
    * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
    */
   ExpectedBucketOwner?: string;
+
+  /**
+   * <p>Indicates whether this action should bypass Governance-mode restrictions.</p>
+   */
+  BypassRetentionTimeLimit?: boolean;
 }
 
 export namespace PutObjectRequest {
@@ -857,6 +1810,11 @@ export interface PutObjectMetadataRequest {
   ExpectedBucketOwner?: string;
 
   /**
+   * <p>Version ID of an object.</p>
+   */
+  VersionId?: string;
+
+  /**
    * <p>Object key for which the multipart upload was initiated.</p>
    */
   Key: string | undefined;
@@ -970,6 +1928,11 @@ export interface PutObjectRetentionRequest {
   BypassGovernanceRetention?: boolean;
 
   /**
+   * <p>Indicates whether this action should bypass Governance-mode restrictions.</p>
+   */
+  BypassRetentionTimeLimit?: boolean;
+
+  /**
    * <p>The MD5 hash for the request body.</p>
    *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
    */
@@ -1041,6 +2004,47 @@ export namespace PutObjectTaggingRequest {
   });
 }
 
+/**
+ * <p>Object Storage Class Policy</p>
+ */
+export interface OSCPConfiguration {
+  /**
+   * <p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>
+   */
+  Policies: OSCPPolicy[] | undefined;
+}
+
+export namespace OSCPConfiguration {
+  export const filterSensitiveLog = (obj: OSCPConfiguration): any => ({
+    ...obj,
+    ...(obj.Policies && { Policies: obj.Policies.map((item) => OSCPPolicy.filterSensitiveLog(item)) }),
+  });
+}
+
+export interface PutOSCPConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which to set the configuration.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>
+   */
+  OSCPConfiguration?: OSCPConfiguration;
+}
+
+export namespace PutOSCPConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutOSCPConfigurationRequest): any => ({
+    ...obj,
+    ...(obj.OSCPConfiguration && { OSCPConfiguration: OSCPConfiguration.filterSensitiveLog(obj.OSCPConfiguration) }),
+  });
+}
+
 export interface PutPublicAccessBlockRequest {
   /**
    * <p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want
@@ -1088,6 +2092,125 @@ export interface PutRefererRequest {
 
 export namespace PutRefererRequest {
   export const filterSensitiveLog = (obj: PutRefererRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutWORMConfigurationOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutWORMConfigurationOutput {
+  export const filterSensitiveLog = (obj: PutWORMConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutWORMConfigurationRequest {
+  /**
+   * <p>The bucket whose WORM configuration you want to create or replace.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>The WORM configuration that you want to apply to the specified bucket.</p>
+   */
+  WORMConfiguration?: WORMConfiguration;
+}
+
+export namespace PutWORMConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutWORMConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutWORMRetainPeriodOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutWORMRetainPeriodOutput {
+  export const filterSensitiveLog = (obj: PutWORMRetainPeriodOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface PutWORMRetainPeriodRequest {
+  /**
+   * <p>The bucket name containing the object that you want to place a Retain Period on. </p>
+   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object that you want to place a Retain Period on.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The version ID of the object that you want to place a Retain Period on.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The MD5 hash for the request body.</p>
+   *          <p>For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.</p>
+   */
+  ContentMD5?: string;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+
+  /**
+   * <p>Container element for the Retain Period configuration you want to apply to the specified
+   *          object.</p>
+   */
+  RetainPeriod?: WORMRetainPeriod;
+}
+
+export namespace PutWORMRetainPeriodRequest {
+  export const filterSensitiveLog = (obj: PutWORMRetainPeriodRequest): any => ({
     ...obj,
   });
 }

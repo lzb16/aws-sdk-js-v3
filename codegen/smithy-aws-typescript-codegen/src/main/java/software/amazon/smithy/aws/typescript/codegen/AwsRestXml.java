@@ -64,7 +64,7 @@ final class AwsRestXml extends HttpBindingProtocolGenerator {
 
     @Override
     protected String getDocumentContentType() {
-        return "application/xml";
+        return "application/xml;charset=utf-8";
     }
 
     @Override

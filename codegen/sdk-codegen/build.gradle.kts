@@ -16,6 +16,16 @@
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        "classpath"("software.amazon.smithy:smithy-cli:${rootProject.extra["smithyVersion"]}")
+        "classpath"("software.amazon.smithy:smithy-aws-traits:${rootProject.extra["smithyVersion"]}")
+    }
+}
+
 plugins {
     id("software.amazon.smithy") version "0.5.2"
 }

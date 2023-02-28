@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketEncryptionRequest } from "../models/models_0";
+import { PutBucketEncryptionRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlPutBucketEncryptionCommand,
   serializeAws_restXmlPutBucketEncryptionCommand,

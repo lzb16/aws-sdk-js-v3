@@ -1,3 +1,4 @@
+import { AddAccountToGroupCommandInput, AddAccountToGroupCommandOutput } from "./commands/AddAccountToGroupCommand";
 import {
   AddClientIDToOpenIDConnectProviderCommandInput,
   AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -26,6 +27,7 @@ import {
 import { CreateAccessKeyCommandInput, CreateAccessKeyCommandOutput } from "./commands/CreateAccessKeyCommand";
 import { CreateAccountAliasCommandInput, CreateAccountAliasCommandOutput } from "./commands/CreateAccountAliasCommand";
 import { CreateAccountCommandInput, CreateAccountCommandOutput } from "./commands/CreateAccountCommand";
+import { CreateAccountGroupCommandInput, CreateAccountGroupCommandOutput } from "./commands/CreateAccountGroupCommand";
 import { CreateGroupCommandInput, CreateGroupCommandOutput } from "./commands/CreateGroupCommand";
 import {
   CreateInstanceProfileCommandInput,
@@ -67,6 +69,7 @@ import {
 import { DeleteAccessKeyCommandInput, DeleteAccessKeyCommandOutput } from "./commands/DeleteAccessKeyCommand";
 import { DeleteAccountAliasCommandInput, DeleteAccountAliasCommandOutput } from "./commands/DeleteAccountAliasCommand";
 import { DeleteAccountCommandInput, DeleteAccountCommandOutput } from "./commands/DeleteAccountCommand";
+import { DeleteAccountGroupCommandInput, DeleteAccountGroupCommandOutput } from "./commands/DeleteAccountGroupCommand";
 import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
@@ -146,6 +149,11 @@ import {
   GetAccountAuthorizationDetailsCommandOutput,
 } from "./commands/GetAccountAuthorizationDetailsCommand";
 import { GetAccountCommandInput, GetAccountCommandOutput } from "./commands/GetAccountCommand";
+import { GetAccountGroupCommandInput, GetAccountGroupCommandOutput } from "./commands/GetAccountGroupCommand";
+import {
+  GetAccountGroupMetaCommandInput,
+  GetAccountGroupMetaCommandOutput,
+} from "./commands/GetAccountGroupMetaCommand";
 import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
@@ -203,6 +211,7 @@ import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "./command
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "./commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "./commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "./commands/ListAccountAliasesCommand";
+import { ListAccountGroupsCommandInput, ListAccountGroupsCommandOutput } from "./commands/ListAccountGroupsCommand";
 import { ListAccountsCommandInput, ListAccountsCommandOutput } from "./commands/ListAccountsCommand";
 import {
   ListAttachedGroupPoliciesCommandInput,
@@ -280,6 +289,10 @@ import {
 } from "./commands/PutUserPermissionsBoundaryCommand";
 import { PutUserPolicyCommandInput, PutUserPolicyCommandOutput } from "./commands/PutUserPolicyCommand";
 import {
+  RemoveAccountFromGroupCommandInput,
+  RemoveAccountFromGroupCommandOutput,
+} from "./commands/RemoveAccountFromGroupCommand";
+import {
   RemoveClientIDFromOpenIDConnectProviderCommandInput,
   RemoveClientIDFromOpenIDConnectProviderCommandOutput,
 } from "./commands/RemoveClientIDFromOpenIDConnectProviderCommand";
@@ -323,6 +336,11 @@ import { UntagRoleCommandInput, UntagRoleCommandOutput } from "./commands/UntagR
 import { UntagUserCommandInput, UntagUserCommandOutput } from "./commands/UntagUserCommand";
 import { UpdateAccessKeyCommandInput, UpdateAccessKeyCommandOutput } from "./commands/UpdateAccessKeyCommand";
 import { UpdateAccountCommandInput, UpdateAccountCommandOutput } from "./commands/UpdateAccountCommand";
+import { UpdateAccountGroupCommandInput, UpdateAccountGroupCommandOutput } from "./commands/UpdateAccountGroupCommand";
+import {
+  UpdateAccountGroupQuotaCommandInput,
+  UpdateAccountGroupQuotaCommandOutput,
+} from "./commands/UpdateAccountGroupQuotaCommand";
 import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
@@ -419,6 +437,7 @@ import {
 } from "@aws-sdk/types";
 
 export type ServiceInputTypes =
+  | AddAccountToGroupCommandInput
   | AddClientIDToOpenIDConnectProviderCommandInput
   | AddRoleToInstanceProfileCommandInput
   | AddUserToGroupCommandInput
@@ -432,6 +451,7 @@ export type ServiceInputTypes =
   | CreateAccessKeyCommandInput
   | CreateAccountAliasCommandInput
   | CreateAccountCommandInput
+  | CreateAccountGroupCommandInput
   | CreateGroupCommandInput
   | CreateInstanceProfileCommandInput
   | CreateLoginProfileCommandInput
@@ -449,6 +469,7 @@ export type ServiceInputTypes =
   | DeleteAccessKeyCommandInput
   | DeleteAccountAliasCommandInput
   | DeleteAccountCommandInput
+  | DeleteAccountGroupCommandInput
   | DeleteAccountPasswordPolicyCommandInput
   | DeleteGroupCommandInput
   | DeleteGroupPolicyCommandInput
@@ -480,6 +501,8 @@ export type ServiceInputTypes =
   | GetAccessKeyLastUsedCommandInput
   | GetAccountAuthorizationDetailsCommandInput
   | GetAccountCommandInput
+  | GetAccountGroupCommandInput
+  | GetAccountGroupMetaCommandInput
   | GetAccountPasswordPolicyCommandInput
   | GetAccountQosCommandInput
   | GetAccountSummaryCommandInput
@@ -507,6 +530,7 @@ export type ServiceInputTypes =
   | IamadminLoginCommandInput
   | ListAccessKeysCommandInput
   | ListAccountAliasesCommandInput
+  | ListAccountGroupsCommandInput
   | ListAccountsCommandInput
   | ListAttachedGroupPoliciesCommandInput
   | ListAttachedRolePoliciesCommandInput
@@ -541,6 +565,7 @@ export type ServiceInputTypes =
   | PutRolePolicyCommandInput
   | PutUserPermissionsBoundaryCommandInput
   | PutUserPolicyCommandInput
+  | RemoveAccountFromGroupCommandInput
   | RemoveClientIDFromOpenIDConnectProviderCommandInput
   | RemoveRoleFromInstanceProfileCommandInput
   | RemoveUserFromGroupCommandInput
@@ -558,6 +583,8 @@ export type ServiceInputTypes =
   | UntagUserCommandInput
   | UpdateAccessKeyCommandInput
   | UpdateAccountCommandInput
+  | UpdateAccountGroupCommandInput
+  | UpdateAccountGroupQuotaCommandInput
   | UpdateAccountPasswordPolicyCommandInput
   | UpdateAccountQuotaCommandInput
   | UpdateAssumeRolePolicyCommandInput
@@ -577,6 +604,7 @@ export type ServiceInputTypes =
   | UploadSigningCertificateCommandInput;
 
 export type ServiceOutputTypes =
+  | AddAccountToGroupCommandOutput
   | AddClientIDToOpenIDConnectProviderCommandOutput
   | AddRoleToInstanceProfileCommandOutput
   | AddUserToGroupCommandOutput
@@ -590,6 +618,7 @@ export type ServiceOutputTypes =
   | CreateAccessKeyCommandOutput
   | CreateAccountAliasCommandOutput
   | CreateAccountCommandOutput
+  | CreateAccountGroupCommandOutput
   | CreateGroupCommandOutput
   | CreateInstanceProfileCommandOutput
   | CreateLoginProfileCommandOutput
@@ -607,6 +636,7 @@ export type ServiceOutputTypes =
   | DeleteAccessKeyCommandOutput
   | DeleteAccountAliasCommandOutput
   | DeleteAccountCommandOutput
+  | DeleteAccountGroupCommandOutput
   | DeleteAccountPasswordPolicyCommandOutput
   | DeleteGroupCommandOutput
   | DeleteGroupPolicyCommandOutput
@@ -638,6 +668,8 @@ export type ServiceOutputTypes =
   | GetAccessKeyLastUsedCommandOutput
   | GetAccountAuthorizationDetailsCommandOutput
   | GetAccountCommandOutput
+  | GetAccountGroupCommandOutput
+  | GetAccountGroupMetaCommandOutput
   | GetAccountPasswordPolicyCommandOutput
   | GetAccountQosCommandOutput
   | GetAccountSummaryCommandOutput
@@ -665,6 +697,7 @@ export type ServiceOutputTypes =
   | IamadminLoginCommandOutput
   | ListAccessKeysCommandOutput
   | ListAccountAliasesCommandOutput
+  | ListAccountGroupsCommandOutput
   | ListAccountsCommandOutput
   | ListAttachedGroupPoliciesCommandOutput
   | ListAttachedRolePoliciesCommandOutput
@@ -699,6 +732,7 @@ export type ServiceOutputTypes =
   | PutRolePolicyCommandOutput
   | PutUserPermissionsBoundaryCommandOutput
   | PutUserPolicyCommandOutput
+  | RemoveAccountFromGroupCommandOutput
   | RemoveClientIDFromOpenIDConnectProviderCommandOutput
   | RemoveRoleFromInstanceProfileCommandOutput
   | RemoveUserFromGroupCommandOutput
@@ -716,6 +750,8 @@ export type ServiceOutputTypes =
   | UntagUserCommandOutput
   | UpdateAccessKeyCommandOutput
   | UpdateAccountCommandOutput
+  | UpdateAccountGroupCommandOutput
+  | UpdateAccountGroupQuotaCommandOutput
   | UpdateAccountPasswordPolicyCommandOutput
   | UpdateAccountQuotaCommandOutput
   | UpdateAssumeRolePolicyCommandOutput

@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketCorsRequest } from "../models/models_0";
+import { PutBucketCorsRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlPutBucketCorsCommand,
   serializeAws_restXmlPutBucketCorsCommand,

@@ -1,10 +1,9 @@
-import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketMetadataRequest } from "../models/models_1";
+import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
+import { DeleteAccountGroupRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlPutBucketMetadataCommand,
-  serializeAws_restXmlPutBucketMetadataCommand,
-} from "../protocols/Aws_restXml";
-import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
+  deserializeAws_queryDeleteAccountGroupCommand,
+  serializeAws_queryDeleteAccountGroupCommand,
+} from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -18,21 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketMetadataCommandInput = PutBucketMetadataRequest;
-export type PutBucketMetadataCommandOutput = __MetadataBearer;
+export type DeleteAccountGroupCommandInput = DeleteAccountGroupRequest;
+export type DeleteAccountGroupCommandOutput = __MetadataBearer;
 
 /**
- * <p>Update bucket metadata.</p>
+ * <p> Deletes the specified AWS account.</p>
  */
-export class PutBucketMetadataCommand extends $Command<
-  PutBucketMetadataCommandInput,
-  PutBucketMetadataCommandOutput,
-  S3ClientResolvedConfig
+export class DeleteAccountGroupCommand extends $Command<
+  DeleteAccountGroupCommandInput,
+  DeleteAccountGroupCommandOutput,
+  IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketMetadataCommandInput) {
+  constructor(readonly input: DeleteAccountGroupCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -43,22 +42,21 @@ export class PutBucketMetadataCommand extends $Command<
    */
   resolveMiddleware(
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
-    configuration: S3ClientResolvedConfig,
+    configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketMetadataCommandInput, PutBucketMetadataCommandOutput> {
+  ): Handler<DeleteAccountGroupCommandInput, DeleteAccountGroupCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
-    this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
-    const clientName = "S3Client";
-    const commandName = "PutBucketMetadataCommand";
+    const clientName = "IAMClient";
+    const commandName = "DeleteAccountGroupCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketMetadataRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteAccountGroupRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -69,12 +67,12 @@ export class PutBucketMetadataCommand extends $Command<
     );
   }
 
-  private serialize(input: PutBucketMetadataCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketMetadataCommand(input, context);
+  private serialize(input: DeleteAccountGroupCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryDeleteAccountGroupCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutBucketMetadataCommandOutput> {
-    return deserializeAws_restXmlPutBucketMetadataCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteAccountGroupCommandOutput> {
+    return deserializeAws_queryDeleteAccountGroupCommand(output, context);
   }
 
   // Start section: command_body_extra

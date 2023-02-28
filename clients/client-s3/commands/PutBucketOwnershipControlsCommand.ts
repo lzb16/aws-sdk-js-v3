@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketOwnershipControlsRequest } from "../models/models_0";
+import { PutBucketOwnershipControlsRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlPutBucketOwnershipControlsCommand,
   serializeAws_restXmlPutBucketOwnershipControlsCommand,

@@ -1,5 +1,10 @@
 import { IAMClient } from "./IAMClient";
 import {
+  AddAccountToGroupCommand,
+  AddAccountToGroupCommandInput,
+  AddAccountToGroupCommandOutput,
+} from "./commands/AddAccountToGroupCommand";
+import {
   AddClientIDToOpenIDConnectProviderCommand,
   AddClientIDToOpenIDConnectProviderCommandInput,
   AddClientIDToOpenIDConnectProviderCommandOutput,
@@ -64,6 +69,11 @@ import {
   CreateAccountCommandInput,
   CreateAccountCommandOutput,
 } from "./commands/CreateAccountCommand";
+import {
+  CreateAccountGroupCommand,
+  CreateAccountGroupCommandInput,
+  CreateAccountGroupCommandOutput,
+} from "./commands/CreateAccountGroupCommand";
 import { CreateGroupCommand, CreateGroupCommandInput, CreateGroupCommandOutput } from "./commands/CreateGroupCommand";
 import {
   CreateInstanceProfileCommand,
@@ -137,6 +147,11 @@ import {
   DeleteAccountCommandInput,
   DeleteAccountCommandOutput,
 } from "./commands/DeleteAccountCommand";
+import {
+  DeleteAccountGroupCommand,
+  DeleteAccountGroupCommandInput,
+  DeleteAccountGroupCommandOutput,
+} from "./commands/DeleteAccountGroupCommand";
 import {
   DeleteAccountPasswordPolicyCommand,
   DeleteAccountPasswordPolicyCommandInput,
@@ -277,6 +292,16 @@ import {
 } from "./commands/GetAccountAuthorizationDetailsCommand";
 import { GetAccountCommand, GetAccountCommandInput, GetAccountCommandOutput } from "./commands/GetAccountCommand";
 import {
+  GetAccountGroupCommand,
+  GetAccountGroupCommandInput,
+  GetAccountGroupCommandOutput,
+} from "./commands/GetAccountGroupCommand";
+import {
+  GetAccountGroupMetaCommand,
+  GetAccountGroupMetaCommandInput,
+  GetAccountGroupMetaCommandOutput,
+} from "./commands/GetAccountGroupMetaCommand";
+import {
   GetAccountPasswordPolicyCommand,
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
@@ -395,6 +420,11 @@ import {
   ListAccountAliasesCommandInput,
   ListAccountAliasesCommandOutput,
 } from "./commands/ListAccountAliasesCommand";
+import {
+  ListAccountGroupsCommand,
+  ListAccountGroupsCommandInput,
+  ListAccountGroupsCommandOutput,
+} from "./commands/ListAccountGroupsCommand";
 import {
   ListAccountsCommand,
   ListAccountsCommandInput,
@@ -554,6 +584,11 @@ import {
   PutUserPolicyCommandOutput,
 } from "./commands/PutUserPolicyCommand";
 import {
+  RemoveAccountFromGroupCommand,
+  RemoveAccountFromGroupCommandInput,
+  RemoveAccountFromGroupCommandOutput,
+} from "./commands/RemoveAccountFromGroupCommand";
+import {
   RemoveClientIDFromOpenIDConnectProviderCommand,
   RemoveClientIDFromOpenIDConnectProviderCommandInput,
   RemoveClientIDFromOpenIDConnectProviderCommandOutput,
@@ -622,6 +657,16 @@ import {
   UpdateAccountCommandInput,
   UpdateAccountCommandOutput,
 } from "./commands/UpdateAccountCommand";
+import {
+  UpdateAccountGroupCommand,
+  UpdateAccountGroupCommandInput,
+  UpdateAccountGroupCommandOutput,
+} from "./commands/UpdateAccountGroupCommand";
+import {
+  UpdateAccountGroupQuotaCommand,
+  UpdateAccountGroupQuotaCommandInput,
+  UpdateAccountGroupQuotaCommandOutput,
+} from "./commands/UpdateAccountGroupQuotaCommand";
 import {
   UpdateAccountPasswordPolicyCommand,
   UpdateAccountPasswordPolicyCommandInput,
@@ -705,6 +750,38 @@ import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
  *       applications can access. For more information about IAM, see <a href="http://aws.amazon.com/iam/">AWS Identity and Access Management (IAM)</a> and the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS Identity and Access Management User Guide</a>.</p>
  */
 export class IAM extends IAMClient {
+  /**
+   * <p>Create IAM account group.</p>
+   */
+  public addAccountToGroup(
+    args: AddAccountToGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<AddAccountToGroupCommandOutput>;
+  public addAccountToGroup(
+    args: AddAccountToGroupCommandInput,
+    cb: (err: any, data?: AddAccountToGroupCommandOutput) => void
+  ): void;
+  public addAccountToGroup(
+    args: AddAccountToGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: AddAccountToGroupCommandOutput) => void
+  ): void;
+  public addAccountToGroup(
+    args: AddAccountToGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: AddAccountToGroupCommandOutput) => void),
+    cb?: (err: any, data?: AddAccountToGroupCommandOutput) => void
+  ): Promise<AddAccountToGroupCommandOutput> | void {
+    const command = new AddAccountToGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
   /**
    * <p>Adds a new client ID (also known as audience) to the list of client IDs already
    *          registered for the specified IAM OpenID Connect (OIDC) provider resource.</p>
@@ -1172,6 +1249,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: CreateAccountAliasCommandOutput) => void
   ): Promise<CreateAccountAliasCommandOutput> | void {
     const command = new CreateAccountAliasCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Create IAM account group.</p>
+   */
+  public createAccountGroup(
+    args: CreateAccountGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateAccountGroupCommandOutput>;
+  public createAccountGroup(
+    args: CreateAccountGroupCommandInput,
+    cb: (err: any, data?: CreateAccountGroupCommandOutput) => void
+  ): void;
+  public createAccountGroup(
+    args: CreateAccountGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateAccountGroupCommandOutput) => void
+  ): void;
+  public createAccountGroup(
+    args: CreateAccountGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateAccountGroupCommandOutput) => void),
+    cb?: (err: any, data?: CreateAccountGroupCommandOutput) => void
+  ): Promise<CreateAccountGroupCommandOutput> | void {
+    const command = new CreateAccountGroupCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -1794,6 +1903,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: DeleteAccountAliasCommandOutput) => void
   ): Promise<DeleteAccountAliasCommandOutput> | void {
     const command = new DeleteAccountAliasCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p> Deletes the specified AWS account.</p>
+   */
+  public deleteAccountGroup(
+    args: DeleteAccountGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteAccountGroupCommandOutput>;
+  public deleteAccountGroup(
+    args: DeleteAccountGroupCommandInput,
+    cb: (err: any, data?: DeleteAccountGroupCommandOutput) => void
+  ): void;
+  public deleteAccountGroup(
+    args: DeleteAccountGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteAccountGroupCommandOutput) => void
+  ): void;
+  public deleteAccountGroup(
+    args: DeleteAccountGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteAccountGroupCommandOutput) => void),
+    cb?: (err: any, data?: DeleteAccountGroupCommandOutput) => void
+  ): Promise<DeleteAccountGroupCommandOutput> | void {
+    const command = new DeleteAccountGroupCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3135,6 +3276,70 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Retrieves information about all IAM account group.</p>
+   */
+  public getAccountGroup(
+    args: GetAccountGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetAccountGroupCommandOutput>;
+  public getAccountGroup(
+    args: GetAccountGroupCommandInput,
+    cb: (err: any, data?: GetAccountGroupCommandOutput) => void
+  ): void;
+  public getAccountGroup(
+    args: GetAccountGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAccountGroupCommandOutput) => void
+  ): void;
+  public getAccountGroup(
+    args: GetAccountGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountGroupCommandOutput) => void),
+    cb?: (err: any, data?: GetAccountGroupCommandOutput) => void
+  ): Promise<GetAccountGroupCommandOutput> | void {
+    const command = new GetAccountGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Retrieves information about all IAM account group.</p>
+   */
+  public getAccountGroupMeta(
+    args: GetAccountGroupMetaCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetAccountGroupMetaCommandOutput>;
+  public getAccountGroupMeta(
+    args: GetAccountGroupMetaCommandInput,
+    cb: (err: any, data?: GetAccountGroupMetaCommandOutput) => void
+  ): void;
+  public getAccountGroupMeta(
+    args: GetAccountGroupMetaCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAccountGroupMetaCommandOutput) => void
+  ): void;
+  public getAccountGroupMeta(
+    args: GetAccountGroupMetaCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountGroupMetaCommandOutput) => void),
+    cb?: (err: any, data?: GetAccountGroupMetaCommandOutput) => void
+  ): Promise<GetAccountGroupMetaCommandOutput> | void {
+    const command = new GetAccountGroupMetaCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves the password policy for the AWS account. For more information about using a
    *          password policy, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing an IAM Password
    *             Policy</a>.</p>
@@ -4203,6 +4408,50 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: ListAccountAliasesCommandOutput) => void
   ): Promise<ListAccountAliasesCommandOutput> | void {
     const command = new ListAccountAliasesCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Returns information about the access key IDs associated with the specified IAM user.
+   *          If there is none, the operation returns an empty list.</p>
+   *          <p>Although each user is limited to a small number of keys, you can still paginate the
+   *          results using the <code>MaxItems</code> and <code>Marker</code> parameters.</p>
+   *          <p>If the <code>UserName</code> field is not specified, the user name is determined
+   *          implicitly based on the AWS access key ID used to sign the request. This operation works
+   *          for access keys under the AWS account. Consequently, you can use this operation to manage
+   *          AWS account root user credentials even if the AWS account has no associated
+   *          users.</p>
+   *          <note>
+   *             <p>To ensure the security of your AWS account, the secret access key is accessible
+   *             only during key and user creation.</p>
+   *          </note>
+   */
+  public listAccountGroups(
+    args: ListAccountGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListAccountGroupsCommandOutput>;
+  public listAccountGroups(
+    args: ListAccountGroupsCommandInput,
+    cb: (err: any, data?: ListAccountGroupsCommandOutput) => void
+  ): void;
+  public listAccountGroups(
+    args: ListAccountGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListAccountGroupsCommandOutput) => void
+  ): void;
+  public listAccountGroups(
+    args: ListAccountGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListAccountGroupsCommandOutput) => void),
+    cb?: (err: any, data?: ListAccountGroupsCommandOutput) => void
+  ): Promise<ListAccountGroupsCommandOutput> | void {
+    const command = new ListAccountGroupsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5531,6 +5780,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Create IAM account group.</p>
+   */
+  public removeAccountFromGroup(
+    args: RemoveAccountFromGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<RemoveAccountFromGroupCommandOutput>;
+  public removeAccountFromGroup(
+    args: RemoveAccountFromGroupCommandInput,
+    cb: (err: any, data?: RemoveAccountFromGroupCommandOutput) => void
+  ): void;
+  public removeAccountFromGroup(
+    args: RemoveAccountFromGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: RemoveAccountFromGroupCommandOutput) => void
+  ): void;
+  public removeAccountFromGroup(
+    args: RemoveAccountFromGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: RemoveAccountFromGroupCommandOutput) => void),
+    cb?: (err: any, data?: RemoveAccountFromGroupCommandOutput) => void
+  ): Promise<RemoveAccountFromGroupCommandOutput> | void {
+    const command = new RemoveAccountFromGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Removes the specified client ID (also known as audience) from the list of client IDs
    *          registered for the specified IAM OpenID Connect (OIDC) provider resource object.</p>
    *          <p>This operation is idempotent; it does not fail or return an error if you try to remove a
@@ -6211,6 +6492,70 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UpdateAccountCommandOutput) => void
   ): Promise<UpdateAccountCommandOutput> | void {
     const command = new UpdateAccountCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Retrieves information about all IAM account group.</p>
+   */
+  public updateAccountGroup(
+    args: UpdateAccountGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAccountGroupCommandOutput>;
+  public updateAccountGroup(
+    args: UpdateAccountGroupCommandInput,
+    cb: (err: any, data?: UpdateAccountGroupCommandOutput) => void
+  ): void;
+  public updateAccountGroup(
+    args: UpdateAccountGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAccountGroupCommandOutput) => void
+  ): void;
+  public updateAccountGroup(
+    args: UpdateAccountGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAccountGroupCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAccountGroupCommandOutput) => void
+  ): Promise<UpdateAccountGroupCommandOutput> | void {
+    const command = new UpdateAccountGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Retrieves information about all IAM account group.</p>
+   */
+  public updateAccountGroupQuota(
+    args: UpdateAccountGroupQuotaCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAccountGroupQuotaCommandOutput>;
+  public updateAccountGroupQuota(
+    args: UpdateAccountGroupQuotaCommandInput,
+    cb: (err: any, data?: UpdateAccountGroupQuotaCommandOutput) => void
+  ): void;
+  public updateAccountGroupQuota(
+    args: UpdateAccountGroupQuotaCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAccountGroupQuotaCommandOutput) => void
+  ): void;
+  public updateAccountGroupQuota(
+    args: UpdateAccountGroupQuotaCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAccountGroupQuotaCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAccountGroupQuotaCommandOutput) => void
+  ): Promise<UpdateAccountGroupQuotaCommandOutput> | void {
+    const command = new UpdateAccountGroupQuotaCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

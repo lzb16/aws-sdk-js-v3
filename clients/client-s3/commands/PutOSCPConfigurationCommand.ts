@@ -1,10 +1,9 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { PutBucketLifecycleConfigurationRequest } from "../models/models_1";
+import { PutOSCPConfigurationRequest } from "../models/models_1";
 import {
-  deserializeAws_restXmlPutBucketLifecycleConfigurationCommand,
-  serializeAws_restXmlPutBucketLifecycleConfigurationCommand,
+  deserializeAws_restXmlPutOSCPConfigurationCommand,
+  serializeAws_restXmlPutOSCPConfigurationCommand,
 } from "../protocols/Aws_restXml";
-import { getApplyMd5BodyChecksumPlugin } from "@aws-sdk/middleware-apply-body-checksum";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -19,13 +18,12 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutBucketLifecycleConfigurationCommandInput = PutBucketLifecycleConfigurationRequest;
-export type PutBucketLifecycleConfigurationCommandOutput = __MetadataBearer;
+export type PutOSCPConfigurationCommandInput = PutOSCPConfigurationRequest;
+export type PutOSCPConfigurationCommandOutput = __MetadataBearer;
 
 /**
- * <p>Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
- *          configuration. For information about lifecycle configuration, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing Access Permissions to Your Amazon S3
- *             Resources</a>.</p>
+ * <p>Creates a new OSCP configuration for the bucket or replaces an existing OSCP
+ *          configuration. For information about OSCP configuration.</p>
  *
  *          <note>
  *             <p>Bucket lifecycle configuration now supports specifying a lifecycle rule using an
@@ -95,7 +93,7 @@ export type PutBucketLifecycleConfigurationCommandOutput = __MetadataBearer;
  *          </ul>
  *
  *
- *          <p>For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing Access Permissions to Your Amazon S3
+ *          <p>For more information about permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing Access Permissions to Your Amazon S3
  *             Resources</a>.</p>
  *
  *          <p>The following are related to <code>PutBucketLifecycleConfiguration</code>:</p>
@@ -118,15 +116,15 @@ export type PutBucketLifecycleConfigurationCommandOutput = __MetadataBearer;
  *             </li>
  *          </ul>
  */
-export class PutBucketLifecycleConfigurationCommand extends $Command<
-  PutBucketLifecycleConfigurationCommandInput,
-  PutBucketLifecycleConfigurationCommandOutput,
+export class PutOSCPConfigurationCommand extends $Command<
+  PutOSCPConfigurationCommandInput,
+  PutOSCPConfigurationCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutBucketLifecycleConfigurationCommandInput) {
+  constructor(readonly input: PutOSCPConfigurationCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -139,21 +137,20 @@ export class PutBucketLifecycleConfigurationCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutBucketLifecycleConfigurationCommandInput, PutBucketLifecycleConfigurationCommandOutput> {
+  ): Handler<PutOSCPConfigurationCommandInput, PutOSCPConfigurationCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
-    this.middlewareStack.use(getApplyMd5BodyChecksumPlugin(configuration));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "PutBucketLifecycleConfigurationCommand";
+    const commandName = "PutOSCPConfigurationCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutBucketLifecycleConfigurationRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: PutOSCPConfigurationRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -164,18 +161,12 @@ export class PutBucketLifecycleConfigurationCommand extends $Command<
     );
   }
 
-  private serialize(
-    input: PutBucketLifecycleConfigurationCommandInput,
-    context: __SerdeContext
-  ): Promise<__HttpRequest> {
-    return serializeAws_restXmlPutBucketLifecycleConfigurationCommand(input, context);
+  private serialize(input: PutOSCPConfigurationCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlPutOSCPConfigurationCommand(input, context);
   }
 
-  private deserialize(
-    output: __HttpResponse,
-    context: __SerdeContext
-  ): Promise<PutBucketLifecycleConfigurationCommandOutput> {
-    return deserializeAws_restXmlPutBucketLifecycleConfigurationCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutOSCPConfigurationCommandOutput> {
+    return deserializeAws_restXmlPutOSCPConfigurationCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -63,6 +63,7 @@ if (sonatypeUser != null && sonatypePassword != null) {
 
 repositories {
     mavenLocal()
+    maven { url = uri("https://maven.aliyun.com/repository/public") }
     mavenCentral()
 }
 

@@ -79,6 +79,30 @@
           "target": "com.amazonaws.iam#CreateAccount"
         },
         {
+          "target": "com.amazonaws.iam#CreateAccountGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#DeleteAccountGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#GetAccountGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#GetAccountGroupMeta"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateAccountGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateAccountGroupQuota"
+        },
+        {
+          "target": "com.amazonaws.iam#AddAccountToGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#RemoveAccountFromGroup"
+        },
+        {
           "target": "com.amazonaws.iam#CreateSelfdefineAccessKey"
         },
         {
@@ -299,6 +323,9 @@
         },
         {
           "target": "com.amazonaws.iam#ListAccounts"
+        },
+        {
+          "target": "com.amazonaws.iam#ListAccountGroups"
         },
         {
           "target": "com.amazonaws.iam#ListAccountAliases"
@@ -680,6 +707,12 @@
             "smithy.api#documentation": "<p>The ID for this access key.</p>"
           }
         },
+        "SecretAccessKey": {
+          "target": "com.amazonaws.iam#accessKeySecretType",
+          "traits": {
+            "smithy.api#documentation": "<p>The secret key(SK).</p>"
+          }
+        },
         "Description": {
           "target": "com.amazonaws.iam#accessKeyDescriptionType",
           "traits": {
@@ -716,6 +749,18 @@
           "target": "com.amazonaws.iam#idType",
           "traits": {
             "smithy.api#documentation": "<p>Account Id.</p>"
+          }
+        },
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group Name.</p>"
+          }
+        },
+        "GroupId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group Id.</p>"
           }
         },
         "Path": {
@@ -774,7 +819,7 @@
           }
         },
         "ObjectNumber": {
-          "target": "com.amazonaws.iam#integerType",
+          "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "<p>Account object number.</p>"
           }
@@ -800,6 +845,56 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Account info.</p>"
+      }
+    },
+    "com.amazonaws.iam#AccountGroupType": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group Name.</p>"
+          }
+        },
+        "GroupId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group Id.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group description.</p>"
+          }
+        },
+        "QuotaCapacitySize": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account group you want to create.</p>"
+          }
+        },
+        "QuotaObjectNumber": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account group you want to create.</p>"
+          }
+        },
+        "ObjectNumber": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group object number.</p>"
+          }
+        },
+        "UsedSize": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group used size.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Account group info.</p>"
       }
     },
     "com.amazonaws.iam#ActionNameListType": {
@@ -1789,6 +1884,310 @@
           "traits": {
             "smithy.api#documentation": "<p>The account to create.</p>",
             "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#AddAccountToGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#AddAccountToGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Create IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#AddAccountToGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group name.</p>"
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#RemoveAccountFromGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#RemoveAccountFromGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Create IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#RemoveAccountFromGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group name.</p>"
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#CreateAccountGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#CreateAccountGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#CreateAccountGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Create IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#CreateAccountGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group name.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#CreateAccountGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Group": {
+          "target": "com.amazonaws.iam#AccountGroupType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account group to create.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#DeleteAccountGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#DeleteAccountGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p> Deletes the specified AWS account.</p>"
+      }
+    },
+    "com.amazonaws.iam#DeleteAccountGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the account group to delete.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetAccountGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetAccountGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Retrieves information about all IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Accounts": {
+          "target": "com.amazonaws.iam#accountListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list containing information about IAM users.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GetAccountAuthorizationDetails</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroupMeta": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetAccountGroupMetaRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetAccountGroupMetaResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Retrieves information about all IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroupMetaRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountGroupMetaResponse": {
+      "type": "structure",
+      "members": {
+        "Group": {
+          "target": "com.amazonaws.iam#AccountGroupType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list containing information about IAM users.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GetAccountAuthorizationDetails</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateAccountGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Retrieves information about all IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the user whose key you want to update.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "GroupId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account group Id.</p>"
+          }
+        },
+        "NewGroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the user whose key you want to update.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new description that you want to apply to the account.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountGroupQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateAccountGroupQuotaRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Retrieves information about all IAM account group.</p>"
+      }
+    },
+    "com.amazonaws.iam#UpdateAccountGroupQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the user whose key you want to update.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "ObjectNumberQuota": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        },
+        "CapacitySizeQuota": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
           }
         }
       }
@@ -6073,6 +6472,9 @@
         },
         "Type": {
           "target": "com.amazonaws.iam#integerType"
+        },
+        "ResponseNeedSk": {
+          "target": "com.amazonaws.iam#booleanType"
         }
       }
     },
@@ -6119,10 +6521,10 @@
       "traits": {
         "smithy.api#documentation": "<p>Returns information about the access key IDs associated with the specified IAM user.\n         If there is none, the operation returns an empty list.</p>\n         <p>Although each user is limited to a small number of keys, you can still paginate the\n         results using the <code>MaxItems</code> and <code>Marker</code> parameters.</p>\n         <p>If the <code>UserName</code> field is not specified, the user name is determined\n         implicitly based on the AWS access key ID used to sign the request. This operation works\n         for access keys under the AWS account. Consequently, you can use this operation to manage\n         AWS account root user credentials even if the AWS account has no associated\n         users.</p>\n         <note>\n            <p>To ensure the security of your AWS account, the secret access key is accessible\n            only during key and user creation.</p>\n         </note>",
         "smithy.api#paginated": {
-          "inputToken": "Marker",
-          "outputToken": "Marker",
+          "inputToken": "AccountNameMarker",
+          "outputToken": "NextAccountName",
           "items": "Accounts",
-          "pageSize": "MaxItems"
+          "pageSize": "MaxKeys"
         }
       }
     },
@@ -6135,6 +6537,80 @@
             "smithy.api#documentation": "<p>Show AK/SK, 0 means no, 1 means yes.</p>"
           }
         },
+        "AccountNameMarker": {
+          "target": "com.amazonaws.iam#accountNamemarkerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Use this parameter only when paginating results and only after \n    you receive a response indicating that the results are truncated. Set it to the value of the\n    <code>Marker</code> element in the response that you received to indicate where the next call \n    should start.</p>"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.iam#maxItemsType",
+          "traits": {
+            "smithy.api#documentation": "<p>The maximum number of keys returned in the response body.</p>"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.iam#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "prefix"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#ListAccountsResponse": {
+      "type": "structure",
+      "members": {
+        "Accounts": {
+          "target": "com.amazonaws.iam#accountListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of accounts.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "IsTruncated": {
+          "target": "com.amazonaws.iam#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>A flag that indicates whether there are more items to return. If your \n    results were truncated, you can make a subsequent pagination request using the <code>Marker</code>\n    request parameter to retrieve more items. Note that IAM might return fewer than the \n    <code>MaxItems</code> number of results even when there are more results available. We recommend \n    that you check <code>IsTruncated</code> after every call to ensure that you receive all your \n    results.</p>"
+          }
+        },
+        "NextAccountName": {
+          "target": "com.amazonaws.iam#responseMarkerType",
+          "traits": {
+            "smithy.api#documentation": "<p>When <code>IsTruncated</code> is <code>true</code>, this element\n    is present and contains the value to use for the <code>Marker</code> parameter in a subsequent \n    pagination request.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>ListAccounts</a> request.\n    </p>"
+      }
+    },
+    "com.amazonaws.iam#ListAccountGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ListAccountGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#ListAccountGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Returns information about the access key IDs associated with the specified IAM user.\n         If there is none, the operation returns an empty list.</p>\n         <p>Although each user is limited to a small number of keys, you can still paginate the\n         results using the <code>MaxItems</code> and <code>Marker</code> parameters.</p>\n         <p>If the <code>UserName</code> field is not specified, the user name is determined\n         implicitly based on the AWS access key ID used to sign the request. This operation works\n         for access keys under the AWS account. Consequently, you can use this operation to manage\n         AWS account root user credentials even if the AWS account has no associated\n         users.</p>\n         <note>\n            <p>To ensure the security of your AWS account, the secret access key is accessible\n            only during key and user creation.</p>\n         </note>",
+        "smithy.api#paginated": {
+          "inputToken": "Marker",
+          "outputToken": "Marker",
+          "items": "Groups",
+          "pageSize": "MaxItems"
+        }
+      }
+    },
+    "com.amazonaws.iam#ListAccountGroupsRequest": {
+      "type": "structure",
+      "members": {
         "Marker": {
           "target": "com.amazonaws.iam#markerType",
           "traits": {
@@ -6149,11 +6625,11 @@
         }
       }
     },
-    "com.amazonaws.iam#ListAccountsResponse": {
+    "com.amazonaws.iam#ListAccountGroupsResponse": {
       "type": "structure",
       "members": {
-        "Accounts": {
-          "target": "com.amazonaws.iam#accountListType",
+        "Groups": {
+          "target": "com.amazonaws.iam#accountgroupListType",
           "traits": {
             "smithy.api#documentation": "<p>A list of accounts.</p>",
             "smithy.api#required": {}
@@ -12207,6 +12683,15 @@
         "smithy.api#documentation": "<p>Contains a list of account.</p>\n         <p>This data type is used as a response element in the <a>ListAccounts</a>\n         operation.</p>"
       }
     },
+    "com.amazonaws.iam#accountgroupListType": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#AccountGroupType"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains a list of account.</p>\n         <p>This data type is used as a response element in the <a>ListAccounts</a>\n         operation.</p>"
+      }
+    },
     "com.amazonaws.iam#accountAliasListType": {
       "type": "list",
       "member": {
@@ -12608,6 +13093,9 @@
         "smithy.api#pattern": "[\\u0020-\\u00FF]+"
       }
     },
+    "com.amazonaws.iam#accountNamemarkerType": {
+      "type": "string"
+    },
     "com.amazonaws.iam#maxItemsType": {
       "type": "integer",
       "traits": {
@@ -12617,6 +13105,9 @@
           "max": 1000
         }
       }
+    },
+    "com.amazonaws.iam#Prefix": {
+      "type": "string"
     },
     "com.amazonaws.iam#maxPasswordAgeType": {
       "type": "integer",

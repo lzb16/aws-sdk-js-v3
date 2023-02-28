@@ -56,6 +56,7 @@ import {
   DeleteBucketWebsiteCommandInput,
   DeleteBucketWebsiteCommandOutput,
 } from "./commands/DeleteBucketWebsiteCommand";
+import { DeleteOSCPCommandInput, DeleteOSCPCommandOutput } from "./commands/DeleteOSCPCommand";
 import { DeleteObjectCommandInput, DeleteObjectCommandOutput } from "./commands/DeleteObjectCommand";
 import {
   DeleteObjectTaggingCommandInput,
@@ -133,6 +134,10 @@ import {
   GetBucketVersioningCommandOutput,
 } from "./commands/GetBucketVersioningCommand";
 import { GetBucketWebsiteCommandInput, GetBucketWebsiteCommandOutput } from "./commands/GetBucketWebsiteCommand";
+import {
+  GetOSCPConfigurationCommandInput,
+  GetOSCPConfigurationCommandOutput,
+} from "./commands/GetOSCPConfigurationCommand";
 import { GetObjectAclCommandInput, GetObjectAclCommandOutput } from "./commands/GetObjectAclCommand";
 import { GetObjectCommandInput, GetObjectCommandOutput } from "./commands/GetObjectCommand";
 import { GetObjectLegalHoldCommandInput, GetObjectLegalHoldCommandOutput } from "./commands/GetObjectLegalHoldCommand";
@@ -148,6 +153,14 @@ import {
   GetPublicAccessBlockCommandOutput,
 } from "./commands/GetPublicAccessBlockCommand";
 import { GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
+import {
+  GetWORMConfigurationCommandInput,
+  GetWORMConfigurationCommandOutput,
+} from "./commands/GetWORMConfigurationCommand";
+import {
+  GetWORMRetainPeriodCommandInput,
+  GetWORMRetainPeriodCommandOutput,
+} from "./commands/GetWORMRetainPeriodCommand";
 import { HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
 import { HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
@@ -219,6 +232,10 @@ import { PutBucketPolicyCommandInput, PutBucketPolicyCommandOutput } from "./com
 import { PutBucketQoSCommandInput, PutBucketQoSCommandOutput } from "./commands/PutBucketQoSCommand";
 import { PutBucketQuotaCommandInput, PutBucketQuotaCommandOutput } from "./commands/PutBucketQuotaCommand";
 import {
+  PutBucketRedundancyCommandInput,
+  PutBucketRedundancyCommandOutput,
+} from "./commands/PutBucketRedundancyCommand";
+import {
   PutBucketReplicationCommandInput,
   PutBucketReplicationCommandOutput,
 } from "./commands/PutBucketReplicationCommand";
@@ -226,12 +243,20 @@ import {
   PutBucketRequestPaymentCommandInput,
   PutBucketRequestPaymentCommandOutput,
 } from "./commands/PutBucketRequestPaymentCommand";
+import {
+  PutBucketStorageClassCommandInput,
+  PutBucketStorageClassCommandOutput,
+} from "./commands/PutBucketStorageClassCommand";
 import { PutBucketTaggingCommandInput, PutBucketTaggingCommandOutput } from "./commands/PutBucketTaggingCommand";
 import {
   PutBucketVersioningCommandInput,
   PutBucketVersioningCommandOutput,
 } from "./commands/PutBucketVersioningCommand";
 import { PutBucketWebsiteCommandInput, PutBucketWebsiteCommandOutput } from "./commands/PutBucketWebsiteCommand";
+import {
+  PutOSCPConfigurationCommandInput,
+  PutOSCPConfigurationCommandOutput,
+} from "./commands/PutOSCPConfigurationCommand";
 import { PutObjectAclCommandInput, PutObjectAclCommandOutput } from "./commands/PutObjectAclCommand";
 import { PutObjectCommandInput, PutObjectCommandOutput } from "./commands/PutObjectCommand";
 import { PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput } from "./commands/PutObjectLegalHoldCommand";
@@ -247,6 +272,14 @@ import {
   PutPublicAccessBlockCommandOutput,
 } from "./commands/PutPublicAccessBlockCommand";
 import { PutRefererCommandInput, PutRefererCommandOutput } from "./commands/PutRefererCommand";
+import {
+  PutWORMConfigurationCommandInput,
+  PutWORMConfigurationCommandOutput,
+} from "./commands/PutWORMConfigurationCommand";
+import {
+  PutWORMRetainPeriodCommandInput,
+  PutWORMRetainPeriodCommandOutput,
+} from "./commands/PutWORMRetainPeriodCommand";
 import { RestoreObjectCommandInput, RestoreObjectCommandOutput } from "./commands/RestoreObjectCommand";
 import {
   SelectObjectContentCommandInput,
@@ -340,6 +373,7 @@ export type ServiceInputTypes =
   | DeleteBucketReplicationCommandInput
   | DeleteBucketTaggingCommandInput
   | DeleteBucketWebsiteCommandInput
+  | DeleteOSCPCommandInput
   | DeleteObjectCommandInput
   | DeleteObjectTaggingCommandInput
   | DeleteObjectsCommandInput
@@ -369,6 +403,7 @@ export type ServiceInputTypes =
   | GetBucketTaggingCommandInput
   | GetBucketVersioningCommandInput
   | GetBucketWebsiteCommandInput
+  | GetOSCPConfigurationCommandInput
   | GetObjectAclCommandInput
   | GetObjectCommandInput
   | GetObjectLegalHoldCommandInput
@@ -378,6 +413,8 @@ export type ServiceInputTypes =
   | GetObjectTorrentCommandInput
   | GetPublicAccessBlockCommandInput
   | GetRefererCommandInput
+  | GetWORMConfigurationCommandInput
+  | GetWORMRetainPeriodCommandInput
   | HeadBucketCommandInput
   | HeadObjectCommandInput
   | ListBucketAnalyticsConfigurationsCommandInput
@@ -406,11 +443,14 @@ export type ServiceInputTypes =
   | PutBucketPolicyCommandInput
   | PutBucketQoSCommandInput
   | PutBucketQuotaCommandInput
+  | PutBucketRedundancyCommandInput
   | PutBucketReplicationCommandInput
   | PutBucketRequestPaymentCommandInput
+  | PutBucketStorageClassCommandInput
   | PutBucketTaggingCommandInput
   | PutBucketVersioningCommandInput
   | PutBucketWebsiteCommandInput
+  | PutOSCPConfigurationCommandInput
   | PutObjectAclCommandInput
   | PutObjectCommandInput
   | PutObjectLegalHoldCommandInput
@@ -420,6 +460,8 @@ export type ServiceInputTypes =
   | PutObjectTaggingCommandInput
   | PutPublicAccessBlockCommandInput
   | PutRefererCommandInput
+  | PutWORMConfigurationCommandInput
+  | PutWORMRetainPeriodCommandInput
   | RestoreObjectCommandInput
   | SelectObjectContentCommandInput
   | UploadPartCommandInput
@@ -445,6 +487,7 @@ export type ServiceOutputTypes =
   | DeleteBucketReplicationCommandOutput
   | DeleteBucketTaggingCommandOutput
   | DeleteBucketWebsiteCommandOutput
+  | DeleteOSCPCommandOutput
   | DeleteObjectCommandOutput
   | DeleteObjectTaggingCommandOutput
   | DeleteObjectsCommandOutput
@@ -474,6 +517,7 @@ export type ServiceOutputTypes =
   | GetBucketTaggingCommandOutput
   | GetBucketVersioningCommandOutput
   | GetBucketWebsiteCommandOutput
+  | GetOSCPConfigurationCommandOutput
   | GetObjectAclCommandOutput
   | GetObjectCommandOutput
   | GetObjectLegalHoldCommandOutput
@@ -483,6 +527,8 @@ export type ServiceOutputTypes =
   | GetObjectTorrentCommandOutput
   | GetPublicAccessBlockCommandOutput
   | GetRefererCommandOutput
+  | GetWORMConfigurationCommandOutput
+  | GetWORMRetainPeriodCommandOutput
   | HeadBucketCommandOutput
   | HeadObjectCommandOutput
   | ListBucketAnalyticsConfigurationsCommandOutput
@@ -511,11 +557,14 @@ export type ServiceOutputTypes =
   | PutBucketPolicyCommandOutput
   | PutBucketQoSCommandOutput
   | PutBucketQuotaCommandOutput
+  | PutBucketRedundancyCommandOutput
   | PutBucketReplicationCommandOutput
   | PutBucketRequestPaymentCommandOutput
+  | PutBucketStorageClassCommandOutput
   | PutBucketTaggingCommandOutput
   | PutBucketVersioningCommandOutput
   | PutBucketWebsiteCommandOutput
+  | PutOSCPConfigurationCommandOutput
   | PutObjectAclCommandOutput
   | PutObjectCommandOutput
   | PutObjectLegalHoldCommandOutput
@@ -525,6 +574,8 @@ export type ServiceOutputTypes =
   | PutObjectTaggingCommandOutput
   | PutPublicAccessBlockCommandOutput
   | PutRefererCommandOutput
+  | PutWORMConfigurationCommandOutput
+  | PutWORMRetainPeriodCommandOutput
   | RestoreObjectCommandOutput
   | SelectObjectContentCommandOutput
   | UploadPartCommandOutput
