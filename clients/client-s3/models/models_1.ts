@@ -6,7 +6,6 @@ import {
   BucketLifecycleConfiguration,
   CORSConfiguration,
   CommonPrefix,
-  DeleteMarkerEntry,
   EncodingType,
   ErrorDocument,
   Grant,
@@ -24,7 +23,6 @@ import {
   ObjectLockLegalHoldStatus,
   ObjectLockMode,
   ObjectLockRetention,
-  ObjectVersionStorageClass,
   Owner,
   OwnershipControls,
   Payer,
@@ -48,6 +46,45 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>Information about the delete marker.</p>
+ */
+export interface DeleteMarkerEntry {
+  /**
+   * <p>The account that created the delete marker.></p>
+   */
+  Owner?: Owner;
+
+  /**
+   * <p>The object key.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>Version ID of an object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Specifies whether the object is (true) or is not (false) the latest version of an
+   *          object.</p>
+   */
+  IsLatest?: boolean;
+
+  /**
+   * <p>Date and time the object was last modified.</p>
+   */
+  LastModified?: Date;
+}
+
+export namespace DeleteMarkerEntry {
+  export const filterSensitiveLog = (obj: DeleteMarkerEntry): any => ({
+    ...obj,
+  });
+}
+
+export type ObjectVersionStorageClass = "STANDARD";
 
 /**
  * <p>The version of an object.</p>

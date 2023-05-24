@@ -314,7 +314,6 @@ import {
   CreateBucketConfiguration,
   DefaultRetention,
   Delete,
-  DeleteMarkerEntry,
   DeleteMarkerReplication,
   DeletedObject,
   Destination,
@@ -340,11 +339,12 @@ import {
   InventoryS3BucketDestination,
   InventorySchedule,
   LambdaFunctionConfiguration,
+  LifecycleAndRuleOperator,
   LifecycleExpiration,
+  LifecycleOrRuleOperator,
   LifecyclePeriod,
   LifecycleRule,
   LifecycleRuleFilter,
-  LifecycleRuleOperator,
   LifecycleRunningTimes,
   ListBucketResult,
   LoggingEnabled,
@@ -403,6 +403,7 @@ import {
   StorageClassAnalysis,
   StorageClassAnalysisDataExport,
   Tag,
+  TagMultiInOrMode,
   TaggingConfiguration,
   TargetGrant,
   Tiering,
@@ -423,6 +424,7 @@ import {
   CSVOutput,
   ContinuationEvent,
   CopyPartResult,
+  DeleteMarkerEntry,
   Encryption,
   EndEvent,
   GlacierJobParameters,
@@ -466,7 +468,7 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 import { XmlNode as __XmlNode, XmlText as __XmlText } from "@aws-sdk/xml-builder";
-import { parse as xmlParse } from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 
 export const serializeAws_restXmlAbortMultipartUploadCommand = async (
   input: AbortMultipartUploadCommandInput,
@@ -12922,6 +12924,71 @@ const serializeAws_restXmlLambdaFunctionConfigurationList = (
     });
 };
 
+const serializeAws_restXmlLifecycleAndRuleOperator = (
+  input: LifecycleAndRuleOperator,
+  context: __SerdeContext
+): any => {
+  const bodyNode = new __XmlNode("LifecycleAndRuleOperator");
+  if (input.Prefix !== undefined && input.Prefix !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Prefix)).withName("Prefix");
+    bodyNode.addChildNode(node);
+  }
+  if (input.PrefixNotMatch !== undefined && input.PrefixNotMatch !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.PrefixNotMatch)).withName("PrefixNotMatch");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Suffix !== undefined && input.Suffix !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Suffix)).withName("Suffix");
+    bodyNode.addChildNode(node);
+  }
+  if (input.SuffixNotMatch !== undefined && input.SuffixNotMatch !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.SuffixNotMatch)).withName("SuffixNotMatch");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeLessThan !== undefined && input.ObjectSizeLessThan !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeLessThan)))
+      .withName("ObjectSizeLessThan");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeLessThanOrEqualTo !== undefined && input.ObjectSizeLessThanOrEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeLessThanOrEqualTo)))
+      .withName("ObjectSizeLessThanOrEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeEqualTo !== undefined && input.ObjectSizeEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeEqualTo)))
+      .withName("ObjectSizeEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeBetween !== undefined && input.ObjectSizeBetween !== null) {
+    const node = serializeAws_restXmlObjectSizeRange(input.ObjectSizeBetween, context).withName("ObjectSizeBetween");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeGreaterThanOrEqualTo !== undefined && input.ObjectSizeGreaterThanOrEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThanOrEqualTo)))
+      .withName("ObjectSizeGreaterThanOrEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeGreaterThan !== undefined && input.ObjectSizeGreaterThan !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThan)))
+      .withName("ObjectSizeGreaterThan");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Tags !== undefined && input.Tags !== null) {
+    const nodes = serializeAws_restXmlTagSet(input.Tags, context);
+    nodes.map((node: any) => {
+      node = node.withName("Tag");
+      bodyNode.addChildNode(node);
+    });
+  }
+  return bodyNode;
+};
+
 const serializeAws_restXmlLifecycleExpiration = (input: LifecycleExpiration, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("LifecycleExpiration");
   if (input.Date !== undefined && input.Date !== null) {
@@ -12938,6 +13005,69 @@ const serializeAws_restXmlLifecycleExpiration = (input: LifecycleExpiration, con
     const node = new __XmlNode("ExpiredObjectDeleteMarker")
       .addChildNode(new __XmlText(String(input.ExpiredObjectDeleteMarker)))
       .withName("ExpiredObjectDeleteMarker");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlLifecycleOrRuleOperator = (input: LifecycleOrRuleOperator, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("LifecycleOrRuleOperator");
+  if (input.Prefix !== undefined && input.Prefix !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Prefix)).withName("Prefix");
+    bodyNode.addChildNode(node);
+  }
+  if (input.PrefixNotMatch !== undefined && input.PrefixNotMatch !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.PrefixNotMatch)).withName("PrefixNotMatch");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Suffix !== undefined && input.Suffix !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Suffix)).withName("Suffix");
+    bodyNode.addChildNode(node);
+  }
+  if (input.SuffixNotMatch !== undefined && input.SuffixNotMatch !== null) {
+    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.SuffixNotMatch)).withName("SuffixNotMatch");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeLessThan !== undefined && input.ObjectSizeLessThan !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeLessThan)))
+      .withName("ObjectSizeLessThan");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeLessThanOrEqualTo !== undefined && input.ObjectSizeLessThanOrEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeLessThanOrEqualTo)))
+      .withName("ObjectSizeLessThanOrEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeEqualTo !== undefined && input.ObjectSizeEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeEqualTo)))
+      .withName("ObjectSizeEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeBetween !== undefined && input.ObjectSizeBetween !== null) {
+    const node = serializeAws_restXmlObjectSizeRange(input.ObjectSizeBetween, context).withName("ObjectSizeBetween");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeGreaterThanOrEqualTo !== undefined && input.ObjectSizeGreaterThanOrEqualTo !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThanOrEqualTo)))
+      .withName("ObjectSizeGreaterThanOrEqualTo");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ObjectSizeGreaterThan !== undefined && input.ObjectSizeGreaterThan !== null) {
+    const node = new __XmlNode("ObjectSize")
+      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThan)))
+      .withName("ObjectSizeGreaterThan");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Tag !== undefined && input.Tag !== null) {
+    const node = serializeAws_restXmlTag(input.Tag, context).withName("Tag");
+    bodyNode.addChildNode(node);
+  }
+  if (input.And !== undefined && input.And !== null) {
+    const node = serializeAws_restXmlTagMultiInOrMode(input.And, context).withName("And");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -13032,11 +13162,15 @@ const serializeAws_restXmlLifecycleRuleFilter = (input: LifecycleRuleFilter, con
   const bodyNode = new __XmlNode("LifecycleRuleFilter");
   LifecycleRuleFilter.visit(input, {
     And: (value) => {
-      const node = serializeAws_restXmlLifecycleRuleOperator(value, context).withName("And");
+      const node = serializeAws_restXmlLifecycleAndRuleOperator(value, context).withName("And");
       bodyNode.addChildNode(node);
     },
     Or: (value) => {
-      const node = serializeAws_restXmlLifecycleRuleOperator(value, context).withName("Or");
+      const node = serializeAws_restXmlLifecycleOrRuleOperator(value, context).withName("Or");
+      bodyNode.addChildNode(node);
+    },
+    Tag: (value) => {
+      const node = serializeAws_restXmlTag(value, context).withName("Tag");
       bodyNode.addChildNode(node);
     },
     Prefix: (value) => {
@@ -13094,68 +13228,6 @@ const serializeAws_restXmlLifecycleRuleFilter = (input: LifecycleRuleFilter, con
       bodyNode.addChildNode(new __XmlNode(name).addChildNode(value));
     },
   });
-  return bodyNode;
-};
-
-const serializeAws_restXmlLifecycleRuleOperator = (input: LifecycleRuleOperator, context: __SerdeContext): any => {
-  const bodyNode = new __XmlNode("LifecycleRuleOperator");
-  if (input.Prefix !== undefined && input.Prefix !== null) {
-    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Prefix)).withName("Prefix");
-    bodyNode.addChildNode(node);
-  }
-  if (input.PrefixNotMatch !== undefined && input.PrefixNotMatch !== null) {
-    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.PrefixNotMatch)).withName("PrefixNotMatch");
-    bodyNode.addChildNode(node);
-  }
-  if (input.Suffix !== undefined && input.Suffix !== null) {
-    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Suffix)).withName("Suffix");
-    bodyNode.addChildNode(node);
-  }
-  if (input.SuffixNotMatch !== undefined && input.SuffixNotMatch !== null) {
-    const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.SuffixNotMatch)).withName("SuffixNotMatch");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeLessThan !== undefined && input.ObjectSizeLessThan !== null) {
-    const node = new __XmlNode("ObjectSize")
-      .addChildNode(new __XmlText(String(input.ObjectSizeLessThan)))
-      .withName("ObjectSizeLessThan");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeLessThanOrEqualTo !== undefined && input.ObjectSizeLessThanOrEqualTo !== null) {
-    const node = new __XmlNode("ObjectSize")
-      .addChildNode(new __XmlText(String(input.ObjectSizeLessThanOrEqualTo)))
-      .withName("ObjectSizeLessThanOrEqualTo");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeEqualTo !== undefined && input.ObjectSizeEqualTo !== null) {
-    const node = new __XmlNode("ObjectSize")
-      .addChildNode(new __XmlText(String(input.ObjectSizeEqualTo)))
-      .withName("ObjectSizeEqualTo");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeBetween !== undefined && input.ObjectSizeBetween !== null) {
-    const node = serializeAws_restXmlObjectSizeRange(input.ObjectSizeBetween, context).withName("ObjectSizeBetween");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeGreaterThanOrEqualTo !== undefined && input.ObjectSizeGreaterThanOrEqualTo !== null) {
-    const node = new __XmlNode("ObjectSize")
-      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThanOrEqualTo)))
-      .withName("ObjectSizeGreaterThanOrEqualTo");
-    bodyNode.addChildNode(node);
-  }
-  if (input.ObjectSizeGreaterThan !== undefined && input.ObjectSizeGreaterThan !== null) {
-    const node = new __XmlNode("ObjectSize")
-      .addChildNode(new __XmlText(String(input.ObjectSizeGreaterThan)))
-      .withName("ObjectSizeGreaterThan");
-    bodyNode.addChildNode(node);
-  }
-  if (input.Tags !== undefined && input.Tags !== null) {
-    const nodes = serializeAws_restXmlTagSet(input.Tags, context);
-    nodes.map((node: any) => {
-      node = node.withName("Tag");
-      bodyNode.addChildNode(node);
-    });
-  }
   return bodyNode;
 };
 
@@ -14294,6 +14366,10 @@ const serializeAws_restXmlServerSideEncryptionConfiguration = (
     const node = new __XmlNode("Algothrim").addChildNode(new __XmlText(input.Algothrim)).withName("Algothrim");
     bodyNode.addChildNode(node);
   }
+  if (input.Status !== undefined && input.Status !== null) {
+    const node = new __XmlNode("Status").addChildNode(new __XmlText(input.Status)).withName("Status");
+    bodyNode.addChildNode(node);
+  }
   return bodyNode;
 };
 
@@ -14424,6 +14500,18 @@ const serializeAws_restXmlTagging = (input: Tagging, context: __SerdeContext): a
       containerNode.addChildNode(node);
     });
     bodyNode.addChildNode(containerNode);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlTagMultiInOrMode = (input: TagMultiInOrMode, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("TagMultiInOrMode");
+  if (input.Tags !== undefined && input.Tags !== null) {
+    const nodes = serializeAws_restXmlTagSet(input.Tags, context);
+    nodes.map((node: any) => {
+      node = node.withName("Tag");
+      bodyNode.addChildNode(node);
+    });
   }
   return bodyNode;
 };
@@ -15824,6 +15912,62 @@ const deserializeAws_restXmlLambdaFunctionConfigurationList = (
     });
 };
 
+const deserializeAws_restXmlLifecycleAndRuleOperator = (
+  output: any,
+  context: __SerdeContext
+): LifecycleAndRuleOperator => {
+  let contents: any = {
+    Prefix: undefined,
+    PrefixNotMatch: undefined,
+    Suffix: undefined,
+    SuffixNotMatch: undefined,
+    ObjectSizeLessThan: undefined,
+    ObjectSizeLessThanOrEqualTo: undefined,
+    ObjectSizeEqualTo: undefined,
+    ObjectSizeBetween: undefined,
+    ObjectSizeGreaterThanOrEqualTo: undefined,
+    ObjectSizeGreaterThan: undefined,
+    Tags: undefined,
+  };
+  if (output["Prefix"] !== undefined) {
+    contents.Prefix = output["Prefix"];
+  }
+  if (output["PrefixNotMatch"] !== undefined) {
+    contents.PrefixNotMatch = output["PrefixNotMatch"];
+  }
+  if (output["Suffix"] !== undefined) {
+    contents.Suffix = output["Suffix"];
+  }
+  if (output["SuffixNotMatch"] !== undefined) {
+    contents.SuffixNotMatch = output["SuffixNotMatch"];
+  }
+  if (output["ObjectSizeLessThan"] !== undefined) {
+    contents.ObjectSizeLessThan = parseInt(output["ObjectSizeLessThan"]);
+  }
+  if (output["ObjectSizeLessThanOrEqualTo"] !== undefined) {
+    contents.ObjectSizeLessThanOrEqualTo = parseInt(output["ObjectSizeLessThanOrEqualTo"]);
+  }
+  if (output["ObjectSizeEqualTo"] !== undefined) {
+    contents.ObjectSizeEqualTo = parseInt(output["ObjectSizeEqualTo"]);
+  }
+  if (output["ObjectSizeBetween"] !== undefined) {
+    contents.ObjectSizeBetween = deserializeAws_restXmlObjectSizeRange(output["ObjectSizeBetween"], context);
+  }
+  if (output["ObjectSizeGreaterThanOrEqualTo"] !== undefined) {
+    contents.ObjectSizeGreaterThanOrEqualTo = parseInt(output["ObjectSizeGreaterThanOrEqualTo"]);
+  }
+  if (output["ObjectSizeGreaterThan"] !== undefined) {
+    contents.ObjectSizeGreaterThan = parseInt(output["ObjectSizeGreaterThan"]);
+  }
+  if (output.Tag === "") {
+    contents.Tags = [];
+  }
+  if (output["Tag"] !== undefined) {
+    contents.Tags = deserializeAws_restXmlTagSet(__getArrayIfSingleItem(output["Tag"]), context);
+  }
+  return contents;
+};
+
 const deserializeAws_restXmlLifecycleExpiration = (output: any, context: __SerdeContext): LifecycleExpiration => {
   let contents: any = {
     Date: undefined,
@@ -15838,6 +15982,63 @@ const deserializeAws_restXmlLifecycleExpiration = (output: any, context: __Serde
   }
   if (output["ExpiredObjectDeleteMarker"] !== undefined) {
     contents.ExpiredObjectDeleteMarker = output["ExpiredObjectDeleteMarker"] == "true";
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlLifecycleOrRuleOperator = (
+  output: any,
+  context: __SerdeContext
+): LifecycleOrRuleOperator => {
+  let contents: any = {
+    Prefix: undefined,
+    PrefixNotMatch: undefined,
+    Suffix: undefined,
+    SuffixNotMatch: undefined,
+    ObjectSizeLessThan: undefined,
+    ObjectSizeLessThanOrEqualTo: undefined,
+    ObjectSizeEqualTo: undefined,
+    ObjectSizeBetween: undefined,
+    ObjectSizeGreaterThanOrEqualTo: undefined,
+    ObjectSizeGreaterThan: undefined,
+    Tag: undefined,
+    And: undefined,
+  };
+  if (output["Prefix"] !== undefined) {
+    contents.Prefix = output["Prefix"];
+  }
+  if (output["PrefixNotMatch"] !== undefined) {
+    contents.PrefixNotMatch = output["PrefixNotMatch"];
+  }
+  if (output["Suffix"] !== undefined) {
+    contents.Suffix = output["Suffix"];
+  }
+  if (output["SuffixNotMatch"] !== undefined) {
+    contents.SuffixNotMatch = output["SuffixNotMatch"];
+  }
+  if (output["ObjectSizeLessThan"] !== undefined) {
+    contents.ObjectSizeLessThan = parseInt(output["ObjectSizeLessThan"]);
+  }
+  if (output["ObjectSizeLessThanOrEqualTo"] !== undefined) {
+    contents.ObjectSizeLessThanOrEqualTo = parseInt(output["ObjectSizeLessThanOrEqualTo"]);
+  }
+  if (output["ObjectSizeEqualTo"] !== undefined) {
+    contents.ObjectSizeEqualTo = parseInt(output["ObjectSizeEqualTo"]);
+  }
+  if (output["ObjectSizeBetween"] !== undefined) {
+    contents.ObjectSizeBetween = deserializeAws_restXmlObjectSizeRange(output["ObjectSizeBetween"], context);
+  }
+  if (output["ObjectSizeGreaterThanOrEqualTo"] !== undefined) {
+    contents.ObjectSizeGreaterThanOrEqualTo = parseInt(output["ObjectSizeGreaterThanOrEqualTo"]);
+  }
+  if (output["ObjectSizeGreaterThan"] !== undefined) {
+    contents.ObjectSizeGreaterThan = parseInt(output["ObjectSizeGreaterThan"]);
+  }
+  if (output["Tag"] !== undefined) {
+    contents.Tag = deserializeAws_restXmlTag(output["Tag"], context);
+  }
+  if (output["And"] !== undefined) {
+    contents.And = deserializeAws_restXmlTagMultiInOrMode(output["And"], context);
   }
   return contents;
 };
@@ -15935,12 +16136,17 @@ const deserializeAws_restXmlLifecycleRule = (output: any, context: __SerdeContex
 const deserializeAws_restXmlLifecycleRuleFilter = (output: any, context: __SerdeContext): LifecycleRuleFilter => {
   if (output["And"] !== undefined) {
     return {
-      And: deserializeAws_restXmlLifecycleRuleOperator(output["And"], context),
+      And: deserializeAws_restXmlLifecycleAndRuleOperator(output["And"], context),
     };
   }
   if (output["Or"] !== undefined) {
     return {
-      Or: deserializeAws_restXmlLifecycleRuleOperator(output["Or"], context),
+      Or: deserializeAws_restXmlLifecycleOrRuleOperator(output["Or"], context),
+    };
+  }
+  if (output["Tag"] !== undefined) {
+    return {
+      Tag: deserializeAws_restXmlTag(output["Tag"], context),
     };
   }
   if (output["Prefix"] !== undefined) {
@@ -15994,59 +16200,6 @@ const deserializeAws_restXmlLifecycleRuleFilter = (output: any, context: __Serde
     };
   }
   return { $unknown: Object.entries(output)[0] };
-};
-
-const deserializeAws_restXmlLifecycleRuleOperator = (output: any, context: __SerdeContext): LifecycleRuleOperator => {
-  let contents: any = {
-    Prefix: undefined,
-    PrefixNotMatch: undefined,
-    Suffix: undefined,
-    SuffixNotMatch: undefined,
-    ObjectSizeLessThan: undefined,
-    ObjectSizeLessThanOrEqualTo: undefined,
-    ObjectSizeEqualTo: undefined,
-    ObjectSizeBetween: undefined,
-    ObjectSizeGreaterThanOrEqualTo: undefined,
-    ObjectSizeGreaterThan: undefined,
-    Tags: undefined,
-  };
-  if (output["Prefix"] !== undefined) {
-    contents.Prefix = output["Prefix"];
-  }
-  if (output["PrefixNotMatch"] !== undefined) {
-    contents.PrefixNotMatch = output["PrefixNotMatch"];
-  }
-  if (output["Suffix"] !== undefined) {
-    contents.Suffix = output["Suffix"];
-  }
-  if (output["SuffixNotMatch"] !== undefined) {
-    contents.SuffixNotMatch = output["SuffixNotMatch"];
-  }
-  if (output["ObjectSizeLessThan"] !== undefined) {
-    contents.ObjectSizeLessThan = parseInt(output["ObjectSizeLessThan"]);
-  }
-  if (output["ObjectSizeLessThanOrEqualTo"] !== undefined) {
-    contents.ObjectSizeLessThanOrEqualTo = parseInt(output["ObjectSizeLessThanOrEqualTo"]);
-  }
-  if (output["ObjectSizeEqualTo"] !== undefined) {
-    contents.ObjectSizeEqualTo = parseInt(output["ObjectSizeEqualTo"]);
-  }
-  if (output["ObjectSizeBetween"] !== undefined) {
-    contents.ObjectSizeBetween = deserializeAws_restXmlObjectSizeRange(output["ObjectSizeBetween"], context);
-  }
-  if (output["ObjectSizeGreaterThanOrEqualTo"] !== undefined) {
-    contents.ObjectSizeGreaterThanOrEqualTo = parseInt(output["ObjectSizeGreaterThanOrEqualTo"]);
-  }
-  if (output["ObjectSizeGreaterThan"] !== undefined) {
-    contents.ObjectSizeGreaterThan = parseInt(output["ObjectSizeGreaterThan"]);
-  }
-  if (output.Tag === "") {
-    contents.Tags = [];
-  }
-  if (output["Tag"] !== undefined) {
-    contents.Tags = deserializeAws_restXmlTagSet(__getArrayIfSingleItem(output["Tag"]), context);
-  }
-  return contents;
 };
 
 const deserializeAws_restXmlLifecycleRules = (output: any, context: __SerdeContext): LifecycleRule[] => {
@@ -16294,6 +16447,7 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
     ETag: undefined,
     Size: undefined,
     StorageClass: undefined,
+    IsEncrypted: undefined,
     Owner: undefined,
   };
   if (output["Key"] !== undefined) {
@@ -16310,6 +16464,9 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["IsEncrypted"] !== undefined) {
+    contents.IsEncrypted = output["IsEncrypted"] == "true";
   }
   if (output["Owner"] !== undefined) {
     contents.Owner = deserializeAws_restXmlOwner(output["Owner"], context);
@@ -17129,6 +17286,7 @@ const deserializeAws_restXmlServerSideEncryptionConfiguration = (
   let contents: any = {
     Rules: undefined,
     Algothrim: undefined,
+    Status: undefined,
   };
   if (output.Rule === "") {
     contents.Rules = [];
@@ -17138,6 +17296,9 @@ const deserializeAws_restXmlServerSideEncryptionConfiguration = (
   }
   if (output["Algothrim"] !== undefined) {
     contents.Algothrim = output["Algothrim"];
+  }
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
   }
   return contents;
 };
@@ -17268,6 +17429,19 @@ const deserializeAws_restXmlTaggingConfiguration = (output: any, context: __Serd
   };
   if (output["Status"] !== undefined) {
     contents.Status = output["Status"];
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlTagMultiInOrMode = (output: any, context: __SerdeContext): TagMultiInOrMode => {
+  let contents: any = {
+    Tags: undefined,
+  };
+  if (output.Tag === "") {
+    contents.Tags = [];
+  }
+  if (output["Tag"] !== undefined) {
+    contents.Tags = deserializeAws_restXmlTagSet(__getArrayIfSingleItem(output["Tag"]), context);
   }
   return contents;
 };
@@ -17525,13 +17699,18 @@ const decodeEscapedXML = (str: string) =>
 const parseBody = (streamBody: any, context: __SerdeContext): any =>
   collectBodyString(streamBody, context).then((encoded) => {
     if (encoded.length) {
-      const parsedObj = xmlParse(encoded, {
+      const parser = new XMLParser({
         attributeNamePrefix: "",
+        htmlEntities: true,
         ignoreAttributes: false,
-        parseNodeValue: false,
+        ignoreDeclaration: true,
+        parseTagValue: false,
         trimValues: false,
-        tagValueProcessor: (val, tagName) => (val.trim() === "" ? "" : decodeEscapedXML(val)),
+        tagValueProcessor: (_, val) => (val.trim() === "" && val.includes("\n") ? "" : undefined),
       });
+      parser.addEntity("#xD", "\r");
+      parser.addEntity("#10", "\n");
+      const parsedObj = parser.parse(encoded);
       const textNodeName = "#text";
       const key = Object.keys(parsedObj)[0];
       const parsedObjToReturn = parsedObj[key];

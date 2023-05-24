@@ -4314,6 +4314,8 @@ export namespace ServerSideEncryptionRule {
   });
 }
 
+export type Status = "Disabled" | "Enabled";
+
 /**
  * <p>Specifies the default server-side-encryption configuration.</p>
  */
@@ -4325,6 +4327,7 @@ export interface ServerSideEncryptionConfiguration {
   Rules: ServerSideEncryptionRule[] | undefined;
 
   Algothrim?: string;
+  Status?: Status | string;
 }
 
 export namespace ServerSideEncryptionConfiguration {
@@ -4842,7 +4845,7 @@ export namespace ObjectSizeRange {
  *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
  *          configured inside the And operator.</p>
  */
-export interface LifecycleRuleOperator {
+export interface LifecycleAndRuleOperator {
   /**
    * <p>Prefix identifying one or more objects to which the rule applies.</p>
    */
@@ -4900,8 +4903,97 @@ export interface LifecycleRuleOperator {
   Tags?: Tag[];
 }
 
-export namespace LifecycleRuleOperator {
-  export const filterSensitiveLog = (obj: LifecycleRuleOperator): any => ({
+export namespace LifecycleAndRuleOperator {
+  export const filterSensitiveLog = (obj: LifecycleAndRuleOperator): any => ({
+    ...obj,
+  });
+}
+
+export interface TagMultiInOrMode {
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  Tags?: Tag[];
+}
+
+export namespace TagMultiInOrMode {
+  export const filterSensitiveLog = (obj: TagMultiInOrMode): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+ *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+ *          configured inside the And operator.</p>
+ */
+export interface LifecycleOrRuleOperator {
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  PrefixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Suffix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  SuffixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeBetween?: ObjectSizeRange;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThan?: number;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  Tag?: Tag;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  And?: TagMultiInOrMode;
+}
+
+export namespace LifecycleOrRuleOperator {
+  export const filterSensitiveLog = (obj: LifecycleOrRuleOperator): any => ({
     ...obj,
   });
 }
@@ -4924,6 +5016,7 @@ export type LifecycleRuleFilter =
   | LifecycleRuleFilter.PrefixNotMatchMember
   | LifecycleRuleFilter.SuffixMember
   | LifecycleRuleFilter.SuffixNotMatchMember
+  | LifecycleRuleFilter.TagMember
   | LifecycleRuleFilter.$UnknownMember;
 
 export namespace LifecycleRuleFilter {
@@ -4933,8 +5026,9 @@ export namespace LifecycleRuleFilter {
    *          configured inside the And operator.</p>
    */
   export interface AndMember {
-    And: LifecycleRuleOperator;
+    And: LifecycleAndRuleOperator;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -4955,7 +5049,29 @@ export namespace LifecycleRuleFilter {
    */
   export interface OrMember {
     And?: never;
-    Or: LifecycleRuleOperator;
+    Or: LifecycleOrRuleOperator;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  export interface TagMember {
+    And?: never;
+    Or?: never;
+    Tag: Tag;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -4975,6 +5091,7 @@ export namespace LifecycleRuleFilter {
   export interface PrefixMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix: string;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -4994,6 +5111,7 @@ export namespace LifecycleRuleFilter {
   export interface PrefixNotMatchMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch: string;
     Suffix?: never;
@@ -5013,6 +5131,7 @@ export namespace LifecycleRuleFilter {
   export interface SuffixMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix: string;
@@ -5032,6 +5151,7 @@ export namespace LifecycleRuleFilter {
   export interface SuffixNotMatchMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5051,6 +5171,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeLessThanMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5070,6 +5191,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeLessThanOrEqualToMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5089,6 +5211,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeEqualToMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5108,6 +5231,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeBetweenMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5127,6 +5251,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeGreaterThanOrEqualToMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5146,6 +5271,7 @@ export namespace LifecycleRuleFilter {
   export interface ObjectSizeGreaterThanMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5162,6 +5288,7 @@ export namespace LifecycleRuleFilter {
   export interface $UnknownMember {
     And?: never;
     Or?: never;
+    Tag?: never;
     Prefix?: never;
     PrefixNotMatch?: never;
     Suffix?: never;
@@ -5176,8 +5303,9 @@ export namespace LifecycleRuleFilter {
   }
 
   export interface Visitor<T> {
-    And: (value: LifecycleRuleOperator) => T;
-    Or: (value: LifecycleRuleOperator) => T;
+    And: (value: LifecycleAndRuleOperator) => T;
+    Or: (value: LifecycleOrRuleOperator) => T;
+    Tag: (value: Tag) => T;
     Prefix: (value: string) => T;
     PrefixNotMatch: (value: string) => T;
     Suffix: (value: string) => T;
@@ -5194,6 +5322,7 @@ export namespace LifecycleRuleFilter {
   export const visit = <T>(value: LifecycleRuleFilter, visitor: Visitor<T>): T => {
     if (value.And !== undefined) return visitor.And(value.And);
     if (value.Or !== undefined) return visitor.Or(value.Or);
+    if (value.Tag !== undefined) return visitor.Tag(value.Tag);
     if (value.Prefix !== undefined) return visitor.Prefix(value.Prefix);
     if (value.PrefixNotMatch !== undefined) return visitor.PrefixNotMatch(value.PrefixNotMatch);
     if (value.Suffix !== undefined) return visitor.Suffix(value.Suffix);
@@ -5210,8 +5339,9 @@ export namespace LifecycleRuleFilter {
   };
 
   export const filterSensitiveLog = (obj: LifecycleRuleFilter): any => {
-    if (obj.And !== undefined) return { And: LifecycleRuleOperator.filterSensitiveLog(obj.And) };
-    if (obj.Or !== undefined) return { Or: LifecycleRuleOperator.filterSensitiveLog(obj.Or) };
+    if (obj.And !== undefined) return { And: LifecycleAndRuleOperator.filterSensitiveLog(obj.And) };
+    if (obj.Or !== undefined) return { Or: LifecycleOrRuleOperator.filterSensitiveLog(obj.Or) };
+    if (obj.Tag !== undefined) return { Tag: Tag.filterSensitiveLog(obj.Tag) };
     if (obj.Prefix !== undefined) return { Prefix: obj.Prefix };
     if (obj.PrefixNotMatch !== undefined) return { PrefixNotMatch: obj.PrefixNotMatch };
     if (obj.Suffix !== undefined) return { Suffix: obj.Suffix };
@@ -6010,8 +6140,6 @@ export namespace BucketRedundancyConfiguration {
     ...obj,
   });
 }
-
-export type Status = "Disabled" | "Enabled";
 
 /**
  * <p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more
@@ -10143,6 +10271,11 @@ export interface _Object {
   StorageClass?: ObjectStorageClass | string;
 
   /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  IsEncrypted?: boolean;
+
+  /**
    * <p>The owner of the object</p>
    */
   Owner?: Owner;
@@ -10488,42 +10621,3 @@ export namespace ListObjectsV2Request {
     ...obj,
   });
 }
-
-/**
- * <p>Information about the delete marker.</p>
- */
-export interface DeleteMarkerEntry {
-  /**
-   * <p>The account that created the delete marker.></p>
-   */
-  Owner?: Owner;
-
-  /**
-   * <p>The object key.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>Version ID of an object.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Specifies whether the object is (true) or is not (false) the latest version of an
-   *          object.</p>
-   */
-  IsLatest?: boolean;
-
-  /**
-   * <p>Date and time the object was last modified.</p>
-   */
-  LastModified?: Date;
-}
-
-export namespace DeleteMarkerEntry {
-  export const filterSensitiveLog = (obj: DeleteMarkerEntry): any => ({
-    ...obj,
-  });
-}
-
-export type ObjectVersionStorageClass = "STANDARD";

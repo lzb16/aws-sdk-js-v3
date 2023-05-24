@@ -8045,7 +8045,7 @@
         "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>"
       }
     },
-    "com.amazonaws.s3#LifecycleRuleOperator": {
+    "com.amazonaws.s3#LifecycleAndRuleOperator": {
       "type": "structure",
       "members": {
         "Prefix": {
@@ -8121,14 +8121,113 @@
         "smithy.api#documentation": "<p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more\n         predicates. The Lifecycle Rule will apply to any object matching all of the predicates\n         configured inside the And operator.</p>"
       }
     },
+    "com.amazonaws.s3#TagMultiInOrMode": {
+      "type": "structure",
+      "members": {
+        "Tags": {
+          "target": "com.amazonaws.s3#TagSet",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Tag"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#LifecycleOrRuleOperator": {
+      "type": "structure",
+      "members": {
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#Tag",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>"
+          }
+        },
+        "And": {
+          "target": "com.amazonaws.s3#TagMultiInOrMode",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more\n         predicates. The Lifecycle Rule will apply to any object matching all of the predicates\n         configured inside the And operator.</p>"
+      }
+    },
     "com.amazonaws.s3#LifecycleRuleFilter": {
       "type": "union",
       "members": {
         "And": {
-          "target": "com.amazonaws.s3#LifecycleRuleOperator"
+          "target": "com.amazonaws.s3#LifecycleAndRuleOperator"
         },
         "Or": {
-          "target": "com.amazonaws.s3#LifecycleRuleOperator"
+          "target": "com.amazonaws.s3#LifecycleOrRuleOperator"
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#Tag",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>"
+          }
         },
         "Prefix": {
           "target": "com.amazonaws.s3#Prefix",
@@ -9942,6 +10041,12 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "IsEncrypted": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
         "Owner": {
           "target": "com.amazonaws.s3#Owner",
           "traits": {
@@ -10232,6 +10337,9 @@
           }
         ]
       }
+    },
+    "com.amazonaws.s3#booleanType": {
+      "type": "boolean"
     },
     "com.amazonaws.s3#ObjectVersion": {
       "type": "structure",
@@ -13952,6 +14060,9 @@
         },
         "Algothrim": {
           "target": "com.amazonaws.s3#Algothrim"
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
         }
       },
       "traits": {
@@ -14249,6 +14360,19 @@
     },
     "com.amazonaws.s3#TagCount": {
       "type": "integer"
+    },
+    "com.amazonaws.s3#TagAnd": {
+      "type": "structure",
+      "members": {
+        "And": {
+          "target": "com.amazonaws.s3#TagSet",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Tag"
+          }
+        }
+      }
     },
     "com.amazonaws.s3#TagSet": {
       "type": "list",

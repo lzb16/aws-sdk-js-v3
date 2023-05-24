@@ -1,7 +1,7 @@
 {
   "name": "@aws-sdk/client-s3",
   "description": "AWS SDK for JavaScript S3 Client for Node.js, Browser and React Native",
-  "version": "3.11.0-cli-49",
+  "version": "3.11.0-cli-53",
   "scripts": {
     "clean": "yarn remove-definitions && yarn remove-dist && yarn remove-documentation",
     "build-documentation": "yarn remove-documentation && typedoc ./",
@@ -72,7 +72,7 @@
     "@aws-sdk/util-utf8-node": "3.10.0",
     "@aws-sdk/util-waiter": "3.10.0",
     "@aws-sdk/xml-builder": "3.10.0",
-    "fast-xml-parser": "3.19.0",
+    "fast-xml-parser": "4.0.11",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
