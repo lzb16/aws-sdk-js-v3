@@ -59,7 +59,9 @@ public final class AddS3Config implements TypeScriptIntegration {
     private static final Set<String> NON_BUCKET_ENDPOINT_OPERATIONS = SetUtils.of(
         "CreateBucket",
         "DeleteBucket",
-        "ListBuckets"
+        "ListBuckets",
+        "ListMetaSearch",
+        "ListMetaSearchBuckets"
     );
 
     private static final Set<String> EXCEPTIONS_OF_200_OPERATIONS = SetUtils.of(

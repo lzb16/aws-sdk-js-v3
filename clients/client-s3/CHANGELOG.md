@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.11.0-cli-54] (2023-05-25)
+
+
+### Features
+
+* 添加桶元数据智能检索：打开桶元数据智能检索、关闭桶元数据智能检索
+
+
+
 # [3.11.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.10.0...v3.11.0) (2021-04-01)
 
 

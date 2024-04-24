@@ -35,6 +35,91 @@ import {
   AttachUserPolicyCommandOutput,
 } from "./commands/AttachUserPolicyCommand";
 import {
+  BatchAddUserToGroupsCommand,
+  BatchAddUserToGroupsCommandInput,
+  BatchAddUserToGroupsCommandOutput,
+} from "./commands/BatchAddUserToGroupsCommand";
+import {
+  BatchAddUserToMultiGroupsCommand,
+  BatchAddUserToMultiGroupsCommandInput,
+  BatchAddUserToMultiGroupsCommandOutput,
+} from "./commands/BatchAddUserToMultiGroupsCommand";
+import {
+  BatchAddUsersToGroupCommand,
+  BatchAddUsersToGroupCommandInput,
+  BatchAddUsersToGroupCommandOutput,
+} from "./commands/BatchAddUsersToGroupCommand";
+import {
+  BatchAttachPoliciesToGroupCommand,
+  BatchAttachPoliciesToGroupCommandInput,
+  BatchAttachPoliciesToGroupCommandOutput,
+} from "./commands/BatchAttachPoliciesToGroupCommand";
+import {
+  BatchAttachPoliciesToUserCommand,
+  BatchAttachPoliciesToUserCommandInput,
+  BatchAttachPoliciesToUserCommandOutput,
+} from "./commands/BatchAttachPoliciesToUserCommand";
+import {
+  BatchAttachPolicyToMultiGroupsCommand,
+  BatchAttachPolicyToMultiGroupsCommandInput,
+  BatchAttachPolicyToMultiGroupsCommandOutput,
+} from "./commands/BatchAttachPolicyToMultiGroupsCommand";
+import {
+  BatchAttachPolicyToMultiUsersCommand,
+  BatchAttachPolicyToMultiUsersCommandInput,
+  BatchAttachPolicyToMultiUsersCommandOutput,
+} from "./commands/BatchAttachPolicyToMultiUsersCommand";
+import {
+  BatchDeleteGroupsCommand,
+  BatchDeleteGroupsCommandInput,
+  BatchDeleteGroupsCommandOutput,
+} from "./commands/BatchDeleteGroupsCommand";
+import {
+  BatchDeletePoliciesCommand,
+  BatchDeletePoliciesCommandInput,
+  BatchDeletePoliciesCommandOutput,
+} from "./commands/BatchDeletePoliciesCommand";
+import {
+  BatchDeleteUsersCommand,
+  BatchDeleteUsersCommandInput,
+  BatchDeleteUsersCommandOutput,
+} from "./commands/BatchDeleteUsersCommand";
+import {
+  BatchDetachPoliciesFromGroupCommand,
+  BatchDetachPoliciesFromGroupCommandInput,
+  BatchDetachPoliciesFromGroupCommandOutput,
+} from "./commands/BatchDetachPoliciesFromGroupCommand";
+import {
+  BatchDetachPoliciesFromUserCommand,
+  BatchDetachPoliciesFromUserCommandInput,
+  BatchDetachPoliciesFromUserCommandOutput,
+} from "./commands/BatchDetachPoliciesFromUserCommand";
+import {
+  BatchDetachPolicyFromMultiGroupsCommand,
+  BatchDetachPolicyFromMultiGroupsCommandInput,
+  BatchDetachPolicyFromMultiGroupsCommandOutput,
+} from "./commands/BatchDetachPolicyFromMultiGroupsCommand";
+import {
+  BatchDetachPolicyFromMultiUsersCommand,
+  BatchDetachPolicyFromMultiUsersCommandInput,
+  BatchDetachPolicyFromMultiUsersCommandOutput,
+} from "./commands/BatchDetachPolicyFromMultiUsersCommand";
+import {
+  BatchRemoveUserFromGroupsCommand,
+  BatchRemoveUserFromGroupsCommandInput,
+  BatchRemoveUserFromGroupsCommandOutput,
+} from "./commands/BatchRemoveUserFromGroupsCommand";
+import {
+  BatchRemoveUserFromMultiGroupsCommand,
+  BatchRemoveUserFromMultiGroupsCommandInput,
+  BatchRemoveUserFromMultiGroupsCommandOutput,
+} from "./commands/BatchRemoveUserFromMultiGroupsCommand";
+import {
+  BatchRemoveUsersFromGroupCommand,
+  BatchRemoveUsersFromGroupCommandInput,
+  BatchRemoveUsersFromGroupCommandOutput,
+} from "./commands/BatchRemoveUsersFromGroupCommand";
+import {
   ChangeAccountDescriptionCommand,
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
@@ -121,6 +206,11 @@ import {
   CreateServiceSpecificCredentialCommandInput,
   CreateServiceSpecificCredentialCommandOutput,
 } from "./commands/CreateServiceSpecificCredentialCommand";
+import {
+  CreateUserAccessKeyCommand,
+  CreateUserAccessKeyCommandInput,
+  CreateUserAccessKeyCommandOutput,
+} from "./commands/CreateUserAccessKeyCommand";
 import { CreateUserCommand, CreateUserCommandInput, CreateUserCommandOutput } from "./commands/CreateUserCommand";
 import {
   CreateVirtualMFADeviceCommand,
@@ -229,6 +319,11 @@ import {
   DeleteSigningCertificateCommandInput,
   DeleteSigningCertificateCommandOutput,
 } from "./commands/DeleteSigningCertificateCommand";
+import {
+  DeleteUserAccessKeyCommand,
+  DeleteUserAccessKeyCommandInput,
+  DeleteUserAccessKeyCommandOutput,
+} from "./commands/DeleteUserAccessKeyCommand";
 import { DeleteUserCommand, DeleteUserCommandInput, DeleteUserCommandOutput } from "./commands/DeleteUserCommand";
 import {
   DeleteUserPermissionsBoundaryCommand,
@@ -399,6 +494,11 @@ import {
   GetServiceLinkedRoleDeletionStatusCommandInput,
   GetServiceLinkedRoleDeletionStatusCommandOutput,
 } from "./commands/GetServiceLinkedRoleDeletionStatusCommand";
+import {
+  GetServiceOverviewCommand,
+  GetServiceOverviewCommandInput,
+  GetServiceOverviewCommandOutput,
+} from "./commands/GetServiceOverviewCommand";
 import { GetUserCommand, GetUserCommandInput, GetUserCommandOutput } from "./commands/GetUserCommand";
 import {
   GetUserPolicyCommand,
@@ -532,6 +632,11 @@ import {
   ListSigningCertificatesCommandInput,
   ListSigningCertificatesCommandOutput,
 } from "./commands/ListSigningCertificatesCommand";
+import {
+  ListUserAccessKeysCommand,
+  ListUserAccessKeysCommandInput,
+  ListUserAccessKeysCommandOutput,
+} from "./commands/ListUserAccessKeysCommand";
 import {
   ListUserPoliciesCommand,
   ListUserPoliciesCommandInput,
@@ -684,6 +789,11 @@ import {
 } from "./commands/UpdateAssumeRolePolicyCommand";
 import { UpdateGroupCommand, UpdateGroupCommandInput, UpdateGroupCommandOutput } from "./commands/UpdateGroupCommand";
 import {
+  UpdateGroupDescriptionCommand,
+  UpdateGroupDescriptionCommandInput,
+  UpdateGroupDescriptionCommandOutput,
+} from "./commands/UpdateGroupDescriptionCommand";
+import {
   UpdateLoginProfileCommand,
   UpdateLoginProfileCommandInput,
   UpdateLoginProfileCommandOutput,
@@ -693,6 +803,11 @@ import {
   UpdateOpenIDConnectProviderThumbprintCommandInput,
   UpdateOpenIDConnectProviderThumbprintCommandOutput,
 } from "./commands/UpdateOpenIDConnectProviderThumbprintCommand";
+import {
+  UpdatePolicyDescriptionCommand,
+  UpdatePolicyDescriptionCommandInput,
+  UpdatePolicyDescriptionCommandOutput,
+} from "./commands/UpdatePolicyDescriptionCommand";
 import { UpdateRoleCommand, UpdateRoleCommandInput, UpdateRoleCommandOutput } from "./commands/UpdateRoleCommand";
 import {
   UpdateRoleDescriptionCommand,
@@ -724,7 +839,42 @@ import {
   UpdateSigningCertificateCommandInput,
   UpdateSigningCertificateCommandOutput,
 } from "./commands/UpdateSigningCertificateCommand";
+import {
+  UpdateUserAccessKeyCommand,
+  UpdateUserAccessKeyCommandInput,
+  UpdateUserAccessKeyCommandOutput,
+} from "./commands/UpdateUserAccessKeyCommand";
+import {
+  UpdateUserAccessKeyDescriptionCommand,
+  UpdateUserAccessKeyDescriptionCommandInput,
+  UpdateUserAccessKeyDescriptionCommandOutput,
+} from "./commands/UpdateUserAccessKeyDescriptionCommand";
+import {
+  UpdateUserAccessTypeCommand,
+  UpdateUserAccessTypeCommandInput,
+  UpdateUserAccessTypeCommandOutput,
+} from "./commands/UpdateUserAccessTypeCommand";
 import { UpdateUserCommand, UpdateUserCommandInput, UpdateUserCommandOutput } from "./commands/UpdateUserCommand";
+import {
+  UpdateUserDescriptionCommand,
+  UpdateUserDescriptionCommandInput,
+  UpdateUserDescriptionCommandOutput,
+} from "./commands/UpdateUserDescriptionCommand";
+import {
+  UpdateUserEmailCommand,
+  UpdateUserEmailCommandInput,
+  UpdateUserEmailCommandOutput,
+} from "./commands/UpdateUserEmailCommand";
+import {
+  UpdateUserPasswordCommand,
+  UpdateUserPasswordCommandInput,
+  UpdateUserPasswordCommandOutput,
+} from "./commands/UpdateUserPasswordCommand";
+import {
+  UpdateUserStatusCommand,
+  UpdateUserStatusCommandInput,
+  UpdateUserStatusCommandOutput,
+} from "./commands/UpdateUserStatusCommand";
 import {
   UploadSSHPublicKeyCommand,
   UploadSSHPublicKeyCommandInput,
@@ -740,6 +890,7 @@ import {
   UploadSigningCertificateCommandInput,
   UploadSigningCertificateCommandOutput,
 } from "./commands/UploadSigningCertificateCommand";
+import { UserLoginCommand, UserLoginCommandInput, UserLoginCommandOutput } from "./commands/UserLoginCommand";
 import { HttpHandlerOptions as __HttpHandlerOptions } from "@aws-sdk/types";
 
 /**
@@ -998,6 +1149,607 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: AttachUserPolicyCommandOutput) => void
   ): Promise<AttachUserPolicyCommandOutput> | void {
     const command = new AttachUserPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Adds the specified user to the specified group.</p>
+   */
+  public batchAddUsersToGroup(
+    args: BatchAddUsersToGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAddUsersToGroupCommandOutput>;
+  public batchAddUsersToGroup(
+    args: BatchAddUsersToGroupCommandInput,
+    cb: (err: any, data?: BatchAddUsersToGroupCommandOutput) => void
+  ): void;
+  public batchAddUsersToGroup(
+    args: BatchAddUsersToGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAddUsersToGroupCommandOutput) => void
+  ): void;
+  public batchAddUsersToGroup(
+    args: BatchAddUsersToGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAddUsersToGroupCommandOutput) => void),
+    cb?: (err: any, data?: BatchAddUsersToGroupCommandOutput) => void
+  ): Promise<BatchAddUsersToGroupCommandOutput> | void {
+    const command = new BatchAddUsersToGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Adds the specified user to the specified group.</p>
+   */
+  public batchAddUserToGroups(
+    args: BatchAddUserToGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAddUserToGroupsCommandOutput>;
+  public batchAddUserToGroups(
+    args: BatchAddUserToGroupsCommandInput,
+    cb: (err: any, data?: BatchAddUserToGroupsCommandOutput) => void
+  ): void;
+  public batchAddUserToGroups(
+    args: BatchAddUserToGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAddUserToGroupsCommandOutput) => void
+  ): void;
+  public batchAddUserToGroups(
+    args: BatchAddUserToGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAddUserToGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchAddUserToGroupsCommandOutput) => void
+  ): Promise<BatchAddUserToGroupsCommandOutput> | void {
+    const command = new BatchAddUserToGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Add the specified group to the specified user.</p>
+   */
+  public batchAddUserToMultiGroups(
+    args: BatchAddUserToMultiGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAddUserToMultiGroupsCommandOutput>;
+  public batchAddUserToMultiGroups(
+    args: BatchAddUserToMultiGroupsCommandInput,
+    cb: (err: any, data?: BatchAddUserToMultiGroupsCommandOutput) => void
+  ): void;
+  public batchAddUserToMultiGroups(
+    args: BatchAddUserToMultiGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAddUserToMultiGroupsCommandOutput) => void
+  ): void;
+  public batchAddUserToMultiGroups(
+    args: BatchAddUserToMultiGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAddUserToMultiGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchAddUserToMultiGroupsCommandOutput) => void
+  ): Promise<BatchAddUserToMultiGroupsCommandOutput> | void {
+    const command = new BatchAddUserToMultiGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchAttachPoliciesToGroup.</p>
+   */
+  public batchAttachPoliciesToGroup(
+    args: BatchAttachPoliciesToGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAttachPoliciesToGroupCommandOutput>;
+  public batchAttachPoliciesToGroup(
+    args: BatchAttachPoliciesToGroupCommandInput,
+    cb: (err: any, data?: BatchAttachPoliciesToGroupCommandOutput) => void
+  ): void;
+  public batchAttachPoliciesToGroup(
+    args: BatchAttachPoliciesToGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAttachPoliciesToGroupCommandOutput) => void
+  ): void;
+  public batchAttachPoliciesToGroup(
+    args: BatchAttachPoliciesToGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAttachPoliciesToGroupCommandOutput) => void),
+    cb?: (err: any, data?: BatchAttachPoliciesToGroupCommandOutput) => void
+  ): Promise<BatchAttachPoliciesToGroupCommandOutput> | void {
+    const command = new BatchAttachPoliciesToGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchAttachPoliciesToUser.</p>
+   */
+  public batchAttachPoliciesToUser(
+    args: BatchAttachPoliciesToUserCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAttachPoliciesToUserCommandOutput>;
+  public batchAttachPoliciesToUser(
+    args: BatchAttachPoliciesToUserCommandInput,
+    cb: (err: any, data?: BatchAttachPoliciesToUserCommandOutput) => void
+  ): void;
+  public batchAttachPoliciesToUser(
+    args: BatchAttachPoliciesToUserCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAttachPoliciesToUserCommandOutput) => void
+  ): void;
+  public batchAttachPoliciesToUser(
+    args: BatchAttachPoliciesToUserCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAttachPoliciesToUserCommandOutput) => void),
+    cb?: (err: any, data?: BatchAttachPoliciesToUserCommandOutput) => void
+  ): Promise<BatchAttachPoliciesToUserCommandOutput> | void {
+    const command = new BatchAttachPoliciesToUserCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchAttachPolicyToMultiGroups.</p>
+   */
+  public batchAttachPolicyToMultiGroups(
+    args: BatchAttachPolicyToMultiGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAttachPolicyToMultiGroupsCommandOutput>;
+  public batchAttachPolicyToMultiGroups(
+    args: BatchAttachPolicyToMultiGroupsCommandInput,
+    cb: (err: any, data?: BatchAttachPolicyToMultiGroupsCommandOutput) => void
+  ): void;
+  public batchAttachPolicyToMultiGroups(
+    args: BatchAttachPolicyToMultiGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAttachPolicyToMultiGroupsCommandOutput) => void
+  ): void;
+  public batchAttachPolicyToMultiGroups(
+    args: BatchAttachPolicyToMultiGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAttachPolicyToMultiGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchAttachPolicyToMultiGroupsCommandOutput) => void
+  ): Promise<BatchAttachPolicyToMultiGroupsCommandOutput> | void {
+    const command = new BatchAttachPolicyToMultiGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchAttachPolicyToMultiUsers.</p>
+   */
+  public batchAttachPolicyToMultiUsers(
+    args: BatchAttachPolicyToMultiUsersCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchAttachPolicyToMultiUsersCommandOutput>;
+  public batchAttachPolicyToMultiUsers(
+    args: BatchAttachPolicyToMultiUsersCommandInput,
+    cb: (err: any, data?: BatchAttachPolicyToMultiUsersCommandOutput) => void
+  ): void;
+  public batchAttachPolicyToMultiUsers(
+    args: BatchAttachPolicyToMultiUsersCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchAttachPolicyToMultiUsersCommandOutput) => void
+  ): void;
+  public batchAttachPolicyToMultiUsers(
+    args: BatchAttachPolicyToMultiUsersCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchAttachPolicyToMultiUsersCommandOutput) => void),
+    cb?: (err: any, data?: BatchAttachPolicyToMultiUsersCommandOutput) => void
+  ): Promise<BatchAttachPolicyToMultiUsersCommandOutput> | void {
+    const command = new BatchAttachPolicyToMultiUsersCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Deletes the specified IAM group. The group must not contain any users or have any
+   *          attached policies.</p>
+   */
+  public batchDeleteGroups(
+    args: BatchDeleteGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDeleteGroupsCommandOutput>;
+  public batchDeleteGroups(
+    args: BatchDeleteGroupsCommandInput,
+    cb: (err: any, data?: BatchDeleteGroupsCommandOutput) => void
+  ): void;
+  public batchDeleteGroups(
+    args: BatchDeleteGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDeleteGroupsCommandOutput) => void
+  ): void;
+  public batchDeleteGroups(
+    args: BatchDeleteGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDeleteGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchDeleteGroupsCommandOutput) => void
+  ): Promise<BatchDeleteGroupsCommandOutput> | void {
+    const command = new BatchDeleteGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Deletes the specified managed policy.</p>
+   *          <p>Before you can delete a managed policy, you must first detach the policy from all users,
+   *          groups, and roles that it is attached to. In addition, you must delete all the policy's
+   *          versions. The following steps describe the process for deleting a managed policy:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Detach the policy from all users, groups, and roles that the policy is attached
+   *                to, using the <a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>, or <a>DetachRolePolicy</a> API operations. To list all the users,
+   *                groups, and roles that a policy is attached to, use <a>ListEntitiesForPolicy</a>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Delete all versions of the policy using <a>BatchDeletePoliciesVersion</a>. To
+   *                list the policy's versions, use <a>ListPolicyVersions</a>. You cannot use
+   *                   <a>BatchDeletePoliciesVersion</a> to delete the version that is marked as the
+   *                default version. You delete the policy's default version in the next step of the
+   *                process.</p>
+   *             </li>
+   *             <li>
+   *                <p>Delete the policy (this automatically deletes the policy's default version) using
+   *                this API.</p>
+   *             </li>
+   *          </ul>
+   *          <p>For information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
+   *             Policies</a> in the <i>IAM User Guide</i>.</p>
+   */
+  public batchDeletePolicies(
+    args: BatchDeletePoliciesCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDeletePoliciesCommandOutput>;
+  public batchDeletePolicies(
+    args: BatchDeletePoliciesCommandInput,
+    cb: (err: any, data?: BatchDeletePoliciesCommandOutput) => void
+  ): void;
+  public batchDeletePolicies(
+    args: BatchDeletePoliciesCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDeletePoliciesCommandOutput) => void
+  ): void;
+  public batchDeletePolicies(
+    args: BatchDeletePoliciesCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDeletePoliciesCommandOutput) => void),
+    cb?: (err: any, data?: BatchDeletePoliciesCommandOutput) => void
+  ): Promise<BatchDeletePoliciesCommandOutput> | void {
+    const command = new BatchDeletePoliciesCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user
+   *          programmatically, you must delete the items attached to the user manually, or the deletion
+   *          fails. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli">Deleting an IAM
+   *             User</a>. Before attempting to delete a user, remove the following items:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Password (<a>DeleteLoginProfile</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Access keys (<a>DeleteAccessKey</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Signing certificate (<a>DeleteSigningCertificate</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>SSH public key (<a>DeleteSSHPublicKey</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Git credentials (<a>DeleteServiceSpecificCredential</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>,
+   *                   <a>DeleteVirtualMFADevice</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Inline policies (<a>DeleteUserPolicy</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Attached managed policies (<a>DetachUserPolicy</a>)</p>
+   *             </li>
+   *             <li>
+   *                <p>Group memberships (<a>RemoveUserFromGroup</a>)</p>
+   *             </li>
+   *          </ul>
+   */
+  public batchDeleteUsers(
+    args: BatchDeleteUsersCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDeleteUsersCommandOutput>;
+  public batchDeleteUsers(
+    args: BatchDeleteUsersCommandInput,
+    cb: (err: any, data?: BatchDeleteUsersCommandOutput) => void
+  ): void;
+  public batchDeleteUsers(
+    args: BatchDeleteUsersCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDeleteUsersCommandOutput) => void
+  ): void;
+  public batchDeleteUsers(
+    args: BatchDeleteUsersCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDeleteUsersCommandOutput) => void),
+    cb?: (err: any, data?: BatchDeleteUsersCommandOutput) => void
+  ): Promise<BatchDeleteUsersCommandOutput> | void {
+    const command = new BatchDeleteUsersCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchDetachPoliciesFromGroup.</p>
+   */
+  public batchDetachPoliciesFromGroup(
+    args: BatchDetachPoliciesFromGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDetachPoliciesFromGroupCommandOutput>;
+  public batchDetachPoliciesFromGroup(
+    args: BatchDetachPoliciesFromGroupCommandInput,
+    cb: (err: any, data?: BatchDetachPoliciesFromGroupCommandOutput) => void
+  ): void;
+  public batchDetachPoliciesFromGroup(
+    args: BatchDetachPoliciesFromGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDetachPoliciesFromGroupCommandOutput) => void
+  ): void;
+  public batchDetachPoliciesFromGroup(
+    args: BatchDetachPoliciesFromGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDetachPoliciesFromGroupCommandOutput) => void),
+    cb?: (err: any, data?: BatchDetachPoliciesFromGroupCommandOutput) => void
+  ): Promise<BatchDetachPoliciesFromGroupCommandOutput> | void {
+    const command = new BatchDetachPoliciesFromGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchDetachPoliciesFromUser.</p>
+   */
+  public batchDetachPoliciesFromUser(
+    args: BatchDetachPoliciesFromUserCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDetachPoliciesFromUserCommandOutput>;
+  public batchDetachPoliciesFromUser(
+    args: BatchDetachPoliciesFromUserCommandInput,
+    cb: (err: any, data?: BatchDetachPoliciesFromUserCommandOutput) => void
+  ): void;
+  public batchDetachPoliciesFromUser(
+    args: BatchDetachPoliciesFromUserCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDetachPoliciesFromUserCommandOutput) => void
+  ): void;
+  public batchDetachPoliciesFromUser(
+    args: BatchDetachPoliciesFromUserCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDetachPoliciesFromUserCommandOutput) => void),
+    cb?: (err: any, data?: BatchDetachPoliciesFromUserCommandOutput) => void
+  ): Promise<BatchDetachPoliciesFromUserCommandOutput> | void {
+    const command = new BatchDetachPoliciesFromUserCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchDetachPolicyFromMultiGroups.</p>
+   */
+  public batchDetachPolicyFromMultiGroups(
+    args: BatchDetachPolicyFromMultiGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDetachPolicyFromMultiGroupsCommandOutput>;
+  public batchDetachPolicyFromMultiGroups(
+    args: BatchDetachPolicyFromMultiGroupsCommandInput,
+    cb: (err: any, data?: BatchDetachPolicyFromMultiGroupsCommandOutput) => void
+  ): void;
+  public batchDetachPolicyFromMultiGroups(
+    args: BatchDetachPolicyFromMultiGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDetachPolicyFromMultiGroupsCommandOutput) => void
+  ): void;
+  public batchDetachPolicyFromMultiGroups(
+    args: BatchDetachPolicyFromMultiGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDetachPolicyFromMultiGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchDetachPolicyFromMultiGroupsCommandOutput) => void
+  ): Promise<BatchDetachPolicyFromMultiGroupsCommandOutput> | void {
+    const command = new BatchDetachPolicyFromMultiGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>BatchDetachPolicyFromMultiUsers.</p>
+   */
+  public batchDetachPolicyFromMultiUsers(
+    args: BatchDetachPolicyFromMultiUsersCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchDetachPolicyFromMultiUsersCommandOutput>;
+  public batchDetachPolicyFromMultiUsers(
+    args: BatchDetachPolicyFromMultiUsersCommandInput,
+    cb: (err: any, data?: BatchDetachPolicyFromMultiUsersCommandOutput) => void
+  ): void;
+  public batchDetachPolicyFromMultiUsers(
+    args: BatchDetachPolicyFromMultiUsersCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchDetachPolicyFromMultiUsersCommandOutput) => void
+  ): void;
+  public batchDetachPolicyFromMultiUsers(
+    args: BatchDetachPolicyFromMultiUsersCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchDetachPolicyFromMultiUsersCommandOutput) => void),
+    cb?: (err: any, data?: BatchDetachPolicyFromMultiUsersCommandOutput) => void
+  ): Promise<BatchDetachPolicyFromMultiUsersCommandOutput> | void {
+    const command = new BatchDetachPolicyFromMultiUsersCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Removes the specified user from the specified group.</p>
+   */
+  public batchRemoveUserFromGroups(
+    args: BatchRemoveUserFromGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchRemoveUserFromGroupsCommandOutput>;
+  public batchRemoveUserFromGroups(
+    args: BatchRemoveUserFromGroupsCommandInput,
+    cb: (err: any, data?: BatchRemoveUserFromGroupsCommandOutput) => void
+  ): void;
+  public batchRemoveUserFromGroups(
+    args: BatchRemoveUserFromGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchRemoveUserFromGroupsCommandOutput) => void
+  ): void;
+  public batchRemoveUserFromGroups(
+    args: BatchRemoveUserFromGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchRemoveUserFromGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchRemoveUserFromGroupsCommandOutput) => void
+  ): Promise<BatchRemoveUserFromGroupsCommandOutput> | void {
+    const command = new BatchRemoveUserFromGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Add the specified group to the specified user.</p>
+   */
+  public batchRemoveUserFromMultiGroups(
+    args: BatchRemoveUserFromMultiGroupsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchRemoveUserFromMultiGroupsCommandOutput>;
+  public batchRemoveUserFromMultiGroups(
+    args: BatchRemoveUserFromMultiGroupsCommandInput,
+    cb: (err: any, data?: BatchRemoveUserFromMultiGroupsCommandOutput) => void
+  ): void;
+  public batchRemoveUserFromMultiGroups(
+    args: BatchRemoveUserFromMultiGroupsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchRemoveUserFromMultiGroupsCommandOutput) => void
+  ): void;
+  public batchRemoveUserFromMultiGroups(
+    args: BatchRemoveUserFromMultiGroupsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchRemoveUserFromMultiGroupsCommandOutput) => void),
+    cb?: (err: any, data?: BatchRemoveUserFromMultiGroupsCommandOutput) => void
+  ): Promise<BatchRemoveUserFromMultiGroupsCommandOutput> | void {
+    const command = new BatchRemoveUserFromMultiGroupsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Removes the specified user from the specified group.</p>
+   */
+  public batchRemoveUsersFromGroup(
+    args: BatchRemoveUsersFromGroupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchRemoveUsersFromGroupCommandOutput>;
+  public batchRemoveUsersFromGroup(
+    args: BatchRemoveUsersFromGroupCommandInput,
+    cb: (err: any, data?: BatchRemoveUsersFromGroupCommandOutput) => void
+  ): void;
+  public batchRemoveUsersFromGroup(
+    args: BatchRemoveUsersFromGroupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchRemoveUsersFromGroupCommandOutput) => void
+  ): void;
+  public batchRemoveUsersFromGroup(
+    args: BatchRemoveUsersFromGroupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchRemoveUsersFromGroupCommandOutput) => void),
+    cb?: (err: any, data?: BatchRemoveUsersFromGroupCommandOutput) => void
+  ): Promise<BatchRemoveUsersFromGroupCommandOutput> | void {
+    const command = new BatchRemoveUsersFromGroupCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -1721,6 +2473,50 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: CreateUserCommandOutput) => void
   ): Promise<CreateUserCommandOutput> | void {
     const command = new CreateUserCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p> Creates a new AWS secret access key and corresponding AWS access key ID for the
+   *          specified user. The default status for new keys is <code>Active</code>.</p>
+   *          <p>If you do not specify a user name, IAM determines the user name implicitly based on
+   *          the AWS access key ID signing the request. This operation works for access keys under the
+   *          AWS account. Consequently, you can use this operation to manage AWS account root user
+   *          credentials. This is true even if the AWS account has no associated users.</p>
+   *          <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>
+   *          <important>
+   *             <p>To ensure the security of your AWS account, the secret access key is accessible
+   *             only during key and user creation. You must save the key (for example, in a text file)
+   *             if you want to be able to access it again. If a secret key is lost, you can delete the
+   *             access keys for the associated user and then create new keys.</p>
+   *          </important>
+   */
+  public createUserAccessKey(
+    args: CreateUserAccessKeyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateUserAccessKeyCommandOutput>;
+  public createUserAccessKey(
+    args: CreateUserAccessKeyCommandInput,
+    cb: (err: any, data?: CreateUserAccessKeyCommandOutput) => void
+  ): void;
+  public createUserAccessKey(
+    args: CreateUserAccessKeyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateUserAccessKeyCommandOutput) => void
+  ): void;
+  public createUserAccessKey(
+    args: CreateUserAccessKeyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateUserAccessKeyCommandOutput) => void),
+    cb?: (err: any, data?: CreateUserAccessKeyCommandOutput) => void
+  ): Promise<CreateUserAccessKeyCommandOutput> | void {
+    const command = new CreateUserAccessKeyCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -2634,6 +3430,50 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: DeleteUserCommandOutput) => void
   ): Promise<DeleteUserCommandOutput> | void {
     const command = new DeleteUserCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p> Creates a new AWS secret access key and corresponding AWS access key ID for the
+   *          specified user. The default status for new keys is <code>Active</code>.</p>
+   *          <p>If you do not specify a user name, IAM determines the user name implicitly based on
+   *          the AWS access key ID signing the request. This operation works for access keys under the
+   *          AWS account. Consequently, you can use this operation to manage AWS account root user
+   *          credentials. This is true even if the AWS account has no associated users.</p>
+   *          <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>
+   *          <important>
+   *             <p>To ensure the security of your AWS account, the secret access key is accessible
+   *             only during key and user creation. You must save the key (for example, in a text file)
+   *             if you want to be able to access it again. If a secret key is lost, you can delete the
+   *             access keys for the associated user and then create new keys.</p>
+   *          </important>
+   */
+  public deleteUserAccessKey(
+    args: DeleteUserAccessKeyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteUserAccessKeyCommandOutput>;
+  public deleteUserAccessKey(
+    args: DeleteUserAccessKeyCommandInput,
+    cb: (err: any, data?: DeleteUserAccessKeyCommandOutput) => void
+  ): void;
+  public deleteUserAccessKey(
+    args: DeleteUserAccessKeyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteUserAccessKeyCommandOutput) => void
+  ): void;
+  public deleteUserAccessKey(
+    args: DeleteUserAccessKeyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteUserAccessKeyCommandOutput) => void),
+    cb?: (err: any, data?: DeleteUserAccessKeyCommandOutput) => void
+  ): Promise<DeleteUserAccessKeyCommandOutput> | void {
+    const command = new DeleteUserAccessKeyCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -4200,6 +5040,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>GetServiceOverview</p>
+   */
+  public getServiceOverview(
+    args: GetServiceOverviewCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetServiceOverviewCommandOutput>;
+  public getServiceOverview(
+    args: GetServiceOverviewCommandInput,
+    cb: (err: any, data?: GetServiceOverviewCommandOutput) => void
+  ): void;
+  public getServiceOverview(
+    args: GetServiceOverviewCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetServiceOverviewCommandOutput) => void
+  ): void;
+  public getServiceOverview(
+    args: GetServiceOverviewCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetServiceOverviewCommandOutput) => void),
+    cb?: (err: any, data?: GetServiceOverviewCommandOutput) => void
+  ): Promise<GetServiceOverviewCommandOutput> | void {
+    const command = new GetServiceOverviewCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Retrieves the specified SSH public key, including metadata about the key.</p>
    *          <p>The SSH public key retrieved by this operation is used only for authenticating the
    *          associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to
@@ -5337,6 +6209,50 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: ListSSHPublicKeysCommandOutput) => void
   ): Promise<ListSSHPublicKeysCommandOutput> | void {
     const command = new ListSSHPublicKeysCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p> Creates a new AWS secret access key and corresponding AWS access key ID for the
+   *          specified user. The default status for new keys is <code>Active</code>.</p>
+   *          <p>If you do not specify a user name, IAM determines the user name implicitly based on
+   *          the AWS access key ID signing the request. This operation works for access keys under the
+   *          AWS account. Consequently, you can use this operation to manage AWS account root user
+   *          credentials. This is true even if the AWS account has no associated users.</p>
+   *          <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>
+   *          <important>
+   *             <p>To ensure the security of your AWS account, the secret access key is accessible
+   *             only during key and user creation. You must save the key (for example, in a text file)
+   *             if you want to be able to access it again. If a secret key is lost, you can delete the
+   *             access keys for the associated user and then create new keys.</p>
+   *          </important>
+   */
+  public listUserAccessKeys(
+    args: ListUserAccessKeysCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListUserAccessKeysCommandOutput>;
+  public listUserAccessKeys(
+    args: ListUserAccessKeysCommandInput,
+    cb: (err: any, data?: ListUserAccessKeysCommandOutput) => void
+  ): void;
+  public listUserAccessKeys(
+    args: ListUserAccessKeysCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListUserAccessKeysCommandOutput) => void
+  ): void;
+  public listUserAccessKeys(
+    args: ListUserAccessKeysCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListUserAccessKeysCommandOutput) => void),
+    cb?: (err: any, data?: ListUserAccessKeysCommandOutput) => void
+  ): Promise<ListUserAccessKeysCommandOutput> | void {
+    const command = new ListUserAccessKeysCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -6723,6 +7639,51 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Updates the name and/or the path of the specified IAM group.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing a group's path or name. For more
+   *             information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming Users and
+   *                Groups</a> in the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p>The person making the request (the principal), must have permission to change the
+   *             role group with the old name and the new name. For example, to change the group named
+   *                <code>Managers</code> to <code>MGRs</code>, the principal must have a policy that
+   *             allows them to update both groups. If the principal has permission to update the
+   *                <code>Managers</code> group, but not the <code>MGRs</code> group, then the update
+   *             fails. For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access Management</a>. </p>
+   *          </note>
+   */
+  public updateGroupDescription(
+    args: UpdateGroupDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateGroupDescriptionCommandOutput>;
+  public updateGroupDescription(
+    args: UpdateGroupDescriptionCommandInput,
+    cb: (err: any, data?: UpdateGroupDescriptionCommandOutput) => void
+  ): void;
+  public updateGroupDescription(
+    args: UpdateGroupDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateGroupDescriptionCommandOutput) => void
+  ): void;
+  public updateGroupDescription(
+    args: UpdateGroupDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateGroupDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: UpdateGroupDescriptionCommandOutput) => void
+  ): Promise<UpdateGroupDescriptionCommandOutput> | void {
+    const command = new UpdateGroupDescriptionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Changes the password for the specified IAM user.</p>
    *          <p>IAM users can change their own passwords by calling <a>ChangePassword</a>.
    *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
@@ -6794,6 +7755,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UpdateOpenIDConnectProviderThumbprintCommandOutput) => void
   ): Promise<UpdateOpenIDConnectProviderThumbprintCommandOutput> | void {
     const command = new UpdateOpenIDConnectProviderThumbprintCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>UpdatePolicyDescription.</p>
+   */
+  public updatePolicyDescription(
+    args: UpdatePolicyDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdatePolicyDescriptionCommandOutput>;
+  public updatePolicyDescription(
+    args: UpdatePolicyDescriptionCommandInput,
+    cb: (err: any, data?: UpdatePolicyDescriptionCommandOutput) => void
+  ): void;
+  public updatePolicyDescription(
+    args: UpdatePolicyDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdatePolicyDescriptionCommandOutput) => void
+  ): void;
+  public updatePolicyDescription(
+    args: UpdatePolicyDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdatePolicyDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: UpdatePolicyDescriptionCommandOutput) => void
+  ): Promise<UpdatePolicyDescriptionCommandOutput> | void {
+    const command = new UpdatePolicyDescriptionCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7103,6 +8096,321 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserAccessKey(
+    args: UpdateUserAccessKeyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserAccessKeyCommandOutput>;
+  public updateUserAccessKey(
+    args: UpdateUserAccessKeyCommandInput,
+    cb: (err: any, data?: UpdateUserAccessKeyCommandOutput) => void
+  ): void;
+  public updateUserAccessKey(
+    args: UpdateUserAccessKeyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserAccessKeyCommandOutput) => void
+  ): void;
+  public updateUserAccessKey(
+    args: UpdateUserAccessKeyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserAccessKeyCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserAccessKeyCommandOutput) => void
+  ): Promise<UpdateUserAccessKeyCommandOutput> | void {
+    const command = new UpdateUserAccessKeyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserAccessKeyDescription(
+    args: UpdateUserAccessKeyDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserAccessKeyDescriptionCommandOutput>;
+  public updateUserAccessKeyDescription(
+    args: UpdateUserAccessKeyDescriptionCommandInput,
+    cb: (err: any, data?: UpdateUserAccessKeyDescriptionCommandOutput) => void
+  ): void;
+  public updateUserAccessKeyDescription(
+    args: UpdateUserAccessKeyDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserAccessKeyDescriptionCommandOutput) => void
+  ): void;
+  public updateUserAccessKeyDescription(
+    args: UpdateUserAccessKeyDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserAccessKeyDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserAccessKeyDescriptionCommandOutput) => void
+  ): Promise<UpdateUserAccessKeyDescriptionCommandOutput> | void {
+    const command = new UpdateUserAccessKeyDescriptionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserAccessType(
+    args: UpdateUserAccessTypeCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserAccessTypeCommandOutput>;
+  public updateUserAccessType(
+    args: UpdateUserAccessTypeCommandInput,
+    cb: (err: any, data?: UpdateUserAccessTypeCommandOutput) => void
+  ): void;
+  public updateUserAccessType(
+    args: UpdateUserAccessTypeCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserAccessTypeCommandOutput) => void
+  ): void;
+  public updateUserAccessType(
+    args: UpdateUserAccessTypeCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserAccessTypeCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserAccessTypeCommandOutput) => void
+  ): Promise<UpdateUserAccessTypeCommandOutput> | void {
+    const command = new UpdateUserAccessTypeCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserDescription(
+    args: UpdateUserDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserDescriptionCommandOutput>;
+  public updateUserDescription(
+    args: UpdateUserDescriptionCommandInput,
+    cb: (err: any, data?: UpdateUserDescriptionCommandOutput) => void
+  ): void;
+  public updateUserDescription(
+    args: UpdateUserDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserDescriptionCommandOutput) => void
+  ): void;
+  public updateUserDescription(
+    args: UpdateUserDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserDescriptionCommandOutput) => void
+  ): Promise<UpdateUserDescriptionCommandOutput> | void {
+    const command = new UpdateUserDescriptionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserEmail(
+    args: UpdateUserEmailCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserEmailCommandOutput>;
+  public updateUserEmail(
+    args: UpdateUserEmailCommandInput,
+    cb: (err: any, data?: UpdateUserEmailCommandOutput) => void
+  ): void;
+  public updateUserEmail(
+    args: UpdateUserEmailCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserEmailCommandOutput) => void
+  ): void;
+  public updateUserEmail(
+    args: UpdateUserEmailCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserEmailCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserEmailCommandOutput) => void
+  ): Promise<UpdateUserEmailCommandOutput> | void {
+    const command = new UpdateUserEmailCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserPassword(
+    args: UpdateUserPasswordCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserPasswordCommandOutput>;
+  public updateUserPassword(
+    args: UpdateUserPasswordCommandInput,
+    cb: (err: any, data?: UpdateUserPasswordCommandOutput) => void
+  ): void;
+  public updateUserPassword(
+    args: UpdateUserPasswordCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserPasswordCommandOutput) => void
+  ): void;
+  public updateUserPassword(
+    args: UpdateUserPasswordCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserPasswordCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserPasswordCommandOutput) => void
+  ): Promise<UpdateUserPasswordCommandOutput> | void {
+    const command = new UpdateUserPasswordCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Updates the name and/or the path of the specified IAM user.</p>
+   *          <important>
+   *             <p> You should understand the implications of changing an IAM user's path or name. For
+   *             more information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming an IAM
+   *                User</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming an IAM Group</a> in
+   *             the <i>IAM User Guide</i>.</p>
+   *          </important>
+   *          <note>
+   *             <p> To change a user name, the requester must have appropriate permissions on both the
+   *             source object and the target object. For example, to change Bob to Robert, the entity
+   *             making the request must have permission on Bob and Robert, or must have permission on
+   *             all (*). For more information about permissions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions and Policies</a>.
+   *          </p>
+   *          </note>
+   */
+  public updateUserStatus(
+    args: UpdateUserStatusCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserStatusCommandOutput>;
+  public updateUserStatus(
+    args: UpdateUserStatusCommandInput,
+    cb: (err: any, data?: UpdateUserStatusCommandOutput) => void
+  ): void;
+  public updateUserStatus(
+    args: UpdateUserStatusCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserStatusCommandOutput) => void
+  ): void;
+  public updateUserStatus(
+    args: UpdateUserStatusCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserStatusCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserStatusCommandOutput) => void
+  ): Promise<UpdateUserStatusCommandOutput> | void {
+    const command = new UpdateUserStatusCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Uploads a server certificate entity for the AWS account. The server certificate entity
    *          includes a public key certificate, a private key, and an optional certificate chain, which
    *          should all be PEM-encoded.</p>
@@ -7231,6 +8539,32 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UploadSSHPublicKeyCommandOutput) => void
   ): Promise<UploadSSHPublicKeyCommandOutput> | void {
     const command = new UploadSSHPublicKeyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Login</p>
+   */
+  public userLogin(args: UserLoginCommandInput, options?: __HttpHandlerOptions): Promise<UserLoginCommandOutput>;
+  public userLogin(args: UserLoginCommandInput, cb: (err: any, data?: UserLoginCommandOutput) => void): void;
+  public userLogin(
+    args: UserLoginCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UserLoginCommandOutput) => void
+  ): void;
+  public userLogin(
+    args: UserLoginCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UserLoginCommandOutput) => void),
+    cb?: (err: any, data?: UserLoginCommandOutput) => void
+  ): Promise<UserLoginCommandOutput> | void {
+    const command = new UserLoginCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { RemoveRoleFromInstanceProfileRequest } from "../models/models_0";
+import { RemoveRoleFromInstanceProfileRequest } from "../models/models_1";
 import {
   deserializeAws_queryRemoveRoleFromInstanceProfileCommand,
   serializeAws_queryRemoveRoleFromInstanceProfileCommand,

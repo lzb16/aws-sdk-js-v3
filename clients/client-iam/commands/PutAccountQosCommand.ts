@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { PutAccountQosRequest } from "../models/models_0";
+import { PutAccountQosRequest } from "../models/models_1";
 import {
   deserializeAws_queryPutAccountQosCommand,
   serializeAws_queryPutAccountQosCommand,

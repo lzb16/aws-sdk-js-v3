@@ -16,8 +16,10 @@ import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/DeleteBucketAnalyticsConfigurationCommand";
+import { DeleteBucketBtsCommandInput, DeleteBucketBtsCommandOutput } from "./commands/DeleteBucketBtsCommand";
 import { DeleteBucketCommandInput, DeleteBucketCommandOutput } from "./commands/DeleteBucketCommand";
 import { DeleteBucketCorsCommandInput, DeleteBucketCorsCommandOutput } from "./commands/DeleteBucketCorsCommand";
+import { DeleteBucketDedupCommandInput, DeleteBucketDedupCommandOutput } from "./commands/DeleteBucketDedupCommand";
 import {
   DeleteBucketEncryptionCommandInput,
   DeleteBucketEncryptionCommandOutput,
@@ -49,6 +51,18 @@ import {
   DeleteBucketReplicationCommandOutput,
 } from "./commands/DeleteBucketReplicationCommand";
 import {
+  DeleteBucketSnapshotCommandInput,
+  DeleteBucketSnapshotCommandOutput,
+} from "./commands/DeleteBucketSnapshotCommand";
+import {
+  DeleteBucketSnapshotsCommandInput,
+  DeleteBucketSnapshotsCommandOutput,
+} from "./commands/DeleteBucketSnapshotsCommand";
+import {
+  DeleteBucketStatisticCommandInput,
+  DeleteBucketStatisticCommandOutput,
+} from "./commands/DeleteBucketStatisticCommand";
+import {
   DeleteBucketTaggingCommandInput,
   DeleteBucketTaggingCommandOutput,
 } from "./commands/DeleteBucketTaggingCommand";
@@ -56,6 +70,7 @@ import {
   DeleteBucketWebsiteCommandInput,
   DeleteBucketWebsiteCommandOutput,
 } from "./commands/DeleteBucketWebsiteCommand";
+import { DeleteMetaSearchCommandInput, DeleteMetaSearchCommandOutput } from "./commands/DeleteMetaSearchCommand";
 import { DeleteOSCPCommandInput, DeleteOSCPCommandOutput } from "./commands/DeleteOSCPCommand";
 import { DeleteObjectCommandInput, DeleteObjectCommandOutput } from "./commands/DeleteObjectCommand";
 import {
@@ -77,6 +92,7 @@ import {
   GetBucketAnalyticsConfigurationCommandInput,
   GetBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/GetBucketAnalyticsConfigurationCommand";
+import { GetBucketBtsCommandInput, GetBucketBtsCommandOutput } from "./commands/GetBucketBtsCommand";
 import { GetBucketCorsCommandInput, GetBucketCorsCommandOutput } from "./commands/GetBucketCorsCommand";
 import {
   GetBucketEncryptionCommandInput,
@@ -124,6 +140,8 @@ import {
   GetBucketRequestPaymentCommandInput,
   GetBucketRequestPaymentCommandOutput,
 } from "./commands/GetBucketRequestPaymentCommand";
+import { GetBucketSnapshotCommandInput, GetBucketSnapshotCommandOutput } from "./commands/GetBucketSnapshotCommand";
+import { GetBucketStatisticCommandInput, GetBucketStatisticCommandOutput } from "./commands/GetBucketStatisticCommand";
 import {
   GetBucketStorageInfoCommandInput,
   GetBucketStorageInfoCommandOutput,
@@ -148,6 +166,7 @@ import {
 import { GetObjectRetentionCommandInput, GetObjectRetentionCommandOutput } from "./commands/GetObjectRetentionCommand";
 import { GetObjectTaggingCommandInput, GetObjectTaggingCommandOutput } from "./commands/GetObjectTaggingCommand";
 import { GetObjectTorrentCommandInput, GetObjectTorrentCommandOutput } from "./commands/GetObjectTorrentCommand";
+import { GetObjectWORMCommandInput, GetObjectWORMCommandOutput } from "./commands/GetObjectWORMCommand";
 import {
   GetPublicAccessBlockCommandInput,
   GetPublicAccessBlockCommandOutput,
@@ -179,7 +198,16 @@ import {
   ListBucketMetricsConfigurationsCommandInput,
   ListBucketMetricsConfigurationsCommandOutput,
 } from "./commands/ListBucketMetricsConfigurationsCommand";
+import {
+  ListBucketSnapshotsCommandInput,
+  ListBucketSnapshotsCommandOutput,
+} from "./commands/ListBucketSnapshotsCommand";
 import { ListBucketsCommandInput, ListBucketsCommandOutput } from "./commands/ListBucketsCommand";
+import {
+  ListMetaSearchBucketsCommandInput,
+  ListMetaSearchBucketsCommandOutput,
+} from "./commands/ListMetaSearchBucketsCommand";
+import { ListMetaSearchCommandInput, ListMetaSearchCommandOutput } from "./commands/ListMetaSearchCommand";
 import {
   ListMultipartUploadsCommandInput,
   ListMultipartUploadsCommandOutput,
@@ -188,6 +216,7 @@ import { ListObjectVersionsCommandInput, ListObjectVersionsCommandOutput } from 
 import { ListObjectsCommandInput, ListObjectsCommandOutput } from "./commands/ListObjectsCommand";
 import { ListObjectsV2CommandInput, ListObjectsV2CommandOutput } from "./commands/ListObjectsV2Command";
 import { ListPartsCommandInput, ListPartsCommandOutput } from "./commands/ListPartsCommand";
+import { PostBucketRestoreCommandInput, PostBucketRestoreCommandOutput } from "./commands/PostBucketRestoreCommand";
 import {
   PutBucketAccelerateConfigurationCommandInput,
   PutBucketAccelerateConfigurationCommandOutput,
@@ -197,6 +226,7 @@ import {
   PutBucketAnalyticsConfigurationCommandInput,
   PutBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/PutBucketAnalyticsConfigurationCommand";
+import { PutBucketBtsCommandInput, PutBucketBtsCommandOutput } from "./commands/PutBucketBtsCommand";
 import { PutBucketCorsCommandInput, PutBucketCorsCommandOutput } from "./commands/PutBucketCorsCommand";
 import {
   PutBucketEncryptionCommandInput,
@@ -243,6 +273,12 @@ import {
   PutBucketRequestPaymentCommandInput,
   PutBucketRequestPaymentCommandOutput,
 } from "./commands/PutBucketRequestPaymentCommand";
+import { PutBucketSnapshotCommandInput, PutBucketSnapshotCommandOutput } from "./commands/PutBucketSnapshotCommand";
+import {
+  PutBucketSnapshotDescriptionCommandInput,
+  PutBucketSnapshotDescriptionCommandOutput,
+} from "./commands/PutBucketSnapshotDescriptionCommand";
+import { PutBucketStatisticCommandInput, PutBucketStatisticCommandOutput } from "./commands/PutBucketStatisticCommand";
 import {
   PutBucketStorageClassCommandInput,
   PutBucketStorageClassCommandOutput,
@@ -254,11 +290,19 @@ import {
 } from "./commands/PutBucketVersioningCommand";
 import { PutBucketWebsiteCommandInput, PutBucketWebsiteCommandOutput } from "./commands/PutBucketWebsiteCommand";
 import {
+  PutMetaSearchConfigurationCommandInput,
+  PutMetaSearchConfigurationCommandOutput,
+} from "./commands/PutMetaSearchConfigurationCommand";
+import {
   PutOSCPConfigurationCommandInput,
   PutOSCPConfigurationCommandOutput,
 } from "./commands/PutOSCPConfigurationCommand";
 import { PutObjectAclCommandInput, PutObjectAclCommandOutput } from "./commands/PutObjectAclCommand";
 import { PutObjectCommandInput, PutObjectCommandOutput } from "./commands/PutObjectCommand";
+import {
+  PutObjectDedupConfigurationCommandInput,
+  PutObjectDedupConfigurationCommandOutput,
+} from "./commands/PutObjectDedupConfigurationCommand";
 import { PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput } from "./commands/PutObjectLegalHoldCommand";
 import {
   PutObjectLockConfigurationCommandInput,
@@ -267,6 +311,7 @@ import {
 import { PutObjectMetadataCommandInput, PutObjectMetadataCommandOutput } from "./commands/PutObjectMetadataCommand";
 import { PutObjectRetentionCommandInput, PutObjectRetentionCommandOutput } from "./commands/PutObjectRetentionCommand";
 import { PutObjectTaggingCommandInput, PutObjectTaggingCommandOutput } from "./commands/PutObjectTaggingCommand";
+import { PutObjectWORMCommandInput, PutObjectWORMCommandOutput } from "./commands/PutObjectWORMCommand";
 import {
   PutPublicAccessBlockCommandInput,
   PutPublicAccessBlockCommandOutput,
@@ -360,8 +405,10 @@ export type ServiceInputTypes =
   | CreateBucketCommandInput
   | CreateMultipartUploadCommandInput
   | DeleteBucketAnalyticsConfigurationCommandInput
+  | DeleteBucketBtsCommandInput
   | DeleteBucketCommandInput
   | DeleteBucketCorsCommandInput
+  | DeleteBucketDedupCommandInput
   | DeleteBucketEncryptionCommandInput
   | DeleteBucketIntelligentTieringConfigurationCommandInput
   | DeleteBucketInventoryConfigurationCommandInput
@@ -371,8 +418,12 @@ export type ServiceInputTypes =
   | DeleteBucketPolicyCommandInput
   | DeleteBucketQoSCommandInput
   | DeleteBucketReplicationCommandInput
+  | DeleteBucketSnapshotCommandInput
+  | DeleteBucketSnapshotsCommandInput
+  | DeleteBucketStatisticCommandInput
   | DeleteBucketTaggingCommandInput
   | DeleteBucketWebsiteCommandInput
+  | DeleteMetaSearchCommandInput
   | DeleteOSCPCommandInput
   | DeleteObjectCommandInput
   | DeleteObjectTaggingCommandInput
@@ -382,6 +433,7 @@ export type ServiceInputTypes =
   | GetBucketAccelerateConfigurationCommandInput
   | GetBucketAclCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
+  | GetBucketBtsCommandInput
   | GetBucketCorsCommandInput
   | GetBucketEncryptionCommandInput
   | GetBucketIntelligentTieringConfigurationCommandInput
@@ -399,6 +451,8 @@ export type ServiceInputTypes =
   | GetBucketQuotaCommandInput
   | GetBucketReplicationCommandInput
   | GetBucketRequestPaymentCommandInput
+  | GetBucketSnapshotCommandInput
+  | GetBucketStatisticCommandInput
   | GetBucketStorageInfoCommandInput
   | GetBucketTaggingCommandInput
   | GetBucketVersioningCommandInput
@@ -411,6 +465,7 @@ export type ServiceInputTypes =
   | GetObjectRetentionCommandInput
   | GetObjectTaggingCommandInput
   | GetObjectTorrentCommandInput
+  | GetObjectWORMCommandInput
   | GetPublicAccessBlockCommandInput
   | GetRefererCommandInput
   | GetWORMConfigurationCommandInput
@@ -421,15 +476,20 @@ export type ServiceInputTypes =
   | ListBucketIntelligentTieringConfigurationsCommandInput
   | ListBucketInventoryConfigurationsCommandInput
   | ListBucketMetricsConfigurationsCommandInput
+  | ListBucketSnapshotsCommandInput
   | ListBucketsCommandInput
+  | ListMetaSearchBucketsCommandInput
+  | ListMetaSearchCommandInput
   | ListMultipartUploadsCommandInput
   | ListObjectVersionsCommandInput
   | ListObjectsCommandInput
   | ListObjectsV2CommandInput
   | ListPartsCommandInput
+  | PostBucketRestoreCommandInput
   | PutBucketAccelerateConfigurationCommandInput
   | PutBucketAclCommandInput
   | PutBucketAnalyticsConfigurationCommandInput
+  | PutBucketBtsCommandInput
   | PutBucketCorsCommandInput
   | PutBucketEncryptionCommandInput
   | PutBucketIntelligentTieringConfigurationCommandInput
@@ -446,18 +506,24 @@ export type ServiceInputTypes =
   | PutBucketRedundancyCommandInput
   | PutBucketReplicationCommandInput
   | PutBucketRequestPaymentCommandInput
+  | PutBucketSnapshotCommandInput
+  | PutBucketSnapshotDescriptionCommandInput
+  | PutBucketStatisticCommandInput
   | PutBucketStorageClassCommandInput
   | PutBucketTaggingCommandInput
   | PutBucketVersioningCommandInput
   | PutBucketWebsiteCommandInput
+  | PutMetaSearchConfigurationCommandInput
   | PutOSCPConfigurationCommandInput
   | PutObjectAclCommandInput
   | PutObjectCommandInput
+  | PutObjectDedupConfigurationCommandInput
   | PutObjectLegalHoldCommandInput
   | PutObjectLockConfigurationCommandInput
   | PutObjectMetadataCommandInput
   | PutObjectRetentionCommandInput
   | PutObjectTaggingCommandInput
+  | PutObjectWORMCommandInput
   | PutPublicAccessBlockCommandInput
   | PutRefererCommandInput
   | PutWORMConfigurationCommandInput
@@ -474,8 +540,10 @@ export type ServiceOutputTypes =
   | CreateBucketCommandOutput
   | CreateMultipartUploadCommandOutput
   | DeleteBucketAnalyticsConfigurationCommandOutput
+  | DeleteBucketBtsCommandOutput
   | DeleteBucketCommandOutput
   | DeleteBucketCorsCommandOutput
+  | DeleteBucketDedupCommandOutput
   | DeleteBucketEncryptionCommandOutput
   | DeleteBucketIntelligentTieringConfigurationCommandOutput
   | DeleteBucketInventoryConfigurationCommandOutput
@@ -485,8 +553,12 @@ export type ServiceOutputTypes =
   | DeleteBucketPolicyCommandOutput
   | DeleteBucketQoSCommandOutput
   | DeleteBucketReplicationCommandOutput
+  | DeleteBucketSnapshotCommandOutput
+  | DeleteBucketSnapshotsCommandOutput
+  | DeleteBucketStatisticCommandOutput
   | DeleteBucketTaggingCommandOutput
   | DeleteBucketWebsiteCommandOutput
+  | DeleteMetaSearchCommandOutput
   | DeleteOSCPCommandOutput
   | DeleteObjectCommandOutput
   | DeleteObjectTaggingCommandOutput
@@ -496,6 +568,7 @@ export type ServiceOutputTypes =
   | GetBucketAccelerateConfigurationCommandOutput
   | GetBucketAclCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
+  | GetBucketBtsCommandOutput
   | GetBucketCorsCommandOutput
   | GetBucketEncryptionCommandOutput
   | GetBucketIntelligentTieringConfigurationCommandOutput
@@ -513,6 +586,8 @@ export type ServiceOutputTypes =
   | GetBucketQuotaCommandOutput
   | GetBucketReplicationCommandOutput
   | GetBucketRequestPaymentCommandOutput
+  | GetBucketSnapshotCommandOutput
+  | GetBucketStatisticCommandOutput
   | GetBucketStorageInfoCommandOutput
   | GetBucketTaggingCommandOutput
   | GetBucketVersioningCommandOutput
@@ -525,6 +600,7 @@ export type ServiceOutputTypes =
   | GetObjectRetentionCommandOutput
   | GetObjectTaggingCommandOutput
   | GetObjectTorrentCommandOutput
+  | GetObjectWORMCommandOutput
   | GetPublicAccessBlockCommandOutput
   | GetRefererCommandOutput
   | GetWORMConfigurationCommandOutput
@@ -535,15 +611,20 @@ export type ServiceOutputTypes =
   | ListBucketIntelligentTieringConfigurationsCommandOutput
   | ListBucketInventoryConfigurationsCommandOutput
   | ListBucketMetricsConfigurationsCommandOutput
+  | ListBucketSnapshotsCommandOutput
   | ListBucketsCommandOutput
+  | ListMetaSearchBucketsCommandOutput
+  | ListMetaSearchCommandOutput
   | ListMultipartUploadsCommandOutput
   | ListObjectVersionsCommandOutput
   | ListObjectsCommandOutput
   | ListObjectsV2CommandOutput
   | ListPartsCommandOutput
+  | PostBucketRestoreCommandOutput
   | PutBucketAccelerateConfigurationCommandOutput
   | PutBucketAclCommandOutput
   | PutBucketAnalyticsConfigurationCommandOutput
+  | PutBucketBtsCommandOutput
   | PutBucketCorsCommandOutput
   | PutBucketEncryptionCommandOutput
   | PutBucketIntelligentTieringConfigurationCommandOutput
@@ -560,18 +641,24 @@ export type ServiceOutputTypes =
   | PutBucketRedundancyCommandOutput
   | PutBucketReplicationCommandOutput
   | PutBucketRequestPaymentCommandOutput
+  | PutBucketSnapshotCommandOutput
+  | PutBucketSnapshotDescriptionCommandOutput
+  | PutBucketStatisticCommandOutput
   | PutBucketStorageClassCommandOutput
   | PutBucketTaggingCommandOutput
   | PutBucketVersioningCommandOutput
   | PutBucketWebsiteCommandOutput
+  | PutMetaSearchConfigurationCommandOutput
   | PutOSCPConfigurationCommandOutput
   | PutObjectAclCommandOutput
   | PutObjectCommandOutput
+  | PutObjectDedupConfigurationCommandOutput
   | PutObjectLegalHoldCommandOutput
   | PutObjectLockConfigurationCommandOutput
   | PutObjectMetadataCommandOutput
   | PutObjectRetentionCommandOutput
   | PutObjectTaggingCommandOutput
+  | PutObjectWORMCommandOutput
   | PutPublicAccessBlockCommandOutput
   | PutRefererCommandOutput
   | PutWORMConfigurationCommandOutput

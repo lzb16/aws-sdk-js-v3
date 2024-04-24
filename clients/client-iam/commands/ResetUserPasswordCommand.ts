@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { ResetUserPasswordRequest } from "../models/models_0";
+import { ResetUserPasswordRequest } from "../models/models_1";
 import {
   deserializeAws_queryResetUserPasswordCommand,
   serializeAws_queryResetUserPasswordCommand,

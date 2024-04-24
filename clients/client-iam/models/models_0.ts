@@ -111,6 +111,11 @@ export interface AccessKey {
    * <p>The date when the access key was created.</p>
    */
   CreateDate?: Date;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
 }
 
 export namespace AccessKey {
@@ -281,6 +286,171 @@ export namespace AccountGroupType {
   });
 }
 
+export interface AccoutDedup {
+  /**
+   * 开启重删后上传的对象数量
+   */
+  Num?: string;
+
+  /**
+   * 开启重删后上传的对象容量
+   */
+  Size?: string;
+
+  /**
+   * 重删对象数量
+   */
+  DedupNum?: string;
+
+  /**
+   * 重删对象容量
+   */
+  DedupSize?: string;
+}
+
+export namespace AccoutDedup {
+  export const filterSensitiveLog = (obj: AccoutDedup): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about a version of a managed policy.</p>
+ *          <p>This data type is used as a response element in the <a>CreatePolicyVersion</a>, <a>GetPolicyVersion</a>, <a>ListPolicyVersions</a>, and <a>GetAccountAuthorizationDetails</a> operations. </p>
+ *          <p>For more information about managed policies, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
+ *             Policies</a> in the <i>IAM User Guide</i>. </p>
+ */
+export interface PolicyVersion {
+  /**
+   * <p>The policy document.</p>
+   *          <p>The policy document is returned in the response to the <a>GetPolicyVersion</a> and <a>GetAccountAuthorizationDetails</a> operations. It is not returned in
+   *          the response to the <a>CreatePolicyVersion</a> or <a>ListPolicyVersions</a> operations. </p>
+   *          <p>The policy document returned in this structure is URL-encoded compliant with <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL decoding
+   *          method to convert the policy back to plain JSON text. For example, if you use Java, you can
+   *          use the <code>decode</code> method of the <code>java.net.URLDecoder</code> utility class in
+   *          the Java SDK. Other languages and SDKs provide similar functionality.</p>
+   */
+  Document?: string;
+
+  /**
+   * <p>The identifier for the policy version.</p>
+   *          <p>Policy version identifiers always begin with <code>v</code> (always lowercase). When a
+   *          policy is created, the first policy version is <code>v1</code>. </p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Specifies whether the policy version is set as the policy's default version.</p>
+   */
+  IsDefaultVersion?: boolean;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy version was created.</p>
+   */
+  CreateDate?: Date;
+}
+
+export namespace PolicyVersion {
+  export const filterSensitiveLog = (obj: PolicyVersion): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about a managed policy, including the policy's ARN, versions, and
+ *          the number of principal entities (users, groups, and roles) that the policy is attached
+ *          to.</p>
+ *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
+ *          <p>For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
+ *             Policies</a> in the <i>IAM User Guide</i>. </p>
+ */
+export interface ManagedPolicyDetail {
+  /**
+   * <p>The friendly name (not ARN) identifying the policy.</p>
+   */
+  PolicyName?: string;
+
+  /**
+   * <p>The stable and unique string identifying the policy.</p>
+   *          <p>For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  PolicyId?: string;
+
+  /**
+   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
+   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
+   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
+   */
+  Arn?: string;
+
+  /**
+   * <p>The path to the policy.</p>
+   *          <p>For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  Path?: string;
+
+  /**
+   * <p>The identifier for the version of the policy that is set as the default (operative)
+   *          version.</p>
+   *          <p>For more information about policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning for Managed
+   *             Policies</a> in the <i>IAM User Guide</i>. </p>
+   */
+  DefaultVersionId?: string;
+
+  /**
+   * <p>The number of principal entities (users, groups, and roles) that the policy is attached
+   *          to.</p>
+   */
+  AttachmentCount?: number;
+
+  /**
+   * <p>The number of entities (users and roles) for which the policy is used as the permissions
+   *          boundary. </p>
+   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
+   *             Identities </a> in the <i>IAM User Guide</i>.</p>
+   */
+  PermissionsBoundaryUsageCount?: number;
+
+  /**
+   * <p>Specifies whether the policy can be attached to an IAM user, group, or role.</p>
+   */
+  IsAttachable?: boolean;
+
+  /**
+   * <p>A friendly description of the policy.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was created.</p>
+   */
+  CreateDate?: Date;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was last updated.</p>
+   *          <p>When a policy has only one version, this field contains the date and time when the
+   *          policy was created. When a policy has more than one version, this field contains the date
+   *          and time when the most recent policy version was created.</p>
+   */
+  UpdateDate?: Date;
+
+  /**
+   * <p>A list containing information about the versions of the policy.</p>
+   */
+  PolicyVersionList?: PolicyVersion[];
+}
+
+export namespace ManagedPolicyDetail {
+  export const filterSensitiveLog = (obj: ManagedPolicyDetail): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p>Contains information about an IAM group entity.</p>
  *          <p>This data type is used as a response element in the following operations:</p>
@@ -321,6 +491,7 @@ export interface Group {
    */
   GroupId: string | undefined;
 
+  Type?: number;
   /**
    * <p> The Amazon Resource Name (ARN) specifying the group. For more information about ARNs
    *          and how to use them in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
@@ -333,6 +504,21 @@ export interface Group {
    *             format</a>, when the group was created.</p>
    */
   CreateDate: Date | undefined;
+
+  /**
+   * <p>Information about the credential report.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>Information about the credential report.</p>
+   */
+  UserNumber?: number;
+
+  /**
+   * <p>A list containing information about managed policies.</p>
+   */
+  Policies?: ManagedPolicyDetail[];
 }
 
 export namespace Group {
@@ -373,6 +559,99 @@ export namespace AttachedPermissionsBoundary {
 }
 
 /**
+ * <p>Contains information about a managed policy.</p>
+ *          <p>This data type is used as a response element in the <a>CreatePolicy</a>,
+ *             <a>GetPolicy</a>, and <a>ListPolicies</a> operations. </p>
+ *          <p>For more information about managed policies, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
+ *             Policies</a> in the <i>IAM User Guide</i>. </p>
+ */
+export interface Policy {
+  /**
+   * <p>The friendly name (not ARN) identifying the policy.</p>
+   */
+  PolicyName?: string;
+
+  /**
+   * <p>The stable and unique string identifying the policy.</p>
+   *          <p>For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  PolicyId?: string;
+
+  /**
+   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
+   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
+   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
+   */
+  Arn?: string;
+
+  /**
+   * <p>The policy document.</p>
+   */
+  Document?: string;
+
+  /**
+   * <p>The path to the policy.</p>
+   *          <p>For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  Path?: string;
+
+  /**
+   * <p>The identifier for the version of the policy that is set as the default version.</p>
+   */
+  DefaultVersionId?: string;
+
+  /**
+   * <p>The number of entities (users, groups, and roles) that the policy is attached to.</p>
+   */
+  AttachmentCount?: number;
+
+  /**
+   * <p>The number of entities (users and roles) for which the policy is used to set the
+   *          permissions boundary. </p>
+   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
+   *             Identities </a> in the <i>IAM User Guide</i>.</p>
+   */
+  PermissionsBoundaryUsageCount?: number;
+
+  /**
+   * <p>Specifies whether the policy can be attached to an IAM user, group, or role.</p>
+   */
+  IsAttachable?: boolean;
+
+  /**
+   * <p>A friendly description of the policy.</p>
+   *          <p>This element is included in the response to the <a>GetPolicy</a> operation.
+   *          It is not included in the response to the <a>ListPolicies</a> operation. </p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was created.</p>
+   */
+  CreateDate?: Date;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was last updated.</p>
+   *          <p>When a policy has only one version, this field contains the date and time when the
+   *          policy was created. When a policy has more than one version, this field contains the date
+   *          and time when the most recent policy version was created.</p>
+   */
+  UpdateDate?: Date;
+}
+
+export namespace Policy {
+  export const filterSensitiveLog = (obj: Policy): any => ({
+    ...obj,
+  });
+}
+
+export type UserStatusType = "Disabled" | "Enabled";
+
+/**
  * <p>A structure that represents user-provided metadata that can be associated with a
  *       resource such as an IAM user or role. For more information about tagging, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging IAM Identities</a> in the
  *         <i>IAM User Guide</i>.</p>
@@ -406,8 +685,6 @@ export namespace Tag {
   });
 }
 
-export type UserStatusType = "active" | "inactive";
-
 /**
  * <p>Contains information about an IAM user entity.</p>
  *          <p>This data type is used as a response element in the following operations:</p>
@@ -434,7 +711,7 @@ export interface User {
    * <p>The path to the user. For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
    *             <i>IAM User Guide</i>.</p>
    */
-  Path: string | undefined;
+  Path?: string;
 
   /**
    * <p>The friendly name identifying the user.</p>
@@ -446,7 +723,12 @@ export interface User {
    *             <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
    *             Identifiers</a> in the <i>IAM User Guide</i>.</p>
    */
-  UserId: string | undefined;
+  UserId?: string;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
+   */
+  Status?: UserStatusType | string;
 
   /**
    * <p>User name, required when LoginType is 2.</p>
@@ -454,17 +736,22 @@ export interface User {
   Email?: string;
 
   /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
+
+  /**
    * <p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs
    *          and how to use ARNs in policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
    *             <i>IAM User Guide</i>. </p>
    */
-  Arn: string | undefined;
+  Arn?: string;
 
   /**
    * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
    *             format</a>, when the user was created.</p>
    */
-  CreateDate: Date | undefined;
+  CreateDate?: Date;
 
   /**
    * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
@@ -505,24 +792,14 @@ export interface User {
   Tags?: Tag[];
 
   /**
-   * <p>0 means default, 1 means custom.</p>
-   */
-  Type?: number;
-
-  /**
    * <p>Description of user.</p>
    */
   Description?: string;
 
   /**
-   * <p>Status of user.</p>
-   */
-  UserStatus?: UserStatusType | string;
-
-  /**
    * <p>A list of groups.</p>
    */
-  Groups: Group[] | undefined;
+  Groups?: Group[];
 
   /**
    * <p>Last password reset time.</p>
@@ -532,22 +809,23 @@ export interface User {
   /**
    * <p>1 means built-in, use to web. 2 means ordinary, use to client.</p>
    */
-  AccessKeyType?: number;
+  AccessType?: number;
 
   /**
-   * <p>Account Name.</p>
+   * <p>The access keys of account.</p>
    */
-  AccountName?: string;
+  AccessKeys?: AccessKey[];
 
   /**
-   * <p>Account Id.</p>
+   * <p>A list of policies.</p>
    */
-  AccountId?: string;
+  Policies?: Policy[];
 }
 
 export namespace User {
   export const filterSensitiveLog = (obj: User): any => ({
     ...obj,
+    ...(obj.AccessKeys && { AccessKeys: obj.AccessKeys.map((item) => AccessKey.filterSensitiveLog(item)) }),
   });
 }
 
@@ -659,6 +937,11 @@ export interface AccountType {
    * <p>User info.</p>
    */
   User?: User;
+
+  /**
+   * 账户重删数据
+   */
+  Dedup?: AccoutDedup;
 }
 
 export namespace AccountType {
@@ -770,6 +1053,24 @@ export namespace NoSuchEntityException {
   });
 }
 
+export interface AddOrDeleteType {
+  /**
+   * <p>A list of users in the group.</p>
+   */
+  GroupName?: Group[];
+
+  /**
+   * <p>A list of users in the group.</p>
+   */
+  UserName?: User[];
+}
+
+export namespace AddOrDeleteType {
+  export const filterSensitiveLog = (obj: AddOrDeleteType): any => ({
+    ...obj,
+  });
+}
+
 export interface AddRoleToInstanceProfileRequest {
   /**
    * <p>The name of the instance profile to update.</p>
@@ -850,6 +1151,37 @@ export namespace AddUserToGroupRequest {
 
 export type AssignmentStatusType = "Any" | "Assigned" | "Unassigned";
 
+export interface PolicySourceGroup {
+  /**
+   * <p>The name of the IAM group.</p>
+   */
+  GroupName: string | undefined;
+}
+
+export namespace PolicySourceGroup {
+  export const filterSensitiveLog = (obj: PolicySourceGroup): any => ({
+    ...obj,
+  });
+}
+
+export interface PolicySource {
+  /**
+   * 是否直接添加到用户
+   */
+  IsDirectAttached?: boolean;
+
+  /**
+   * 通过组附加到用户
+   */
+  PolicySourceGroupList?: PolicySourceGroup[];
+}
+
+export namespace PolicySource {
+  export const filterSensitiveLog = (obj: PolicySource): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p>Contains information about an attached policy.</p>
  *          <p>An attached policy is a managed policy that has been attached to a user, group, or role.
@@ -859,16 +1191,57 @@ export type AssignmentStatusType = "Any" | "Assigned" | "Unassigned";
  */
 export interface AttachedPolicy {
   /**
-   * <p>The friendly name of the attached policy.</p>
+   * <p>The friendly name (not ARN) identifying the policy.</p>
    */
   PolicyName?: string;
+
+  /**
+   * <p>The stable and unique string identifying the policy.</p>
+   *          <p>For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  PolicyId?: string;
 
   /**
    * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
    *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
    *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
    */
-  PolicyArn?: string;
+  Arn?: string;
+
+  /**
+   * <p>The path to the policy.</p>
+   *          <p>For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
+   *             <i>IAM User Guide</i>.</p>
+   */
+  Path?: string;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was created.</p>
+   */
+  CreateDate?: Date;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the policy was last updated.</p>
+   *          <p>When a policy has only one version, this field contains the date and time when the
+   *          policy was created. When a policy has more than one version, this field contains the date
+   *          and time when the most recent policy version was created.</p>
+   */
+  UpdateDate?: Date;
+
+  /**
+   * <p>A friendly description of the policy.</p>
+   *          <p>This element is included in the response to the <a>GetPolicy</a> operation.
+   *          It is not included in the response to the <a>ListPolicies</a> operation. </p>
+   */
+  Description?: string;
+
+  /**
+   * 说明策略是通过什么方式附加到用户的</p>
+   */
+  Sources?: PolicySource;
 }
 
 export namespace AttachedPolicy {
@@ -890,7 +1263,7 @@ export interface AttachGroupPolicyRequest {
    *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
    *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace AttachGroupPolicyRequest {
@@ -950,12 +1323,537 @@ export interface AttachUserPolicyRequest {
    *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
    *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace AttachUserPolicyRequest {
   export const filterSensitiveLog = (obj: AttachUserPolicyRequest): any => ({
     ...obj,
+  });
+}
+
+export interface BatchAddUsersToGroupRequest {
+  /**
+   * <p>The name of the group to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+
+  UserDocument?: string;
+}
+
+export namespace BatchAddUsersToGroupRequest {
+  export const filterSensitiveLog = (obj: BatchAddUsersToGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ErrorInfo {
+  /**
+   * <p>The friendly name identifying the user.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Name of the IAM group to update. If you're changing the name of the group, this is the
+   *          original name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>The error code associated with the operation failure.</p>
+   */
+  Code?: string;
+
+  /**
+   * <p>Detailed information about the reason that the operation failed.</p>
+   */
+  Message?: string;
+}
+
+export namespace ErrorInfo {
+  export const filterSensitiveLog = (obj: ErrorInfo): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchErrorType {
+  /**
+   * <p>A list of users in the group.</p>
+   */
+  ErrorInfo?: ErrorInfo[];
+}
+
+export namespace BatchErrorType {
+  export const filterSensitiveLog = (obj: BatchErrorType): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAddUsersToGroupResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Added?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchAddUsersToGroupResponse {
+  export const filterSensitiveLog = (obj: BatchAddUsersToGroupResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface BatchAddUserToGroupsRequest {
+  /**
+   * <p>A list of users in the group.</p>
+   */
+  UserName?: User[];
+
+  GroupDocument?: string;
+}
+
+export namespace BatchAddUserToGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchAddUserToGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAddUserToGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Added?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchAddUserToGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchAddUserToGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface BatchAddUserToMultiGroupsRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+
+  GroupDocument?: string;
+}
+
+export namespace BatchAddUserToMultiGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchAddUserToMultiGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAddUserToMultiGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Added?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchAddUserToMultiGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchAddUserToMultiGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface BatchAttachPoliciesToGroupRequest {
+  /**
+   * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
+   */
+  PolicyDocument: string | undefined;
+
+  /**
+   * <p>The name (friendly name, not ARN) of the IAM group to detach the policy from.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+}
+
+export namespace BatchAttachPoliciesToGroupRequest {
+  export const filterSensitiveLog = (obj: BatchAttachPoliciesToGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchAttachPoliciesToUserRequest {
+  /**
+   * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
+   */
+  PolicyDocument: string | undefined;
+
+  /**
+   * <p>The name (friendly name, not ARN) identifying the user that the policy is embedded
+   *          in.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+}
+
+export namespace BatchAttachPoliciesToUserRequest {
+  export const filterSensitiveLog = (obj: BatchAttachPoliciesToUserRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchAttachPolicyToMultiGroupsRequest {
+  /**
+   * <p>eg: GroupDocument={"Name": ["group1", "group2", "group3"]}</p>
+   */
+  GroupDocument: string | undefined;
+
+  /**
+   * <p>Policy Name</p>
+   */
+  PolicyName: string | undefined;
+}
+
+export namespace BatchAttachPolicyToMultiGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchAttachPolicyToMultiGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchAttachPolicyToMultiUsersRequest {
+  /**
+   * <p>eg: UserDocument={"Name": ["user1", "user2", "user3"]}</p>
+   */
+  UserDocument: string | undefined;
+
+  /**
+   * <p>Policy Name</p>
+   */
+  PolicyName: string | undefined;
+}
+
+export namespace BatchAttachPolicyToMultiUsersRequest {
+  export const filterSensitiveLog = (obj: BatchAttachPolicyToMultiUsersRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDeleteGroupsRequest {
+  GroupDocument?: string;
+}
+
+export namespace BatchDeleteGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchDeleteGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDeleteGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Deleted?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchDeleteGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchDeleteGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+/**
+ * <p>The request was rejected because it attempted to delete a resource that has attached
+ *       subordinate entities. The error message describes these entities.</p>
+ */
+export interface DeleteConflictException extends __SmithyException, $MetadataBearer {
+  name: "DeleteConflictException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace DeleteConflictException {
+  export const filterSensitiveLog = (obj: DeleteConflictException): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDeletePoliciesRequest {
+  /**
+   * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
+   */
+  PolicyDocument: string | undefined;
+}
+
+export namespace BatchDeletePoliciesRequest {
+  export const filterSensitiveLog = (obj: BatchDeletePoliciesRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDeleteUsersRequest {
+  UserDocument?: string;
+}
+
+export namespace BatchDeleteUsersRequest {
+  export const filterSensitiveLog = (obj: BatchDeleteUsersRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDeleteUsersResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Deleted?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchDeleteUsersResponse {
+  export const filterSensitiveLog = (obj: BatchDeleteUsersResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+/**
+ * <p>The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.</p>
+ */
+export interface ConcurrentModificationException extends __SmithyException, $MetadataBearer {
+  name: "ConcurrentModificationException";
+  $fault: "client";
+  message?: string;
+}
+
+export namespace ConcurrentModificationException {
+  export const filterSensitiveLog = (obj: ConcurrentModificationException): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDetachPoliciesFromGroupRequest {
+  /**
+   * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
+   */
+  PolicyDocument: string | undefined;
+
+  /**
+   * <p>The name (friendly name, not ARN) of the IAM group to detach the policy from.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+}
+
+export namespace BatchDetachPoliciesFromGroupRequest {
+  export const filterSensitiveLog = (obj: BatchDetachPoliciesFromGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDetachPoliciesFromUserRequest {
+  /**
+   * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
+   */
+  PolicyDocument: string | undefined;
+
+  /**
+   * <p>The name (friendly name, not ARN) identifying the user that the policy is embedded
+   *          in.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+}
+
+export namespace BatchDetachPoliciesFromUserRequest {
+  export const filterSensitiveLog = (obj: BatchDetachPoliciesFromUserRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDetachPolicyFromMultiGroupsRequest {
+  /**
+   * <p>eg: GroupDocument={"Name": ["group1", "group2", "group3"]}</p>
+   */
+  GroupDocument: string | undefined;
+
+  /**
+   * <p>Policy Name</p>
+   */
+  PolicyName: string | undefined;
+}
+
+export namespace BatchDetachPolicyFromMultiGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchDetachPolicyFromMultiGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchDetachPolicyFromMultiUsersRequest {
+  /**
+   * <p>eg: UserDocument={"Name": ["user1", "user2", "user3"]}</p>
+   */
+  UserDocument: string | undefined;
+
+  /**
+   * <p>Policy Name</p>
+   */
+  PolicyName: string | undefined;
+}
+
+export namespace BatchDetachPolicyFromMultiUsersRequest {
+  export const filterSensitiveLog = (obj: BatchDetachPolicyFromMultiUsersRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchRemoveUserFromGroupsRequest {
+  /**
+   * <p>The name (friendly name, not ARN) of the IAM user for which you want to set the
+   *          permissions boundary.</p>
+   */
+  UserName: string | undefined;
+
+  GroupDocument?: string;
+}
+
+export namespace BatchRemoveUserFromGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchRemoveUserFromGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchRemoveUserFromGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Removed?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchRemoveUserFromGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchRemoveUserFromGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface BatchRemoveUserFromMultiGroupsRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+
+  GroupDocument?: string;
+}
+
+export namespace BatchRemoveUserFromMultiGroupsRequest {
+  export const filterSensitiveLog = (obj: BatchRemoveUserFromMultiGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchRemoveUserFromMultiGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Removed?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchRemoveUserFromMultiGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchRemoveUserFromMultiGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface BatchRemoveUsersFromGroupRequest {
+  /**
+   * <p>The name of the group to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+
+  UserDocument?: string;
+}
+
+export namespace BatchRemoveUsersFromGroupRequest {
+  export const filterSensitiveLog = (obj: BatchRemoveUsersFromGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchRemoveUsersFromGroupResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  Removed?: AddOrDeleteType;
+  Error?: BatchErrorType;
+}
+
+export namespace BatchRemoveUsersFromGroupResponse {
+  export const filterSensitiveLog = (obj: BatchRemoveUsersFromGroupResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -1037,6 +1935,13 @@ export namespace ChangeAccountPasswordRequest {
 }
 
 export interface ChangePasswordRequest {
+  /**
+   * <p>The name of the IAM user to create a password for. The user must already exist.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
   /**
    * <p>The IAM user's current password.</p>
    */
@@ -1139,6 +2044,21 @@ export interface CreateAccessKeyRequest {
    *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
    */
   UserName?: string;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The custom ak of the account you want to create.</p>
+   */
+  SelfdefineAccessKeyId?: string;
+
+  /**
+   * <p>The custom sk of the account you want to create.</p>
+   */
+  SelfdefineSecretAccessKey?: string;
 }
 
 export namespace CreateAccessKeyRequest {
@@ -1299,6 +2219,15 @@ export interface CreateGroupRequest {
    *          and "myresource".</p>
    */
   GroupName: string | undefined;
+
+  /**
+   * <p>A friendly description of the policy.</p>
+   *          <p>Typically used to store information about the permissions defined in the policy. For
+   *          example, "Grants access to production DynamoDB tables."</p>
+   *          <p>The policy description is immutable. After a value is assigned, it cannot be
+   *          changed.</p>
+   */
+  Description?: string;
 }
 
 export namespace CreateGroupRequest {
@@ -1312,6 +2241,11 @@ export namespace CreateGroupRequest {
  */
 export interface CreateGroupResponse {
   /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
    * <p>A structure containing details about the new group.</p>
    */
   Group: Group | undefined;
@@ -1320,6 +2254,7 @@ export interface CreateGroupResponse {
 export namespace CreateGroupResponse {
   export const filterSensitiveLog = (obj: CreateGroupResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -1761,97 +2696,6 @@ export namespace CreatePolicyRequest {
 }
 
 /**
- * <p>Contains information about a managed policy.</p>
- *          <p>This data type is used as a response element in the <a>CreatePolicy</a>,
- *             <a>GetPolicy</a>, and <a>ListPolicies</a> operations. </p>
- *          <p>For more information about managed policies, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
- *             Policies</a> in the <i>IAM User Guide</i>. </p>
- */
-export interface Policy {
-  /**
-   * <p>The friendly name (not ARN) identifying the policy.</p>
-   */
-  PolicyName?: string;
-
-  /**
-   * <p>The stable and unique string identifying the policy.</p>
-   *          <p>For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  PolicyId?: string;
-
-  /**
-   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
-   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
-   */
-  Arn?: string;
-
-  /**
-   * <p>The policy document.</p>
-   */
-  PolicyDocument?: string;
-
-  /**
-   * <p>The path to the policy.</p>
-   *          <p>For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  Path?: string;
-
-  /**
-   * <p>The identifier for the version of the policy that is set as the default version.</p>
-   */
-  DefaultVersionId?: string;
-
-  /**
-   * <p>The number of entities (users, groups, and roles) that the policy is attached to.</p>
-   */
-  AttachmentCount?: number;
-
-  /**
-   * <p>The number of entities (users and roles) for which the policy is used to set the
-   *          permissions boundary. </p>
-   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
-   *             Identities </a> in the <i>IAM User Guide</i>.</p>
-   */
-  PermissionsBoundaryUsageCount?: number;
-
-  /**
-   * <p>Specifies whether the policy can be attached to an IAM user, group, or role.</p>
-   */
-  IsAttachable?: boolean;
-
-  /**
-   * <p>A friendly description of the policy.</p>
-   *          <p>This element is included in the response to the <a>GetPolicy</a> operation.
-   *          It is not included in the response to the <a>ListPolicies</a> operation. </p>
-   */
-  Description?: string;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the policy was created.</p>
-   */
-  CreateDate?: Date;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the policy was last updated.</p>
-   *          <p>When a policy has only one version, this field contains the date and time when the
-   *          policy was created. When a policy has more than one version, this field contains the date
-   *          and time when the most recent policy version was created.</p>
-   */
-  UpdateDate?: Date;
-}
-
-export namespace Policy {
-  export const filterSensitiveLog = (obj: Policy): any => ({
-    ...obj,
-  });
-}
-
-/**
  * <p>Contains the response to a successful <a>CreatePolicy</a> request.
  *     </p>
  */
@@ -1937,49 +2781,6 @@ export namespace CreatePolicyVersionRequest {
 }
 
 /**
- * <p>Contains information about a version of a managed policy.</p>
- *          <p>This data type is used as a response element in the <a>CreatePolicyVersion</a>, <a>GetPolicyVersion</a>, <a>ListPolicyVersions</a>, and <a>GetAccountAuthorizationDetails</a> operations. </p>
- *          <p>For more information about managed policies, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
- *             Policies</a> in the <i>IAM User Guide</i>. </p>
- */
-export interface PolicyVersion {
-  /**
-   * <p>The policy document.</p>
-   *          <p>The policy document is returned in the response to the <a>GetPolicyVersion</a> and <a>GetAccountAuthorizationDetails</a> operations. It is not returned in
-   *          the response to the <a>CreatePolicyVersion</a> or <a>ListPolicyVersions</a> operations. </p>
-   *          <p>The policy document returned in this structure is URL-encoded compliant with <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL decoding
-   *          method to convert the policy back to plain JSON text. For example, if you use Java, you can
-   *          use the <code>decode</code> method of the <code>java.net.URLDecoder</code> utility class in
-   *          the Java SDK. Other languages and SDKs provide similar functionality.</p>
-   */
-  Document?: string;
-
-  /**
-   * <p>The identifier for the policy version.</p>
-   *          <p>Policy version identifiers always begin with <code>v</code> (always lowercase). When a
-   *          policy is created, the first policy version is <code>v1</code>. </p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Specifies whether the policy version is set as the policy's default version.</p>
-   */
-  IsDefaultVersion?: boolean;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the policy version was created.</p>
-   */
-  CreateDate?: Date;
-}
-
-export namespace PolicyVersion {
-  export const filterSensitiveLog = (obj: PolicyVersion): any => ({
-    ...obj,
-  });
-}
-
-/**
  * <p>Contains the response to a successful <a>CreatePolicyVersion</a> request.
  *     </p>
  */
@@ -1992,21 +2793,6 @@ export interface CreatePolicyVersionResponse {
 
 export namespace CreatePolicyVersionResponse {
   export const filterSensitiveLog = (obj: CreatePolicyVersionResponse): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.</p>
- */
-export interface ConcurrentModificationException extends __SmithyException, $MetadataBearer {
-  name: "ConcurrentModificationException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace ConcurrentModificationException {
-  export const filterSensitiveLog = (obj: ConcurrentModificationException): any => ({
     ...obj,
   });
 }
@@ -2373,6 +3159,11 @@ export interface CreateUserRequest {
   /**
    * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
    */
+  Status?: UserStatusType | string;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
+   */
   PermissionsBoundary?: string;
 
   /**
@@ -2408,6 +3199,21 @@ export interface CreateUserRequest {
   Description?: string;
 
   /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedInnerCert?: number;
+
+  /**
+   * <p>The custom ak of the account you want to create.</p>
+   */
+  SelfdefineAccessKeyId?: string;
+
+  /**
+   * <p>The custom sk of the account you want to create.</p>
+   */
+  SelfdefineSecretAccessKey?: string;
+
+  /**
    * <p>First login is update password, 0 means no, 1 means yes.</p>
    */
   FirstLoginUpdatePassword?: number;
@@ -2430,6 +3236,11 @@ export namespace CreateUserRequest {
  */
 export interface CreateUserResponse {
   /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
    * <p>A structure with details about the new IAM user.</p>
    */
   User?: User;
@@ -2438,6 +3249,55 @@ export interface CreateUserResponse {
 export namespace CreateUserResponse {
   export const filterSensitiveLog = (obj: CreateUserResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface CreateUserAccessKeyRequest {
+  /**
+   * <p>The name of the IAM user that the new key will belong to.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>The custom ak of the account you want to create.</p>
+   */
+  SelfdefineAccessKeyId?: string;
+
+  /**
+   * <p>The custom sk of the account you want to create.</p>
+   */
+  SelfdefineSecretAccessKey?: string;
+}
+
+export namespace CreateUserAccessKeyRequest {
+  export const filterSensitiveLog = (obj: CreateUserAccessKeyRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>CreateAccessKey</a> request.
+ *     </p>
+ */
+export interface CreateUserAccessKeyResponse {
+  /**
+   * <p>A structure with details about the access key.</p>
+   */
+  AccessKey: AccessKey | undefined;
+}
+
+export namespace CreateUserAccessKeyResponse {
+  export const filterSensitiveLog = (obj: CreateUserAccessKeyResponse): any => ({
+    ...obj,
+    ...(obj.AccessKey && { AccessKey: AccessKey.filterSensitiveLog(obj.AccessKey) }),
   });
 }
 
@@ -2617,22 +3477,6 @@ export namespace DeleteAccountGroupRequest {
   });
 }
 
-/**
- * <p>The request was rejected because it attempted to delete a resource that has attached
- *       subordinate entities. The error message describes these entities.</p>
- */
-export interface DeleteConflictException extends __SmithyException, $MetadataBearer {
-  name: "DeleteConflictException";
-  $fault: "client";
-  message?: string;
-}
-
-export namespace DeleteConflictException {
-  export const filterSensitiveLog = (obj: DeleteConflictException): any => ({
-    ...obj,
-  });
-}
-
 export interface DeleteGroupRequest {
   /**
    * <p>The name of the IAM group to delete.</p>
@@ -2717,11 +3561,9 @@ export namespace DeleteOpenIDConnectProviderRequest {
 
 export interface DeletePolicyRequest {
   /**
-   * <p>The Amazon Resource Name (ARN) of the IAM policy you want to delete.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   * <p>Policy Name</p>
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace DeletePolicyRequest {
@@ -2948,6 +3790,28 @@ export namespace DeleteUserRequest {
   });
 }
 
+export interface DeleteUserAccessKeyRequest {
+  /**
+   * <p>The name of the IAM user that the new key will belong to.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The access key ID of the secret access key you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  AccessKeyId: string | undefined;
+}
+
+export namespace DeleteUserAccessKeyRequest {
+  export const filterSensitiveLog = (obj: DeleteUserAccessKeyRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface DeleteUserPermissionsBoundaryRequest {
   /**
    * <p>The name (friendly name, not ARN) of the IAM user from which you want to remove the
@@ -3015,7 +3879,7 @@ export interface DetachGroupPolicyRequest {
    *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
    *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace DetachGroupPolicyRequest {
@@ -3059,7 +3923,7 @@ export interface DetachUserPolicyRequest {
    *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
    *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace DetachUserPolicyRequest {
@@ -3443,100 +4307,6 @@ export interface GroupDetail {
 
 export namespace GroupDetail {
   export const filterSensitiveLog = (obj: GroupDetail): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about a managed policy, including the policy's ARN, versions, and
- *          the number of principal entities (users, groups, and roles) that the policy is attached
- *          to.</p>
- *          <p>This data type is used as a response element in the <a>GetAccountAuthorizationDetails</a> operation.</p>
- *          <p>For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
- *             Policies</a> in the <i>IAM User Guide</i>. </p>
- */
-export interface ManagedPolicyDetail {
-  /**
-   * <p>The friendly name (not ARN) identifying the policy.</p>
-   */
-  PolicyName?: string;
-
-  /**
-   * <p>The stable and unique string identifying the policy.</p>
-   *          <p>For more information about IDs, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  PolicyId?: string;
-
-  /**
-   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
-   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
-   */
-  Arn?: string;
-
-  /**
-   * <p>The path to the policy.</p>
-   *          <p>For more information about paths, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM Identifiers</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  Path?: string;
-
-  /**
-   * <p>The identifier for the version of the policy that is set as the default (operative)
-   *          version.</p>
-   *          <p>For more information about policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning for Managed
-   *             Policies</a> in the <i>IAM User Guide</i>. </p>
-   */
-  DefaultVersionId?: string;
-
-  /**
-   * <p>The number of principal entities (users, groups, and roles) that the policy is attached
-   *          to.</p>
-   */
-  AttachmentCount?: number;
-
-  /**
-   * <p>The number of entities (users and roles) for which the policy is used as the permissions
-   *          boundary. </p>
-   *          <p>For more information about permissions boundaries, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions Boundaries for IAM
-   *             Identities </a> in the <i>IAM User Guide</i>.</p>
-   */
-  PermissionsBoundaryUsageCount?: number;
-
-  /**
-   * <p>Specifies whether the policy can be attached to an IAM user, group, or role.</p>
-   */
-  IsAttachable?: boolean;
-
-  /**
-   * <p>A friendly description of the policy.</p>
-   */
-  Description?: string;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the policy was created.</p>
-   */
-  CreateDate?: Date;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the policy was last updated.</p>
-   *          <p>When a policy has only one version, this field contains the date and time when the
-   *          policy was created. When a policy has more than one version, this field contains the date
-   *          and time when the most recent policy version was created.</p>
-   */
-  UpdateDate?: Date;
-
-  /**
-   * <p>A list containing information about the versions of the policy.</p>
-   */
-  PolicyVersionList?: PolicyVersion[];
-}
-
-export namespace ManagedPolicyDetail {
-  export const filterSensitiveLog = (obj: ManagedPolicyDetail): any => ({
     ...obj,
   });
 }
@@ -4194,6 +4964,11 @@ export namespace GetGroupRequest {
  */
 export interface GetGroupResponse {
   /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
    * <p>A structure that contains details about the group.</p>
    */
   Group: Group | undefined;
@@ -4224,6 +4999,7 @@ export interface GetGroupResponse {
 export namespace GetGroupResponse {
   export const filterSensitiveLog = (obj: GetGroupResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -4536,12 +5312,9 @@ export namespace GetOrganizationsAccessReportResponse {
 
 export interface GetPolicyRequest {
   /**
-   * <p>The Amazon Resource Name (ARN) of the managed policy that you want information
-   *          about.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   * Policy Name
    */
-  PolicyArn: string | undefined;
+  PolicyName: string | undefined;
 }
 
 export namespace GetPolicyRequest {
@@ -5318,6 +6091,78 @@ export namespace GetServiceLinkedRoleDeletionStatusResponse {
   });
 }
 
+export interface GetServiceOverviewRequest {}
+
+export namespace GetServiceOverviewRequest {
+  export const filterSensitiveLog = (obj: GetServiceOverviewRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>GetServiceOverviewIAM</p>
+ */
+export interface GetServiceOverviewIAM {
+  /**
+   * <p>AccountNumber</p>
+   */
+  AccountNumber: number | undefined;
+}
+
+export namespace GetServiceOverviewIAM {
+  export const filterSensitiveLog = (obj: GetServiceOverviewIAM): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GetServiceOverview</a> request.
+ *     </p>
+ */
+export interface GetServiceOverviewS3 {
+  /**
+   * <p>BucketNumber</p>
+   */
+  BucketNumber: number | undefined;
+
+  /**
+   * <p>ObjectNumber</p>
+   */
+  ObjectNumber: string | undefined;
+
+  /**
+   * <p>UsedSize</p>
+   */
+  UsedSize: string | undefined;
+}
+
+export namespace GetServiceOverviewS3 {
+  export const filterSensitiveLog = (obj: GetServiceOverviewS3): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>GetServiceOverviewResponse</p>
+ */
+export interface GetServiceOverviewResponse {
+  /**
+   * <p>GetServiceOverviewIAM</p>
+   */
+  IAM: GetServiceOverviewIAM | undefined;
+
+  /**
+   * <p>GetServiceOverviewIAM</p>
+   */
+  S3: GetServiceOverviewS3 | undefined;
+}
+
+export namespace GetServiceOverviewResponse {
+  export const filterSensitiveLog = (obj: GetServiceOverviewResponse): any => ({
+    ...obj,
+  });
+}
+
 export type EncodingType = "PEM" | "SSH";
 
 export interface GetSSHPublicKeyRequest {
@@ -5437,6 +6282,11 @@ export interface GetUserRequest {
    */
   UserName?: string;
 
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedInnerCert?: number;
+
   Type?: number;
 }
 
@@ -5450,6 +6300,11 @@ export namespace GetUserRequest {
  * <p>Contains the response to a successful <a>GetUser</a> request. </p>
  */
 export interface GetUserResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
   /**
    * <p>A structure containing details about the IAM user.</p>
    *          <important>
@@ -5474,6 +6329,7 @@ export interface GetUserResponse {
 export namespace GetUserResponse {
   export const filterSensitiveLog = (obj: GetUserResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -5790,6 +6646,11 @@ export interface ListAccountsRequest {
    * <p>Limits the response to keys that begin with the specified prefix.</p>
    */
   Prefix?: string;
+
+  /**
+   * <p>返回账户数量需要超过1000个时，参加此参数并且设置为true</p>
+   */
+  BypassLimitListAccountNumber?: boolean;
 }
 
 export namespace ListAccountsRequest {
@@ -6027,6 +6888,11 @@ export interface ListAttachedUserPoliciesRequest {
    *     from.</p>
    */
   MaxItems?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedAllPolicies?: number;
 }
 
 export namespace ListAttachedUserPoliciesRequest {
@@ -6331,6 +7197,16 @@ export namespace ListGroupPoliciesResponse {
 
 export interface ListGroupsRequest {
   /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedUserNum?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedAttachedPolicies?: number;
+
+  /**
    * <p> The path prefix for filtering the results. For example, the prefix
    *             <code>/division_abc/subdivision_xyz/</code> gets all groups whose path starts with
    *             <code>/division_abc/subdivision_xyz/</code>.</p>
@@ -6374,6 +7250,11 @@ export namespace ListGroupsRequest {
  */
 export interface ListGroupsResponse {
   /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
    * <p>A list of groups.</p>
    */
   Groups: Group[] | undefined;
@@ -6399,6 +7280,7 @@ export interface ListGroupsResponse {
 export namespace ListGroupsResponse {
   export const filterSensitiveLog = (obj: ListGroupsResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -6443,6 +7325,11 @@ export namespace ListGroupsForUserRequest {
  */
 export interface ListGroupsForUserResponse {
   /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
    * <p>A list of groups.</p>
    */
   Groups: Group[] | undefined;
@@ -6468,6 +7355,7 @@ export interface ListGroupsForUserResponse {
 export namespace ListGroupsForUserResponse {
   export const filterSensitiveLog = (obj: ListGroupsForUserResponse): any => ({
     ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -7376,1138 +8264,6 @@ export interface ListServerCertificatesRequest {
 
 export namespace ListServerCertificatesRequest {
   export const filterSensitiveLog = (obj: ListServerCertificatesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListServerCertificates</a> request.
- *     </p>
- */
-export interface ListServerCertificatesResponse {
-  /**
-   * <p>A list of server certificates.</p>
-   */
-  ServerCertificateMetadataList: ServerCertificateMetadata[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListServerCertificatesResponse {
-  export const filterSensitiveLog = (obj: ListServerCertificatesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListServiceSpecificCredentialsRequest {
-  /**
-   * <p>The name of the user whose service-specific credentials you want information about. If
-   *          this value is not specified, then the operation assumes the user whose credentials are used
-   *          to call the operation.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>Filters the returned results to only those for the specified AWS service. If not
-   *          specified, then AWS returns service-specific credentials for all services.</p>
-   */
-  ServiceName?: string;
-}
-
-export namespace ListServiceSpecificCredentialsRequest {
-  export const filterSensitiveLog = (obj: ListServiceSpecificCredentialsRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains additional details about a service-specific credential.</p>
- */
-export interface ServiceSpecificCredentialMetadata {
-  /**
-   * <p>The name of the IAM user associated with the service-specific credential.</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The status of the service-specific credential. <code>Active</code> means that the key is
-   *          valid for API calls, while <code>Inactive</code> means it is not.</p>
-   */
-  Status: StatusType | string | undefined;
-
-  /**
-   * <p>The generated user name for the service-specific credential.</p>
-   */
-  ServiceUserName: string | undefined;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the service-specific credential were created.</p>
-   */
-  CreateDate: Date | undefined;
-
-  /**
-   * <p>The unique identifier for the service-specific credential.</p>
-   */
-  ServiceSpecificCredentialId: string | undefined;
-
-  /**
-   * <p>The name of the service associated with the service-specific credential.</p>
-   */
-  ServiceName: string | undefined;
-}
-
-export namespace ServiceSpecificCredentialMetadata {
-  export const filterSensitiveLog = (obj: ServiceSpecificCredentialMetadata): any => ({
-    ...obj,
-  });
-}
-
-export interface ListServiceSpecificCredentialsResponse {
-  /**
-   * <p>A list of structures that each contain details about a service-specific
-   *          credential.</p>
-   */
-  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
-}
-
-export namespace ListServiceSpecificCredentialsResponse {
-  export const filterSensitiveLog = (obj: ListServiceSpecificCredentialsResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListSigningCertificatesRequest {
-  /**
-   * <p>The name of the IAM user whose signing certificates you want to examine.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListSigningCertificatesRequest {
-  export const filterSensitiveLog = (obj: ListSigningCertificatesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about an X.509 signing certificate.</p>
- *          <p>This data type is used as a response element in the <a>UploadSigningCertificate</a> and <a>ListSigningCertificates</a>
- *          operations. </p>
- */
-export interface SigningCertificate {
-  /**
-   * <p>The name of the user the signing certificate is associated with.</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The ID for the signing certificate.</p>
-   */
-  CertificateId: string | undefined;
-
-  /**
-   * <p>The contents of the signing certificate.</p>
-   */
-  CertificateBody: string | undefined;
-
-  /**
-   * <p>The status of the signing certificate. <code>Active</code> means that the key is valid
-   *          for API calls, while <code>Inactive</code> means it is not.</p>
-   */
-  Status: StatusType | string | undefined;
-
-  /**
-   * <p>The date when the signing certificate was uploaded.</p>
-   */
-  UploadDate?: Date;
-}
-
-export namespace SigningCertificate {
-  export const filterSensitiveLog = (obj: SigningCertificate): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListSigningCertificates</a>
- *       request. </p>
- */
-export interface ListSigningCertificatesResponse {
-  /**
-   * <p>A list of the user's signing certificate information.</p>
-   */
-  Certificates: SigningCertificate[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListSigningCertificatesResponse {
-  export const filterSensitiveLog = (obj: ListSigningCertificatesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListSSHPublicKeysRequest {
-  /**
-   * <p>The name of the IAM user to list SSH public keys for. If none is specified, the
-   *             <code>UserName</code> field is determined implicitly based on the AWS access key used
-   *          to sign the request.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListSSHPublicKeysRequest {
-  export const filterSensitiveLog = (obj: ListSSHPublicKeysRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains information about an SSH public key, without the key's body or
- *          fingerprint.</p>
- *          <p>This data type is used as a response element in the <a>ListSSHPublicKeys</a>
- *          operation.</p>
- */
-export interface SSHPublicKeyMetadata {
-  /**
-   * <p>The name of the IAM user associated with the SSH public key.</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The unique identifier for the SSH public key.</p>
-   */
-  SSHPublicKeyId: string | undefined;
-
-  /**
-   * <p>The status of the SSH public key. <code>Active</code> means that the key can be used for
-   *          authentication with an AWS CodeCommit repository. <code>Inactive</code> means that the key
-   *          cannot be used.</p>
-   */
-  Status: StatusType | string | undefined;
-
-  /**
-   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
-   *             format</a>, when the SSH public key was uploaded.</p>
-   */
-  UploadDate: Date | undefined;
-}
-
-export namespace SSHPublicKeyMetadata {
-  export const filterSensitiveLog = (obj: SSHPublicKeyMetadata): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListSSHPublicKeys</a>
- *       request.</p>
- */
-export interface ListSSHPublicKeysResponse {
-  /**
-   * <p>A list of the SSH public keys assigned to IAM user.</p>
-   */
-  SSHPublicKeys?: SSHPublicKeyMetadata[];
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListSSHPublicKeysResponse {
-  export const filterSensitiveLog = (obj: ListSSHPublicKeysResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListUserPoliciesRequest {
-  /**
-   * <p>The name of the user to list policies for.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListUserPoliciesRequest {
-  export const filterSensitiveLog = (obj: ListUserPoliciesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListUserPolicies</a> request.
- *     </p>
- */
-export interface ListUserPoliciesResponse {
-  /**
-   * <p>A list of policy names.</p>
-   */
-  PolicyNames: string[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListUserPoliciesResponse {
-  export const filterSensitiveLog = (obj: ListUserPoliciesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListUsersRequest {
-  /**
-   * <p> The path prefix for filtering the results. For example:
-   *             <code>/division_abc/subdivision_xyz/</code>, which would get all user names whose path
-   *          starts with <code>/division_abc/subdivision_xyz/</code>.</p>
-   *          <p>This parameter is optional. If it is not included, it defaults to a slash (/), listing
-   *          all user names. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
-   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
-   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
-   *     most punctuation characters, digits, and upper and lowercased letters.</p>
-   */
-  PathPrefix?: string;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListUsersRequest {
-  export const filterSensitiveLog = (obj: ListUsersRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListUsers</a> request. </p>
- */
-export interface ListUsersResponse {
-  /**
-   * <p>A list of users.</p>
-   */
-  Users: User[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListUsersResponse {
-  export const filterSensitiveLog = (obj: ListUsersResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListUserTagsRequest {
-  /**
-   * <p>The name of the IAM user whose tags you want to see.</p>
-   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: =,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>(Optional) Use this only when paginating results to indicate the
-   *     maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, it defaults to 100. Note that
-   *     IAM might return fewer results, even when more results are available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListUserTagsRequest {
-  export const filterSensitiveLog = (obj: ListUserTagsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface ListUserTagsResponse {
-  /**
-   * <p>The list of tags that are currently attached to the user. Each tag consists of a key
-   *       name and an associated value. If no tags are attached to the specified user, the response
-   *       contains an empty list.</p>
-   */
-  Tags: Tag[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can use the <code>Marker</code> request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when more results are available. Check <code>IsTruncated</code> after every call to ensure that you receive all of your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListUserTagsResponse {
-  export const filterSensitiveLog = (obj: ListUserTagsResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListVirtualMFADevicesRequest {
-  /**
-   * <p> The status (<code>Unassigned</code> or <code>Assigned</code>) of the devices to list.
-   *          If you do not specify an <code>AssignmentStatus</code>, the operation defaults to
-   *             <code>Any</code>, which lists both assigned and unassigned virtual MFA devices.,</p>
-   */
-  AssignmentStatus?: AssignmentStatusType | string;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListVirtualMFADevicesRequest {
-  export const filterSensitiveLog = (obj: ListVirtualMFADevicesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListVirtualMFADevices</a> request.
- *     </p>
- */
-export interface ListVirtualMFADevicesResponse {
-  /**
-   * <p> The list of virtual MFA devices in the current account that match the
-   *             <code>AssignmentStatus</code> value that was passed in the request.</p>
-   */
-  VirtualMFADevices: VirtualMFADevice[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element is present and contains
-   *          the value to use for the <code>Marker</code> parameter in a subsequent pagination
-   *          request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListVirtualMFADevicesResponse {
-  export const filterSensitiveLog = (obj: ListVirtualMFADevicesResponse): any => ({
-    ...obj,
-    ...(obj.VirtualMFADevices && {
-      VirtualMFADevices: obj.VirtualMFADevices.map((item) => VirtualMFADevice.filterSensitiveLog(item)),
-    }),
-  });
-}
-
-export interface LoginConsoleRequest {
-  /**
-   * <p>1 means account; 2 means user; 3 means email</p>
-   */
-  LoginType: number | undefined;
-
-  /**
-   * <p>Account name, required when LoginType is 1.</p>
-   */
-  AccountName?: string;
-
-  /**
-   * <p>User name, required when LoginType is 2.</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>User name, required when LoginType is 2.</p>
-   */
-  Email?: string;
-
-  /**
-   * <p>Password</p>
-   */
-  Password: string | undefined;
-}
-
-export namespace LoginConsoleRequest {
-  export const filterSensitiveLog = (obj: LoginConsoleRequest): any => ({
-    ...obj,
-    ...(obj.Password && { Password: SENSITIVE_STRING }),
-  });
-}
-
-export interface LoginConsoleResponse {
-  /**
-   * <p>Login succeed or failed.</p>
-   */
-  Result: string | undefined;
-
-  /**
-   * <p>0 means no need update, 1 means need update.</p>
-   */
-  NeedUpdatePassword?: number;
-
-  /**
-   * <p>Account info.</p>
-   */
-  Account?: AccountType;
-
-  /**
-   * <p>AccessKey info.</p>
-   */
-  AccessKey?: AccessKey;
-}
-
-export namespace LoginConsoleResponse {
-  export const filterSensitiveLog = (obj: LoginConsoleResponse): any => ({
-    ...obj,
-    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
-    ...(obj.AccessKey && { AccessKey: AccessKey.filterSensitiveLog(obj.AccessKey) }),
-  });
-}
-
-export interface PutAccountQosRequest {
-  /**
-   * <p>Account name.</p>
-   */
-  AccountName?: string;
-
-  /**
-   * <p>The ReadOps of the account.</p>
-   */
-  ReadOps?: string;
-
-  /**
-   * <p>The WriteOps of the account.</p>
-   */
-  WriteOps?: string;
-
-  /**
-   * <p>The ReadBandwidth of the account.</p>
-   */
-  ReadBandwidth?: string;
-
-  /**
-   * <p>The WriteBandwidth of the account.</p>
-   */
-  WriteBandwidth?: string;
-}
-
-export namespace PutAccountQosRequest {
-  export const filterSensitiveLog = (obj: PutAccountQosRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutGroupPolicyRequest {
-  /**
-   * <p>The name of the group to associate the policy with.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-.</p>
-   */
-  GroupName: string | undefined;
-
-  /**
-   * <p>The name of the policy document.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  PolicyName: string | undefined;
-
-  /**
-   * <p>The policy document.</p>
-   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
-   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
-   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
-   *          IAM.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  PolicyDocument: string | undefined;
-}
-
-export namespace PutGroupPolicyRequest {
-  export const filterSensitiveLog = (obj: PutGroupPolicyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutRolePermissionsBoundaryRequest {
-  /**
-   * <p>The name (friendly name, not ARN) of the IAM role for which you want to set the
-   *          permissions boundary.</p>
-   */
-  RoleName: string | undefined;
-
-  /**
-   * <p>The ARN of the policy that is used to set the permissions boundary for the role.</p>
-   */
-  PermissionsBoundary: string | undefined;
-}
-
-export namespace PutRolePermissionsBoundaryRequest {
-  export const filterSensitiveLog = (obj: PutRolePermissionsBoundaryRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutRolePolicyRequest {
-  /**
-   * <p>The name of the role to associate the policy with.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  RoleName: string | undefined;
-
-  /**
-   * <p>The name of the policy document.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  PolicyName: string | undefined;
-
-  /**
-   * <p>The policy document.</p>
-   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
-   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
-   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
-   *          IAM.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  PolicyDocument: string | undefined;
-}
-
-export namespace PutRolePolicyRequest {
-  export const filterSensitiveLog = (obj: PutRolePolicyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutUserPermissionsBoundaryRequest {
-  /**
-   * <p>The name (friendly name, not ARN) of the IAM user for which you want to set the
-   *          permissions boundary.</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
-   */
-  PermissionsBoundary: string | undefined;
-}
-
-export namespace PutUserPermissionsBoundaryRequest {
-  export const filterSensitiveLog = (obj: PutUserPermissionsBoundaryRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutUserPolicyRequest {
-  /**
-   * <p>The name of the user to associate the policy with.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The name of the policy document.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  PolicyName: string | undefined;
-
-  /**
-   * <p>The policy document.</p>
-   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
-   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
-   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
-   *          IAM.</p>
-   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
-   *     used to validate this parameter is a string of characters consisting of the following:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Any printable ASCII
-   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
-   *             </li>
-   *             <li>
-   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
-   *     (through <code>\u00FF</code>)</p>
-   *             </li>
-   *             <li>
-   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
-   *     carriage return (<code>\u000D</code>)</p>
-   *             </li>
-   *          </ul>
-   */
-  PolicyDocument: string | undefined;
-}
-
-export namespace PutUserPolicyRequest {
-  export const filterSensitiveLog = (obj: PutUserPolicyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface RemoveAccountFromGroupRequest {
-  /**
-   * <p>Account group name.</p>
-   */
-  GroupName?: string;
-
-  /**
-   * <p>Account name.</p>
-   */
-  AccountName?: string;
-}
-
-export namespace RemoveAccountFromGroupRequest {
-  export const filterSensitiveLog = (obj: RemoveAccountFromGroupRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface RemoveClientIDFromOpenIDConnectProviderRequest {
-  /**
-   * <p>The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client
-   *          ID from. You can get a list of OIDC provider ARNs by using the <a>ListOpenIDConnectProviders</a> operation.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  OpenIDConnectProviderArn: string | undefined;
-
-  /**
-   * <p>The client ID (also known as audience) to remove from the IAM OIDC provider resource.
-   *          For more information about client IDs, see <a>CreateOpenIDConnectProvider</a>.</p>
-   */
-  ClientID: string | undefined;
-}
-
-export namespace RemoveClientIDFromOpenIDConnectProviderRequest {
-  export const filterSensitiveLog = (obj: RemoveClientIDFromOpenIDConnectProviderRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface RemoveRoleFromInstanceProfileRequest {
-  /**
-   * <p>The name of the instance profile to update.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  InstanceProfileName: string | undefined;
-
-  /**
-   * <p>The name of the role to remove.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  RoleName: string | undefined;
-}
-
-export namespace RemoveRoleFromInstanceProfileRequest {
-  export const filterSensitiveLog = (obj: RemoveRoleFromInstanceProfileRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface RemoveUserFromGroupRequest {
-  /**
-   * <p>The name of the group to update.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  GroupName: string | undefined;
-
-  /**
-   * <p>The name of the user to remove.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-}
-
-export namespace RemoveUserFromGroupRequest {
-  export const filterSensitiveLog = (obj: RemoveUserFromGroupRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface ResetAccountPasswordRequest {
-  /**
-   * <p>Account name.</p>
-   */
-  AccountName: string | undefined;
-
-  /**
-   * <p>The new password.</p>
-   */
-  NewPassword?: string;
-
-  /**
-   * <p>First login is update password, 0 means no, 1 means yes.</p>
-   */
-  FirstLoginUpdatePassword?: number;
-}
-
-export namespace ResetAccountPasswordRequest {
-  export const filterSensitiveLog = (obj: ResetAccountPasswordRequest): any => ({
-    ...obj,
-    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
-  });
-}
-
-export interface ResetServiceSpecificCredentialRequest {
-  /**
-   * <p>The name of the IAM user associated with the service-specific credential. If this
-   *          value is not specified, then the operation assumes the user whose credentials are used to
-   *          call the operation.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName?: string;
-
-  /**
-   * <p>The unique identifier of the service-specific credential.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
-   *     consist of any upper or lowercased letter or digit.</p>
-   */
-  ServiceSpecificCredentialId: string | undefined;
-}
-
-export namespace ResetServiceSpecificCredentialRequest {
-  export const filterSensitiveLog = (obj: ResetServiceSpecificCredentialRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface ResetServiceSpecificCredentialResponse {
-  /**
-   * <p>A structure with details about the updated service-specific credential, including the
-   *          new password.</p>
-   *          <important>
-   *             <p>This is the <b>only</b> time that you can access the
-   *             password. You cannot recover the password later, but you can reset it again.</p>
-   *          </important>
-   */
-  ServiceSpecificCredential?: ServiceSpecificCredential;
-}
-
-export namespace ResetServiceSpecificCredentialResponse {
-  export const filterSensitiveLog = (obj: ResetServiceSpecificCredentialResponse): any => ({
-    ...obj,
-    ...(obj.ServiceSpecificCredential && {
-      ServiceSpecificCredential: ServiceSpecificCredential.filterSensitiveLog(obj.ServiceSpecificCredential),
-    }),
-  });
-}
-
-export interface ResetUserPasswordRequest {
-  /**
-   * <p>User name.</p>
-   */
-  UserName?: string;
-}
-
-export namespace ResetUserPasswordRequest {
-  export const filterSensitiveLog = (obj: ResetUserPasswordRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface ResyncMFADeviceRequest {
-  /**
-   * <p>The name of the user whose MFA device you want to resynchronize.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>Serial number that uniquely identifies the MFA device.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  SerialNumber: string | undefined;
-
-  /**
-   * <p>An authentication code emitted by the device.</p>
-   *          <p>The format for this parameter is a sequence of six digits.</p>
-   */
-  AuthenticationCode1: string | undefined;
-
-  /**
-   * <p>A subsequent authentication code emitted by the device.</p>
-   *          <p>The format for this parameter is a sequence of six digits.</p>
-   */
-  AuthenticationCode2: string | undefined;
-}
-
-export namespace ResyncMFADeviceRequest {
-  export const filterSensitiveLog = (obj: ResyncMFADeviceRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface SetDefaultPolicyVersionRequest {
-  /**
-   * <p>The Amazon Resource Name (ARN) of the IAM policy whose default version you want to
-   *          set.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  PolicyArn: string | undefined;
-
-  /**
-   * <p>The version of the policy to set as the default (operative) version.</p>
-   *          <p>For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning for Managed
-   *             Policies</a> in the <i>IAM User Guide</i>.</p>
-   */
-  VersionId: string | undefined;
-}
-
-export namespace SetDefaultPolicyVersionRequest {
-  export const filterSensitiveLog = (obj: SetDefaultPolicyVersionRequest): any => ({
-    ...obj,
-  });
-}
-
-export enum GlobalEndpointTokenVersion {
-  v1Token = "v1Token",
-  v2Token = "v2Token",
-}
-
-export interface SetSecurityTokenServicePreferencesRequest {
-  /**
-   * <p>The version of the global endpoint token. Version 1 tokens are valid only in AWS
-   *          Regions that are available by default. These tokens do not work in manually enabled
-   *          Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions.
-   *          However, version 2 tokens are longer and might affect systems where you temporarily store
-   *          tokens.</p>
-   *          <p>For information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating and Deactivating
-   *             STS in an AWS Region</a> in the <i>IAM User Guide</i>.</p>
-   */
-  GlobalEndpointTokenVersion: GlobalEndpointTokenVersion | string | undefined;
-}
-
-export namespace SetSecurityTokenServicePreferencesRequest {
-  export const filterSensitiveLog = (obj: SetSecurityTokenServicePreferencesRequest): any => ({
     ...obj,
   });
 }

@@ -46,6 +46,18 @@
           "target": "com.amazonaws.iam#AddUserToGroup"
         },
         {
+          "target": "com.amazonaws.iam#BatchAddUsersToGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAddUserToGroups"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAddUserToMultiGroups"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchRemoveUserFromMultiGroups"
+        },
+        {
           "target": "com.amazonaws.iam#AttachGroupPolicy"
         },
         {
@@ -74,6 +86,9 @@
         },
         {
           "target": "com.amazonaws.iam#CreateAccessKey"
+        },
+        {
+          "target": "com.amazonaws.iam#GetServiceOverview"
         },
         {
           "target": "com.amazonaws.iam#CreateAccount"
@@ -163,6 +178,9 @@
           "target": "com.amazonaws.iam#DeleteGroup"
         },
         {
+          "target": "com.amazonaws.iam#BatchDeleteGroups"
+        },
+        {
           "target": "com.amazonaws.iam#DeleteGroupPolicy"
         },
         {
@@ -176,6 +194,36 @@
         },
         {
           "target": "com.amazonaws.iam#DeletePolicy"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDeletePolicies"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdatePolicyDescription"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAttachPoliciesToUser"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAttachPolicyToMultiUsers"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDetachPoliciesFromUser"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiUsers"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAttachPoliciesToGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchAttachPolicyToMultiGroups"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDetachPoliciesFromGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiGroups"
         },
         {
           "target": "com.amazonaws.iam#DeletePolicyVersion"
@@ -209,6 +257,9 @@
         },
         {
           "target": "com.amazonaws.iam#DeleteUser"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchDeleteUsers"
         },
         {
           "target": "com.amazonaws.iam#DeleteUserPermissionsBoundary"
@@ -403,6 +454,42 @@
           "target": "com.amazonaws.iam#ListUsers"
         },
         {
+          "target": "com.amazonaws.iam#UserLogin"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateGroupDescription"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserPassword"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserStatus"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserEmail"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserAccessType"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserDescription"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserAccessKey"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserAccessKeyDescription"
+        },
+        {
+          "target": "com.amazonaws.iam#CreateUserAccessKey"
+        },
+        {
+          "target": "com.amazonaws.iam#ListUserAccessKeys"
+        },
+        {
+          "target": "com.amazonaws.iam#DeleteUserAccessKey"
+        },
+        {
           "target": "com.amazonaws.iam#ListUserTags"
         },
         {
@@ -437,6 +524,12 @@
         },
         {
           "target": "com.amazonaws.iam#RemoveUserFromGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchRemoveUsersFromGroup"
+        },
+        {
+          "target": "com.amazonaws.iam#BatchRemoveUserFromGroups"
         },
         {
           "target": "com.amazonaws.iam#ResetAccountPassword"
@@ -657,6 +750,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The date when the access key was created.</p>"
           }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
         }
       },
       "traits": {
@@ -841,10 +940,45 @@
           "traits": {
             "smithy.api#documentation": "<p>User info.</p>"
           }
+        },
+        "Dedup": {
+          "target": "com.amazonaws.iam#AccoutDedup",
+          "traits": {
+            "smithy.api#documentation": "账户重删数据"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p>Account info.</p>"
+      }
+    },
+    "com.amazonaws.iam#AccoutDedup": {
+      "type": "structure",
+      "members": {
+        "Num": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "开启重删后上传的对象数量"
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "开启重删后上传的对象容量"
+          }
+        },
+        "DedupNum": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "重删对象数量"
+          }
+        },
+        "DedupSize": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "重删对象容量"
+          }
+        }
       }
     },
     "com.amazonaws.iam#AccountGroupType": {
@@ -1038,6 +1172,267 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchRemoveUserFromMultiGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchRemoveUserFromMultiGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchRemoveUserFromMultiGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Add the specified group to the specified user.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUserFromMultiGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        },
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUserFromMultiGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Removed": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToMultiGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAddUserToMultiGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAddUserToMultiGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Add the specified group to the specified user.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToMultiGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        },
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToMultiGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Added": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUsersToGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAddUsersToGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAddUsersToGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Adds the specified user to the specified group.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUsersToGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the group to update.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "UserDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAddUsersToGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Added": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAddUserToGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAddUserToGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Adds the specified user to the specified group.</p>"
+      }
+    },
+    "com.amazonaws.iam#GroupDocumentType": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The name of the user to delete.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+      }
+    },
+    "com.amazonaws.iam#userDocumentType": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>The name of the user to delete.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        },
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAddUserToGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Added": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#ArnListType": {
       "type": "list",
       "member": {
@@ -1080,8 +1475,8 @@
             "smithy.api#required": {}
           }
         },
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM policy you want to attach.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
             "smithy.api#required": {}
@@ -1173,8 +1568,8 @@
             "smithy.api#required": {}
           }
         },
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM policy you want to attach.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
             "smithy.api#required": {}
@@ -1208,15 +1603,88 @@
         "PolicyName": {
           "target": "com.amazonaws.iam#policyNameType",
           "traits": {
-            "smithy.api#documentation": "<p>The friendly name of the attached policy.</p>"
+            "smithy.api#documentation": "<p>The friendly name (not ARN) identifying the policy.</p>"
           }
         },
-        "PolicyArn": {
+        "PolicyId": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>The stable and unique string identifying the policy.</p>\n         <p>For more information about IDs, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>.</p>"
+          }
+        },
+        "Arn": {
           "target": "com.amazonaws.iam#arnType"
+        },
+        "Path": {
+          "target": "com.amazonaws.iam#policyPathType",
+          "traits": {
+            "smithy.api#documentation": "<p>The path to the policy.</p>\n         <p>For more information about paths, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>.</p>"
+          }
+        },
+        "CreateDate": {
+          "target": "com.amazonaws.iam#dateType",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time, in <a href=\"http://www.iso.org/iso/iso8601\">ISO 8601 date-time\n            format</a>, when the policy was created.</p>"
+          }
+        },
+        "UpdateDate": {
+          "target": "com.amazonaws.iam#dateType",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time, in <a href=\"http://www.iso.org/iso/iso8601\">ISO 8601 date-time\n            format</a>, when the policy was last updated.</p>\n         <p>When a policy has only one version, this field contains the date and time when the\n         policy was created. When a policy has more than one version, this field contains the date\n         and time when the most recent policy version was created.</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#policyDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>A friendly description of the policy.</p>\n         <p>This element is included in the response to the <a>GetPolicy</a> operation.\n         It is not included in the response to the <a>ListPolicies</a> operation. </p>"
+          }
+        },
+        "Sources": {
+          "target": "com.amazonaws.iam#PolicySource",
+          "traits": {
+            "smithy.api#documentation": "说明策略是通过什么方式附加到用户的</p>"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains information about an attached policy.</p>\n         <p>An attached policy is a managed policy that has been attached to a user, group, or role.\n         This data type is used as a response element in the <a>ListAttachedGroupPolicies</a>, <a>ListAttachedRolePolicies</a>, <a>ListAttachedUserPolicies</a>, and <a>GetAccountAuthorizationDetails</a> operations. </p>\n         <p>For more information about managed policies, refer to <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html\">Managed Policies and Inline\n            Policies</a> in the <i>IAM User Guide</i>. </p>"
+      }
+    },
+    "com.amazonaws.iam#PolicySource": {
+      "type": "structure",
+      "members": {
+        "IsDirectAttached": {
+          "target": "com.amazonaws.iam#booleanType",
+          "traits": {
+            "smithy.api#documentation": "是否直接添加到用户"
+          }
+        },
+        "PolicySourceGroupList": {
+          "target": "com.amazonaws.iam#PolicySourceGroupList",
+          "traits": {
+            "smithy.api#documentation": "通过组附加到用户",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "member"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#PolicySourceGroupList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#PolicySourceGroup"
+      }
+    },
+    "com.amazonaws.iam#PolicySourceGroup": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the IAM group.</p>",
+            "smithy.api#required": {}
+          }
+        }
       }
     },
     "com.amazonaws.iam#BootstrapDatum": {
@@ -1513,6 +1981,13 @@
     "com.amazonaws.iam#ChangePasswordRequest": {
       "type": "structure",
       "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the IAM user to create a password for. The user must already exist.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
         "OldPassword": {
           "target": "com.amazonaws.iam#passwordType",
           "traits": {
@@ -1659,6 +2134,93 @@
     "com.amazonaws.iam#ContextKeyValueType": {
       "type": "string"
     },
+    "com.amazonaws.iam#GetServiceOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetServiceOverviewRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetServiceOverviewResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>GetServiceOverview</p>"
+      }
+    },
+    "com.amazonaws.iam#GetServiceOverviewRequest": {
+      "type": "structure",
+      "members": {}
+    },
+    "com.amazonaws.iam#GetServiceOverviewResponse": {
+      "type": "structure",
+      "members": {
+        "IAM": {
+          "target": "com.amazonaws.iam#GetServiceOverviewIAM",
+          "traits": {
+            "smithy.api#documentation": "<p>GetServiceOverviewIAM</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "S3": {
+          "target": "com.amazonaws.iam#GetServiceOverviewS3",
+          "traits": {
+            "smithy.api#documentation": "<p>GetServiceOverviewIAM</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>GetServiceOverviewResponse</p>"
+      }
+    },
+    "com.amazonaws.iam#GetServiceOverviewIAM": {
+      "type": "structure",
+      "members": {
+        "AccountNumber": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>AccountNumber</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>GetServiceOverviewIAM</p>"
+      }
+    },
+    "com.amazonaws.iam#GetServiceOverviewS3": {
+      "type": "structure",
+      "members": {
+        "BucketNumber": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>BucketNumber</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "ObjectNumber": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>ObjectNumber</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "UsedSize": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>UsedSize</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GetServiceOverview</a> request.\n    </p>"
+      }
+    },
     "com.amazonaws.iam#CreateAccessKey": {
       "type": "operation",
       "input": {
@@ -1689,6 +2251,24 @@
           "target": "com.amazonaws.iam#existingUserNameType",
           "traits": {
             "smithy.api#documentation": "<p>The name of the IAM user that the new key will belong to.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
+        },
+        "SelfdefineAccessKeyId": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom ak of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineSecretAccessKey": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
           }
         }
       }
@@ -2265,12 +2845,25 @@
             "smithy.api#documentation": "<p>The name of the group to create. Do not include the path in this value.</p>\n         <p>IAM user, group, role, and policy names must be unique within the account. Names are\n         not distinguished by case. For example, you cannot create resources named both \"MyResource\"\n         and \"myresource\".</p>",
             "smithy.api#required": {}
           }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#policyDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>A friendly description of the policy.</p>\n         <p>Typically used to store information about the permissions defined in the policy. For\n         example, \"Grants access to production DynamoDB tables.\"</p>\n         <p>The policy description is immutable. After a value is assigned, it cannot be\n         changed.</p>"
+          }
         }
       }
     },
     "com.amazonaws.iam#CreateGroupResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "Group": {
           "target": "com.amazonaws.iam#Group",
           "traits": {
@@ -2932,6 +3525,12 @@
             "smithy.api#required": {}
           }
         },
+        "Status": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ARN of the policy that is used to set the permissions boundary for the user.</p>"
+          }
+        },
         "PermissionsBoundary": {
           "target": "com.amazonaws.iam#arnType",
           "traits": {
@@ -2971,6 +3570,24 @@
             "smithy.api#documentation": "<p>Description</p>"
           }
         },
+        "NeedInnerCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
+        "SelfdefineAccessKeyId": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom ak of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineSecretAccessKey": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
+          }
+        },
         "FirstLoginUpdatePassword": {
           "target": "com.amazonaws.iam#integerType",
           "traits": {
@@ -2988,6 +3605,13 @@
     "com.amazonaws.iam#CreateUserResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "User": {
           "target": "com.amazonaws.iam#User",
           "traits": {
@@ -3288,6 +3912,32 @@
         "smithy.api#documentation": "<p>Deletes the specified IAM group. The group must not contain any users or have any\n         attached policies.</p>"
       }
     },
+    "com.amazonaws.iam#BatchDeleteGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDeleteGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDeleteGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#DeleteConflictException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Deletes the specified IAM group. The group must not contain any users or have any\n         attached policies.</p>"
+      }
+    },
     "com.amazonaws.iam#DeleteGroupPolicy": {
       "type": "operation",
       "input": {
@@ -3470,10 +4120,426 @@
     "com.amazonaws.iam#DeletePolicyRequest": {
       "type": "structure",
       "members": {
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
-            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM policy you want to delete.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
+            "smithy.api#documentation": "<p>Policy Name</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDeletePolicies": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDeletePoliciesRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#DeleteConflictException"
+        },
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Deletes the specified managed policy.</p>\n         <p>Before you can delete a managed policy, you must first detach the policy from all users,\n         groups, and roles that it is attached to. In addition, you must delete all the policy's\n         versions. The following steps describe the process for deleting a managed policy:</p>\n         <ul>\n            <li>\n               <p>Detach the policy from all users, groups, and roles that the policy is attached\n               to, using the <a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>, or <a>DetachRolePolicy</a> API operations. To list all the users,\n               groups, and roles that a policy is attached to, use <a>ListEntitiesForPolicy</a>.</p>\n            </li>\n            <li>\n               <p>Delete all versions of the policy using <a>BatchDeletePoliciesVersion</a>. To\n               list the policy's versions, use <a>ListPolicyVersions</a>. You cannot use\n                  <a>BatchDeletePoliciesVersion</a> to delete the version that is marked as the\n               default version. You delete the policy's default version in the next step of the\n               process.</p>\n            </li>\n            <li>\n               <p>Delete the policy (this automatically deletes the policy's default version) using\n               this API.</p>\n            </li>\n         </ul>\n         <p>For information about managed policies, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html\">Managed Policies and Inline\n            Policies</a> in the <i>IAM User Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDeletePoliciesRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: PolicyDocument={\"Name\": [\"policy1\", \"policy2\", \"policy3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdatePolicyDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdatePolicyDescriptionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>UpdatePolicyDescription.</p>"
+      }
+    },
+    "com.amazonaws.iam#UpdatePolicyDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Policy Name</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#policyDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPoliciesToUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAttachPoliciesToUserRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchAttachPoliciesToUser.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPoliciesToUserRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: PolicyDocument={\"Name\": [\"policy1\", \"policy2\", \"policy3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name (friendly name, not ARN) identifying the user that the policy is embedded\n         in.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAttachPolicyToMultiUsersRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchAttachPolicyToMultiUsers.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiUsersRequest": {
+      "type": "structure",
+      "members": {
+        "UserDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: UserDocument={\"Name\": [\"user1\", \"user2\", \"user3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Policy Name</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPoliciesFromUser": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDetachPoliciesFromUserRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchDetachPoliciesFromUser.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPoliciesFromUserRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: PolicyDocument={\"Name\": [\"policy1\", \"policy2\", \"policy3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name (friendly name, not ARN) identifying the user that the policy is embedded\n         in.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiUsersRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchDetachPolicyFromMultiUsers.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiUsersRequest": {
+      "type": "structure",
+      "members": {
+        "UserDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: UserDocument={\"Name\": [\"user1\", \"user2\", \"user3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Policy Name</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPoliciesToGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAttachPoliciesToGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchAttachPoliciesToGroup.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPoliciesToGroupRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: PolicyDocument={\"Name\": [\"policy1\", \"policy2\", \"policy3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name (friendly name, not ARN) of the IAM group to detach the policy from.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchAttachPolicyToMultiGroupsRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchAttachPolicyToMultiGroups.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: GroupDocument={\"Name\": [\"group1\", \"group2\", \"group3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Policy Name</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPoliciesFromGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDetachPoliciesFromGroupRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchDetachPoliciesFromGroup.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPoliciesFromGroupRequest": {
+      "type": "structure",
+      "members": {
+        "PolicyDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: PolicyDocument={\"Name\": [\"policy1\", \"policy2\", \"policy3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name (friendly name, not ARN) of the IAM group to detach the policy from.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiGroupsRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#InvalidInputException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>BatchDetachPolicyFromMultiGroups.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>eg: GroupDocument={\"Name\": [\"group1\", \"group2\", \"group3\"]}</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Policy Name</p>",
             "smithy.api#required": {}
           }
         }
@@ -3885,6 +4951,35 @@
         "smithy.api#documentation": "<p>Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user\n         programmatically, you must delete the items attached to the user manually, or the deletion\n         fails. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli\">Deleting an IAM\n            User</a>. Before attempting to delete a user, remove the following items:</p>\n         <ul>\n            <li>\n               <p>Password (<a>DeleteLoginProfile</a>)</p>\n            </li>\n            <li>\n               <p>Access keys (<a>DeleteAccessKey</a>)</p>\n            </li>\n            <li>\n               <p>Signing certificate (<a>DeleteSigningCertificate</a>)</p>\n            </li>\n            <li>\n               <p>SSH public key (<a>DeleteSSHPublicKey</a>)</p>\n            </li>\n            <li>\n               <p>Git credentials (<a>DeleteServiceSpecificCredential</a>)</p>\n            </li>\n            <li>\n               <p>Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>,\n                  <a>DeleteVirtualMFADevice</a>)</p>\n            </li>\n            <li>\n               <p>Inline policies (<a>DeleteUserPolicy</a>)</p>\n            </li>\n            <li>\n               <p>Attached managed policies (<a>DetachUserPolicy</a>)</p>\n            </li>\n            <li>\n               <p>Group memberships (<a>RemoveUserFromGroup</a>)</p>\n            </li>\n         </ul>"
       }
     },
+    "com.amazonaws.iam#BatchDeleteUsers": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchDeleteUsersRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDeleteUsersResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#DeleteConflictException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user\n         programmatically, you must delete the items attached to the user manually, or the deletion\n         fails. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli\">Deleting an IAM\n            User</a>. Before attempting to delete a user, remove the following items:</p>\n         <ul>\n            <li>\n               <p>Password (<a>DeleteLoginProfile</a>)</p>\n            </li>\n            <li>\n               <p>Access keys (<a>DeleteAccessKey</a>)</p>\n            </li>\n            <li>\n               <p>Signing certificate (<a>DeleteSigningCertificate</a>)</p>\n            </li>\n            <li>\n               <p>SSH public key (<a>DeleteSSHPublicKey</a>)</p>\n            </li>\n            <li>\n               <p>Git credentials (<a>DeleteServiceSpecificCredential</a>)</p>\n            </li>\n            <li>\n               <p>Multi-factor authentication (MFA) device (<a>DeactivateMFADevice</a>,\n                  <a>DeleteVirtualMFADevice</a>)</p>\n            </li>\n            <li>\n               <p>Inline policies (<a>DeleteUserPolicy</a>)</p>\n            </li>\n            <li>\n               <p>Attached managed policies (<a>DetachUserPolicy</a>)</p>\n            </li>\n            <li>\n               <p>Group memberships (<a>RemoveUserFromGroup</a>)</p>\n            </li>\n         </ul>"
+      }
+    },
     "com.amazonaws.iam#DeleteUserPermissionsBoundary": {
       "type": "operation",
       "input": {
@@ -3963,6 +5058,64 @@
             "smithy.api#required": {}
           }
         }
+      }
+    },
+    "com.amazonaws.iam#BatchDeleteUsersRequest": {
+      "type": "structure",
+      "members": {
+        "UserDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDeleteUsersResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Deleted": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#BatchDeleteGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchDeleteGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Deleted": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
       }
     },
     "com.amazonaws.iam#DeleteVirtualMFADevice": {
@@ -4085,8 +5238,8 @@
             "smithy.api#required": {}
           }
         },
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM policy you want to detach.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
             "smithy.api#required": {}
@@ -4172,8 +5325,8 @@
             "smithy.api#required": {}
           }
         },
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
             "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM policy you want to detach.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
             "smithy.api#required": {}
@@ -5112,6 +6265,13 @@
     "com.amazonaws.iam#GetGroupResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "Group": {
           "target": "com.amazonaws.iam#Group",
           "traits": {
@@ -5454,10 +6614,10 @@
     "com.amazonaws.iam#GetPolicyRequest": {
       "type": "structure",
       "members": {
-        "PolicyArn": {
-          "target": "com.amazonaws.iam#arnType",
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
           "traits": {
-            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the managed policy that you want information\n         about.</p>\n         <p>For more information about ARNs, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html\">Amazon Resource Names (ARNs) and AWS Service \n    Namespaces</a> in the <i>AWS General Reference</i>.</p>",
+            "smithy.api#documentation": "Policy Name",
             "smithy.api#required": {}
           }
         }
@@ -6169,6 +7329,12 @@
             "smithy.api#documentation": "<p>The name of the user to get information about.</p>\n         <p>This parameter is optional. If it is not included, it defaults to the user making the\n         request. This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
           }
         },
+        "NeedInnerCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
         "Type": {
           "target": "com.amazonaws.iam#integerType"
         }
@@ -6177,6 +7343,13 @@
     "com.amazonaws.iam#GetUserResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "User": {
           "target": "com.amazonaws.iam#User",
           "traits": {
@@ -6213,6 +7386,9 @@
             "smithy.api#required": {}
           }
         },
+        "Type": {
+          "target": "com.amazonaws.iam#integerType"
+        },
         "Arn": {
           "target": "com.amazonaws.iam#arnType",
           "traits": {
@@ -6225,6 +7401,24 @@
           "traits": {
             "smithy.api#documentation": "<p>The date and time, in <a href=\"http://www.iso.org/iso/iso8601\">ISO 8601 date-time\n            format</a>, when the group was created.</p>",
             "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#ReportStateDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Information about the credential report.</p>"
+          }
+        },
+        "UserNumber": {
+          "target": "com.amazonaws.iam#LineNumber",
+          "traits": {
+            "smithy.api#documentation": "<p>Information about the credential report.</p>"
+          }
+        },
+        "Policies": {
+          "target": "com.amazonaws.iam#ManagedPolicyDetailListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list containing information about managed policies.</p>"
           }
         }
       },
@@ -6554,6 +7748,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
             "smithy.api#httpQuery": "prefix"
+          }
+        },
+        "BypassLimitListAccountNumber": {
+          "target": "com.amazonaws.iam#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>返回账户数量需要超过1000个时，参加此参数并且设置为true</p>"
           }
         }
       }
@@ -6945,6 +8145,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Use this only when paginating results to indicate the \n    maximum number of items you want in the response. If additional items exist beyond the maximum \n    you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>\n         <p>If you do not include this parameter, the number of items defaults to 100. Note that\n    IAM might return fewer results, even when there are more results available. In that case, the\n    <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code> \n    contains a value to include in the subsequent call that tells the service where to continue \n    from.</p>"
           }
+        },
+        "NeedAllPolicies": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
         }
       }
     },
@@ -7235,6 +8441,13 @@
     "com.amazonaws.iam#ListGroupsForUserResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "Groups": {
           "target": "com.amazonaws.iam#groupListType",
           "traits": {
@@ -7262,6 +8475,18 @@
     "com.amazonaws.iam#ListGroupsRequest": {
       "type": "structure",
       "members": {
+        "NeedUserNum": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
+        "NeedAttachedPolicies": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
         "PathPrefix": {
           "target": "com.amazonaws.iam#pathPrefixType",
           "traits": {
@@ -7285,6 +8510,13 @@
     "com.amazonaws.iam#ListGroupsResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "Groups": {
           "target": "com.amazonaws.iam#groupListType",
           "traits": {
@@ -8538,12 +9770,37 @@
           "traits": {
             "smithy.api#documentation": "<p>Use this only when paginating results to indicate the \n    maximum number of items you want in the response. If additional items exist beyond the maximum \n    you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>\n         <p>If you do not include this parameter, the number of items defaults to 100. Note that\n    IAM might return fewer results, even when there are more results available. In that case, the\n    <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code> \n    contains a value to include in the subsequent call that tells the service where to continue \n    from.</p>"
           }
+        },
+        "NeedInnerCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
+        "NeedAddedGroups": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        },
+        "NeedAttachedPolicies": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
         }
       }
     },
     "com.amazonaws.iam#ListUsersResponse": {
       "type": "structure",
       "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
         "Users": {
           "target": "com.amazonaws.iam#userListType",
           "traits": {
@@ -8634,6 +9891,96 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains the response to a successful <a>ListVirtualMFADevices</a> request.\n    </p>"
+      }
+    },
+    "com.amazonaws.iam#UserLogin": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UserLoginRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#UserLoginResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Login</p>"
+      }
+    },
+    "com.amazonaws.iam#UserLoginRequest": {
+      "type": "structure",
+      "members": {
+        "AccountID": {
+          "target": "com.amazonaws.iam#idType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account Id.</p>"
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name, required when LoginType is 1.</p>"
+          }
+        },
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        },
+        "Email": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        },
+        "Password": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>Password</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NeedInnerCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UserLoginResponse": {
+      "type": "structure",
+      "members": {
+        "Result": {
+          "target": "com.amazonaws.iam#resultType",
+          "traits": {
+            "smithy.api#documentation": "<p>Login succeed or failed.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NeedUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>0 means no need update, 1 means need update.</p>"
+          }
+        },
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account info.</p>"
+          }
+        },
+        "User": {
+          "target": "com.amazonaws.iam#User",
+          "traits": {
+            "smithy.api#documentation": "<p>A structure containing details about the IAM user.</p>\n         <important>\n            <p>Due to a service issue, password last used data does not include password use from\n            May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_finding-unused.html\">last\n               sign-in</a> dates shown in the IAM console and password last used dates in the\n               <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html\">IAM credential report</a>, and returned by this GetUser API. If users signed in\n            during the affected time, the password last used date that is returned is the date the\n            user last signed in before May 3, 2018. For users that signed in after May 23, 2018\n            14:08 PDT, the returned password last used date is accurate.</p>\n            <p>You can use password last used information to identify unused credentials for\n            deletion. For example, you might delete users who did not sign in to AWS in the last 90\n            days. In cases like this, we recommend that you adjust your evaluation window to include\n            dates after May 23, 2018. Alternatively, if your users use access keys to access AWS\n            programmatically you can refer to access key last used information because it is\n            accurate for all dates. </p>\n         </important>",
+            "smithy.api#required": {}
+          }
+        }
       }
     },
     "com.amazonaws.iam#LoginConsole": {
@@ -9107,7 +10454,7 @@
         "Arn": {
           "target": "com.amazonaws.iam#arnType"
         },
-        "PolicyDocument": {
+        "Document": {
           "target": "com.amazonaws.iam#policyDocumentType",
           "traits": {
             "smithy.api#documentation": "<p>The policy document.</p>"
@@ -9825,6 +11172,124 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchRemoveUsersFromGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchRemoveUsersFromGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchRemoveUsersFromGroupResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Removes the specified user from the specified group.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUsersFromGroupRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the group to update.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "UserDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUsersFromGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Removed": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUserFromGroups": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#BatchRemoveUserFromGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchRemoveUserFromGroupsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Removes the specified user from the specified group.</p>"
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUserFromGroupsRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name (friendly name, not ARN) of the IAM user for which you want to set the\n         permissions boundary.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "GroupDocument": {
+          "target": "com.amazonaws.iam#stringType"
+        }
+      }
+    },
+    "com.amazonaws.iam#BatchRemoveUserFromGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Removed": {
+          "target": "com.amazonaws.iam#addOrDeleteType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#batchErrorType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#ReportContentType": {
       "type": "blob"
     },
@@ -9978,6 +11443,18 @@
           "target": "com.amazonaws.iam#userNameType",
           "traits": {
             "smithy.api#documentation": "<p>User name.</p>"
+          }
+        },
+        "NewPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new password.</p>"
+          }
+        },
+        "FirstLoginUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>First login is update password, 0 means no, 1 means yes.</p>"
           }
         }
       }
@@ -11639,6 +13116,47 @@
         }
       }
     },
+    "com.amazonaws.iam#UpdateGroupDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateGroupDescriptionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM group.</p>\n         <important>\n            <p> You should understand the implications of changing a group's path or name. For more\n            information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html\">Renaming Users and\n               Groups</a> in the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p>The person making the request (the principal), must have permission to change the\n            role group with the old name and the new name. For example, to change the group named\n               <code>Managers</code> to <code>MGRs</code>, the principal must have a policy that\n            allows them to update both groups. If the principal has permission to update the\n               <code>Managers</code> group, but not the <code>MGRs</code> group, then the update\n            fails. For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html\">Access Management</a>. </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateGroupDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the IAM group to update. If you're changing the name of the group, this is the\n         original name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new description that you want to apply to the account.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.iam#UpdateLoginProfile": {
       "type": "operation",
       "input": {
@@ -11685,6 +13203,18 @@
           "target": "com.amazonaws.iam#booleanObjectType",
           "traits": {
             "smithy.api#documentation": "<p>Allows this new password to be used only once by requiring the specified IAM user to\n         set a new password on next sign-in.</p>"
+          }
+        },
+        "NewPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new password.</p>"
+          }
+        },
+        "FirstLoginUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>First login is update password, 0 means no, 1 means yes.</p>"
           }
         }
       }
@@ -12133,6 +13663,538 @@
         }
       }
     },
+
+    "com.amazonaws.iam#UpdateUserPassword": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserPasswordRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserPasswordRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NewPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new password.</p>"
+          }
+        },
+        "OldPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The IAM user's current password.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "FirstLoginUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>First login is update password, 0 means no, 1 means yes.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserEmail": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserEmailRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserEmailRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "NewEmail": {
+          "target": "com.amazonaws.iam#emailType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserStatusRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserStatusRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ARN of the policy that is used to set the permissions boundary for the user.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessType": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserAccessTypeRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessTypeRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AccessType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Access type, 1 means web, 2 means api, 3 means all.</p>"
+          }
+        },
+        "NewPassword": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>The new password.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserDescriptionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserAccessKeyRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AccessKeyId": {
+          "target": "com.amazonaws.iam#accessKeyIdType",
+          "traits": {
+            "smithy.api#documentation": "<p>The access key ID of the secret access key you want to update.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters that can \n    consist of any upper or lowercased letter or digit.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ARN of the policy that is used to set the permissions boundary for the user.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessKeyDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserAccessKeyDescriptionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ConcurrentModificationException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityAlreadyExistsException"
+        },
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Updates the name and/or the path of the specified IAM user.</p>\n         <important>\n            <p> You should understand the implications of changing an IAM user's path or name. For\n            more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming\">Renaming an IAM\n               User</a> and <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html\">Renaming an IAM Group</a> in\n            the <i>IAM User Guide</i>.</p>\n         </important>\n         <note>\n            <p> To change a user name, the requester must have appropriate permissions on both the\n            source object and the target object. For example, to change Bob to Robert, the entity\n            making the request must have permission on Bob and Robert, or must have permission on\n            all (*). For more information about permissions, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html\">Permissions and Policies</a>.\n         </p>\n         </note>"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserAccessKeyDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the user to update. If you're changing the name of the user, this is the\n         original user name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AccessKeyId": {
+          "target": "com.amazonaws.iam#accessKeyIdType",
+          "traits": {
+            "smithy.api#documentation": "<p>The access key ID of the secret access key you want to update.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters that can \n    consist of any upper or lowercased letter or digit.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#CreateUserAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#CreateUserAccessKeyRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#CreateUserAccessKeyResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p> Creates a new AWS secret access key and corresponding AWS access key ID for the\n         specified user. The default status for new keys is <code>Active</code>.</p>\n         <p>If you do not specify a user name, IAM determines the user name implicitly based on\n         the AWS access key ID signing the request. This operation works for access keys under the\n         AWS account. Consequently, you can use this operation to manage AWS account root user\n         credentials. This is true even if the AWS account has no associated users.</p>\n         <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html\">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>\n         <important>\n            <p>To ensure the security of your AWS account, the secret access key is accessible\n            only during key and user creation. You must save the key (for example, in a text file)\n            if you want to be able to access it again. If a secret key is lost, you can delete the\n            access keys for the associated user and then create new keys.</p>\n         </important>"
+      }
+    },
+    "com.amazonaws.iam#CreateUserAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the IAM user that the new key will belong to.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.iam#userDescriptionType",
+          "traits": {
+            "smithy.api#documentation": "<p>Description of user.</p>"
+          }
+        },
+        "SelfdefineAccessKeyId": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom ak of the account you want to create.</p>"
+          }
+        },
+        "SelfdefineSecretAccessKey": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The custom sk of the account you want to create.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#CreateUserAccessKeyResponse": {
+      "type": "structure",
+      "members": {
+        "AccessKey": {
+          "target": "com.amazonaws.iam#AccessKey",
+          "traits": {
+            "smithy.api#documentation": "<p>A structure with details about the access key.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>CreateAccessKey</a> request.\n    </p>"
+      }
+    },
+    "com.amazonaws.iam#ListUserAccessKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ListUserAccessKeysRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#ListUserAccessKeysResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p> Creates a new AWS secret access key and corresponding AWS access key ID for the\n         specified user. The default status for new keys is <code>Active</code>.</p>\n         <p>If you do not specify a user name, IAM determines the user name implicitly based on\n         the AWS access key ID signing the request. This operation works for access keys under the\n         AWS account. Consequently, you can use this operation to manage AWS account root user\n         credentials. This is true even if the AWS account has no associated users.</p>\n         <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html\">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>\n         <important>\n            <p>To ensure the security of your AWS account, the secret access key is accessible\n            only during key and user creation. You must save the key (for example, in a text file)\n            if you want to be able to access it again. If a secret key is lost, you can delete the\n            access keys for the associated user and then create new keys.</p>\n         </important>"
+      }
+    },
+    "com.amazonaws.iam#ListUserAccessKeysRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the IAM user that the new key will belong to.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.iam#markerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Use this parameter only when paginating results and only after \n    you receive a response indicating that the results are truncated. Set it to the value of the\n    <code>Marker</code> element in the response that you received to indicate where the next call \n    should start.</p>"
+          }
+        },
+        "MaxItems": {
+          "target": "com.amazonaws.iam#maxItemsType",
+          "traits": {
+            "smithy.api#documentation": "<p>Use this only when paginating results to indicate the \n    maximum number of items you want in the response. If additional items exist beyond the maximum \n    you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>\n         <p>If you do not include this parameter, the number of items defaults to 100. Note that\n    IAM might return fewer results, even when there are more results available. In that case, the\n    <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code> \n    contains a value to include in the subsequent call that tells the service where to continue \n    from.</p>"
+          }
+        },
+        "NeedInnerCert": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>1 means need, 0 means no need.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#ListUserAccessKeysResponse": {
+      "type": "structure",
+      "members": {
+        "AccessKeys": {
+          "target": "com.amazonaws.iam#accessKeyListType",
+          "traits": {
+            "smithy.api#documentation": "<p>The access keys of account.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>CreateAccessKey</a> request.\n    </p>"
+      }
+    },
+    "com.amazonaws.iam#DeleteUserAccessKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#DeleteUserAccessKeyRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p> Creates a new AWS secret access key and corresponding AWS access key ID for the\n         specified user. The default status for new keys is <code>Active</code>.</p>\n         <p>If you do not specify a user name, IAM determines the user name implicitly based on\n         the AWS access key ID signing the request. This operation works for access keys under the\n         AWS account. Consequently, you can use this operation to manage AWS account root user\n         credentials. This is true even if the AWS account has no associated users.</p>\n         <p>The number and size of IAM resources in an AWS account are limited. For more information, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html\">IAM and STS Quotas</a> in the <i>IAM User Guide</i>.</p>\n         <important>\n            <p>To ensure the security of your AWS account, the secret access key is accessible\n            only during key and user creation. You must save the key (for example, in a text file)\n            if you want to be able to access it again. If a secret key is lost, you can delete the\n            access keys for the associated user and then create new keys.</p>\n         </important>"
+      }
+    },
+    "com.amazonaws.iam#DeleteUserAccessKeyRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#existingUserNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the IAM user that the new key will belong to.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "AccessKeyId": {
+          "target": "com.amazonaws.iam#accessKeyIdType",
+          "traits": {
+            "smithy.api#documentation": "<p>The access key ID of the secret access key you want to update.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters that can \n    consist of any upper or lowercased letter or digit.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+
     "com.amazonaws.iam#UploadSSHPublicKey": {
       "type": "operation",
       "input": {
@@ -12350,8 +14412,7 @@
         "Path": {
           "target": "com.amazonaws.iam#pathType",
           "traits": {
-            "smithy.api#documentation": "<p>The path to the user. For more information about paths, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>.</p>",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "<p>The path to the user. For more information about paths, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>.</p>"
           }
         },
         "UserName": {
@@ -12364,8 +14425,13 @@
         "UserId": {
           "target": "com.amazonaws.iam#idType",
           "traits": {
-            "smithy.api#documentation": "<p>The stable and unique string identifying the user. For more information about IDs, see\n            <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM\n            Identifiers</a> in the <i>IAM User Guide</i>.</p>",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "<p>The stable and unique string identifying the user. For more information about IDs, see\n            <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM\n            Identifiers</a> in the <i>IAM User Guide</i>.</p>"
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.iam#userStatusType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ARN of the policy that is used to set the permissions boundary for the user.</p>"
           }
         },
         "Email": {
@@ -12374,18 +14440,22 @@
             "smithy.api#documentation": "<p>User name, required when LoginType is 2.</p>"
           }
         },
+        "FirstLoginUpdatePassword": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>First login is update password, 0 means no, 1 means yes.</p>"
+          }
+        },
         "Arn": {
           "target": "com.amazonaws.iam#arnType",
           "traits": {
-            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs\n         and how to use ARNs in policies, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>. </p>",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs\n         and how to use ARNs in policies, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html\">IAM Identifiers</a> in the\n            <i>IAM User Guide</i>. </p>"
           }
         },
         "CreateDate": {
           "target": "com.amazonaws.iam#dateType",
           "traits": {
-            "smithy.api#documentation": "<p>The date and time, in <a href=\"http://www.iso.org/iso/iso8601\">ISO 8601 date-time\n            format</a>, when the user was created.</p>",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "<p>The date and time, in <a href=\"http://www.iso.org/iso/iso8601\">ISO 8601 date-time\n            format</a>, when the user was created.</p>"
           }
         },
         "PasswordLastUsed": {
@@ -12406,29 +14476,16 @@
             "smithy.api#documentation": "<p>A list of tags that are associated with the specified user. For more information about\n      tagging, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html\">Tagging IAM\n        Identities</a> in the <i>IAM User Guide</i>.</p>"
           }
         },
-        "Type": {
-          "target": "com.amazonaws.iam#integerType",
-          "traits": {
-            "smithy.api#documentation": "<p>0 means default, 1 means custom.</p>"
-          }
-        },
         "Description": {
           "target": "com.amazonaws.iam#userDescriptionType",
           "traits": {
             "smithy.api#documentation": "<p>Description of user.</p>"
           }
         },
-        "UserStatus": {
-          "target": "com.amazonaws.iam#userStatusType",
-          "traits": {
-            "smithy.api#documentation": "<p>Status of user.</p>"
-          }
-        },
         "Groups": {
           "target": "com.amazonaws.iam#groupListType",
           "traits": {
-            "smithy.api#documentation": "<p>A list of groups.</p>",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "<p>A list of groups.</p>"
           }
         },
         "PasswordLastReset": {
@@ -12437,22 +14494,22 @@
             "smithy.api#documentation": "<p>Last password reset time.</p>"
           }
         },
-        "AccessKeyType": {
+        "AccessType": {
           "target": "com.amazonaws.iam#integerType",
           "traits": {
             "smithy.api#documentation": "<p>1 means built-in, use to web. 2 means ordinary, use to client.</p>"
           }
         },
-        "AccountName": {
-          "target": "com.amazonaws.iam#accountNameType",
+        "AccessKeys": {
+          "target": "com.amazonaws.iam#accessKeyListType",
           "traits": {
-            "smithy.api#documentation": "<p>Account Name.</p>"
+            "smithy.api#documentation": "<p>The access keys of account.</p>"
           }
         },
-        "AccountId": {
-          "target": "com.amazonaws.iam#idType",
+        "Policies": {
+          "target": "com.amazonaws.iam#policyListType",
           "traits": {
-            "smithy.api#documentation": "<p>Account Id.</p>"
+            "smithy.api#documentation": "<p>A list of policies.</p>"
           }
         }
       },
@@ -12496,19 +14553,6 @@
           "min": 0,
           "max": 255
         }
-      }
-    },
-    "com.amazonaws.iam#userStatusType": {
-      "type": "string",
-      "traits": {
-        "smithy.api#enum": [
-          {
-            "value": "active"
-          },
-          {
-            "value": "inactive"
-          }
-        ]
       }
     },
     "com.amazonaws.iam#UserDetail": {
@@ -13577,6 +15621,19 @@
         ]
       }
     },
+    "com.amazonaws.iam#userStatusType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "Enabled"
+          },
+          {
+            "value": "Disabled"
+          }
+        ]
+      }
+    },
     "com.amazonaws.iam#stringType": {
       "type": "string"
     },
@@ -13762,6 +15819,78 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>Contains a list of users.</p>\n         <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>"
+      }
+    },
+    "com.amazonaws.iam#userNameListType": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#userNameType"
+      }
+    },
+    "com.amazonaws.iam#errorListType": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.iam#ErrorInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains a list of users.</p>\n         <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>"
+      }
+    },
+    "com.amazonaws.iam#addOrDeleteType": {
+      "type": "structure",
+      "members": {
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        },
+        "UserName": {
+          "target": "com.amazonaws.iam#userListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#batchErrorType": {
+      "type": "structure",
+      "members": {
+        "ErrorInfo": {
+          "target": "com.amazonaws.iam#errorListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of users in the group.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#ErrorInfo": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The friendly name identifying the user.</p>"
+          }
+        },
+        "GroupName": {
+          "target": "com.amazonaws.iam#groupNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the IAM group to update. If you're changing the name of the group, this is the\n         original name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "Code": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The error code associated with the operation failure.</p>"
+          }
+        },
+        "Message": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Detailed information about the reason that the operation failed.</p>"
+          }
+        }
       }
     },
     "com.amazonaws.iam#servicesType": {

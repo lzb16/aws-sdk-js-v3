@@ -12,6 +12,68 @@ import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from ".
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "../commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "../commands/AttachUserPolicyCommand";
 import {
+  BatchAddUserToGroupsCommandInput,
+  BatchAddUserToGroupsCommandOutput,
+} from "../commands/BatchAddUserToGroupsCommand";
+import {
+  BatchAddUserToMultiGroupsCommandInput,
+  BatchAddUserToMultiGroupsCommandOutput,
+} from "../commands/BatchAddUserToMultiGroupsCommand";
+import {
+  BatchAddUsersToGroupCommandInput,
+  BatchAddUsersToGroupCommandOutput,
+} from "../commands/BatchAddUsersToGroupCommand";
+import {
+  BatchAttachPoliciesToGroupCommandInput,
+  BatchAttachPoliciesToGroupCommandOutput,
+} from "../commands/BatchAttachPoliciesToGroupCommand";
+import {
+  BatchAttachPoliciesToUserCommandInput,
+  BatchAttachPoliciesToUserCommandOutput,
+} from "../commands/BatchAttachPoliciesToUserCommand";
+import {
+  BatchAttachPolicyToMultiGroupsCommandInput,
+  BatchAttachPolicyToMultiGroupsCommandOutput,
+} from "../commands/BatchAttachPolicyToMultiGroupsCommand";
+import {
+  BatchAttachPolicyToMultiUsersCommandInput,
+  BatchAttachPolicyToMultiUsersCommandOutput,
+} from "../commands/BatchAttachPolicyToMultiUsersCommand";
+import { BatchDeleteGroupsCommandInput, BatchDeleteGroupsCommandOutput } from "../commands/BatchDeleteGroupsCommand";
+import {
+  BatchDeletePoliciesCommandInput,
+  BatchDeletePoliciesCommandOutput,
+} from "../commands/BatchDeletePoliciesCommand";
+import { BatchDeleteUsersCommandInput, BatchDeleteUsersCommandOutput } from "../commands/BatchDeleteUsersCommand";
+import {
+  BatchDetachPoliciesFromGroupCommandInput,
+  BatchDetachPoliciesFromGroupCommandOutput,
+} from "../commands/BatchDetachPoliciesFromGroupCommand";
+import {
+  BatchDetachPoliciesFromUserCommandInput,
+  BatchDetachPoliciesFromUserCommandOutput,
+} from "../commands/BatchDetachPoliciesFromUserCommand";
+import {
+  BatchDetachPolicyFromMultiGroupsCommandInput,
+  BatchDetachPolicyFromMultiGroupsCommandOutput,
+} from "../commands/BatchDetachPolicyFromMultiGroupsCommand";
+import {
+  BatchDetachPolicyFromMultiUsersCommandInput,
+  BatchDetachPolicyFromMultiUsersCommandOutput,
+} from "../commands/BatchDetachPolicyFromMultiUsersCommand";
+import {
+  BatchRemoveUserFromGroupsCommandInput,
+  BatchRemoveUserFromGroupsCommandOutput,
+} from "../commands/BatchRemoveUserFromGroupsCommand";
+import {
+  BatchRemoveUserFromMultiGroupsCommandInput,
+  BatchRemoveUserFromMultiGroupsCommandOutput,
+} from "../commands/BatchRemoveUserFromMultiGroupsCommand";
+import {
+  BatchRemoveUsersFromGroupCommandInput,
+  BatchRemoveUsersFromGroupCommandOutput,
+} from "../commands/BatchRemoveUsersFromGroupCommand";
+import {
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
 } from "../commands/ChangeAccountDescriptionCommand";
@@ -57,6 +119,10 @@ import {
   CreateServiceSpecificCredentialCommandInput,
   CreateServiceSpecificCredentialCommandOutput,
 } from "../commands/CreateServiceSpecificCredentialCommand";
+import {
+  CreateUserAccessKeyCommandInput,
+  CreateUserAccessKeyCommandOutput,
+} from "../commands/CreateUserAccessKeyCommand";
 import { CreateUserCommandInput, CreateUserCommandOutput } from "../commands/CreateUserCommand";
 import {
   CreateVirtualMFADeviceCommandInput,
@@ -114,6 +180,10 @@ import {
   DeleteSigningCertificateCommandInput,
   DeleteSigningCertificateCommandOutput,
 } from "../commands/DeleteSigningCertificateCommand";
+import {
+  DeleteUserAccessKeyCommandInput,
+  DeleteUserAccessKeyCommandOutput,
+} from "../commands/DeleteUserAccessKeyCommand";
 import { DeleteUserCommandInput, DeleteUserCommandOutput } from "../commands/DeleteUserCommand";
 import {
   DeleteUserPermissionsBoundaryCommandInput,
@@ -206,6 +276,7 @@ import {
   GetServiceLinkedRoleDeletionStatusCommandInput,
   GetServiceLinkedRoleDeletionStatusCommandOutput,
 } from "../commands/GetServiceLinkedRoleDeletionStatusCommand";
+import { GetServiceOverviewCommandInput, GetServiceOverviewCommandOutput } from "../commands/GetServiceOverviewCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "../commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "../commands/GetUserPolicyCommand";
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "../commands/IamadminLoginCommand";
@@ -268,6 +339,7 @@ import {
   ListSigningCertificatesCommandInput,
   ListSigningCertificatesCommandOutput,
 } from "../commands/ListSigningCertificatesCommand";
+import { ListUserAccessKeysCommandInput, ListUserAccessKeysCommandOutput } from "../commands/ListUserAccessKeysCommand";
 import { ListUserPoliciesCommandInput, ListUserPoliciesCommandOutput } from "../commands/ListUserPoliciesCommand";
 import { ListUserTagsCommandInput, ListUserTagsCommandOutput } from "../commands/ListUserTagsCommand";
 import { ListUsersCommandInput, ListUsersCommandOutput } from "../commands/ListUsersCommand";
@@ -351,11 +423,19 @@ import {
   UpdateAssumeRolePolicyCommandOutput,
 } from "../commands/UpdateAssumeRolePolicyCommand";
 import { UpdateGroupCommandInput, UpdateGroupCommandOutput } from "../commands/UpdateGroupCommand";
+import {
+  UpdateGroupDescriptionCommandInput,
+  UpdateGroupDescriptionCommandOutput,
+} from "../commands/UpdateGroupDescriptionCommand";
 import { UpdateLoginProfileCommandInput, UpdateLoginProfileCommandOutput } from "../commands/UpdateLoginProfileCommand";
 import {
   UpdateOpenIDConnectProviderThumbprintCommandInput,
   UpdateOpenIDConnectProviderThumbprintCommandOutput,
 } from "../commands/UpdateOpenIDConnectProviderThumbprintCommand";
+import {
+  UpdatePolicyDescriptionCommandInput,
+  UpdatePolicyDescriptionCommandOutput,
+} from "../commands/UpdatePolicyDescriptionCommand";
 import { UpdateRoleCommandInput, UpdateRoleCommandOutput } from "../commands/UpdateRoleCommand";
 import {
   UpdateRoleDescriptionCommandInput,
@@ -375,7 +455,26 @@ import {
   UpdateSigningCertificateCommandInput,
   UpdateSigningCertificateCommandOutput,
 } from "../commands/UpdateSigningCertificateCommand";
+import {
+  UpdateUserAccessKeyCommandInput,
+  UpdateUserAccessKeyCommandOutput,
+} from "../commands/UpdateUserAccessKeyCommand";
+import {
+  UpdateUserAccessKeyDescriptionCommandInput,
+  UpdateUserAccessKeyDescriptionCommandOutput,
+} from "../commands/UpdateUserAccessKeyDescriptionCommand";
+import {
+  UpdateUserAccessTypeCommandInput,
+  UpdateUserAccessTypeCommandOutput,
+} from "../commands/UpdateUserAccessTypeCommand";
 import { UpdateUserCommandInput, UpdateUserCommandOutput } from "../commands/UpdateUserCommand";
+import {
+  UpdateUserDescriptionCommandInput,
+  UpdateUserDescriptionCommandOutput,
+} from "../commands/UpdateUserDescriptionCommand";
+import { UpdateUserEmailCommandInput, UpdateUserEmailCommandOutput } from "../commands/UpdateUserEmailCommand";
+import { UpdateUserPasswordCommandInput, UpdateUserPasswordCommandOutput } from "../commands/UpdateUserPasswordCommand";
+import { UpdateUserStatusCommandInput, UpdateUserStatusCommandOutput } from "../commands/UpdateUserStatusCommand";
 import { UploadSSHPublicKeyCommandInput, UploadSSHPublicKeyCommandOutput } from "../commands/UploadSSHPublicKeyCommand";
 import {
   UploadServerCertificateCommandInput,
@@ -385,6 +484,7 @@ import {
   UploadSigningCertificateCommandInput,
   UploadSigningCertificateCommandOutput,
 } from "../commands/UploadSigningCertificateCommand";
+import { UserLoginCommandInput, UserLoginCommandOutput } from "../commands/UserLoginCommand";
 import {
   AccessDetail,
   AccessKey,
@@ -392,8 +492,10 @@ import {
   AccessKeyMetadata,
   AccountGroupType,
   AccountType,
+  AccoutDedup,
   AddAccountToGroupRequest,
   AddClientIDToOpenIDConnectProviderRequest,
+  AddOrDeleteType,
   AddRoleToInstanceProfileRequest,
   AddUserToGroupRequest,
   AttachGroupPolicyRequest,
@@ -401,6 +503,32 @@ import {
   AttachUserPolicyRequest,
   AttachedPermissionsBoundary,
   AttachedPolicy,
+  BatchAddUserToGroupsRequest,
+  BatchAddUserToGroupsResponse,
+  BatchAddUserToMultiGroupsRequest,
+  BatchAddUserToMultiGroupsResponse,
+  BatchAddUsersToGroupRequest,
+  BatchAddUsersToGroupResponse,
+  BatchAttachPoliciesToGroupRequest,
+  BatchAttachPoliciesToUserRequest,
+  BatchAttachPolicyToMultiGroupsRequest,
+  BatchAttachPolicyToMultiUsersRequest,
+  BatchDeleteGroupsRequest,
+  BatchDeleteGroupsResponse,
+  BatchDeletePoliciesRequest,
+  BatchDeleteUsersRequest,
+  BatchDeleteUsersResponse,
+  BatchDetachPoliciesFromGroupRequest,
+  BatchDetachPoliciesFromUserRequest,
+  BatchDetachPolicyFromMultiGroupsRequest,
+  BatchDetachPolicyFromMultiUsersRequest,
+  BatchErrorType,
+  BatchRemoveUserFromGroupsRequest,
+  BatchRemoveUserFromGroupsResponse,
+  BatchRemoveUserFromMultiGroupsRequest,
+  BatchRemoveUserFromMultiGroupsResponse,
+  BatchRemoveUsersFromGroupRequest,
+  BatchRemoveUsersFromGroupResponse,
   ChangeAccountDescriptionRequest,
   ChangeAccountPasswordRequest,
   ChangePasswordRequest,
@@ -435,6 +563,8 @@ import {
   CreateServiceLinkedRoleResponse,
   CreateServiceSpecificCredentialRequest,
   CreateServiceSpecificCredentialResponse,
+  CreateUserAccessKeyRequest,
+  CreateUserAccessKeyResponse,
   CreateUserRequest,
   CreateUserResponse,
   CreateVirtualMFADeviceRequest,
@@ -465,6 +595,7 @@ import {
   DeleteServiceLinkedRoleResponse,
   DeleteServiceSpecificCredentialRequest,
   DeleteSigningCertificateRequest,
+  DeleteUserAccessKeyRequest,
   DeleteUserPermissionsBoundaryRequest,
   DeleteUserPolicyRequest,
   DeleteUserRequest,
@@ -480,6 +611,7 @@ import {
   EntityTemporarilyUnmodifiableException,
   EntityType,
   ErrorDetails,
+  ErrorInfo,
   GenerateCredentialReportResponse,
   GenerateOrganizationsAccessReportRequest,
   GenerateOrganizationsAccessReportResponse,
@@ -535,6 +667,10 @@ import {
   GetServiceLastAccessedDetailsWithEntitiesResponse,
   GetServiceLinkedRoleDeletionStatusRequest,
   GetServiceLinkedRoleDeletionStatusResponse,
+  GetServiceOverviewIAM,
+  GetServiceOverviewRequest,
+  GetServiceOverviewResponse,
+  GetServiceOverviewS3,
   GetUserPolicyRequest,
   GetUserPolicyResponse,
   GetUserRequest,
@@ -593,24 +729,7 @@ import {
   ListRolesResponse,
   ListSAMLProvidersRequest,
   ListSAMLProvidersResponse,
-  ListSSHPublicKeysRequest,
-  ListSSHPublicKeysResponse,
   ListServerCertificatesRequest,
-  ListServerCertificatesResponse,
-  ListServiceSpecificCredentialsRequest,
-  ListServiceSpecificCredentialsResponse,
-  ListSigningCertificatesRequest,
-  ListSigningCertificatesResponse,
-  ListUserPoliciesRequest,
-  ListUserPoliciesResponse,
-  ListUserTagsRequest,
-  ListUserTagsResponse,
-  ListUsersRequest,
-  ListUsersResponse,
-  ListVirtualMFADevicesRequest,
-  ListVirtualMFADevicesResponse,
-  LoginConsoleRequest,
-  LoginConsoleResponse,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -625,32 +744,18 @@ import {
   PolicyGroup,
   PolicyNotAttachableException,
   PolicyRole,
+  PolicySource,
+  PolicySourceGroup,
   PolicyUser,
   PolicyVersion,
-  PutAccountQosRequest,
-  PutGroupPolicyRequest,
-  PutRolePermissionsBoundaryRequest,
-  PutRolePolicyRequest,
-  PutUserPermissionsBoundaryRequest,
-  PutUserPolicyRequest,
   QoSConfiguration,
-  RemoveAccountFromGroupRequest,
-  RemoveClientIDFromOpenIDConnectProviderRequest,
-  RemoveRoleFromInstanceProfileRequest,
-  RemoveUserFromGroupRequest,
   ReportGenerationLimitExceededException,
-  ResetAccountPasswordRequest,
-  ResetServiceSpecificCredentialRequest,
-  ResetServiceSpecificCredentialResponse,
-  ResetUserPasswordRequest,
-  ResyncMFADeviceRequest,
   Role,
   RoleDetail,
   RoleLastUsed,
   RoleUsageType,
   SAMLProviderListEntry,
   SSHPublicKey,
-  SSHPublicKeyMetadata,
   ServerCertificate,
   ServerCertificateMetadata,
   Service,
@@ -658,10 +763,6 @@ import {
   ServiceLastAccessed,
   ServiceNotSupportedException,
   ServiceSpecificCredential,
-  ServiceSpecificCredentialMetadata,
-  SetDefaultPolicyVersionRequest,
-  SetSecurityTokenServicePreferencesRequest,
-  SigningCertificate,
   Tag,
   TrackedActionLastAccessed,
   UnmodifiableEntityException,
@@ -678,13 +779,52 @@ import {
   InvalidCertificateException,
   InvalidPublicKeyException,
   KeyPairMismatchException,
+  ListSSHPublicKeysRequest,
+  ListSSHPublicKeysResponse,
+  ListServerCertificatesResponse,
+  ListServiceSpecificCredentialsRequest,
+  ListServiceSpecificCredentialsResponse,
+  ListSigningCertificatesRequest,
+  ListSigningCertificatesResponse,
+  ListUserAccessKeysRequest,
+  ListUserAccessKeysResponse,
+  ListUserPoliciesRequest,
+  ListUserPoliciesResponse,
+  ListUserTagsRequest,
+  ListUserTagsResponse,
+  ListUsersRequest,
+  ListUsersResponse,
+  ListVirtualMFADevicesRequest,
+  ListVirtualMFADevicesResponse,
+  LoginConsoleRequest,
+  LoginConsoleResponse,
   MalformedCertificateException,
   OrganizationsDecisionDetail,
   PermissionsBoundaryDecisionDetail,
   PolicyEvaluationDecisionType,
   PolicyEvaluationException,
   Position,
+  PutAccountQosRequest,
+  PutGroupPolicyRequest,
+  PutRolePermissionsBoundaryRequest,
+  PutRolePolicyRequest,
+  PutUserPermissionsBoundaryRequest,
+  PutUserPolicyRequest,
+  RemoveAccountFromGroupRequest,
+  RemoveClientIDFromOpenIDConnectProviderRequest,
+  RemoveRoleFromInstanceProfileRequest,
+  RemoveUserFromGroupRequest,
+  ResetAccountPasswordRequest,
+  ResetServiceSpecificCredentialRequest,
+  ResetServiceSpecificCredentialResponse,
+  ResetUserPasswordRequest,
   ResourceSpecificResult,
+  ResyncMFADeviceRequest,
+  SSHPublicKeyMetadata,
+  ServiceSpecificCredentialMetadata,
+  SetDefaultPolicyVersionRequest,
+  SetSecurityTokenServicePreferencesRequest,
+  SigningCertificate,
   SimulateCustomPolicyRequest,
   SimulatePolicyResponse,
   SimulatePrincipalPolicyRequest,
@@ -700,9 +840,11 @@ import {
   UpdateAccountQuotaRequest,
   UpdateAccountRequest,
   UpdateAssumeRolePolicyRequest,
+  UpdateGroupDescriptionRequest,
   UpdateGroupRequest,
   UpdateLoginProfileRequest,
   UpdateOpenIDConnectProviderThumbprintRequest,
+  UpdatePolicyDescriptionRequest,
   UpdateRoleDescriptionRequest,
   UpdateRoleDescriptionResponse,
   UpdateRoleRequest,
@@ -713,13 +855,22 @@ import {
   UpdateServerCertificateRequest,
   UpdateServiceSpecificCredentialRequest,
   UpdateSigningCertificateRequest,
+  UpdateUserAccessKeyDescriptionRequest,
+  UpdateUserAccessKeyRequest,
+  UpdateUserAccessTypeRequest,
+  UpdateUserDescriptionRequest,
+  UpdateUserEmailRequest,
+  UpdateUserPasswordRequest,
   UpdateUserRequest,
+  UpdateUserStatusRequest,
   UploadSSHPublicKeyRequest,
   UploadSSHPublicKeyResponse,
   UploadServerCertificateRequest,
   UploadServerCertificateResponse,
   UploadSigningCertificateRequest,
   UploadSigningCertificateResponse,
+  UserLoginRequest,
+  UserLoginResponse,
 } from "../models/models_1";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import {
@@ -735,7 +886,7 @@ import {
   ResponseMetadata as __ResponseMetadata,
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
-import { parse as xmlParse } from "fast-xml-parser";
+import { XMLParser } from "fast-xml-parser";
 
 export const serializeAws_queryAddAccountToGroupCommand = async (
   input: AddAccountToGroupCommandInput,
@@ -844,6 +995,278 @@ export const serializeAws_queryAttachUserPolicyCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryAttachUserPolicyRequest(input, context),
     Action: "AttachUserPolicy",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAddUsersToGroupCommand = async (
+  input: BatchAddUsersToGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAddUsersToGroupRequest(input, context),
+    Action: "BatchAddUsersToGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAddUserToGroupsCommand = async (
+  input: BatchAddUserToGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAddUserToGroupsRequest(input, context),
+    Action: "BatchAddUserToGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAddUserToMultiGroupsCommand = async (
+  input: BatchAddUserToMultiGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAddUserToMultiGroupsRequest(input, context),
+    Action: "BatchAddUserToMultiGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAttachPoliciesToGroupCommand = async (
+  input: BatchAttachPoliciesToGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAttachPoliciesToGroupRequest(input, context),
+    Action: "BatchAttachPoliciesToGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAttachPoliciesToUserCommand = async (
+  input: BatchAttachPoliciesToUserCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAttachPoliciesToUserRequest(input, context),
+    Action: "BatchAttachPoliciesToUser",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAttachPolicyToMultiGroupsCommand = async (
+  input: BatchAttachPolicyToMultiGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAttachPolicyToMultiGroupsRequest(input, context),
+    Action: "BatchAttachPolicyToMultiGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchAttachPolicyToMultiUsersCommand = async (
+  input: BatchAttachPolicyToMultiUsersCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchAttachPolicyToMultiUsersRequest(input, context),
+    Action: "BatchAttachPolicyToMultiUsers",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDeleteGroupsCommand = async (
+  input: BatchDeleteGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDeleteGroupsRequest(input, context),
+    Action: "BatchDeleteGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDeletePoliciesCommand = async (
+  input: BatchDeletePoliciesCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDeletePoliciesRequest(input, context),
+    Action: "BatchDeletePolicies",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDeleteUsersCommand = async (
+  input: BatchDeleteUsersCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDeleteUsersRequest(input, context),
+    Action: "BatchDeleteUsers",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDetachPoliciesFromGroupCommand = async (
+  input: BatchDetachPoliciesFromGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDetachPoliciesFromGroupRequest(input, context),
+    Action: "BatchDetachPoliciesFromGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDetachPoliciesFromUserCommand = async (
+  input: BatchDetachPoliciesFromUserCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDetachPoliciesFromUserRequest(input, context),
+    Action: "BatchDetachPoliciesFromUser",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDetachPolicyFromMultiGroupsCommand = async (
+  input: BatchDetachPolicyFromMultiGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDetachPolicyFromMultiGroupsRequest(input, context),
+    Action: "BatchDetachPolicyFromMultiGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchDetachPolicyFromMultiUsersCommand = async (
+  input: BatchDetachPolicyFromMultiUsersCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchDetachPolicyFromMultiUsersRequest(input, context),
+    Action: "BatchDetachPolicyFromMultiUsers",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchRemoveUserFromGroupsCommand = async (
+  input: BatchRemoveUserFromGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchRemoveUserFromGroupsRequest(input, context),
+    Action: "BatchRemoveUserFromGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchRemoveUserFromMultiGroupsCommand = async (
+  input: BatchRemoveUserFromMultiGroupsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchRemoveUserFromMultiGroupsRequest(input, context),
+    Action: "BatchRemoveUserFromMultiGroups",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryBatchRemoveUsersFromGroupCommand = async (
+  input: BatchRemoveUsersFromGroupCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryBatchRemoveUsersFromGroupRequest(input, context),
+    Action: "BatchRemoveUsersFromGroup",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -1164,6 +1587,22 @@ export const serializeAws_queryCreateUserCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryCreateUserRequest(input, context),
     Action: "CreateUser",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryCreateUserAccessKeyCommand = async (
+  input: CreateUserAccessKeyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryCreateUserAccessKeyRequest(input, context),
+    Action: "CreateUserAccessKey",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -1546,6 +1985,22 @@ export const serializeAws_queryDeleteUserCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryDeleteUserRequest(input, context),
     Action: "DeleteUser",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryDeleteUserAccessKeyCommand = async (
+  input: DeleteUserAccessKeyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryDeleteUserAccessKeyRequest(input, context),
+    Action: "DeleteUserAccessKey",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -2119,6 +2574,22 @@ export const serializeAws_queryGetServiceLinkedRoleDeletionStatusCommand = async
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryGetServiceOverviewCommand = async (
+  input: GetServiceOverviewCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryGetServiceOverviewRequest(input, context),
+    Action: "GetServiceOverview",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryGetSSHPublicKeyCommand = async (
   input: GetSSHPublicKeyCommandInput,
   context: __SerdeContext
@@ -2594,6 +3065,22 @@ export const serializeAws_queryListSSHPublicKeysCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryListSSHPublicKeysRequest(input, context),
     Action: "ListSSHPublicKeys",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryListUserAccessKeysCommand = async (
+  input: ListUserAccessKeysCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryListUserAccessKeysRequest(input, context),
+    Action: "ListUserAccessKeys",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3159,6 +3646,22 @@ export const serializeAws_queryUpdateGroupCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryUpdateGroupDescriptionCommand = async (
+  input: UpdateGroupDescriptionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateGroupDescriptionRequest(input, context),
+    Action: "UpdateGroupDescription",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryUpdateLoginProfileCommand = async (
   input: UpdateLoginProfileCommandInput,
   context: __SerdeContext
@@ -3186,6 +3689,22 @@ export const serializeAws_queryUpdateOpenIDConnectProviderThumbprintCommand = as
   body = buildFormUrlencodedString({
     ...serializeAws_queryUpdateOpenIDConnectProviderThumbprintRequest(input, context),
     Action: "UpdateOpenIDConnectProviderThumbprint",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdatePolicyDescriptionCommand = async (
+  input: UpdatePolicyDescriptionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdatePolicyDescriptionRequest(input, context),
+    Action: "UpdatePolicyDescription",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3319,6 +3838,118 @@ export const serializeAws_queryUpdateUserCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryUpdateUserAccessKeyCommand = async (
+  input: UpdateUserAccessKeyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserAccessKeyRequest(input, context),
+    Action: "UpdateUserAccessKey",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserAccessKeyDescriptionCommand = async (
+  input: UpdateUserAccessKeyDescriptionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserAccessKeyDescriptionRequest(input, context),
+    Action: "UpdateUserAccessKeyDescription",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserAccessTypeCommand = async (
+  input: UpdateUserAccessTypeCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserAccessTypeRequest(input, context),
+    Action: "UpdateUserAccessType",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserDescriptionCommand = async (
+  input: UpdateUserDescriptionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserDescriptionRequest(input, context),
+    Action: "UpdateUserDescription",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserEmailCommand = async (
+  input: UpdateUserEmailCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserEmailRequest(input, context),
+    Action: "UpdateUserEmail",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserPasswordCommand = async (
+  input: UpdateUserPasswordCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserPasswordRequest(input, context),
+    Action: "UpdateUserPassword",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserStatusCommand = async (
+  input: UpdateUserStatusCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserStatusRequest(input, context),
+    Action: "UpdateUserStatus",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryUploadServerCertificateCommand = async (
   input: UploadServerCertificateCommandInput,
   context: __SerdeContext
@@ -3362,6 +3993,22 @@ export const serializeAws_queryUploadSSHPublicKeyCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryUploadSSHPublicKeyRequest(input, context),
     Action: "UploadSSHPublicKey",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUserLoginCommand = async (
+  input: UserLoginCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUserLoginRequest(input, context),
+    Action: "UserLogin",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3871,6 +4518,1276 @@ const deserializeAws_queryAttachUserPolicyCommandError = async (
     case "com.amazonaws.iam#PolicyNotAttachableException":
       response = {
         ...(await deserializeAws_queryPolicyNotAttachableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAddUsersToGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUsersToGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAddUsersToGroupCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAddUsersToGroupResponse(data.BatchAddUsersToGroupResult, context);
+  const response: BatchAddUsersToGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAddUsersToGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUsersToGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAddUserToGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUserToGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAddUserToGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAddUserToGroupsResponse(data.BatchAddUserToGroupsResult, context);
+  const response: BatchAddUserToGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAddUserToGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUserToGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAddUserToMultiGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUserToMultiGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAddUserToMultiGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAddUserToMultiGroupsResponse(data.BatchAddUserToMultiGroupsResult, context);
+  const response: BatchAddUserToMultiGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAddUserToMultiGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAddUserToMultiGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAttachPoliciesToGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPoliciesToGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAttachPoliciesToGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchAttachPoliciesToGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAttachPoliciesToGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPoliciesToGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAttachPoliciesToUserCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPoliciesToUserCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAttachPoliciesToUserCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchAttachPoliciesToUserCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAttachPoliciesToUserCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPoliciesToUserCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAttachPolicyToMultiGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPolicyToMultiGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAttachPolicyToMultiGroupsCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchAttachPolicyToMultiGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAttachPolicyToMultiGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPolicyToMultiGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchAttachPolicyToMultiUsersCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPolicyToMultiUsersCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchAttachPolicyToMultiUsersCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchAttachPolicyToMultiUsersCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchAttachPolicyToMultiUsersCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchAttachPolicyToMultiUsersCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDeleteGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeleteGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDeleteGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDeleteGroupsResponse(data.BatchDeleteGroupsResult, context);
+  const response: BatchDeleteGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDeleteGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeleteGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "DeleteConflictException":
+    case "com.amazonaws.iam#DeleteConflictException":
+      response = {
+        ...(await deserializeAws_queryDeleteConflictExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDeletePoliciesCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeletePoliciesCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDeletePoliciesCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchDeletePoliciesCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDeletePoliciesCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeletePoliciesCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "DeleteConflictException":
+    case "com.amazonaws.iam#DeleteConflictException":
+      response = {
+        ...(await deserializeAws_queryDeleteConflictExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDeleteUsersCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeleteUsersCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDeleteUsersCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDeleteUsersResponse(data.BatchDeleteUsersResult, context);
+  const response: BatchDeleteUsersCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDeleteUsersCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDeleteUsersCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "DeleteConflictException":
+    case "com.amazonaws.iam#DeleteConflictException":
+      response = {
+        ...(await deserializeAws_queryDeleteConflictExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDetachPoliciesFromGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPoliciesFromGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDetachPoliciesFromGroupCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchDetachPoliciesFromGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDetachPoliciesFromGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPoliciesFromGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDetachPoliciesFromUserCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPoliciesFromUserCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDetachPoliciesFromUserCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchDetachPoliciesFromUserCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDetachPoliciesFromUserCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPoliciesFromUserCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDetachPolicyFromMultiGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPolicyFromMultiGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDetachPolicyFromMultiGroupsCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchDetachPolicyFromMultiGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDetachPolicyFromMultiGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPolicyFromMultiGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchDetachPolicyFromMultiUsersCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPolicyFromMultiUsersCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchDetachPolicyFromMultiUsersCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: BatchDetachPolicyFromMultiUsersCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchDetachPolicyFromMultiUsersCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchDetachPolicyFromMultiUsersCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchRemoveUserFromGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUserFromGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchRemoveUserFromGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchRemoveUserFromGroupsResponse(data.BatchRemoveUserFromGroupsResult, context);
+  const response: BatchRemoveUserFromGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchRemoveUserFromGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUserFromGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchRemoveUserFromMultiGroupsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUserFromMultiGroupsCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchRemoveUserFromMultiGroupsCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchRemoveUserFromMultiGroupsResponse(
+    data.BatchRemoveUserFromMultiGroupsResult,
+    context
+  );
+  const response: BatchRemoveUserFromMultiGroupsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchRemoveUserFromMultiGroupsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUserFromMultiGroupsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryBatchRemoveUsersFromGroupCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUsersFromGroupCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryBatchRemoveUsersFromGroupCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchRemoveUsersFromGroupResponse(data.BatchRemoveUsersFromGroupResult, context);
+  const response: BatchRemoveUsersFromGroupCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryBatchRemoveUsersFromGroupCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRemoveUsersFromGroupCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -5370,6 +7287,76 @@ const deserializeAws_queryCreateUserCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryCreateUserAccessKeyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateUserAccessKeyCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryCreateUserAccessKeyCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryCreateUserAccessKeyResponse(data.CreateUserAccessKeyResult, context);
+  const response: CreateUserAccessKeyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryCreateUserAccessKeyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateUserAccessKeyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "LimitExceededException":
     case "com.amazonaws.iam#LimitExceededException":
       response = {
@@ -7072,6 +9059,65 @@ const deserializeAws_queryDeleteUserCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryDeleteUserAccessKeyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteUserAccessKeyCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryDeleteUserAccessKeyCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: DeleteUserAccessKeyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryDeleteUserAccessKeyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteUserAccessKeyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "NoSuchEntityException":
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
@@ -9446,6 +11492,60 @@ const deserializeAws_queryGetServiceLinkedRoleDeletionStatusCommandError = async
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryGetServiceOverviewCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetServiceOverviewCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryGetServiceOverviewCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryGetServiceOverviewResponse(data.GetServiceOverviewResult, context);
+  const response: GetServiceOverviewCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryGetServiceOverviewCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetServiceOverviewCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryGetSSHPublicKeyCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -11235,6 +13335,76 @@ const deserializeAws_queryListSSHPublicKeysCommandError = async (
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
         ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryListUserAccessKeysCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListUserAccessKeysCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryListUserAccessKeysCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryListUserAccessKeysResponse(data.ListUserAccessKeysResult, context);
+  const response: ListUserAccessKeysCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryListUserAccessKeysCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListUserAccessKeysCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -13596,6 +15766,81 @@ const deserializeAws_queryUpdateGroupCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryUpdateGroupDescriptionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateGroupDescriptionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateGroupDescriptionCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateGroupDescriptionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateGroupDescriptionCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateGroupDescriptionCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryUpdateLoginProfileCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -13709,6 +15954,81 @@ const deserializeAws_queryUpdateOpenIDConnectProviderThumbprintCommandError = as
     case "com.amazonaws.iam#InvalidInputException":
       response = {
         ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdatePolicyDescriptionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdatePolicyDescriptionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdatePolicyDescriptionCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdatePolicyDescriptionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdatePolicyDescriptionCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdatePolicyDescriptionCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "InvalidInputException":
+    case "com.amazonaws.iam#InvalidInputException":
+      response = {
+        ...(await deserializeAws_queryInvalidInputExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -14299,6 +16619,643 @@ const deserializeAws_queryUpdateUserCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryUpdateUserAccessKeyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessKeyCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserAccessKeyCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserAccessKeyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserAccessKeyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessKeyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserAccessKeyDescriptionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessKeyDescriptionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserAccessKeyDescriptionCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserAccessKeyDescriptionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserAccessKeyDescriptionCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessKeyDescriptionCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserAccessTypeCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessTypeCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserAccessTypeCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserAccessTypeCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserAccessTypeCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserAccessTypeCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserDescriptionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserDescriptionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserDescriptionCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserDescriptionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserDescriptionCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserDescriptionCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserEmailCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserEmailCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserEmailCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserEmailCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserEmailCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserEmailCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserPasswordCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserPasswordCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserPasswordCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserPasswordCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserPasswordCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserPasswordCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserStatusCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserStatusCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserStatusCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserStatusCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserStatusCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserStatusCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ConcurrentModificationException":
+    case "com.amazonaws.iam#ConcurrentModificationException":
+      response = {
+        ...(await deserializeAws_queryConcurrentModificationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityAlreadyExistsException":
+    case "com.amazonaws.iam#EntityAlreadyExistsException":
+      response = {
+        ...(await deserializeAws_queryEntityAlreadyExistsExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryUploadServerCertificateCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -14552,6 +17509,60 @@ const deserializeAws_queryUploadSSHPublicKeyCommandError = async (
     case "com.amazonaws.iam#UnrecognizedPublicKeyEncodingException":
       response = {
         ...(await deserializeAws_queryUnrecognizedPublicKeyEncodingExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUserLoginCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UserLoginCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUserLoginCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryUserLoginResponse(data.UserLoginResult, context);
+  const response: UserLoginCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUserLoginCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UserLoginCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -14978,6 +17989,48 @@ const deserializeAws_queryUnrecognizedPublicKeyEncodingExceptionResponse = async
   return contents;
 };
 
+const serializeAws_queryAccessKey = (input: AccessKey, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.AccessKeyId !== undefined && input.AccessKeyId !== null) {
+    entries["AccessKeyId"] = input.AccessKeyId;
+  }
+  if (input.SecretAccessKey !== undefined && input.SecretAccessKey !== null) {
+    entries["SecretAccessKey"] = input.SecretAccessKey;
+  }
+  if (input.AccessKeyType !== undefined && input.AccessKeyType !== null) {
+    entries["AccessKeyType"] = input.AccessKeyType;
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    entries["Status"] = input.Status;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
+const serializeAws_queryaccessKeyListType = (input: AccessKey[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryAccessKey(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
+  return entries;
+};
+
 const serializeAws_queryActionNameListType = (input: string[], context: __SerdeContext): any => {
   const entries: any = {};
   let counter = 1;
@@ -15041,13 +18094,27 @@ const serializeAws_queryAddUserToGroupRequest = (input: AddUserToGroupRequest, c
   return entries;
 };
 
+const serializeAws_queryAttachedPermissionsBoundary = (
+  input: AttachedPermissionsBoundary,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PermissionsBoundaryType !== undefined && input.PermissionsBoundaryType !== null) {
+    entries["PermissionsBoundaryType"] = input.PermissionsBoundaryType;
+  }
+  if (input.PermissionsBoundaryArn !== undefined && input.PermissionsBoundaryArn !== null) {
+    entries["PermissionsBoundaryArn"] = input.PermissionsBoundaryArn;
+  }
+  return entries;
+};
+
 const serializeAws_queryAttachGroupPolicyRequest = (input: AttachGroupPolicyRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.GroupName !== undefined && input.GroupName !== null) {
     entries["GroupName"] = input.GroupName;
   }
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
   }
   return entries;
 };
@@ -15068,8 +18135,235 @@ const serializeAws_queryAttachUserPolicyRequest = (input: AttachUserPolicyReques
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
   }
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAddUsersToGroupRequest = (
+  input: BatchAddUsersToGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.UserDocument !== undefined && input.UserDocument !== null) {
+    entries["UserDocument"] = input.UserDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAddUserToGroupsRequest = (
+  input: BatchAddUserToGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    const memberEntries = serializeAws_queryuserListType(input.UserName, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `UserName.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAddUserToMultiGroupsRequest = (
+  input: BatchAddUserToMultiGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAttachPoliciesToGroupRequest = (
+  input: BatchAttachPoliciesToGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
+    entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAttachPoliciesToUserRequest = (
+  input: BatchAttachPoliciesToUserRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
+    entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAttachPolicyToMultiGroupsRequest = (
+  input: BatchAttachPolicyToMultiGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchAttachPolicyToMultiUsersRequest = (
+  input: BatchAttachPolicyToMultiUsersRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserDocument !== undefined && input.UserDocument !== null) {
+    entries["UserDocument"] = input.UserDocument;
+  }
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDeleteGroupsRequest = (input: BatchDeleteGroupsRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDeletePoliciesRequest = (
+  input: BatchDeletePoliciesRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
+    entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDeleteUsersRequest = (input: BatchDeleteUsersRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserDocument !== undefined && input.UserDocument !== null) {
+    entries["UserDocument"] = input.UserDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDetachPoliciesFromGroupRequest = (
+  input: BatchDetachPoliciesFromGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
+    entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDetachPoliciesFromUserRequest = (
+  input: BatchDetachPoliciesFromUserRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
+    entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDetachPolicyFromMultiGroupsRequest = (
+  input: BatchDetachPolicyFromMultiGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchDetachPolicyFromMultiUsersRequest = (
+  input: BatchDetachPolicyFromMultiUsersRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserDocument !== undefined && input.UserDocument !== null) {
+    entries["UserDocument"] = input.UserDocument;
+  }
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchRemoveUserFromGroupsRequest = (
+  input: BatchRemoveUserFromGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchRemoveUserFromMultiGroupsRequest = (
+  input: BatchRemoveUserFromMultiGroupsRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.GroupDocument !== undefined && input.GroupDocument !== null) {
+    entries["GroupDocument"] = input.GroupDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryBatchRemoveUsersFromGroupRequest = (
+  input: BatchRemoveUsersFromGroupRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.UserDocument !== undefined && input.UserDocument !== null) {
+    entries["UserDocument"] = input.UserDocument;
   }
   return entries;
 };
@@ -15107,6 +18401,9 @@ const serializeAws_queryChangeAccountPasswordRequest = (
 
 const serializeAws_queryChangePasswordRequest = (input: ChangePasswordRequest, context: __SerdeContext): any => {
   const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
   if (input.OldPassword !== undefined && input.OldPassword !== null) {
     entries["OldPassword"] = input.OldPassword;
   }
@@ -15192,6 +18489,15 @@ const serializeAws_queryCreateAccessKeyRequest = (input: CreateAccessKeyRequest,
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
   }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.SelfdefineAccessKeyId !== undefined && input.SelfdefineAccessKeyId !== null) {
+    entries["SelfdefineAccessKeyId"] = input.SelfdefineAccessKeyId;
+  }
+  if (input.SelfdefineSecretAccessKey !== undefined && input.SelfdefineSecretAccessKey !== null) {
+    entries["SelfdefineSecretAccessKey"] = input.SelfdefineSecretAccessKey;
+  }
   return entries;
 };
 
@@ -15259,6 +18565,9 @@ const serializeAws_queryCreateGroupRequest = (input: CreateGroupRequest, context
   }
   if (input.GroupName !== undefined && input.GroupName !== null) {
     entries["GroupName"] = input.GroupName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
   }
   return entries;
 };
@@ -15445,6 +18754,26 @@ const serializeAws_queryCreateServiceSpecificCredentialRequest = (
   return entries;
 };
 
+const serializeAws_queryCreateUserAccessKeyRequest = (
+  input: CreateUserAccessKeyRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.SelfdefineAccessKeyId !== undefined && input.SelfdefineAccessKeyId !== null) {
+    entries["SelfdefineAccessKeyId"] = input.SelfdefineAccessKeyId;
+  }
+  if (input.SelfdefineSecretAccessKey !== undefined && input.SelfdefineSecretAccessKey !== null) {
+    entries["SelfdefineSecretAccessKey"] = input.SelfdefineSecretAccessKey;
+  }
+  return entries;
+};
+
 const serializeAws_queryCreateUserRequest = (input: CreateUserRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.Path !== undefined && input.Path !== null) {
@@ -15452,6 +18781,9 @@ const serializeAws_queryCreateUserRequest = (input: CreateUserRequest, context: 
   }
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    entries["Status"] = input.Status;
   }
   if (input.PermissionsBoundary !== undefined && input.PermissionsBoundary !== null) {
     entries["PermissionsBoundary"] = input.PermissionsBoundary;
@@ -15477,6 +18809,15 @@ const serializeAws_queryCreateUserRequest = (input: CreateUserRequest, context: 
   }
   if (input.Description !== undefined && input.Description !== null) {
     entries["Description"] = input.Description;
+  }
+  if (input.NeedInnerCert !== undefined && input.NeedInnerCert !== null) {
+    entries["NeedInnerCert"] = input.NeedInnerCert;
+  }
+  if (input.SelfdefineAccessKeyId !== undefined && input.SelfdefineAccessKeyId !== null) {
+    entries["SelfdefineAccessKeyId"] = input.SelfdefineAccessKeyId;
+  }
+  if (input.SelfdefineSecretAccessKey !== undefined && input.SelfdefineSecretAccessKey !== null) {
+    entries["SelfdefineSecretAccessKey"] = input.SelfdefineSecretAccessKey;
   }
   if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
     entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
@@ -15614,8 +18955,8 @@ const serializeAws_queryDeleteOpenIDConnectProviderRequest = (
 
 const serializeAws_queryDeletePolicyRequest = (input: DeletePolicyRequest, context: __SerdeContext): any => {
   const entries: any = {};
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
   }
   return entries;
 };
@@ -15739,6 +19080,20 @@ const serializeAws_queryDeleteSSHPublicKeyRequest = (
   return entries;
 };
 
+const serializeAws_queryDeleteUserAccessKeyRequest = (
+  input: DeleteUserAccessKeyRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.AccessKeyId !== undefined && input.AccessKeyId !== null) {
+    entries["AccessKeyId"] = input.AccessKeyId;
+  }
+  return entries;
+};
+
 const serializeAws_queryDeleteUserPermissionsBoundaryRequest = (
   input: DeleteUserPermissionsBoundaryRequest,
   context: __SerdeContext
@@ -15785,8 +19140,8 @@ const serializeAws_queryDetachGroupPolicyRequest = (input: DetachGroupPolicyRequ
   if (input.GroupName !== undefined && input.GroupName !== null) {
     entries["GroupName"] = input.GroupName;
   }
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
   }
   return entries;
 };
@@ -15807,8 +19162,8 @@ const serializeAws_queryDetachUserPolicyRequest = (input: DetachUserPolicyReques
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
   }
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
   }
   return entries;
 };
@@ -16048,8 +19403,8 @@ const serializeAws_queryGetOrganizationsAccessReportRequest = (
 
 const serializeAws_queryGetPolicyRequest = (input: GetPolicyRequest, context: __SerdeContext): any => {
   const entries: any = {};
-  if (input.PolicyArn !== undefined && input.PolicyArn !== null) {
-    entries["PolicyArn"] = input.PolicyArn;
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
   }
   return entries;
 };
@@ -16151,6 +19506,14 @@ const serializeAws_queryGetServiceLinkedRoleDeletionStatusRequest = (
   return entries;
 };
 
+const serializeAws_queryGetServiceOverviewRequest = (
+  input: GetServiceOverviewRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  return entries;
+};
+
 const serializeAws_queryGetSSHPublicKeyRequest = (input: GetSSHPublicKeyRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -16181,6 +19544,9 @@ const serializeAws_queryGetUserRequest = (input: GetUserRequest, context: __Serd
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
   }
+  if (input.NeedInnerCert !== undefined && input.NeedInnerCert !== null) {
+    entries["NeedInnerCert"] = input.NeedInnerCert;
+  }
   if (input.Type !== undefined && input.Type !== null) {
     entries["Type"] = input.Type;
   }
@@ -16198,11 +19564,27 @@ const serializeAws_queryGroup = (input: Group, context: __SerdeContext): any => 
   if (input.GroupId !== undefined && input.GroupId !== null) {
     entries["GroupId"] = input.GroupId;
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    entries["Type"] = input.Type;
+  }
   if (input.Arn !== undefined && input.Arn !== null) {
     entries["Arn"] = input.Arn;
   }
   if (input.CreateDate !== undefined && input.CreateDate !== null) {
     entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.UserNumber !== undefined && input.UserNumber !== null) {
+    entries["UserNumber"] = input.UserNumber;
+  }
+  if (input.Policies !== undefined && input.Policies !== null) {
+    const memberEntries = serializeAws_queryManagedPolicyDetailListType(input.Policies, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `Policies.${key}`;
+      entries[loc] = value;
+    });
   }
   return entries;
 };
@@ -16290,6 +19672,9 @@ const serializeAws_queryListAccountsRequest = (input: ListAccountsRequest, conte
   if (input.Prefix !== undefined && input.Prefix !== null) {
     entries["Prefix"] = input.Prefix;
   }
+  if (input.BypassLimitListAccountNumber !== undefined && input.BypassLimitListAccountNumber !== null) {
+    entries["BypassLimitListAccountNumber"] = input.BypassLimitListAccountNumber;
+  }
   return entries;
 };
 
@@ -16350,6 +19735,9 @@ const serializeAws_queryListAttachedUserPoliciesRequest = (
   if (input.MaxItems !== undefined && input.MaxItems !== null) {
     entries["MaxItems"] = input.MaxItems;
   }
+  if (input.NeedAllPolicies !== undefined && input.NeedAllPolicies !== null) {
+    entries["NeedAllPolicies"] = input.NeedAllPolicies;
+  }
   return entries;
 };
 
@@ -16409,6 +19797,12 @@ const serializeAws_queryListGroupsForUserRequest = (input: ListGroupsForUserRequ
 
 const serializeAws_queryListGroupsRequest = (input: ListGroupsRequest, context: __SerdeContext): any => {
   const entries: any = {};
+  if (input.NeedUserNum !== undefined && input.NeedUserNum !== null) {
+    entries["NeedUserNum"] = input.NeedUserNum;
+  }
+  if (input.NeedAttachedPolicies !== undefined && input.NeedAttachedPolicies !== null) {
+    entries["NeedAttachedPolicies"] = input.NeedAttachedPolicies;
+  }
   if (input.PathPrefix !== undefined && input.PathPrefix !== null) {
     entries["PathPrefix"] = input.PathPrefix;
   }
@@ -16647,6 +20041,26 @@ const serializeAws_queryListSSHPublicKeysRequest = (input: ListSSHPublicKeysRequ
   return entries;
 };
 
+const serializeAws_queryListUserAccessKeysRequest = (
+  input: ListUserAccessKeysRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Marker !== undefined && input.Marker !== null) {
+    entries["Marker"] = input.Marker;
+  }
+  if (input.MaxItems !== undefined && input.MaxItems !== null) {
+    entries["MaxItems"] = input.MaxItems;
+  }
+  if (input.NeedInnerCert !== undefined && input.NeedInnerCert !== null) {
+    entries["NeedInnerCert"] = input.NeedInnerCert;
+  }
+  return entries;
+};
+
 const serializeAws_queryListUserPoliciesRequest = (input: ListUserPoliciesRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -16671,6 +20085,15 @@ const serializeAws_queryListUsersRequest = (input: ListUsersRequest, context: __
   }
   if (input.MaxItems !== undefined && input.MaxItems !== null) {
     entries["MaxItems"] = input.MaxItems;
+  }
+  if (input.NeedInnerCert !== undefined && input.NeedInnerCert !== null) {
+    entries["NeedInnerCert"] = input.NeedInnerCert;
+  }
+  if (input.NeedAddedGroups !== undefined && input.NeedAddedGroups !== null) {
+    entries["NeedAddedGroups"] = input.NeedAddedGroups;
+  }
+  if (input.NeedAttachedPolicies !== undefined && input.NeedAttachedPolicies !== null) {
+    entries["NeedAttachedPolicies"] = input.NeedAttachedPolicies;
   }
   return entries;
 };
@@ -16722,6 +20145,157 @@ const serializeAws_queryLoginConsoleRequest = (input: LoginConsoleRequest, conte
   }
   if (input.Password !== undefined && input.Password !== null) {
     entries["Password"] = input.Password;
+  }
+  return entries;
+};
+
+const serializeAws_queryManagedPolicyDetail = (input: ManagedPolicyDetail, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  if (input.PolicyId !== undefined && input.PolicyId !== null) {
+    entries["PolicyId"] = input.PolicyId;
+  }
+  if (input.Arn !== undefined && input.Arn !== null) {
+    entries["Arn"] = input.Arn;
+  }
+  if (input.Path !== undefined && input.Path !== null) {
+    entries["Path"] = input.Path;
+  }
+  if (input.DefaultVersionId !== undefined && input.DefaultVersionId !== null) {
+    entries["DefaultVersionId"] = input.DefaultVersionId;
+  }
+  if (input.AttachmentCount !== undefined && input.AttachmentCount !== null) {
+    entries["AttachmentCount"] = input.AttachmentCount;
+  }
+  if (input.PermissionsBoundaryUsageCount !== undefined && input.PermissionsBoundaryUsageCount !== null) {
+    entries["PermissionsBoundaryUsageCount"] = input.PermissionsBoundaryUsageCount;
+  }
+  if (input.IsAttachable !== undefined && input.IsAttachable !== null) {
+    entries["IsAttachable"] = input.IsAttachable;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.UpdateDate !== undefined && input.UpdateDate !== null) {
+    entries["UpdateDate"] = input.UpdateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.PolicyVersionList !== undefined && input.PolicyVersionList !== null) {
+    const memberEntries = serializeAws_querypolicyDocumentVersionListType(input.PolicyVersionList, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `PolicyVersionList.${key}`;
+      entries[loc] = value;
+    });
+  }
+  return entries;
+};
+
+const serializeAws_queryManagedPolicyDetailListType = (input: ManagedPolicyDetail[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryManagedPolicyDetail(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
+  return entries;
+};
+
+const serializeAws_queryPolicy = (input: Policy, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  if (input.PolicyId !== undefined && input.PolicyId !== null) {
+    entries["PolicyId"] = input.PolicyId;
+  }
+  if (input.Arn !== undefined && input.Arn !== null) {
+    entries["Arn"] = input.Arn;
+  }
+  if (input.Document !== undefined && input.Document !== null) {
+    entries["Document"] = input.Document;
+  }
+  if (input.Path !== undefined && input.Path !== null) {
+    entries["Path"] = input.Path;
+  }
+  if (input.DefaultVersionId !== undefined && input.DefaultVersionId !== null) {
+    entries["DefaultVersionId"] = input.DefaultVersionId;
+  }
+  if (input.AttachmentCount !== undefined && input.AttachmentCount !== null) {
+    entries["AttachmentCount"] = input.AttachmentCount;
+  }
+  if (input.PermissionsBoundaryUsageCount !== undefined && input.PermissionsBoundaryUsageCount !== null) {
+    entries["PermissionsBoundaryUsageCount"] = input.PermissionsBoundaryUsageCount;
+  }
+  if (input.IsAttachable !== undefined && input.IsAttachable !== null) {
+    entries["IsAttachable"] = input.IsAttachable;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.UpdateDate !== undefined && input.UpdateDate !== null) {
+    entries["UpdateDate"] = input.UpdateDate.toISOString().split(".")[0] + "Z";
+  }
+  return entries;
+};
+
+const serializeAws_querypolicyDocumentVersionListType = (input: PolicyVersion[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryPolicyVersion(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
+  return entries;
+};
+
+const serializeAws_querypolicyListType = (input: Policy[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryPolicy(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
+  return entries;
+};
+
+const serializeAws_queryPolicyVersion = (input: PolicyVersion, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.Document !== undefined && input.Document !== null) {
+    entries["Document"] = input.Document;
+  }
+  if (input.VersionId !== undefined && input.VersionId !== null) {
+    entries["VersionId"] = input.VersionId;
+  }
+  if (input.IsDefaultVersion !== undefined && input.IsDefaultVersion !== null) {
+    entries["IsDefaultVersion"] = input.IsDefaultVersion;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
   }
   return entries;
 };
@@ -16907,6 +20481,12 @@ const serializeAws_queryResetUserPasswordRequest = (input: ResetUserPasswordRequ
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
     entries["UserName"] = input.UserName;
+  }
+  if (input.NewPassword !== undefined && input.NewPassword !== null) {
+    entries["NewPassword"] = input.NewPassword;
+  }
+  if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
+    entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
   }
   return entries;
 };
@@ -17367,6 +20947,20 @@ const serializeAws_queryUpdateAssumeRolePolicyRequest = (
   return entries;
 };
 
+const serializeAws_queryUpdateGroupDescriptionRequest = (
+  input: UpdateGroupDescriptionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.GroupName !== undefined && input.GroupName !== null) {
+    entries["GroupName"] = input.GroupName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
 const serializeAws_queryUpdateGroupRequest = (input: UpdateGroupRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.GroupName !== undefined && input.GroupName !== null) {
@@ -17395,6 +20989,12 @@ const serializeAws_queryUpdateLoginProfileRequest = (
   if (input.PasswordResetRequired !== undefined && input.PasswordResetRequired !== null) {
     entries["PasswordResetRequired"] = input.PasswordResetRequired;
   }
+  if (input.NewPassword !== undefined && input.NewPassword !== null) {
+    entries["NewPassword"] = input.NewPassword;
+  }
+  if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
+    entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
+  }
   return entries;
 };
 
@@ -17412,6 +21012,20 @@ const serializeAws_queryUpdateOpenIDConnectProviderThumbprintRequest = (
       const loc = `ThumbprintList.${key}`;
       entries[loc] = value;
     });
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdatePolicyDescriptionRequest = (
+  input: UpdatePolicyDescriptionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.PolicyName !== undefined && input.PolicyName !== null) {
+    entries["PolicyName"] = input.PolicyName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
   }
   return entries;
 };
@@ -17526,6 +21140,102 @@ const serializeAws_queryUpdateSSHPublicKeyRequest = (
   return entries;
 };
 
+const serializeAws_queryUpdateUserAccessKeyDescriptionRequest = (
+  input: UpdateUserAccessKeyDescriptionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.AccessKeyId !== undefined && input.AccessKeyId !== null) {
+    entries["AccessKeyId"] = input.AccessKeyId;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserAccessKeyRequest = (
+  input: UpdateUserAccessKeyRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.AccessKeyId !== undefined && input.AccessKeyId !== null) {
+    entries["AccessKeyId"] = input.AccessKeyId;
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    entries["Status"] = input.Status;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserAccessTypeRequest = (
+  input: UpdateUserAccessTypeRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.AccessType !== undefined && input.AccessType !== null) {
+    entries["AccessType"] = input.AccessType;
+  }
+  if (input.NewPassword !== undefined && input.NewPassword !== null) {
+    entries["NewPassword"] = input.NewPassword;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserDescriptionRequest = (
+  input: UpdateUserDescriptionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserEmailRequest = (input: UpdateUserEmailRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.NewEmail !== undefined && input.NewEmail !== null) {
+    entries["NewEmail"] = input.NewEmail;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserPasswordRequest = (
+  input: UpdateUserPasswordRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.NewPassword !== undefined && input.NewPassword !== null) {
+    entries["NewPassword"] = input.NewPassword;
+  }
+  if (input.OldPassword !== undefined && input.OldPassword !== null) {
+    entries["OldPassword"] = input.OldPassword;
+  }
+  if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
+    entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
+  }
+  return entries;
+};
+
 const serializeAws_queryUpdateUserRequest = (input: UpdateUserRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -17545,6 +21255,17 @@ const serializeAws_queryUpdateUserRequest = (input: UpdateUserRequest, context: 
   }
   if (input.Description !== undefined && input.Description !== null) {
     entries["Description"] = input.Description;
+  }
+  return entries;
+};
+
+const serializeAws_queryUpdateUserStatusRequest = (input: UpdateUserStatusRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    entries["Status"] = input.Status;
   }
   return entries;
 };
@@ -17600,6 +21321,121 @@ const serializeAws_queryUploadSSHPublicKeyRequest = (
   return entries;
 };
 
+const serializeAws_queryUser = (input: User, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.Path !== undefined && input.Path !== null) {
+    entries["Path"] = input.Path;
+  }
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.UserId !== undefined && input.UserId !== null) {
+    entries["UserId"] = input.UserId;
+  }
+  if (input.Status !== undefined && input.Status !== null) {
+    entries["Status"] = input.Status;
+  }
+  if (input.Email !== undefined && input.Email !== null) {
+    entries["Email"] = input.Email;
+  }
+  if (input.FirstLoginUpdatePassword !== undefined && input.FirstLoginUpdatePassword !== null) {
+    entries["FirstLoginUpdatePassword"] = input.FirstLoginUpdatePassword;
+  }
+  if (input.Arn !== undefined && input.Arn !== null) {
+    entries["Arn"] = input.Arn;
+  }
+  if (input.CreateDate !== undefined && input.CreateDate !== null) {
+    entries["CreateDate"] = input.CreateDate.toISOString().split(".")[0] + "Z";
+  }
+  if (input.PasswordLastUsed !== undefined && input.PasswordLastUsed !== null) {
+    entries["PasswordLastUsed"] = input.PasswordLastUsed.toISOString().split(".")[0] + "Z";
+  }
+  if (input.PermissionsBoundary !== undefined && input.PermissionsBoundary !== null) {
+    const memberEntries = serializeAws_queryAttachedPermissionsBoundary(input.PermissionsBoundary, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `PermissionsBoundary.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.Tags !== undefined && input.Tags !== null) {
+    const memberEntries = serializeAws_querytagListType(input.Tags, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `Tags.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    entries["Description"] = input.Description;
+  }
+  if (input.Groups !== undefined && input.Groups !== null) {
+    const memberEntries = serializeAws_querygroupListType(input.Groups, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `Groups.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.PasswordLastReset !== undefined && input.PasswordLastReset !== null) {
+    entries["PasswordLastReset"] = input.PasswordLastReset.toISOString().split(".")[0] + "Z";
+  }
+  if (input.AccessType !== undefined && input.AccessType !== null) {
+    entries["AccessType"] = input.AccessType;
+  }
+  if (input.AccessKeys !== undefined && input.AccessKeys !== null) {
+    const memberEntries = serializeAws_queryaccessKeyListType(input.AccessKeys, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `AccessKeys.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.Policies !== undefined && input.Policies !== null) {
+    const memberEntries = serializeAws_querypolicyListType(input.Policies, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `Policies.${key}`;
+      entries[loc] = value;
+    });
+  }
+  return entries;
+};
+
+const serializeAws_queryuserListType = (input: User[], context: __SerdeContext): any => {
+  const entries: any = {};
+  let counter = 1;
+  for (let entry of input) {
+    if (entry === null) {
+      continue;
+    }
+    const memberEntries = serializeAws_queryUser(entry, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      entries[`member.${counter}.${key}`] = value;
+    });
+    counter++;
+  }
+  return entries;
+};
+
+const serializeAws_queryUserLoginRequest = (input: UserLoginRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.AccountID !== undefined && input.AccountID !== null) {
+    entries["AccountID"] = input.AccountID;
+  }
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.Email !== undefined && input.Email !== null) {
+    entries["Email"] = input.Email;
+  }
+  if (input.Password !== undefined && input.Password !== null) {
+    entries["Password"] = input.Password;
+  }
+  if (input.NeedInnerCert !== undefined && input.NeedInnerCert !== null) {
+    entries["NeedInnerCert"] = input.NeedInnerCert;
+  }
+  return entries;
+};
+
 const deserializeAws_queryAccessDetail = (output: any, context: __SerdeContext): AccessDetail => {
   let contents: any = {
     ServiceName: undefined,
@@ -17649,6 +21485,7 @@ const deserializeAws_queryAccessKey = (output: any, context: __SerdeContext): Ac
     AccessKeyType: undefined,
     Status: undefined,
     CreateDate: undefined,
+    Description: undefined,
   };
   if (output["UserName"] !== undefined) {
     contents.UserName = output["UserName"];
@@ -17667,6 +21504,9 @@ const deserializeAws_queryAccessKey = (output: any, context: __SerdeContext): Ac
   }
   if (output["CreateDate"] !== undefined) {
     contents.CreateDate = new Date(output["CreateDate"]);
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
   }
   return contents;
 };
@@ -17827,6 +21667,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     UsedSize: undefined,
     AccessKeys: undefined,
     User: undefined,
+    Dedup: undefined,
   };
   if (output["AccountName"] !== undefined) {
     contents.AccountName = output["AccountName"];
@@ -17885,6 +21726,54 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
   }
+  if (output["Dedup"] !== undefined) {
+    contents.Dedup = deserializeAws_queryAccoutDedup(output["Dedup"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryAccoutDedup = (output: any, context: __SerdeContext): AccoutDedup => {
+  let contents: any = {
+    Num: undefined,
+    Size: undefined,
+    DedupNum: undefined,
+    DedupSize: undefined,
+  };
+  if (output["Num"] !== undefined) {
+    contents.Num = output["Num"];
+  }
+  if (output["Size"] !== undefined) {
+    contents.Size = output["Size"];
+  }
+  if (output["DedupNum"] !== undefined) {
+    contents.DedupNum = output["DedupNum"];
+  }
+  if (output["DedupSize"] !== undefined) {
+    contents.DedupSize = output["DedupSize"];
+  }
+  return contents;
+};
+
+const deserializeAws_queryAddOrDeleteType = (output: any, context: __SerdeContext): AddOrDeleteType => {
+  let contents: any = {
+    GroupName: undefined,
+    UserName: undefined,
+  };
+  if (output.GroupName === "") {
+    contents.GroupName = [];
+  }
+  if (output["GroupName"] !== undefined && output["GroupName"]["member"] !== undefined) {
+    contents.GroupName = deserializeAws_querygroupListType(
+      __getArrayIfSingleItem(output["GroupName"]["member"]),
+      context
+    );
+  }
+  if (output.UserName === "") {
+    contents.UserName = [];
+  }
+  if (output["UserName"] !== undefined && output["UserName"]["member"] !== undefined) {
+    contents.UserName = deserializeAws_queryuserListType(__getArrayIfSingleItem(output["UserName"]["member"]), context);
+  }
   return contents;
 };
 
@@ -17930,13 +21819,221 @@ const deserializeAws_queryattachedPoliciesListType = (output: any, context: __Se
 const deserializeAws_queryAttachedPolicy = (output: any, context: __SerdeContext): AttachedPolicy => {
   let contents: any = {
     PolicyName: undefined,
-    PolicyArn: undefined,
+    PolicyId: undefined,
+    Arn: undefined,
+    Path: undefined,
+    CreateDate: undefined,
+    UpdateDate: undefined,
+    Description: undefined,
+    Sources: undefined,
   };
   if (output["PolicyName"] !== undefined) {
     contents.PolicyName = output["PolicyName"];
   }
-  if (output["PolicyArn"] !== undefined) {
-    contents.PolicyArn = output["PolicyArn"];
+  if (output["PolicyId"] !== undefined) {
+    contents.PolicyId = output["PolicyId"];
+  }
+  if (output["Arn"] !== undefined) {
+    contents.Arn = output["Arn"];
+  }
+  if (output["Path"] !== undefined) {
+    contents.Path = output["Path"];
+  }
+  if (output["CreateDate"] !== undefined) {
+    contents.CreateDate = new Date(output["CreateDate"]);
+  }
+  if (output["UpdateDate"] !== undefined) {
+    contents.UpdateDate = new Date(output["UpdateDate"]);
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
+  }
+  if (output["Sources"] !== undefined) {
+    contents.Sources = deserializeAws_queryPolicySource(output["Sources"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAddUsersToGroupResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAddUsersToGroupResponse => {
+  let contents: any = {
+    Account: undefined,
+    Added: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Added"] !== undefined) {
+    contents.Added = deserializeAws_queryAddOrDeleteType(output["Added"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAddUserToGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAddUserToGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Added: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Added"] !== undefined) {
+    contents.Added = deserializeAws_queryAddOrDeleteType(output["Added"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAddUserToMultiGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAddUserToMultiGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Added: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Added"] !== undefined) {
+    contents.Added = deserializeAws_queryAddOrDeleteType(output["Added"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDeleteGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDeleteGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Deleted: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Deleted"] !== undefined) {
+    contents.Deleted = deserializeAws_queryAddOrDeleteType(output["Deleted"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDeleteUsersResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDeleteUsersResponse => {
+  let contents: any = {
+    Account: undefined,
+    Deleted: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Deleted"] !== undefined) {
+    contents.Deleted = deserializeAws_queryAddOrDeleteType(output["Deleted"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchErrorType = (output: any, context: __SerdeContext): BatchErrorType => {
+  let contents: any = {
+    ErrorInfo: undefined,
+  };
+  if (output.ErrorInfo === "") {
+    contents.ErrorInfo = [];
+  }
+  if (output["ErrorInfo"] !== undefined && output["ErrorInfo"]["member"] !== undefined) {
+    contents.ErrorInfo = deserializeAws_queryerrorListType(
+      __getArrayIfSingleItem(output["ErrorInfo"]["member"]),
+      context
+    );
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchRemoveUserFromGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchRemoveUserFromGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Removed: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Removed"] !== undefined) {
+    contents.Removed = deserializeAws_queryAddOrDeleteType(output["Removed"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchRemoveUserFromMultiGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchRemoveUserFromMultiGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Removed: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Removed"] !== undefined) {
+    contents.Removed = deserializeAws_queryAddOrDeleteType(output["Removed"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchRemoveUsersFromGroupResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchRemoveUsersFromGroupResponse => {
+  let contents: any = {
+    Account: undefined,
+    Removed: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["Removed"] !== undefined) {
+    contents.Removed = deserializeAws_queryAddOrDeleteType(output["Removed"], context);
+  }
+  if (output["Error"] !== undefined) {
+    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
   }
   return contents;
 };
@@ -18038,8 +22135,12 @@ const deserializeAws_queryCreateAccountResponse = (output: any, context: __Serde
 
 const deserializeAws_queryCreateGroupResponse = (output: any, context: __SerdeContext): CreateGroupResponse => {
   let contents: any = {
+    Account: undefined,
     Group: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output["Group"] !== undefined) {
     contents.Group = deserializeAws_queryGroup(output["Group"], context);
   }
@@ -18160,10 +22261,27 @@ const deserializeAws_queryCreateServiceSpecificCredentialResponse = (
   return contents;
 };
 
+const deserializeAws_queryCreateUserAccessKeyResponse = (
+  output: any,
+  context: __SerdeContext
+): CreateUserAccessKeyResponse => {
+  let contents: any = {
+    AccessKey: undefined,
+  };
+  if (output["AccessKey"] !== undefined) {
+    contents.AccessKey = deserializeAws_queryAccessKey(output["AccessKey"], context);
+  }
+  return contents;
+};
+
 const deserializeAws_queryCreateUserResponse = (output: any, context: __SerdeContext): CreateUserResponse => {
   let contents: any = {
+    Account: undefined,
     User: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
   }
@@ -18383,6 +22501,39 @@ const deserializeAws_queryErrorDetails = (output: any, context: __SerdeContext):
     contents.Code = output["Code"];
   }
   return contents;
+};
+
+const deserializeAws_queryErrorInfo = (output: any, context: __SerdeContext): ErrorInfo => {
+  let contents: any = {
+    UserName: undefined,
+    GroupName: undefined,
+    Code: undefined,
+    Message: undefined,
+  };
+  if (output["UserName"] !== undefined) {
+    contents.UserName = output["UserName"];
+  }
+  if (output["GroupName"] !== undefined) {
+    contents.GroupName = output["GroupName"];
+  }
+  if (output["Code"] !== undefined) {
+    contents.Code = output["Code"];
+  }
+  if (output["Message"] !== undefined) {
+    contents.Message = output["Message"];
+  }
+  return contents;
+};
+
+const deserializeAws_queryerrorListType = (output: any, context: __SerdeContext): ErrorInfo[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_queryErrorInfo(entry, context);
+    });
 };
 
 const deserializeAws_queryEvalDecisionDetailsType = (
@@ -18741,11 +22892,15 @@ const deserializeAws_queryGetGroupPolicyResponse = (output: any, context: __Serd
 
 const deserializeAws_queryGetGroupResponse = (output: any, context: __SerdeContext): GetGroupResponse => {
   let contents: any = {
+    Account: undefined,
     Group: undefined,
     Users: undefined,
     IsTruncated: undefined,
     Marker: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output["Group"] !== undefined) {
     contents.Group = deserializeAws_queryGroup(output["Group"], context);
   }
@@ -19064,6 +23219,51 @@ const deserializeAws_queryGetServiceLinkedRoleDeletionStatusResponse = (
   return contents;
 };
 
+const deserializeAws_queryGetServiceOverviewIAM = (output: any, context: __SerdeContext): GetServiceOverviewIAM => {
+  let contents: any = {
+    AccountNumber: undefined,
+  };
+  if (output["AccountNumber"] !== undefined) {
+    contents.AccountNumber = parseInt(output["AccountNumber"]);
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetServiceOverviewResponse = (
+  output: any,
+  context: __SerdeContext
+): GetServiceOverviewResponse => {
+  let contents: any = {
+    IAM: undefined,
+    S3: undefined,
+  };
+  if (output["IAM"] !== undefined) {
+    contents.IAM = deserializeAws_queryGetServiceOverviewIAM(output["IAM"], context);
+  }
+  if (output["S3"] !== undefined) {
+    contents.S3 = deserializeAws_queryGetServiceOverviewS3(output["S3"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetServiceOverviewS3 = (output: any, context: __SerdeContext): GetServiceOverviewS3 => {
+  let contents: any = {
+    BucketNumber: undefined,
+    ObjectNumber: undefined,
+    UsedSize: undefined,
+  };
+  if (output["BucketNumber"] !== undefined) {
+    contents.BucketNumber = parseInt(output["BucketNumber"]);
+  }
+  if (output["ObjectNumber"] !== undefined) {
+    contents.ObjectNumber = output["ObjectNumber"];
+  }
+  if (output["UsedSize"] !== undefined) {
+    contents.UsedSize = output["UsedSize"];
+  }
+  return contents;
+};
+
 const deserializeAws_queryGetSSHPublicKeyResponse = (output: any, context: __SerdeContext): GetSSHPublicKeyResponse => {
   let contents: any = {
     SSHPublicKey: undefined,
@@ -19094,8 +23294,12 @@ const deserializeAws_queryGetUserPolicyResponse = (output: any, context: __Serde
 
 const deserializeAws_queryGetUserResponse = (output: any, context: __SerdeContext): GetUserResponse => {
   let contents: any = {
+    Account: undefined,
     User: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
   }
@@ -19107,8 +23311,12 @@ const deserializeAws_queryGroup = (output: any, context: __SerdeContext): Group 
     Path: undefined,
     GroupName: undefined,
     GroupId: undefined,
+    Type: undefined,
     Arn: undefined,
     CreateDate: undefined,
+    Description: undefined,
+    UserNumber: undefined,
+    Policies: undefined,
   };
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -19119,11 +23327,29 @@ const deserializeAws_queryGroup = (output: any, context: __SerdeContext): Group 
   if (output["GroupId"] !== undefined) {
     contents.GroupId = output["GroupId"];
   }
+  if (output["Type"] !== undefined) {
+    contents.Type = parseInt(output["Type"]);
+  }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];
   }
   if (output["CreateDate"] !== undefined) {
     contents.CreateDate = new Date(output["CreateDate"]);
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
+  }
+  if (output["UserNumber"] !== undefined) {
+    contents.UserNumber = parseInt(output["UserNumber"]);
+  }
+  if (output.Policies === "") {
+    contents.Policies = [];
+  }
+  if (output["Policies"] !== undefined && output["Policies"]["member"] !== undefined) {
+    contents.Policies = deserializeAws_queryManagedPolicyDetailListType(
+      __getArrayIfSingleItem(output["Policies"]["member"]),
+      context
+    );
   }
   return contents;
 };
@@ -19616,10 +23842,14 @@ const deserializeAws_queryListGroupsForUserResponse = (
   context: __SerdeContext
 ): ListGroupsForUserResponse => {
   let contents: any = {
+    Account: undefined,
     Groups: undefined,
     IsTruncated: undefined,
     Marker: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output.Groups === "") {
     contents.Groups = [];
   }
@@ -19637,10 +23867,14 @@ const deserializeAws_queryListGroupsForUserResponse = (
 
 const deserializeAws_queryListGroupsResponse = (output: any, context: __SerdeContext): ListGroupsResponse => {
   let contents: any = {
+    Account: undefined,
     Groups: undefined,
     IsTruncated: undefined,
     Marker: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output.Groups === "") {
     contents.Groups = [];
   }
@@ -20068,6 +24302,25 @@ const deserializeAws_queryListSSHPublicKeysResponse = (
   return contents;
 };
 
+const deserializeAws_queryListUserAccessKeysResponse = (
+  output: any,
+  context: __SerdeContext
+): ListUserAccessKeysResponse => {
+  let contents: any = {
+    AccessKeys: undefined,
+  };
+  if (output.AccessKeys === "") {
+    contents.AccessKeys = [];
+  }
+  if (output["AccessKeys"] !== undefined && output["AccessKeys"]["member"] !== undefined) {
+    contents.AccessKeys = deserializeAws_queryaccessKeyListType(
+      __getArrayIfSingleItem(output["AccessKeys"]["member"]),
+      context
+    );
+  }
+  return contents;
+};
+
 const deserializeAws_queryListUserPoliciesResponse = (
   output: any,
   context: __SerdeContext
@@ -20097,10 +24350,14 @@ const deserializeAws_queryListUserPoliciesResponse = (
 
 const deserializeAws_queryListUsersResponse = (output: any, context: __SerdeContext): ListUsersResponse => {
   let contents: any = {
+    Account: undefined,
     Users: undefined,
     IsTruncated: undefined,
     Marker: undefined,
   };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
   if (output.Users === "") {
     contents.Users = [];
   }
@@ -20471,7 +24728,7 @@ const deserializeAws_queryPolicy = (output: any, context: __SerdeContext): Polic
     PolicyName: undefined,
     PolicyId: undefined,
     Arn: undefined,
-    PolicyDocument: undefined,
+    Document: undefined,
     Path: undefined,
     DefaultVersionId: undefined,
     AttachmentCount: undefined,
@@ -20490,8 +24747,8 @@ const deserializeAws_queryPolicy = (output: any, context: __SerdeContext): Polic
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];
   }
-  if (output["PolicyDocument"] !== undefined) {
-    contents.PolicyDocument = output["PolicyDocument"];
+  if (output["Document"] !== undefined) {
+    contents.Document = output["Document"];
   }
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -20694,6 +24951,47 @@ const deserializeAws_queryPolicyRoleListType = (output: any, context: __SerdeCon
         return null as any;
       }
       return deserializeAws_queryPolicyRole(entry, context);
+    });
+};
+
+const deserializeAws_queryPolicySource = (output: any, context: __SerdeContext): PolicySource => {
+  let contents: any = {
+    IsDirectAttached: undefined,
+    PolicySourceGroupList: undefined,
+  };
+  if (output["IsDirectAttached"] !== undefined) {
+    contents.IsDirectAttached = output["IsDirectAttached"] == "true";
+  }
+  if (output.member === "") {
+    contents.PolicySourceGroupList = [];
+  }
+  if (output["member"] !== undefined) {
+    contents.PolicySourceGroupList = deserializeAws_queryPolicySourceGroupList(
+      __getArrayIfSingleItem(output["member"]),
+      context
+    );
+  }
+  return contents;
+};
+
+const deserializeAws_queryPolicySourceGroup = (output: any, context: __SerdeContext): PolicySourceGroup => {
+  let contents: any = {
+    GroupName: undefined,
+  };
+  if (output["GroupName"] !== undefined) {
+    contents.GroupName = output["GroupName"];
+  }
+  return contents;
+};
+
+const deserializeAws_queryPolicySourceGroupList = (output: any, context: __SerdeContext): PolicySourceGroup[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_queryPolicySourceGroup(entry, context);
     });
 };
 
@@ -21705,20 +26003,20 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
     Path: undefined,
     UserName: undefined,
     UserId: undefined,
+    Status: undefined,
     Email: undefined,
+    FirstLoginUpdatePassword: undefined,
     Arn: undefined,
     CreateDate: undefined,
     PasswordLastUsed: undefined,
     PermissionsBoundary: undefined,
     Tags: undefined,
-    Type: undefined,
     Description: undefined,
-    UserStatus: undefined,
     Groups: undefined,
     PasswordLastReset: undefined,
-    AccessKeyType: undefined,
-    AccountName: undefined,
-    AccountId: undefined,
+    AccessType: undefined,
+    AccessKeys: undefined,
+    Policies: undefined,
   };
   if (output["Path"] !== undefined) {
     contents.Path = output["Path"];
@@ -21729,8 +26027,14 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
   if (output["UserId"] !== undefined) {
     contents.UserId = output["UserId"];
   }
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
+  }
   if (output["Email"] !== undefined) {
     contents.Email = output["Email"];
+  }
+  if (output["FirstLoginUpdatePassword"] !== undefined) {
+    contents.FirstLoginUpdatePassword = parseInt(output["FirstLoginUpdatePassword"]);
   }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];
@@ -21753,14 +26057,8 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
   if (output["Tags"] !== undefined && output["Tags"]["member"] !== undefined) {
     contents.Tags = deserializeAws_querytagListType(__getArrayIfSingleItem(output["Tags"]["member"]), context);
   }
-  if (output["Type"] !== undefined) {
-    contents.Type = parseInt(output["Type"]);
-  }
   if (output["Description"] !== undefined) {
     contents.Description = output["Description"];
-  }
-  if (output["UserStatus"] !== undefined) {
-    contents.UserStatus = output["UserStatus"];
   }
   if (output.Groups === "") {
     contents.Groups = [];
@@ -21771,14 +26069,26 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
   if (output["PasswordLastReset"] !== undefined) {
     contents.PasswordLastReset = new Date(output["PasswordLastReset"]);
   }
-  if (output["AccessKeyType"] !== undefined) {
-    contents.AccessKeyType = parseInt(output["AccessKeyType"]);
+  if (output["AccessType"] !== undefined) {
+    contents.AccessType = parseInt(output["AccessType"]);
   }
-  if (output["AccountName"] !== undefined) {
-    contents.AccountName = output["AccountName"];
+  if (output.AccessKeys === "") {
+    contents.AccessKeys = [];
   }
-  if (output["AccountId"] !== undefined) {
-    contents.AccountId = output["AccountId"];
+  if (output["AccessKeys"] !== undefined && output["AccessKeys"]["member"] !== undefined) {
+    contents.AccessKeys = deserializeAws_queryaccessKeyListType(
+      __getArrayIfSingleItem(output["AccessKeys"]["member"]),
+      context
+    );
+  }
+  if (output.Policies === "") {
+    contents.Policies = [];
+  }
+  if (output["Policies"] !== undefined && output["Policies"]["member"] !== undefined) {
+    contents.Policies = deserializeAws_querypolicyListType(
+      __getArrayIfSingleItem(output["Policies"]["member"]),
+      context
+    );
   }
   return contents;
 };
@@ -21879,6 +26189,28 @@ const deserializeAws_queryuserListType = (output: any, context: __SerdeContext):
     });
 };
 
+const deserializeAws_queryUserLoginResponse = (output: any, context: __SerdeContext): UserLoginResponse => {
+  let contents: any = {
+    Result: undefined,
+    NeedUpdatePassword: undefined,
+    Account: undefined,
+    User: undefined,
+  };
+  if (output["Result"] !== undefined) {
+    contents.Result = output["Result"];
+  }
+  if (output["NeedUpdatePassword"] !== undefined) {
+    contents.NeedUpdatePassword = parseInt(output["NeedUpdatePassword"]);
+  }
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output["User"] !== undefined) {
+    contents.User = deserializeAws_queryUser(output["User"], context);
+  }
+  return contents;
+};
+
 const deserializeAws_queryVirtualMFADevice = (output: any, context: __SerdeContext): VirtualMFADevice => {
   let contents: any = {
     SerialNumber: undefined,
@@ -21971,13 +26303,18 @@ const decodeEscapedXML = (str: string) =>
 const parseBody = (streamBody: any, context: __SerdeContext): any =>
   collectBodyString(streamBody, context).then((encoded) => {
     if (encoded.length) {
-      const parsedObj = xmlParse(encoded, {
+      const parser = new XMLParser({
         attributeNamePrefix: "",
+        htmlEntities: true,
         ignoreAttributes: false,
-        parseNodeValue: false,
+        ignoreDeclaration: true,
+        parseTagValue: false,
         trimValues: false,
-        tagValueProcessor: (val, tagName) => (val.trim() === "" ? "" : decodeEscapedXML(val)),
+        tagValueProcessor: (_, val) => (val.trim() === "" && val.includes("\n") ? "" : undefined),
       });
+      parser.addEntity("#xD", "\r");
+      parser.addEntity("#10", "\n");
+      const parsedObj = parser.parse(encoded);
       const textNodeName = "#text";
       const key = Object.keys(parsedObj)[0];
       const parsedObjToReturn = parsedObj[key];

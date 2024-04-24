@@ -236,16 +236,25 @@
           "target": "com.amazonaws.s3#CreateMultipartUpload"
         },
         {
-          "target": "com.amazonaws.s3#DeleteBucket"
+          "target": "com.amazonaws.s3#DeleteBucketAnalyticsConfiguration"
         },
         {
-          "target": "com.amazonaws.s3#DeleteBucketAnalyticsConfiguration"
+          "target": "com.amazonaws.s3#DeleteBucket"
         },
         {
           "target": "com.amazonaws.s3#DeleteBucketCors"
         },
         {
           "target": "com.amazonaws.s3#DeleteBucketQoS"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketBts"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketStatistic"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketDedup"
         },
         {
           "target": "com.amazonaws.s3#DeleteBucketEncryption"
@@ -261,6 +270,9 @@
         },
         {
           "target": "com.amazonaws.s3#DeleteOSCP"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteMetaSearch"
         },
         {
           "target": "com.amazonaws.s3#DeleteBucketMetricsConfiguration"
@@ -344,6 +356,12 @@
           "target": "com.amazonaws.s3#GetBucketQoS"
         },
         {
+          "target": "com.amazonaws.s3#GetBucketBts"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketStatistic"
+        },
+        {
           "target": "com.amazonaws.s3#GetBucketOwnershipControls"
         },
         {
@@ -390,6 +408,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetObjectRetention"
+        },
+        {
+          "target": "com.amazonaws.s3#GetObjectWORM"
         },
         {
           "target": "com.amazonaws.s3#GetObjectTagging"
@@ -440,6 +461,12 @@
           "target": "com.amazonaws.s3#ListParts"
         },
         {
+          "target": "com.amazonaws.s3#ListMetaSearchBuckets"
+        },
+        {
+          "target": "com.amazonaws.s3#ListMetaSearch"
+        },
+        {
           "target": "com.amazonaws.s3#PutBucketAccelerateConfiguration"
         },
         {
@@ -473,6 +500,9 @@
           "target": "com.amazonaws.s3#PutOSCPConfiguration"
         },
         {
+          "target": "com.amazonaws.s3#PutMetaSearchConfiguration"
+        },
+        {
           "target": "com.amazonaws.s3#PutBucketLogging"
         },
         {
@@ -492,6 +522,15 @@
         },
         {
           "target": "com.amazonaws.s3#PutBucketQoS"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketBts"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketStatistic"
+        },
+        {
+          "target": "com.amazonaws.s3#PutObjectDedupConfiguration"
         },
         {
           "target": "com.amazonaws.s3#PutBucketReplication"
@@ -530,6 +569,9 @@
           "target": "com.amazonaws.s3#PutObjectRetention"
         },
         {
+          "target": "com.amazonaws.s3#PutObjectWORM"
+        },
+        {
           "target": "com.amazonaws.s3#PutObjectTagging"
         },
         {
@@ -555,6 +597,28 @@
         },
         {
           "target": "com.amazonaws.s3#PutBucketMetadata"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketSnapshotDescription"
+        },
+        {
+          "target": "com.amazonaws.s3#ListBucketSnapshots"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#PostBucketRestore"
+        },
+
+        {
+          "target": "com.amazonaws.s3#DeleteBucketSnapshots"
         }
       ],
       "traits": {
@@ -686,6 +750,354 @@
           "traits": {
             "smithy.api#documentation": "<p>The date and time at which the object is no longer cacheable.</p>",
             "smithy.api#httpHeader": "Expires"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>创建桶快照</p> ",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?snapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket to which to apply the snapshot.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>Snapshot</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#Snapshot": {
+      "type": "structure",
+      "members": {
+        "ID": {
+          "target": "com.amazonaws.s3#ID",
+          "traits": {
+            "smithy.api#documentation": "<p>快照ID</p>"
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名称</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.s3#Description",
+          "traits": {
+            "smithy.api#documentation": "<p>快照描述</p>"
+          }
+        },
+        "CreateDate": {
+          "target": "com.amazonaws.s3#Date",
+          "traits": {
+            "smithy.api#documentation": "<p>快照创建日期</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketSnapshotRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketSnapshotOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取桶快照</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot1",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>BucketName</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>Snapshot Name</p>",
+            "smithy.api#httpQuery": "snapshot-name",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketSnapshotOutput": {
+      "type": "structure",
+      "members": {
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>Snapshot</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketSnapshotDescription": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketSnapshotDescriptionRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>修改桶快照描述</p> ",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?snapshot1",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketSnapshotDescriptionRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>BucketName</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>Snapshot Name</p>",
+            "smithy.api#httpQuery": "snapshot-name",
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#SnapshotDescription",
+          "traits": {
+            "smithy.api#documentation": "<p>快照描述</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "Snapshot"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SnapshotDescription": {
+      "type": "structure",
+      "members": {
+        "Description": {
+          "target": "com.amazonaws.s3#Description",
+          "traits": {
+            "smithy.api#documentation": "<p>快照描述</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#ListBucketSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#ListBucketSnapshotsOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "列举桶快照",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket containing the objects.</p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotsOutput": {
+      "type": "structure",
+      "members": {
+        "Snapshot": {
+          "target": "com.amazonaws.s3#SnapshotList",
+          "traits": {
+            "smithy.api#documentation": "SnapshotList",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "member"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SnapshotList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#Snapshot"
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "删除桶快照",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?snapshot1",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>Snapshot Name</p>",
+            "smithy.api#httpQuery": "snapshot-name"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#DeleteBucketSnapshotsOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "批量删除桶快照",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?snapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the objects to delete. </p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Delete": {
+          "target": "com.amazonaws.s3#SnapshotDelete",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for the request.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {},
+            "smithy.api#xmlName": "Delete"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SnapshotDelete": {
+      "type": "structure",
+      "members": {
+        "Snapshots": {
+          "target": "com.amazonaws.s3#SnapshotIdentifierList",
+          "traits": {
+            "smithy.api#documentation": "<p>The Snapshots to delete.</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Snapshot"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Container for the objects to delete.</p>"
+      }
+    },
+    "com.amazonaws.s3#SnapshotIdentifierList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#SnapshotIdentifier"
+      }
+    },
+    "com.amazonaws.s3#SnapshotIdentifier": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>Name of the snapshot to delete.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Snapshot Identifier is unique value to identify snapshots.</p>"
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketSnapshotsOutput": {
+      "type": "structure",
+      "members": {
+        "Deleted": {
+          "target": "com.amazonaws.s3#SnapshotIdentifierList",
+          "traits": {
+            "smithy.api#documentation": "<p>Container element for a successful delete. It identifies the snapshot that was successfully deleted.</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
+        "Errors": {
+          "target": "com.amazonaws.s3#Errors",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a failed delete operation that describes the snapshot that Amazon S3 attempted to delete and the error it encountered.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Error"
           }
         }
       }
@@ -996,6 +1408,12 @@
             "smithy.api#documentation": "<p>OSCP configuration.</p>"
           }
         },
+        "MetaSearchConfiguration": {
+          "target": "com.amazonaws.s3#MetaSearchConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>MetaSearch configuration.</p>"
+          }
+        },
         "CORSConfiguration": {
           "target": "com.amazonaws.s3#CORSConfiguration",
           "traits": {
@@ -1038,6 +1456,18 @@
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
         },
+        "BtsConfiguration": {
+          "target": "com.amazonaws.s3#BtsConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "StatisticConfiguration": {
+          "target": "com.amazonaws.s3#StatisticConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求返回值</p>"
+          }
+        },
         "BucketRedundancyConfiguration": {
           "target": "com.amazonaws.s3#BucketRedundancyConfiguration",
           "traits": {
@@ -1055,10 +1485,51 @@
           "traits": {
             "smithy.api#documentation": "<p>Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html\">Enabling Cross-Origin Resource\n            Sharing</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>"
           }
+        },
+        "DedupConfiguration": {
+          "target": "com.amazonaws.s3#DedupConfiguration",
+          "traits": {
+            "smithy.api#documentation": "在桶概览中添加桶重删的相关信息，如果存在桶重删的话，在返回结构中插入下面信息"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p> In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name is globally\n         unique, and the namespace is shared by all AWS accounts. </p>"
+      }
+    },
+    "com.amazonaws.s3#DedupConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status",
+          "traits": {
+            "smithy.api#documentation": "是否开启重删，Enabled：开启  Disabled：关闭"
+          }
+        },
+        "Num": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "开启重删后上传的对象数量"
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "开启重删后上传的对象容量"
+          }
+        },
+        "DedupNum": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "重删对象数量"
+          }
+        },
+        "DedupSize": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "重删对象容量"
+          }
+        }
       }
     },
     "com.amazonaws.s3#BucketAccelerateStatus": {
@@ -1112,7 +1583,7 @@
     "com.amazonaws.s3#BucketKeyEnabled": {
       "type": "boolean"
     },
-    "com.amazonaws.s3#OSCPPolicyOperator": {
+    "com.amazonaws.s3#OSCPPolicyAndRuleOperator": {
       "type": "structure",
       "members": {
         "Prefix": {
@@ -1194,14 +1665,106 @@
         "smithy.api#documentation": "<p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more\n         predicates. The Lifecycle Rule will apply to any object matching all of the predicates\n         configured inside the And operator.</p>"
       }
     },
+    "com.amazonaws.s3#OSCPPolicyOrRuleOperator": {
+      "type": "structure",
+      "members": {
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "PrefixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "SuffixNotMatch": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeLessThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeBetween": {
+          "target": "com.amazonaws.s3#ObjectSizeRange",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThanOrEqualTo": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "ObjectSizeGreaterThan": {
+          "target": "com.amazonaws.s3#ObjectSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "UserMetadata": {
+          "target": "com.amazonaws.s3#UserMetadataSingle",
+          "traits": {
+            "smithy.api#documentation": "<p>Prefix identifying one or more objects to which the rule applies.</p>"
+          }
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#Tag",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>"
+          }
+        },
+        "And": {
+          "target": "com.amazonaws.s3#TagMultiInOrMode",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to\n         apply.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more\n         predicates. The Lifecycle Rule will apply to any object matching all of the predicates\n         configured inside the And operator.</p>"
+      }
+    },
     "com.amazonaws.s3#OSCPPolicyFilter": {
       "type": "union",
       "members": {
         "And": {
-          "target": "com.amazonaws.s3#OSCPPolicyOperator"
+          "target": "com.amazonaws.s3#OSCPPolicyAndRuleOperator"
         },
         "Or": {
-          "target": "com.amazonaws.s3#OSCPPolicyOperator"
+          "target": "com.amazonaws.s3#OSCPPolicyOrRuleOperator"
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#Tag",
+          "traits": {
+            "smithy.api#documentation": "<p>All of these tags must exist in the object's tag set in order for the rule to apply.</p>"
+          }
         },
         "Prefix": {
           "target": "com.amazonaws.s3#Prefix",
@@ -1337,6 +1900,17 @@
       }
     },
     "com.amazonaws.s3#BucketOSCPConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Specifies the lifecycle configuration for objects in an Amazon S3 bucket. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html\">Object Lifecycle Management</a>\n         in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>"
+      }
+    },
+    "com.amazonaws.s3#MetaSearchConfiguration": {
       "type": "structure",
       "members": {
         "Status": {
@@ -1499,6 +2073,9 @@
       }
     },
     "com.amazonaws.s3#BucketName": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#StringType": {
       "type": "string"
     },
     "com.amazonaws.s3#BucketID": {
@@ -2095,6 +2672,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
             "smithy.api#httpHeader": "x-amz-worm-retain-until-date"
+          }
+        },
+        "WormGraceUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-grace-until-date"
           }
         },
         "ACL": {
@@ -2980,6 +3564,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
           }
+        },
+        "Months": {
+          "target": "com.amazonaws.s3#Months",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of months that you want to specify for the default retention period.</p>"
+          }
         }
       },
       "traits": {
@@ -3259,6 +3849,40 @@
       }
     },
     "com.amazonaws.s3#DeleteOSCPRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name of the lifecycle to delete.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteMetaSearch": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteMetaSearchRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "关闭桶元数据智能检索",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?metasearch",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteMetaSearchRequest": {
       "type": "structure",
       "members": {
         "Bucket": {
@@ -3986,6 +4610,9 @@
     "com.amazonaws.s3#Description": {
       "type": "string"
     },
+    "com.amazonaws.s3#SnapshotName": {
+      "type": "string"
+    },
     "com.amazonaws.s3#Destination": {
       "type": "structure",
       "members": {
@@ -4311,6 +4938,9 @@
       "type": "boolean"
     },
     "com.amazonaws.s3#FetchStorageInfo": {
+      "type": "boolean"
+    },
+    "com.amazonaws.s3#WithErrorInfo": {
       "type": "boolean"
     },
     "com.amazonaws.s3#FieldDelimiter": {
@@ -6027,6 +6657,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The default WORM retention mode and period that you want to apply to new objects\n         placed in the specified bucket. Bucket settings require a period.\n         The period can be either <code>Days</code> or <code>Years</code> but you must select one.\n         You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>"
           }
+        },
+        "DefaultGracePeriod": {
+          "target": "com.amazonaws.s3#WORMDefaultRetention",
+          "traits": {
+            "smithy.api#documentation": "<p>The default WORM retention mode and period that you want to apply to new objects\n         placed in the specified bucket. Bucket settings require a period.\n         The period can be either <code>Days</code> or <code>Years</code> but you must select one.\n         You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>"
+          }
         }
       },
       "traits": {
@@ -6044,6 +6680,24 @@
         },
         "Years": {
           "target": "com.amazonaws.s3#Years",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
+          }
+        },
+        "Months": {
+          "target": "com.amazonaws.s3#Months",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
+          }
+        },
+        "Hours": {
+          "target": "com.amazonaws.s3#Hours",
+          "traits": {
+            "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
+          }
+        },
+        "Minutes": {
+          "target": "com.amazonaws.s3#Minutes",
           "traits": {
             "smithy.api#documentation": "<p>The number of years that you want to specify for the default retention period.</p>"
           }
@@ -6474,6 +7128,96 @@
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
+      }
+    },
+    "com.amazonaws.s3#GetObjectWORM": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetObjectWORMRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetObjectWORMOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Retrieves an object's WORM settings.</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}/{Key+}?worm",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetObjectWORMRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the object whose retention settings you want to retrieve. </p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>The key name for the object whose retention settings you want to retrieve.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>The version ID for the object whose retention settings you want to retrieve.</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetObjectWORMOutput": {
+      "type": "structure",
+      "members": {
+        "WORM": {
+          "target": "com.amazonaws.s3#WORM",
+          "traits": {
+            "smithy.api#documentation": "<p>The container element for an object's retention settings.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#WORM": {
+      "type": "structure",
+      "members": {
+        "GraceUntilDate": {
+          "target": "com.amazonaws.s3#Date",
+          "traits": {
+            "smithy.api#documentation": "<p>宽限期</p>"
+          }
+        },
+        "RetainUntilDate": {
+          "target": "com.amazonaws.s3#Date",
+          "traits": {
+            "smithy.api#documentation": "<p>The date on which this Object WORM will expire.</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>A Retention configuration for an object.</p>"
       }
     },
     "com.amazonaws.s3#GetObjectRetention": {
@@ -7008,6 +7752,13 @@
             "smithy.api#httpHeader": "x-amz-delete-marker"
           }
         },
+        "EncryptionMode": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>加密方式是否为SSEC</p>",
+            "smithy.api#httpHeader": "x-amz-encryption-mode"
+          }
+        },
         "AcceptRanges": {
           "target": "com.amazonaws.s3#AcceptRanges",
           "traits": {
@@ -7273,6 +8024,13 @@
             "smithy.api#httpQuery": "versionId"
           }
         },
+        "FetchEncryptionType": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>是否查询加密方式</p>",
+            "smithy.api#httpQuery": "fetch-encryption-type"
+          }
+        },
         "WithoutContentLength": {
           "target": "com.amazonaws.s3#WithoutContentLength",
           "traits": {
@@ -7319,6 +8077,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "WithErrorInfo": {
+          "target": "com.amazonaws.s3#WithErrorInfo",
+          "traits": {
+            "smithy.api#documentation": "<p>If return error info.</p>",
+            "smithy.api#httpHeader": "x-amz-with-errinfo"
           }
         }
       }
@@ -7973,6 +8738,17 @@
         }
       }
     },
+    "com.amazonaws.s3#RestoreExpiration": {
+      "type": "structure",
+      "members": {
+        "DeleteRestoreObject": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>生命周期规则桶内恢复对象</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#LifecycleRule": {
       "type": "structure",
       "members": {
@@ -7980,6 +8756,12 @@
           "target": "com.amazonaws.s3#LifecycleExpiration",
           "traits": {
             "smithy.api#documentation": "<p>Specifies the expiration for the lifecycle of the object in the form of date, days and,\n         whether the object has a delete marker.</p>"
+          }
+        },
+        "RestoreExpiration": {
+          "target": "com.amazonaws.s3#RestoreExpiration",
+          "traits": {
+            "smithy.api#documentation": "<p>生命周期规则桶内恢复对象</p>"
           }
         },
         "BucketExpiration": {
@@ -8604,6 +9386,189 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListMetaSearch": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#ListMetaSearchRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#ListMetaSearchOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "列举元数据查询结果",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/?metasearch",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#ListMetaSearchRequest": {
+      "type": "structure",
+      "members": {
+        "SearchParams": {
+          "target": "com.amazonaws.s3#SearchParams",
+          "traits": {
+            "smithy.api#documentation": "元数据查询条件",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListMetaSearchOutput": {
+      "type": "structure",
+      "members": {
+        "SearchResult": {
+          "target": "com.amazonaws.s3#SearchResult",
+          "traits": {
+            "smithy.api#documentation": "元数据查询结果",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SearchParams": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#SearchResult": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#ListMetaSearchBuckets": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#ListMetaSearchBucketsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#ListMetaSearchBucketsOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>列举当前开启智能检索的桶</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/?listmetasearch",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#ListMetaSearchBucketsRequest": {
+      "type": "structure",
+      "members": {
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>Sets the maximum number of keys returned in the response. By default the API returns up\n         to 1,000 key names. The response might contain fewer keys but will never contain\n         more.</p>",
+            "smithy.api#httpQuery": "max-keys"
+          }
+        },
+        "BucketMarker": {
+          "target": "com.amazonaws.s3#BucketMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>可选参数，起始桶名</p>",
+            "smithy.api#httpQuery": "bucket-marker"
+          }
+        },
+        "AccountIdMarker": {
+          "target": "com.amazonaws.s3#AccountIdMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>可选参数，起始账户ID。只在admin列举时生效，如果懈怠了bucket-marker，则必须携带该参数，可以设置为0。</p>",
+            "smithy.api#httpQuery": "account-id-marker"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "prefix"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListMetaSearchBucketsOutput": {
+      "type": "structure",
+      "members": {
+        "IsTruncated": {
+          "target": "com.amazonaws.s3#IsTruncated",
+          "traits": {
+            "smithy.api#documentation": "<p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search\n         criteria.</p>"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Keys that begin with the indicated prefix.</p>"
+          }
+        },
+        "BucketMarker": {
+          "target": "com.amazonaws.s3#BucketMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>起始桶名</p>"
+          }
+        },
+        "AccountIdMarker": {
+          "target": "com.amazonaws.s3#AccountIdMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>起始账户ID。只在admin列举时生效，如果懈怠了bucket-marker，则必须携带该参数，可以设置为0</p>"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>The maximum number of keys returned in the response body.</p>"
+          }
+        },
+        "NextBucketMarker": {
+          "target": "com.amazonaws.s3#BucketMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>下一页的开始桶名</p>"
+          }
+        },
+        "Buckets": {
+          "target": "com.amazonaws.s3#MetaSearchBuckets",
+          "traits": {
+            "smithy.api#documentation": "<p>The list of buckets owned by the requestor.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#MetaSearchBuckets": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#MetaSearchBucket",
+        "traits": {
+          "smithy.api#xmlName": "Bucket"
+        }
+      }
+    },
+    "com.amazonaws.s3#MetaSearchBucket": {
+      "type": "structure",
+      "members": {
+        "BucketId": {
+          "target": "com.amazonaws.s3#BucketID",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the bucket.</p>"
+          }
+        },
+        "BucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket.</p>"
+          }
+        },
+        "AccountId": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The ID of the account.</p>"
+          }
+        },
+        "AccountName": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the account.</p>"
           }
         }
       }
@@ -10047,6 +11012,30 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "ObjectSource": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象来源</p>"
+          }
+        },
+        "ObjectExpirationDay": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复有效期</p>"
+          }
+        },
+        "RestoreOnGoing": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复状态</p>"
+          }
+        },
+        "RestoredExpiryDate": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复过期时间</p>"
+          }
+        },
         "Owner": {
           "target": "com.amazonaws.s3#Owner",
           "traits": {
@@ -10267,6 +11256,51 @@
         "smithy.api#documentation": "<p>The container element for an Object Lock rule.</p>"
       }
     },
+    "com.amazonaws.s3#ObjectDedupConfiguration": {
+      "type": "structure",
+      "members": {
+        "Region": {
+          "target": "com.amazonaws.s3#ObjectDedupRegion",
+          "traits": {
+            "smithy.api#documentation": "重删域，默认同一存储池、同一配比重删"
+          }
+        },
+        "CompareByte": {
+          "target": "com.amazonaws.s3#ObjectDedupCompareByte",
+          "traits": {
+            "smithy.api#documentation": "逐字节比较，默认关闭"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>开启重删的参数.</p>"
+      }
+    },
+    "com.amazonaws.s3#ObjectDedupRegion": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "POOL_REDUNDANCY"
+          },
+          {
+            "value": "POOL"
+          },
+          {
+            "value": "ACCOUNT"
+          },
+          {
+            "value": "BUCKET"
+          },
+          {
+            "value": "SYSTEM"
+          }
+        ]
+      }
+    },
+    "com.amazonaws.s3#ObjectDedupCompareByte": {
+      "type": "boolean"
+    },
     "com.amazonaws.s3#ObjectLockToken": {
       "type": "string"
     },
@@ -10341,6 +11375,9 @@
     "com.amazonaws.s3#booleanType": {
       "type": "boolean"
     },
+    "com.amazonaws.s3#integerType": {
+      "type": "integer"
+    },
     "com.amazonaws.s3#ObjectVersion": {
       "type": "structure",
       "members": {
@@ -10386,10 +11423,28 @@
             "smithy.api#documentation": "<p>Date and time the object was last modified.</p>"
           }
         },
+        "RestoreOnGoing": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复状态</p>"
+          }
+        },
+        "RestoredExpiryDate": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复过期时间</p>"
+          }
+        },
         "Owner": {
           "target": "com.amazonaws.s3#Owner",
           "traits": {
             "smithy.api#documentation": "<p>Specifies the owner of the object.</p>"
+          }
+        },
+        "IsEncrypted": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         }
       },
@@ -11189,6 +12244,21 @@
         "smithy.api#httpChecksumRequired": {}
       }
     },
+    "com.amazonaws.s3#PutMetaSearchConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutMetaSearchConfigurationRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "打开桶元数据智能检索",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?metasearch",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
     "com.amazonaws.s3#PutBucketLifecycleConfiguration": {
       "type": "operation",
       "input": {
@@ -11228,6 +12298,34 @@
             "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>",
             "smithy.api#httpPayload": {},
             "smithy.api#xmlName": "OSCPConfiguration"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutMetaSearchConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket for which to set the configuration.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "MetaSearchConfiguration": {
+          "target": "com.amazonaws.s3#MetaSearchConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "MetaSearchConfiguration"
           }
         }
       }
@@ -11581,6 +12679,281 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStatistic": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketStatisticRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketStatisticOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取桶统计计量配置</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?statistic",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStatisticRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求参数</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketStatisticOutput": {
+      "type": "structure",
+      "members": {
+        "StatisticConfiguration": {
+          "target": "com.amazonaws.s3#StatisticConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求返回值</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#StatisticConfiguration": {
+      "type": "structure",
+      "members": {
+        "DomainNameList": {
+          "target": "com.amazonaws.s3#DomainNameList",
+          "traits": {
+            "smithy.api#documentation": "<p>域名列表</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {}
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>桶类别</p>"
+          }
+        },
+        "TransferBucketName": {
+          "target": "com.amazonaws.s3#TransferOrRestoreBucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>转储桶信息</p>"
+          }
+        },
+        "RestoreEXBucketName": {
+          "target": "com.amazonaws.s3#TransferOrRestoreBucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复桶信息</p>"
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      }
+    },
+    "com.amazonaws.s3#DomainNameList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#DomainNames"
+      }
+    },
+    "com.amazonaws.s3#DomainNames": {
+      "type": "structure",
+      "members": {
+        "DomainName": {
+          "target": "com.amazonaws.s3#DomainName",
+          "traits": {
+            "smithy.api#documentation": "<p>域名</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DomainName": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#TransferOrRestoreBucketName": {
+      "type": "structure",
+      "members": {
+        "StandardBucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>标准桶信息</p>"
+          }
+        },
+        "StandardIABucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>低频桶信息</p>"
+          }
+        },
+        "GlacierBucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>归档桶信息</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketStatistic": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketStatisticRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>配置桶统计计量配置</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?statistic",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketStatisticRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求参数</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "StatisticConfiguration": {
+          "target": "com.amazonaws.s3#StatisticConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>配置桶统计计量配置参数</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketStatistic": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketStatisticRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除桶统计计量配置</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?statistic",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketStatisticRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求参数</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketDedup": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketDedupRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>关闭桶重删功能</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?dedup",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketDedupRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>关闭重删参数</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+
+    "com.amazonaws.s3#PostBucketRestore": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PostBucketRestoreRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>转储或恢复对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}/{Key+}?restoreex",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PostBucketRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>参数名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>对象版本</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "RestoreEXRequest": {
+          "target": "com.amazonaws.s3#RestoreEXRequest",
+          "traits": {
+            "smithy.api#documentation": "<p>配置桶统计计量配置参数</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#RestoreEXRequest": {
+      "type": "structure",
+      "members": {
+        "Tier": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>转储或恢复后的存储级别</p>"
+          }
+        },
+        "Days": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复后的有效期</p>"
           }
         }
       }
@@ -12201,6 +13574,76 @@
         }
       }
     },
+    "com.amazonaws.s3#PutObjectWORM": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutObjectWORMRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#PutObjectWORMOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Places an WORM configuration on the specified bucket. The rule specified in the\n         WORM configuration will be applied by default to every new object placed in the\n         specified bucket.\n      </p>\n         <note>\n            <ul>\n               <li>\n                  <p>The <code>WORMDefaultRetention</code> settings require a\n               period.</p>\n               </li>\n               <li>\n                  <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>\n               or <code>Years</code> but you must select one. You cannot specify <code>Days</code>\n               and <code>Years</code> at the same time.</p>\n               </li>\n               <li>\n                  <p>You can only enable WORM for new buckets. If you want to turn on\n               WORM for an existing bucket, contact AWS Support.</p>\n               </li>\n            </ul>\n         </note>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}/{Key+}?worm",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutObjectWORMRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket whose WORM configuration you want to create or replace.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>The key name for the object whose retention settings you want to retrieve.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        },
+        "WORM": {
+          "target": "com.amazonaws.s3#WORM",
+          "traits": {
+            "smithy.api#documentation": "<p>The WORM configuration that you want to apply to the specified bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectWORMOutput": {
+      "type": "structure",
+      "members": {
+        "RequestCharged": {
+          "target": "com.amazonaws.s3#RequestCharged",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-charged"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#PutWORMConfiguration": {
       "type": "operation",
       "input": {
@@ -12350,6 +13793,56 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectDedupConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutObjectDedupConfigurationRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#PutObjectDedupConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "开启桶重删功能",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?dedup",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+
+    "com.amazonaws.s3#PutObjectDedupConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "RequestCharged": {
+          "target": "com.amazonaws.s3#RequestCharged",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-charged"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectDedupConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "开启重删功能时，重删域必选",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ObjectDedupConfiguration": {
+          "target": "com.amazonaws.s3#ObjectDedupConfiguration",
+          "traits": {
+            "smithy.api#documentation": "",
+            "smithy.api#httpPayload": {}
           }
         }
       }
@@ -12647,6 +14140,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
             "smithy.api#httpHeader": "x-amz-worm-retain-until-date"
+          }
+        },
+        "WormGraceUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-grace-until-date"
           }
         },
         "ObjectLockLegalHoldStatus": {
@@ -13057,6 +14557,129 @@
       },
       "traits": {
         "smithy.api#documentation": "<p>The container for the records event.</p>"
+      }
+    },
+    "com.amazonaws.s3#GetBucketBts": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketBtsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketBtsOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取数据回源列表接口</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?bts",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketBtsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name for which to get the bts configuration.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketBtsOutput": {
+      "type": "structure",
+      "members": {
+        "BtsRule": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket bts as a JSON document.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketBts": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketBtsRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>设置数据回源</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?bts",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketBtsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the bucket impacted by the <code>bts</code>configuration.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
+        "BtsRule": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket bts as a JSON document.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketBts": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketBtsRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除数据回源规则</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?bts",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketBtsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the bucket whose <code>bts</code> configuration is being deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BtsConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>桶bts配置</p>"
       }
     },
     "com.amazonaws.s3#Redirect": {
@@ -14063,6 +15686,9 @@
         },
         "Status": {
           "target": "com.amazonaws.s3#Status"
+        },
+        "ServerSideEncryptionAlgorithm": {
+          "target": "com.amazonaws.s3#Algothrim"
         }
       },
       "traits": {
@@ -14153,6 +15779,12 @@
       "type": "long"
     },
     "com.amazonaws.s3#StartAfter": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#BucketMarker": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#AccountIdMarker": {
       "type": "string"
     },
     "com.amazonaws.s3#EndBefore": {
@@ -15083,6 +16715,15 @@
       }
     },
     "com.amazonaws.s3#Years": {
+      "type": "integer"
+    },
+    "com.amazonaws.s3#Months": {
+      "type": "integer"
+    },
+    "com.amazonaws.s3#Hours": {
+      "type": "integer"
+    },
+    "com.amazonaws.s3#Minutes": {
       "type": "integer"
     }
   }

@@ -1,14 +1,1241 @@
 import {
+  AccessKey,
+  AccountType,
+  AssignmentStatusType,
   Role,
   SSHPublicKey,
   ServerCertificateMetadata,
-  SigningCertificate,
+  ServiceSpecificCredential,
   StatusType,
   Tag,
+  User,
   UserStatusType,
+  VirtualMFADevice,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
+
+/**
+ * <p>Contains the response to a successful <a>ListServerCertificates</a> request.
+ *     </p>
+ */
+export interface ListServerCertificatesResponse {
+  /**
+   * <p>A list of server certificates.</p>
+   */
+  ServerCertificateMetadataList: ServerCertificateMetadata[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListServerCertificatesResponse {
+  export const filterSensitiveLog = (obj: ListServerCertificatesResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListServiceSpecificCredentialsRequest {
+  /**
+   * <p>The name of the user whose service-specific credentials you want information about. If
+   *          this value is not specified, then the operation assumes the user whose credentials are used
+   *          to call the operation.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Filters the returned results to only those for the specified AWS service. If not
+   *          specified, then AWS returns service-specific credentials for all services.</p>
+   */
+  ServiceName?: string;
+}
+
+export namespace ListServiceSpecificCredentialsRequest {
+  export const filterSensitiveLog = (obj: ListServiceSpecificCredentialsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains additional details about a service-specific credential.</p>
+ */
+export interface ServiceSpecificCredentialMetadata {
+  /**
+   * <p>The name of the IAM user associated with the service-specific credential.</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The status of the service-specific credential. <code>Active</code> means that the key is
+   *          valid for API calls, while <code>Inactive</code> means it is not.</p>
+   */
+  Status: StatusType | string | undefined;
+
+  /**
+   * <p>The generated user name for the service-specific credential.</p>
+   */
+  ServiceUserName: string | undefined;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the service-specific credential were created.</p>
+   */
+  CreateDate: Date | undefined;
+
+  /**
+   * <p>The unique identifier for the service-specific credential.</p>
+   */
+  ServiceSpecificCredentialId: string | undefined;
+
+  /**
+   * <p>The name of the service associated with the service-specific credential.</p>
+   */
+  ServiceName: string | undefined;
+}
+
+export namespace ServiceSpecificCredentialMetadata {
+  export const filterSensitiveLog = (obj: ServiceSpecificCredentialMetadata): any => ({
+    ...obj,
+  });
+}
+
+export interface ListServiceSpecificCredentialsResponse {
+  /**
+   * <p>A list of structures that each contain details about a service-specific
+   *          credential.</p>
+   */
+  ServiceSpecificCredentials?: ServiceSpecificCredentialMetadata[];
+}
+
+export namespace ListServiceSpecificCredentialsResponse {
+  export const filterSensitiveLog = (obj: ListServiceSpecificCredentialsResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListSigningCertificatesRequest {
+  /**
+   * <p>The name of the IAM user whose signing certificates you want to examine.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListSigningCertificatesRequest {
+  export const filterSensitiveLog = (obj: ListSigningCertificatesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about an X.509 signing certificate.</p>
+ *          <p>This data type is used as a response element in the <a>UploadSigningCertificate</a> and <a>ListSigningCertificates</a>
+ *          operations. </p>
+ */
+export interface SigningCertificate {
+  /**
+   * <p>The name of the user the signing certificate is associated with.</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The ID for the signing certificate.</p>
+   */
+  CertificateId: string | undefined;
+
+  /**
+   * <p>The contents of the signing certificate.</p>
+   */
+  CertificateBody: string | undefined;
+
+  /**
+   * <p>The status of the signing certificate. <code>Active</code> means that the key is valid
+   *          for API calls, while <code>Inactive</code> means it is not.</p>
+   */
+  Status: StatusType | string | undefined;
+
+  /**
+   * <p>The date when the signing certificate was uploaded.</p>
+   */
+  UploadDate?: Date;
+}
+
+export namespace SigningCertificate {
+  export const filterSensitiveLog = (obj: SigningCertificate): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListSigningCertificates</a>
+ *       request. </p>
+ */
+export interface ListSigningCertificatesResponse {
+  /**
+   * <p>A list of the user's signing certificate information.</p>
+   */
+  Certificates: SigningCertificate[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListSigningCertificatesResponse {
+  export const filterSensitiveLog = (obj: ListSigningCertificatesResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListSSHPublicKeysRequest {
+  /**
+   * <p>The name of the IAM user to list SSH public keys for. If none is specified, the
+   *             <code>UserName</code> field is determined implicitly based on the AWS access key used
+   *          to sign the request.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListSSHPublicKeysRequest {
+  export const filterSensitiveLog = (obj: ListSSHPublicKeysRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains information about an SSH public key, without the key's body or
+ *          fingerprint.</p>
+ *          <p>This data type is used as a response element in the <a>ListSSHPublicKeys</a>
+ *          operation.</p>
+ */
+export interface SSHPublicKeyMetadata {
+  /**
+   * <p>The name of the IAM user associated with the SSH public key.</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The unique identifier for the SSH public key.</p>
+   */
+  SSHPublicKeyId: string | undefined;
+
+  /**
+   * <p>The status of the SSH public key. <code>Active</code> means that the key can be used for
+   *          authentication with an AWS CodeCommit repository. <code>Inactive</code> means that the key
+   *          cannot be used.</p>
+   */
+  Status: StatusType | string | undefined;
+
+  /**
+   * <p>The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601 date-time
+   *             format</a>, when the SSH public key was uploaded.</p>
+   */
+  UploadDate: Date | undefined;
+}
+
+export namespace SSHPublicKeyMetadata {
+  export const filterSensitiveLog = (obj: SSHPublicKeyMetadata): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListSSHPublicKeys</a>
+ *       request.</p>
+ */
+export interface ListSSHPublicKeysResponse {
+  /**
+   * <p>A list of the SSH public keys assigned to IAM user.</p>
+   */
+  SSHPublicKeys?: SSHPublicKeyMetadata[];
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListSSHPublicKeysResponse {
+  export const filterSensitiveLog = (obj: ListSSHPublicKeysResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListUserAccessKeysRequest {
+  /**
+   * <p>The name of the IAM user that the new key will belong to.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedInnerCert?: number;
+}
+
+export namespace ListUserAccessKeysRequest {
+  export const filterSensitiveLog = (obj: ListUserAccessKeysRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>CreateAccessKey</a> request.
+ *     </p>
+ */
+export interface ListUserAccessKeysResponse {
+  /**
+   * <p>The access keys of account.</p>
+   */
+  AccessKeys?: AccessKey[];
+}
+
+export namespace ListUserAccessKeysResponse {
+  export const filterSensitiveLog = (obj: ListUserAccessKeysResponse): any => ({
+    ...obj,
+    ...(obj.AccessKeys && { AccessKeys: obj.AccessKeys.map((item) => AccessKey.filterSensitiveLog(item)) }),
+  });
+}
+
+export interface ListUserPoliciesRequest {
+  /**
+   * <p>The name of the user to list policies for.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListUserPoliciesRequest {
+  export const filterSensitiveLog = (obj: ListUserPoliciesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListUserPolicies</a> request.
+ *     </p>
+ */
+export interface ListUserPoliciesResponse {
+  /**
+   * <p>A list of policy names.</p>
+   */
+  PolicyNames: string[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListUserPoliciesResponse {
+  export const filterSensitiveLog = (obj: ListUserPoliciesResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListUsersRequest {
+  /**
+   * <p> The path prefix for filtering the results. For example:
+   *             <code>/division_abc/subdivision_xyz/</code>, which would get all user names whose path
+   *          starts with <code>/division_abc/subdivision_xyz/</code>.</p>
+   *          <p>This parameter is optional. If it is not included, it defaults to a slash (/), listing
+   *          all user names. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
+   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
+   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
+   *     most punctuation characters, digits, and upper and lowercased letters.</p>
+   */
+  PathPrefix?: string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedInnerCert?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedAddedGroups?: number;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedAttachedPolicies?: number;
+}
+
+export namespace ListUsersRequest {
+  export const filterSensitiveLog = (obj: ListUsersRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListUsers</a> request. </p>
+ */
+export interface ListUsersResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>A list of users.</p>
+   */
+  Users: User[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListUsersResponse {
+  export const filterSensitiveLog = (obj: ListUsersResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
+export interface ListUserTagsRequest {
+  /**
+   * <p>The name of the IAM user whose tags you want to see.</p>
+   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: =,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>(Optional) Use this only when paginating results to indicate the
+   *     maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, it defaults to 100. Note that
+   *     IAM might return fewer results, even when more results are available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListUserTagsRequest {
+  export const filterSensitiveLog = (obj: ListUserTagsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ListUserTagsResponse {
+  /**
+   * <p>The list of tags that are currently attached to the user. Each tag consists of a key
+   *       name and an associated value. If no tags are attached to the specified user, the response
+   *       contains an empty list.</p>
+   */
+  Tags: Tag[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can use the <code>Marker</code> request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when more results are available. Check <code>IsTruncated</code> after every call to ensure that you receive all of your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListUserTagsResponse {
+  export const filterSensitiveLog = (obj: ListUserTagsResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListVirtualMFADevicesRequest {
+  /**
+   * <p> The status (<code>Unassigned</code> or <code>Assigned</code>) of the devices to list.
+   *          If you do not specify an <code>AssignmentStatus</code>, the operation defaults to
+   *             <code>Any</code>, which lists both assigned and unassigned virtual MFA devices.,</p>
+   */
+  AssignmentStatus?: AssignmentStatusType | string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListVirtualMFADevicesRequest {
+  export const filterSensitiveLog = (obj: ListVirtualMFADevicesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListVirtualMFADevices</a> request.
+ *     </p>
+ */
+export interface ListVirtualMFADevicesResponse {
+  /**
+   * <p> The list of virtual MFA devices in the current account that match the
+   *             <code>AssignmentStatus</code> value that was passed in the request.</p>
+   */
+  VirtualMFADevices: VirtualMFADevice[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element is present and contains
+   *          the value to use for the <code>Marker</code> parameter in a subsequent pagination
+   *          request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListVirtualMFADevicesResponse {
+  export const filterSensitiveLog = (obj: ListVirtualMFADevicesResponse): any => ({
+    ...obj,
+    ...(obj.VirtualMFADevices && {
+      VirtualMFADevices: obj.VirtualMFADevices.map((item) => VirtualMFADevice.filterSensitiveLog(item)),
+    }),
+  });
+}
+
+export interface LoginConsoleRequest {
+  /**
+   * <p>1 means account; 2 means user; 3 means email</p>
+   */
+  LoginType: number | undefined;
+
+  /**
+   * <p>Account name, required when LoginType is 1.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  Email?: string;
+
+  /**
+   * <p>Password</p>
+   */
+  Password: string | undefined;
+}
+
+export namespace LoginConsoleRequest {
+  export const filterSensitiveLog = (obj: LoginConsoleRequest): any => ({
+    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
+  });
+}
+
+export interface LoginConsoleResponse {
+  /**
+   * <p>Login succeed or failed.</p>
+   */
+  Result: string | undefined;
+
+  /**
+   * <p>0 means no need update, 1 means need update.</p>
+   */
+  NeedUpdatePassword?: number;
+
+  /**
+   * <p>Account info.</p>
+   */
+  Account?: AccountType;
+
+  /**
+   * <p>AccessKey info.</p>
+   */
+  AccessKey?: AccessKey;
+}
+
+export namespace LoginConsoleResponse {
+  export const filterSensitiveLog = (obj: LoginConsoleResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+    ...(obj.AccessKey && { AccessKey: AccessKey.filterSensitiveLog(obj.AccessKey) }),
+  });
+}
+
+export interface PutAccountQosRequest {
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>The ReadOps of the account.</p>
+   */
+  ReadOps?: string;
+
+  /**
+   * <p>The WriteOps of the account.</p>
+   */
+  WriteOps?: string;
+
+  /**
+   * <p>The ReadBandwidth of the account.</p>
+   */
+  ReadBandwidth?: string;
+
+  /**
+   * <p>The WriteBandwidth of the account.</p>
+   */
+  WriteBandwidth?: string;
+}
+
+export namespace PutAccountQosRequest {
+  export const filterSensitiveLog = (obj: PutAccountQosRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutGroupPolicyRequest {
+  /**
+   * <p>The name of the group to associate the policy with.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-.</p>
+   */
+  GroupName: string | undefined;
+
+  /**
+   * <p>The name of the policy document.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  PolicyName: string | undefined;
+
+  /**
+   * <p>The policy document.</p>
+   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
+   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
+   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
+   *          IAM.</p>
+   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
+   *     used to validate this parameter is a string of characters consisting of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Any printable ASCII
+   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
+   *             </li>
+   *             <li>
+   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
+   *     (through <code>\u00FF</code>)</p>
+   *             </li>
+   *             <li>
+   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
+   *     carriage return (<code>\u000D</code>)</p>
+   *             </li>
+   *          </ul>
+   */
+  PolicyDocument: string | undefined;
+}
+
+export namespace PutGroupPolicyRequest {
+  export const filterSensitiveLog = (obj: PutGroupPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutRolePermissionsBoundaryRequest {
+  /**
+   * <p>The name (friendly name, not ARN) of the IAM role for which you want to set the
+   *          permissions boundary.</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the role.</p>
+   */
+  PermissionsBoundary: string | undefined;
+}
+
+export namespace PutRolePermissionsBoundaryRequest {
+  export const filterSensitiveLog = (obj: PutRolePermissionsBoundaryRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutRolePolicyRequest {
+  /**
+   * <p>The name of the role to associate the policy with.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>The name of the policy document.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  PolicyName: string | undefined;
+
+  /**
+   * <p>The policy document.</p>
+   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
+   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
+   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
+   *          IAM.</p>
+   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
+   *     used to validate this parameter is a string of characters consisting of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Any printable ASCII
+   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
+   *             </li>
+   *             <li>
+   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
+   *     (through <code>\u00FF</code>)</p>
+   *             </li>
+   *             <li>
+   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
+   *     carriage return (<code>\u000D</code>)</p>
+   *             </li>
+   *          </ul>
+   */
+  PolicyDocument: string | undefined;
+}
+
+export namespace PutRolePolicyRequest {
+  export const filterSensitiveLog = (obj: PutRolePolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutUserPermissionsBoundaryRequest {
+  /**
+   * <p>The name (friendly name, not ARN) of the IAM user for which you want to set the
+   *          permissions boundary.</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
+   */
+  PermissionsBoundary: string | undefined;
+}
+
+export namespace PutUserPermissionsBoundaryRequest {
+  export const filterSensitiveLog = (obj: PutUserPermissionsBoundaryRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutUserPolicyRequest {
+  /**
+   * <p>The name of the user to associate the policy with.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The name of the policy document.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  PolicyName: string | undefined;
+
+  /**
+   * <p>The policy document.</p>
+   *          <p>You must provide policies in JSON format in IAM. However, for AWS CloudFormation
+   *          templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS
+   *          CloudFormation always converts a YAML policy to JSON format before submitting it to
+   *          IAM.</p>
+   *          <p>The <a href="http://wikipedia.org/wiki/regex">regex pattern</a>
+   *     used to validate this parameter is a string of characters consisting of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Any printable ASCII
+   *     character ranging from the space character (<code>\u0020</code>) through the end of the ASCII character range</p>
+   *             </li>
+   *             <li>
+   *                <p>The printable characters in the Basic Latin and  Latin-1 Supplement character set
+   *     (through <code>\u00FF</code>)</p>
+   *             </li>
+   *             <li>
+   *                <p>The special characters tab (<code>\u0009</code>), line feed (<code>\u000A</code>), and
+   *     carriage return (<code>\u000D</code>)</p>
+   *             </li>
+   *          </ul>
+   */
+  PolicyDocument: string | undefined;
+}
+
+export namespace PutUserPolicyRequest {
+  export const filterSensitiveLog = (obj: PutUserPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RemoveAccountFromGroupRequest {
+  /**
+   * <p>Account group name.</p>
+   */
+  GroupName?: string;
+
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+}
+
+export namespace RemoveAccountFromGroupRequest {
+  export const filterSensitiveLog = (obj: RemoveAccountFromGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RemoveClientIDFromOpenIDConnectProviderRequest {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client
+   *          ID from. You can get a list of OIDC provider ARNs by using the <a>ListOpenIDConnectProviders</a> operation.</p>
+   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
+   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   */
+  OpenIDConnectProviderArn: string | undefined;
+
+  /**
+   * <p>The client ID (also known as audience) to remove from the IAM OIDC provider resource.
+   *          For more information about client IDs, see <a>CreateOpenIDConnectProvider</a>.</p>
+   */
+  ClientID: string | undefined;
+}
+
+export namespace RemoveClientIDFromOpenIDConnectProviderRequest {
+  export const filterSensitiveLog = (obj: RemoveClientIDFromOpenIDConnectProviderRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RemoveRoleFromInstanceProfileRequest {
+  /**
+   * <p>The name of the instance profile to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  InstanceProfileName: string | undefined;
+
+  /**
+   * <p>The name of the role to remove.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  RoleName: string | undefined;
+}
+
+export namespace RemoveRoleFromInstanceProfileRequest {
+  export const filterSensitiveLog = (obj: RemoveRoleFromInstanceProfileRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RemoveUserFromGroupRequest {
+  /**
+   * <p>The name of the group to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+
+  /**
+   * <p>The name of the user to remove.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+}
+
+export namespace RemoveUserFromGroupRequest {
+  export const filterSensitiveLog = (obj: RemoveUserFromGroupRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ResetAccountPasswordRequest {
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName: string | undefined;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword?: string;
+
+  /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
+}
+
+export namespace ResetAccountPasswordRequest {
+  export const filterSensitiveLog = (obj: ResetAccountPasswordRequest): any => ({
+    ...obj,
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
+  });
+}
+
+export interface ResetServiceSpecificCredentialRequest {
+  /**
+   * <p>The name of the IAM user associated with the service-specific credential. If this
+   *          value is not specified, then the operation assumes the user whose credentials are used to
+   *          call the operation.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The unique identifier of the service-specific credential.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  ServiceSpecificCredentialId: string | undefined;
+}
+
+export namespace ResetServiceSpecificCredentialRequest {
+  export const filterSensitiveLog = (obj: ResetServiceSpecificCredentialRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ResetServiceSpecificCredentialResponse {
+  /**
+   * <p>A structure with details about the updated service-specific credential, including the
+   *          new password.</p>
+   *          <important>
+   *             <p>This is the <b>only</b> time that you can access the
+   *             password. You cannot recover the password later, but you can reset it again.</p>
+   *          </important>
+   */
+  ServiceSpecificCredential?: ServiceSpecificCredential;
+}
+
+export namespace ResetServiceSpecificCredentialResponse {
+  export const filterSensitiveLog = (obj: ResetServiceSpecificCredentialResponse): any => ({
+    ...obj,
+    ...(obj.ServiceSpecificCredential && {
+      ServiceSpecificCredential: ServiceSpecificCredential.filterSensitiveLog(obj.ServiceSpecificCredential),
+    }),
+  });
+}
+
+export interface ResetUserPasswordRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword?: string;
+
+  /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
+}
+
+export namespace ResetUserPasswordRequest {
+  export const filterSensitiveLog = (obj: ResetUserPasswordRequest): any => ({
+    ...obj,
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
+  });
+}
+
+export interface ResyncMFADeviceRequest {
+  /**
+   * <p>The name of the user whose MFA device you want to resynchronize.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>Serial number that uniquely identifies the MFA device.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  SerialNumber: string | undefined;
+
+  /**
+   * <p>An authentication code emitted by the device.</p>
+   *          <p>The format for this parameter is a sequence of six digits.</p>
+   */
+  AuthenticationCode1: string | undefined;
+
+  /**
+   * <p>A subsequent authentication code emitted by the device.</p>
+   *          <p>The format for this parameter is a sequence of six digits.</p>
+   */
+  AuthenticationCode2: string | undefined;
+}
+
+export namespace ResyncMFADeviceRequest {
+  export const filterSensitiveLog = (obj: ResyncMFADeviceRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface SetDefaultPolicyVersionRequest {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the IAM policy whose default version you want to
+   *          set.</p>
+   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
+   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
+   */
+  PolicyArn: string | undefined;
+
+  /**
+   * <p>The version of the policy to set as the default (operative) version.</p>
+   *          <p>For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning for Managed
+   *             Policies</a> in the <i>IAM User Guide</i>.</p>
+   */
+  VersionId: string | undefined;
+}
+
+export namespace SetDefaultPolicyVersionRequest {
+  export const filterSensitiveLog = (obj: SetDefaultPolicyVersionRequest): any => ({
+    ...obj,
+  });
+}
+
+export enum GlobalEndpointTokenVersion {
+  v1Token = "v1Token",
+  v2Token = "v2Token",
+}
+
+export interface SetSecurityTokenServicePreferencesRequest {
+  /**
+   * <p>The version of the global endpoint token. Version 1 tokens are valid only in AWS
+   *          Regions that are available by default. These tokens do not work in manually enabled
+   *          Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions.
+   *          However, version 2 tokens are longer and might affect systems where you temporarily store
+   *          tokens.</p>
+   *          <p>For information, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating and Deactivating
+   *             STS in an AWS Region</a> in the <i>IAM User Guide</i>.</p>
+   */
+  GlobalEndpointTokenVersion: GlobalEndpointTokenVersion | string | undefined;
+}
+
+export namespace SetSecurityTokenServicePreferencesRequest {
+  export const filterSensitiveLog = (obj: SetSecurityTokenServicePreferencesRequest): any => ({
+    ...obj,
+  });
+}
 
 /**
  * <p>The request failed because a provided policy could not be successfully evaluated. An
@@ -1200,6 +2427,27 @@ export namespace UpdateGroupRequest {
   });
 }
 
+export interface UpdateGroupDescriptionRequest {
+  /**
+   * <p>Name of the IAM group to update. If you're changing the name of the group, this is the
+   *          original name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  GroupName: string | undefined;
+
+  /**
+   * <p>The new description that you want to apply to the account.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateGroupDescriptionRequest {
+  export const filterSensitiveLog = (obj: UpdateGroupDescriptionRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface UpdateLoginProfileRequest {
   /**
    * <p>The name of the user whose password you want to update.</p>
@@ -1237,12 +2485,23 @@ export interface UpdateLoginProfileRequest {
    *          set a new password on next sign-in.</p>
    */
   PasswordResetRequired?: boolean;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword?: string;
+
+  /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
 }
 
 export namespace UpdateLoginProfileRequest {
   export const filterSensitiveLog = (obj: UpdateLoginProfileRequest): any => ({
     ...obj,
     ...(obj.Password && { Password: SENSITIVE_STRING }),
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
   });
 }
 
@@ -1265,6 +2524,24 @@ export interface UpdateOpenIDConnectProviderThumbprintRequest {
 
 export namespace UpdateOpenIDConnectProviderThumbprintRequest {
   export const filterSensitiveLog = (obj: UpdateOpenIDConnectProviderThumbprintRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdatePolicyDescriptionRequest {
+  /**
+   * <p>Policy Name</p>
+   */
+  PolicyName: string | undefined;
+
+  /**
+   * <p>Description</p>
+   */
+  Description: string | undefined;
+}
+
+export namespace UpdatePolicyDescriptionRequest {
+  export const filterSensitiveLog = (obj: UpdatePolicyDescriptionRequest): any => ({
     ...obj,
   });
 }
@@ -1550,6 +2827,185 @@ export interface UpdateUserRequest {
 
 export namespace UpdateUserRequest {
   export const filterSensitiveLog = (obj: UpdateUserRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserAccessKeyRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The access key ID of the secret access key you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  AccessKeyId: string | undefined;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
+   */
+  Status?: UserStatusType | string;
+}
+
+export namespace UpdateUserAccessKeyRequest {
+  export const filterSensitiveLog = (obj: UpdateUserAccessKeyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserAccessKeyDescriptionRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The access key ID of the secret access key you want to update.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that can
+   *     consist of any upper or lowercased letter or digit.</p>
+   */
+  AccessKeyId: string | undefined;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateUserAccessKeyDescriptionRequest {
+  export const filterSensitiveLog = (obj: UpdateUserAccessKeyDescriptionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserAccessTypeRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>Access type, 1 means web, 2 means api, 3 means all.</p>
+   */
+  AccessType?: number;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword?: string;
+}
+
+export namespace UpdateUserAccessTypeRequest {
+  export const filterSensitiveLog = (obj: UpdateUserAccessTypeRequest): any => ({
+    ...obj,
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
+  });
+}
+
+export interface UpdateUserDescriptionRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>Description of user.</p>
+   */
+  Description?: string;
+}
+
+export namespace UpdateUserDescriptionRequest {
+  export const filterSensitiveLog = (obj: UpdateUserDescriptionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserEmailRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  NewEmail?: string;
+}
+
+export namespace UpdateUserEmailRequest {
+  export const filterSensitiveLog = (obj: UpdateUserEmailRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateUserPasswordRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The new password.</p>
+   */
+  NewPassword?: string;
+
+  /**
+   * <p>The IAM user's current password.</p>
+   */
+  OldPassword: string | undefined;
+
+  /**
+   * <p>First login is update password, 0 means no, 1 means yes.</p>
+   */
+  FirstLoginUpdatePassword?: number;
+}
+
+export namespace UpdateUserPasswordRequest {
+  export const filterSensitiveLog = (obj: UpdateUserPasswordRequest): any => ({
+    ...obj,
+    ...(obj.NewPassword && { NewPassword: SENSITIVE_STRING }),
+    ...(obj.OldPassword && { OldPassword: SENSITIVE_STRING }),
+  });
+}
+
+export interface UpdateUserStatusRequest {
+  /**
+   * <p>Name of the user to update. If you're changing the name of the user, this is the
+   *          original user name.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  UserName: string | undefined;
+
+  /**
+   * <p>The ARN of the policy that is used to set the permissions boundary for the user.</p>
+   */
+  Status?: UserStatusType | string;
+}
+
+export namespace UpdateUserStatusRequest {
+  export const filterSensitiveLog = (obj: UpdateUserStatusRequest): any => ({
     ...obj,
   });
 }
@@ -1870,5 +3326,88 @@ export interface UploadSSHPublicKeyResponse {
 export namespace UploadSSHPublicKeyResponse {
   export const filterSensitiveLog = (obj: UploadSSHPublicKeyResponse): any => ({
     ...obj,
+  });
+}
+
+export interface UserLoginRequest {
+  /**
+   * <p>Account Id.</p>
+   */
+  AccountID?: string;
+
+  /**
+   * <p>Account name, required when LoginType is 1.</p>
+   */
+  AccountName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  UserName?: string;
+
+  /**
+   * <p>User name, required when LoginType is 2.</p>
+   */
+  Email?: string;
+
+  /**
+   * <p>Password</p>
+   */
+  Password: string | undefined;
+
+  /**
+   * <p>1 means need, 0 means no need.</p>
+   */
+  NeedInnerCert?: number;
+}
+
+export namespace UserLoginRequest {
+  export const filterSensitiveLog = (obj: UserLoginRequest): any => ({
+    ...obj,
+    ...(obj.Password && { Password: SENSITIVE_STRING }),
+  });
+}
+
+export interface UserLoginResponse {
+  /**
+   * <p>Login succeed or failed.</p>
+   */
+  Result: string | undefined;
+
+  /**
+   * <p>0 means no need update, 1 means need update.</p>
+   */
+  NeedUpdatePassword?: number;
+
+  /**
+   * <p>Account info.</p>
+   */
+  Account?: AccountType;
+
+  /**
+   * <p>A structure containing details about the IAM user.</p>
+   *          <important>
+   *             <p>Due to a service issue, password last used data does not include password use from
+   *             May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_finding-unused.html">last
+   *                sign-in</a> dates shown in the IAM console and password last used dates in the
+   *                <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html">IAM credential report</a>, and returned by this GetUser API. If users signed in
+   *             during the affected time, the password last used date that is returned is the date the
+   *             user last signed in before May 3, 2018. For users that signed in after May 23, 2018
+   *             14:08 PDT, the returned password last used date is accurate.</p>
+   *             <p>You can use password last used information to identify unused credentials for
+   *             deletion. For example, you might delete users who did not sign in to AWS in the last 90
+   *             days. In cases like this, we recommend that you adjust your evaluation window to include
+   *             dates after May 23, 2018. Alternatively, if your users use access keys to access AWS
+   *             programmatically you can refer to access key last used information because it is
+   *             accurate for all dates. </p>
+   *          </important>
+   */
+  User: User | undefined;
+}
+
+export namespace UserLoginResponse {
+  export const filterSensitiveLog = (obj: UserLoginResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }

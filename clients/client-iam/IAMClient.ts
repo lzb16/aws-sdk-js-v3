@@ -12,6 +12,68 @@ import { AttachGroupPolicyCommandInput, AttachGroupPolicyCommandOutput } from ".
 import { AttachRolePolicyCommandInput, AttachRolePolicyCommandOutput } from "./commands/AttachRolePolicyCommand";
 import { AttachUserPolicyCommandInput, AttachUserPolicyCommandOutput } from "./commands/AttachUserPolicyCommand";
 import {
+  BatchAddUserToGroupsCommandInput,
+  BatchAddUserToGroupsCommandOutput,
+} from "./commands/BatchAddUserToGroupsCommand";
+import {
+  BatchAddUserToMultiGroupsCommandInput,
+  BatchAddUserToMultiGroupsCommandOutput,
+} from "./commands/BatchAddUserToMultiGroupsCommand";
+import {
+  BatchAddUsersToGroupCommandInput,
+  BatchAddUsersToGroupCommandOutput,
+} from "./commands/BatchAddUsersToGroupCommand";
+import {
+  BatchAttachPoliciesToGroupCommandInput,
+  BatchAttachPoliciesToGroupCommandOutput,
+} from "./commands/BatchAttachPoliciesToGroupCommand";
+import {
+  BatchAttachPoliciesToUserCommandInput,
+  BatchAttachPoliciesToUserCommandOutput,
+} from "./commands/BatchAttachPoliciesToUserCommand";
+import {
+  BatchAttachPolicyToMultiGroupsCommandInput,
+  BatchAttachPolicyToMultiGroupsCommandOutput,
+} from "./commands/BatchAttachPolicyToMultiGroupsCommand";
+import {
+  BatchAttachPolicyToMultiUsersCommandInput,
+  BatchAttachPolicyToMultiUsersCommandOutput,
+} from "./commands/BatchAttachPolicyToMultiUsersCommand";
+import { BatchDeleteGroupsCommandInput, BatchDeleteGroupsCommandOutput } from "./commands/BatchDeleteGroupsCommand";
+import {
+  BatchDeletePoliciesCommandInput,
+  BatchDeletePoliciesCommandOutput,
+} from "./commands/BatchDeletePoliciesCommand";
+import { BatchDeleteUsersCommandInput, BatchDeleteUsersCommandOutput } from "./commands/BatchDeleteUsersCommand";
+import {
+  BatchDetachPoliciesFromGroupCommandInput,
+  BatchDetachPoliciesFromGroupCommandOutput,
+} from "./commands/BatchDetachPoliciesFromGroupCommand";
+import {
+  BatchDetachPoliciesFromUserCommandInput,
+  BatchDetachPoliciesFromUserCommandOutput,
+} from "./commands/BatchDetachPoliciesFromUserCommand";
+import {
+  BatchDetachPolicyFromMultiGroupsCommandInput,
+  BatchDetachPolicyFromMultiGroupsCommandOutput,
+} from "./commands/BatchDetachPolicyFromMultiGroupsCommand";
+import {
+  BatchDetachPolicyFromMultiUsersCommandInput,
+  BatchDetachPolicyFromMultiUsersCommandOutput,
+} from "./commands/BatchDetachPolicyFromMultiUsersCommand";
+import {
+  BatchRemoveUserFromGroupsCommandInput,
+  BatchRemoveUserFromGroupsCommandOutput,
+} from "./commands/BatchRemoveUserFromGroupsCommand";
+import {
+  BatchRemoveUserFromMultiGroupsCommandInput,
+  BatchRemoveUserFromMultiGroupsCommandOutput,
+} from "./commands/BatchRemoveUserFromMultiGroupsCommand";
+import {
+  BatchRemoveUsersFromGroupCommandInput,
+  BatchRemoveUsersFromGroupCommandOutput,
+} from "./commands/BatchRemoveUsersFromGroupCommand";
+import {
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
 } from "./commands/ChangeAccountDescriptionCommand";
@@ -57,6 +119,10 @@ import {
   CreateServiceSpecificCredentialCommandInput,
   CreateServiceSpecificCredentialCommandOutput,
 } from "./commands/CreateServiceSpecificCredentialCommand";
+import {
+  CreateUserAccessKeyCommandInput,
+  CreateUserAccessKeyCommandOutput,
+} from "./commands/CreateUserAccessKeyCommand";
 import { CreateUserCommandInput, CreateUserCommandOutput } from "./commands/CreateUserCommand";
 import {
   CreateVirtualMFADeviceCommandInput,
@@ -114,6 +180,10 @@ import {
   DeleteSigningCertificateCommandInput,
   DeleteSigningCertificateCommandOutput,
 } from "./commands/DeleteSigningCertificateCommand";
+import {
+  DeleteUserAccessKeyCommandInput,
+  DeleteUserAccessKeyCommandOutput,
+} from "./commands/DeleteUserAccessKeyCommand";
 import { DeleteUserCommandInput, DeleteUserCommandOutput } from "./commands/DeleteUserCommand";
 import {
   DeleteUserPermissionsBoundaryCommandInput,
@@ -206,6 +276,7 @@ import {
   GetServiceLinkedRoleDeletionStatusCommandInput,
   GetServiceLinkedRoleDeletionStatusCommandOutput,
 } from "./commands/GetServiceLinkedRoleDeletionStatusCommand";
+import { GetServiceOverviewCommandInput, GetServiceOverviewCommandOutput } from "./commands/GetServiceOverviewCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "./commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "./commands/GetUserPolicyCommand";
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "./commands/IamadminLoginCommand";
@@ -268,6 +339,7 @@ import {
   ListSigningCertificatesCommandInput,
   ListSigningCertificatesCommandOutput,
 } from "./commands/ListSigningCertificatesCommand";
+import { ListUserAccessKeysCommandInput, ListUserAccessKeysCommandOutput } from "./commands/ListUserAccessKeysCommand";
 import { ListUserPoliciesCommandInput, ListUserPoliciesCommandOutput } from "./commands/ListUserPoliciesCommand";
 import { ListUserTagsCommandInput, ListUserTagsCommandOutput } from "./commands/ListUserTagsCommand";
 import { ListUsersCommandInput, ListUsersCommandOutput } from "./commands/ListUsersCommand";
@@ -351,11 +423,19 @@ import {
   UpdateAssumeRolePolicyCommandOutput,
 } from "./commands/UpdateAssumeRolePolicyCommand";
 import { UpdateGroupCommandInput, UpdateGroupCommandOutput } from "./commands/UpdateGroupCommand";
+import {
+  UpdateGroupDescriptionCommandInput,
+  UpdateGroupDescriptionCommandOutput,
+} from "./commands/UpdateGroupDescriptionCommand";
 import { UpdateLoginProfileCommandInput, UpdateLoginProfileCommandOutput } from "./commands/UpdateLoginProfileCommand";
 import {
   UpdateOpenIDConnectProviderThumbprintCommandInput,
   UpdateOpenIDConnectProviderThumbprintCommandOutput,
 } from "./commands/UpdateOpenIDConnectProviderThumbprintCommand";
+import {
+  UpdatePolicyDescriptionCommandInput,
+  UpdatePolicyDescriptionCommandOutput,
+} from "./commands/UpdatePolicyDescriptionCommand";
 import { UpdateRoleCommandInput, UpdateRoleCommandOutput } from "./commands/UpdateRoleCommand";
 import {
   UpdateRoleDescriptionCommandInput,
@@ -375,7 +455,26 @@ import {
   UpdateSigningCertificateCommandInput,
   UpdateSigningCertificateCommandOutput,
 } from "./commands/UpdateSigningCertificateCommand";
+import {
+  UpdateUserAccessKeyCommandInput,
+  UpdateUserAccessKeyCommandOutput,
+} from "./commands/UpdateUserAccessKeyCommand";
+import {
+  UpdateUserAccessKeyDescriptionCommandInput,
+  UpdateUserAccessKeyDescriptionCommandOutput,
+} from "./commands/UpdateUserAccessKeyDescriptionCommand";
+import {
+  UpdateUserAccessTypeCommandInput,
+  UpdateUserAccessTypeCommandOutput,
+} from "./commands/UpdateUserAccessTypeCommand";
 import { UpdateUserCommandInput, UpdateUserCommandOutput } from "./commands/UpdateUserCommand";
+import {
+  UpdateUserDescriptionCommandInput,
+  UpdateUserDescriptionCommandOutput,
+} from "./commands/UpdateUserDescriptionCommand";
+import { UpdateUserEmailCommandInput, UpdateUserEmailCommandOutput } from "./commands/UpdateUserEmailCommand";
+import { UpdateUserPasswordCommandInput, UpdateUserPasswordCommandOutput } from "./commands/UpdateUserPasswordCommand";
+import { UpdateUserStatusCommandInput, UpdateUserStatusCommandOutput } from "./commands/UpdateUserStatusCommand";
 import { UploadSSHPublicKeyCommandInput, UploadSSHPublicKeyCommandOutput } from "./commands/UploadSSHPublicKeyCommand";
 import {
   UploadServerCertificateCommandInput,
@@ -385,6 +484,7 @@ import {
   UploadSigningCertificateCommandInput,
   UploadSigningCertificateCommandOutput,
 } from "./commands/UploadSigningCertificateCommand";
+import { UserLoginCommandInput, UserLoginCommandOutput } from "./commands/UserLoginCommand";
 import { ClientDefaultValues as __ClientDefaultValues } from "./runtimeConfig";
 import {
   EndpointsInputConfig,
@@ -444,6 +544,23 @@ export type ServiceInputTypes =
   | AttachGroupPolicyCommandInput
   | AttachRolePolicyCommandInput
   | AttachUserPolicyCommandInput
+  | BatchAddUserToGroupsCommandInput
+  | BatchAddUserToMultiGroupsCommandInput
+  | BatchAddUsersToGroupCommandInput
+  | BatchAttachPoliciesToGroupCommandInput
+  | BatchAttachPoliciesToUserCommandInput
+  | BatchAttachPolicyToMultiGroupsCommandInput
+  | BatchAttachPolicyToMultiUsersCommandInput
+  | BatchDeleteGroupsCommandInput
+  | BatchDeletePoliciesCommandInput
+  | BatchDeleteUsersCommandInput
+  | BatchDetachPoliciesFromGroupCommandInput
+  | BatchDetachPoliciesFromUserCommandInput
+  | BatchDetachPolicyFromMultiGroupsCommandInput
+  | BatchDetachPolicyFromMultiUsersCommandInput
+  | BatchRemoveUserFromGroupsCommandInput
+  | BatchRemoveUserFromMultiGroupsCommandInput
+  | BatchRemoveUsersFromGroupCommandInput
   | ChangeAccountDescriptionCommandInput
   | ChangeAccountPasswordCommandInput
   | ChangePasswordCommandInput
@@ -463,6 +580,7 @@ export type ServiceInputTypes =
   | CreateSelfdefineAccessKeyCommandInput
   | CreateServiceLinkedRoleCommandInput
   | CreateServiceSpecificCredentialCommandInput
+  | CreateUserAccessKeyCommandInput
   | CreateUserCommandInput
   | CreateVirtualMFADeviceCommandInput
   | DeactivateMFADeviceCommandInput
@@ -487,6 +605,7 @@ export type ServiceInputTypes =
   | DeleteServiceLinkedRoleCommandInput
   | DeleteServiceSpecificCredentialCommandInput
   | DeleteSigningCertificateCommandInput
+  | DeleteUserAccessKeyCommandInput
   | DeleteUserCommandInput
   | DeleteUserPermissionsBoundaryCommandInput
   | DeleteUserPolicyCommandInput
@@ -525,6 +644,7 @@ export type ServiceInputTypes =
   | GetServiceLastAccessedDetailsCommandInput
   | GetServiceLastAccessedDetailsWithEntitiesCommandInput
   | GetServiceLinkedRoleDeletionStatusCommandInput
+  | GetServiceOverviewCommandInput
   | GetUserCommandInput
   | GetUserPolicyCommandInput
   | IamadminLoginCommandInput
@@ -554,6 +674,7 @@ export type ServiceInputTypes =
   | ListServerCertificatesCommandInput
   | ListServiceSpecificCredentialsCommandInput
   | ListSigningCertificatesCommandInput
+  | ListUserAccessKeysCommandInput
   | ListUserPoliciesCommandInput
   | ListUserTagsCommandInput
   | ListUsersCommandInput
@@ -589,8 +710,10 @@ export type ServiceInputTypes =
   | UpdateAccountQuotaCommandInput
   | UpdateAssumeRolePolicyCommandInput
   | UpdateGroupCommandInput
+  | UpdateGroupDescriptionCommandInput
   | UpdateLoginProfileCommandInput
   | UpdateOpenIDConnectProviderThumbprintCommandInput
+  | UpdatePolicyDescriptionCommandInput
   | UpdateRoleCommandInput
   | UpdateRoleDescriptionCommandInput
   | UpdateSAMLProviderCommandInput
@@ -598,10 +721,18 @@ export type ServiceInputTypes =
   | UpdateServerCertificateCommandInput
   | UpdateServiceSpecificCredentialCommandInput
   | UpdateSigningCertificateCommandInput
+  | UpdateUserAccessKeyCommandInput
+  | UpdateUserAccessKeyDescriptionCommandInput
+  | UpdateUserAccessTypeCommandInput
   | UpdateUserCommandInput
+  | UpdateUserDescriptionCommandInput
+  | UpdateUserEmailCommandInput
+  | UpdateUserPasswordCommandInput
+  | UpdateUserStatusCommandInput
   | UploadSSHPublicKeyCommandInput
   | UploadServerCertificateCommandInput
-  | UploadSigningCertificateCommandInput;
+  | UploadSigningCertificateCommandInput
+  | UserLoginCommandInput;
 
 export type ServiceOutputTypes =
   | AddAccountToGroupCommandOutput
@@ -611,6 +742,23 @@ export type ServiceOutputTypes =
   | AttachGroupPolicyCommandOutput
   | AttachRolePolicyCommandOutput
   | AttachUserPolicyCommandOutput
+  | BatchAddUserToGroupsCommandOutput
+  | BatchAddUserToMultiGroupsCommandOutput
+  | BatchAddUsersToGroupCommandOutput
+  | BatchAttachPoliciesToGroupCommandOutput
+  | BatchAttachPoliciesToUserCommandOutput
+  | BatchAttachPolicyToMultiGroupsCommandOutput
+  | BatchAttachPolicyToMultiUsersCommandOutput
+  | BatchDeleteGroupsCommandOutput
+  | BatchDeletePoliciesCommandOutput
+  | BatchDeleteUsersCommandOutput
+  | BatchDetachPoliciesFromGroupCommandOutput
+  | BatchDetachPoliciesFromUserCommandOutput
+  | BatchDetachPolicyFromMultiGroupsCommandOutput
+  | BatchDetachPolicyFromMultiUsersCommandOutput
+  | BatchRemoveUserFromGroupsCommandOutput
+  | BatchRemoveUserFromMultiGroupsCommandOutput
+  | BatchRemoveUsersFromGroupCommandOutput
   | ChangeAccountDescriptionCommandOutput
   | ChangeAccountPasswordCommandOutput
   | ChangePasswordCommandOutput
@@ -630,6 +778,7 @@ export type ServiceOutputTypes =
   | CreateSelfdefineAccessKeyCommandOutput
   | CreateServiceLinkedRoleCommandOutput
   | CreateServiceSpecificCredentialCommandOutput
+  | CreateUserAccessKeyCommandOutput
   | CreateUserCommandOutput
   | CreateVirtualMFADeviceCommandOutput
   | DeactivateMFADeviceCommandOutput
@@ -654,6 +803,7 @@ export type ServiceOutputTypes =
   | DeleteServiceLinkedRoleCommandOutput
   | DeleteServiceSpecificCredentialCommandOutput
   | DeleteSigningCertificateCommandOutput
+  | DeleteUserAccessKeyCommandOutput
   | DeleteUserCommandOutput
   | DeleteUserPermissionsBoundaryCommandOutput
   | DeleteUserPolicyCommandOutput
@@ -692,6 +842,7 @@ export type ServiceOutputTypes =
   | GetServiceLastAccessedDetailsCommandOutput
   | GetServiceLastAccessedDetailsWithEntitiesCommandOutput
   | GetServiceLinkedRoleDeletionStatusCommandOutput
+  | GetServiceOverviewCommandOutput
   | GetUserCommandOutput
   | GetUserPolicyCommandOutput
   | IamadminLoginCommandOutput
@@ -721,6 +872,7 @@ export type ServiceOutputTypes =
   | ListServerCertificatesCommandOutput
   | ListServiceSpecificCredentialsCommandOutput
   | ListSigningCertificatesCommandOutput
+  | ListUserAccessKeysCommandOutput
   | ListUserPoliciesCommandOutput
   | ListUserTagsCommandOutput
   | ListUsersCommandOutput
@@ -756,8 +908,10 @@ export type ServiceOutputTypes =
   | UpdateAccountQuotaCommandOutput
   | UpdateAssumeRolePolicyCommandOutput
   | UpdateGroupCommandOutput
+  | UpdateGroupDescriptionCommandOutput
   | UpdateLoginProfileCommandOutput
   | UpdateOpenIDConnectProviderThumbprintCommandOutput
+  | UpdatePolicyDescriptionCommandOutput
   | UpdateRoleCommandOutput
   | UpdateRoleDescriptionCommandOutput
   | UpdateSAMLProviderCommandOutput
@@ -765,10 +919,18 @@ export type ServiceOutputTypes =
   | UpdateServerCertificateCommandOutput
   | UpdateServiceSpecificCredentialCommandOutput
   | UpdateSigningCertificateCommandOutput
+  | UpdateUserAccessKeyCommandOutput
+  | UpdateUserAccessKeyDescriptionCommandOutput
+  | UpdateUserAccessTypeCommandOutput
   | UpdateUserCommandOutput
+  | UpdateUserDescriptionCommandOutput
+  | UpdateUserEmailCommandOutput
+  | UpdateUserPasswordCommandOutput
+  | UpdateUserStatusCommandOutput
   | UploadSSHPublicKeyCommandOutput
   | UploadServerCertificateCommandOutput
-  | UploadSigningCertificateCommandOutput;
+  | UploadSigningCertificateCommandOutput
+  | UserLoginCommandOutput;
 
 export interface ClientDefaults extends Partial<__SmithyResolvedConfiguration<__HttpHandlerOptions>> {
   /**

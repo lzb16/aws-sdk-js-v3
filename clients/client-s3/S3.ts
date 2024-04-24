@@ -26,6 +26,11 @@ import {
   DeleteBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/DeleteBucketAnalyticsConfigurationCommand";
 import {
+  DeleteBucketBtsCommand,
+  DeleteBucketBtsCommandInput,
+  DeleteBucketBtsCommandOutput,
+} from "./commands/DeleteBucketBtsCommand";
+import {
   DeleteBucketCommand,
   DeleteBucketCommandInput,
   DeleteBucketCommandOutput,
@@ -35,6 +40,11 @@ import {
   DeleteBucketCorsCommandInput,
   DeleteBucketCorsCommandOutput,
 } from "./commands/DeleteBucketCorsCommand";
+import {
+  DeleteBucketDedupCommand,
+  DeleteBucketDedupCommandInput,
+  DeleteBucketDedupCommandOutput,
+} from "./commands/DeleteBucketDedupCommand";
 import {
   DeleteBucketEncryptionCommand,
   DeleteBucketEncryptionCommandInput,
@@ -81,6 +91,21 @@ import {
   DeleteBucketReplicationCommandOutput,
 } from "./commands/DeleteBucketReplicationCommand";
 import {
+  DeleteBucketSnapshotCommand,
+  DeleteBucketSnapshotCommandInput,
+  DeleteBucketSnapshotCommandOutput,
+} from "./commands/DeleteBucketSnapshotCommand";
+import {
+  DeleteBucketSnapshotsCommand,
+  DeleteBucketSnapshotsCommandInput,
+  DeleteBucketSnapshotsCommandOutput,
+} from "./commands/DeleteBucketSnapshotsCommand";
+import {
+  DeleteBucketStatisticCommand,
+  DeleteBucketStatisticCommandInput,
+  DeleteBucketStatisticCommandOutput,
+} from "./commands/DeleteBucketStatisticCommand";
+import {
   DeleteBucketTaggingCommand,
   DeleteBucketTaggingCommandInput,
   DeleteBucketTaggingCommandOutput,
@@ -90,6 +115,11 @@ import {
   DeleteBucketWebsiteCommandInput,
   DeleteBucketWebsiteCommandOutput,
 } from "./commands/DeleteBucketWebsiteCommand";
+import {
+  DeleteMetaSearchCommand,
+  DeleteMetaSearchCommandInput,
+  DeleteMetaSearchCommandOutput,
+} from "./commands/DeleteMetaSearchCommand";
 import { DeleteOSCPCommand, DeleteOSCPCommandInput, DeleteOSCPCommandOutput } from "./commands/DeleteOSCPCommand";
 import {
   DeleteObjectCommand,
@@ -131,6 +161,11 @@ import {
   GetBucketAnalyticsConfigurationCommandInput,
   GetBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/GetBucketAnalyticsConfigurationCommand";
+import {
+  GetBucketBtsCommand,
+  GetBucketBtsCommandInput,
+  GetBucketBtsCommandOutput,
+} from "./commands/GetBucketBtsCommand";
 import {
   GetBucketCorsCommand,
   GetBucketCorsCommandInput,
@@ -217,6 +252,16 @@ import {
   GetBucketRequestPaymentCommandOutput,
 } from "./commands/GetBucketRequestPaymentCommand";
 import {
+  GetBucketSnapshotCommand,
+  GetBucketSnapshotCommandInput,
+  GetBucketSnapshotCommandOutput,
+} from "./commands/GetBucketSnapshotCommand";
+import {
+  GetBucketStatisticCommand,
+  GetBucketStatisticCommandInput,
+  GetBucketStatisticCommandOutput,
+} from "./commands/GetBucketStatisticCommand";
+import {
   GetBucketStorageInfoCommand,
   GetBucketStorageInfoCommandInput,
   GetBucketStorageInfoCommandOutput,
@@ -273,6 +318,11 @@ import {
   GetObjectTorrentCommandOutput,
 } from "./commands/GetObjectTorrentCommand";
 import {
+  GetObjectWORMCommand,
+  GetObjectWORMCommandInput,
+  GetObjectWORMCommandOutput,
+} from "./commands/GetObjectWORMCommand";
+import {
   GetPublicAccessBlockCommand,
   GetPublicAccessBlockCommandInput,
   GetPublicAccessBlockCommandOutput,
@@ -310,7 +360,22 @@ import {
   ListBucketMetricsConfigurationsCommandInput,
   ListBucketMetricsConfigurationsCommandOutput,
 } from "./commands/ListBucketMetricsConfigurationsCommand";
+import {
+  ListBucketSnapshotsCommand,
+  ListBucketSnapshotsCommandInput,
+  ListBucketSnapshotsCommandOutput,
+} from "./commands/ListBucketSnapshotsCommand";
 import { ListBucketsCommand, ListBucketsCommandInput, ListBucketsCommandOutput } from "./commands/ListBucketsCommand";
+import {
+  ListMetaSearchBucketsCommand,
+  ListMetaSearchBucketsCommandInput,
+  ListMetaSearchBucketsCommandOutput,
+} from "./commands/ListMetaSearchBucketsCommand";
+import {
+  ListMetaSearchCommand,
+  ListMetaSearchCommandInput,
+  ListMetaSearchCommandOutput,
+} from "./commands/ListMetaSearchCommand";
 import {
   ListMultipartUploadsCommand,
   ListMultipartUploadsCommandInput,
@@ -329,6 +394,11 @@ import {
 } from "./commands/ListObjectsV2Command";
 import { ListPartsCommand, ListPartsCommandInput, ListPartsCommandOutput } from "./commands/ListPartsCommand";
 import {
+  PostBucketRestoreCommand,
+  PostBucketRestoreCommandInput,
+  PostBucketRestoreCommandOutput,
+} from "./commands/PostBucketRestoreCommand";
+import {
   PutBucketAccelerateConfigurationCommand,
   PutBucketAccelerateConfigurationCommandInput,
   PutBucketAccelerateConfigurationCommandOutput,
@@ -343,6 +413,11 @@ import {
   PutBucketAnalyticsConfigurationCommandInput,
   PutBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/PutBucketAnalyticsConfigurationCommand";
+import {
+  PutBucketBtsCommand,
+  PutBucketBtsCommandInput,
+  PutBucketBtsCommandOutput,
+} from "./commands/PutBucketBtsCommand";
 import {
   PutBucketCorsCommand,
   PutBucketCorsCommandInput,
@@ -424,6 +499,21 @@ import {
   PutBucketRequestPaymentCommandOutput,
 } from "./commands/PutBucketRequestPaymentCommand";
 import {
+  PutBucketSnapshotCommand,
+  PutBucketSnapshotCommandInput,
+  PutBucketSnapshotCommandOutput,
+} from "./commands/PutBucketSnapshotCommand";
+import {
+  PutBucketSnapshotDescriptionCommand,
+  PutBucketSnapshotDescriptionCommandInput,
+  PutBucketSnapshotDescriptionCommandOutput,
+} from "./commands/PutBucketSnapshotDescriptionCommand";
+import {
+  PutBucketStatisticCommand,
+  PutBucketStatisticCommandInput,
+  PutBucketStatisticCommandOutput,
+} from "./commands/PutBucketStatisticCommand";
+import {
   PutBucketStorageClassCommand,
   PutBucketStorageClassCommandInput,
   PutBucketStorageClassCommandOutput,
@@ -444,6 +534,11 @@ import {
   PutBucketWebsiteCommandOutput,
 } from "./commands/PutBucketWebsiteCommand";
 import {
+  PutMetaSearchConfigurationCommand,
+  PutMetaSearchConfigurationCommandInput,
+  PutMetaSearchConfigurationCommandOutput,
+} from "./commands/PutMetaSearchConfigurationCommand";
+import {
   PutOSCPConfigurationCommand,
   PutOSCPConfigurationCommandInput,
   PutOSCPConfigurationCommandOutput,
@@ -454,6 +549,11 @@ import {
   PutObjectAclCommandOutput,
 } from "./commands/PutObjectAclCommand";
 import { PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput } from "./commands/PutObjectCommand";
+import {
+  PutObjectDedupConfigurationCommand,
+  PutObjectDedupConfigurationCommandInput,
+  PutObjectDedupConfigurationCommandOutput,
+} from "./commands/PutObjectDedupConfigurationCommand";
 import {
   PutObjectLegalHoldCommand,
   PutObjectLegalHoldCommandInput,
@@ -479,6 +579,11 @@ import {
   PutObjectTaggingCommandInput,
   PutObjectTaggingCommandOutput,
 } from "./commands/PutObjectTaggingCommand";
+import {
+  PutObjectWORMCommand,
+  PutObjectWORMCommandInput,
+  PutObjectWORMCommandOutput,
+} from "./commands/PutObjectWORMCommand";
 import {
   PutPublicAccessBlockCommand,
   PutPublicAccessBlockCommandInput,
@@ -1460,6 +1565,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>删除数据回源规则</p>
+   */
+  public deleteBucketBts(
+    args: DeleteBucketBtsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketBtsCommandOutput>;
+  public deleteBucketBts(
+    args: DeleteBucketBtsCommandInput,
+    cb: (err: any, data?: DeleteBucketBtsCommandOutput) => void
+  ): void;
+  public deleteBucketBts(
+    args: DeleteBucketBtsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketBtsCommandOutput) => void
+  ): void;
+  public deleteBucketBts(
+    args: DeleteBucketBtsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketBtsCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketBtsCommandOutput) => void
+  ): Promise<DeleteBucketBtsCommandOutput> | void {
+    const command = new DeleteBucketBtsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Deletes the <code>cors</code> configuration information set for the bucket.</p>
    *          <p>To use this operation, you must have permission to perform the
    *             <code>s3:PutBucketCORS</code> action. The bucket owner has this permission by default
@@ -1502,6 +1639,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteBucketCorsCommandOutput) => void
   ): Promise<DeleteBucketCorsCommandOutput> | void {
     const command = new DeleteBucketCorsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>关闭桶重删功能</p>
+   */
+  public deleteBucketDedup(
+    args: DeleteBucketDedupCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketDedupCommandOutput>;
+  public deleteBucketDedup(
+    args: DeleteBucketDedupCommandInput,
+    cb: (err: any, data?: DeleteBucketDedupCommandOutput) => void
+  ): void;
+  public deleteBucketDedup(
+    args: DeleteBucketDedupCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketDedupCommandOutput) => void
+  ): void;
+  public deleteBucketDedup(
+    args: DeleteBucketDedupCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketDedupCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketDedupCommandOutput) => void
+  ): Promise<DeleteBucketDedupCommandOutput> | void {
+    const command = new DeleteBucketDedupCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -2031,6 +2200,102 @@ export class S3 extends S3Client {
   }
 
   /**
+   * 删除桶快照
+   */
+  public deleteBucketSnapshot(
+    args: DeleteBucketSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketSnapshotCommandOutput>;
+  public deleteBucketSnapshot(
+    args: DeleteBucketSnapshotCommandInput,
+    cb: (err: any, data?: DeleteBucketSnapshotCommandOutput) => void
+  ): void;
+  public deleteBucketSnapshot(
+    args: DeleteBucketSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketSnapshotCommandOutput) => void
+  ): void;
+  public deleteBucketSnapshot(
+    args: DeleteBucketSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketSnapshotCommandOutput) => void
+  ): Promise<DeleteBucketSnapshotCommandOutput> | void {
+    const command = new DeleteBucketSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 批量删除桶快照
+   */
+  public deleteBucketSnapshots(
+    args: DeleteBucketSnapshotsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketSnapshotsCommandOutput>;
+  public deleteBucketSnapshots(
+    args: DeleteBucketSnapshotsCommandInput,
+    cb: (err: any, data?: DeleteBucketSnapshotsCommandOutput) => void
+  ): void;
+  public deleteBucketSnapshots(
+    args: DeleteBucketSnapshotsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketSnapshotsCommandOutput) => void
+  ): void;
+  public deleteBucketSnapshots(
+    args: DeleteBucketSnapshotsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketSnapshotsCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketSnapshotsCommandOutput) => void
+  ): Promise<DeleteBucketSnapshotsCommandOutput> | void {
+    const command = new DeleteBucketSnapshotsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除桶统计计量配置</p>
+   */
+  public deleteBucketStatistic(
+    args: DeleteBucketStatisticCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketStatisticCommandOutput>;
+  public deleteBucketStatistic(
+    args: DeleteBucketStatisticCommandInput,
+    cb: (err: any, data?: DeleteBucketStatisticCommandOutput) => void
+  ): void;
+  public deleteBucketStatistic(
+    args: DeleteBucketStatisticCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketStatisticCommandOutput) => void
+  ): void;
+  public deleteBucketStatistic(
+    args: DeleteBucketStatisticCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketStatisticCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketStatisticCommandOutput) => void
+  ): Promise<DeleteBucketStatisticCommandOutput> | void {
+    const command = new DeleteBucketStatisticCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Deletes the tags from the bucket.</p>
    *
    *          <p>To use this operation, you must have permission to perform the
@@ -2127,6 +2392,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteBucketWebsiteCommandOutput) => void
   ): Promise<DeleteBucketWebsiteCommandOutput> | void {
     const command = new DeleteBucketWebsiteCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 关闭桶元数据智能检索
+   */
+  public deleteMetaSearch(
+    args: DeleteMetaSearchCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteMetaSearchCommandOutput>;
+  public deleteMetaSearch(
+    args: DeleteMetaSearchCommandInput,
+    cb: (err: any, data?: DeleteMetaSearchCommandOutput) => void
+  ): void;
+  public deleteMetaSearch(
+    args: DeleteMetaSearchCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteMetaSearchCommandOutput) => void
+  ): void;
+  public deleteMetaSearch(
+    args: DeleteMetaSearchCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteMetaSearchCommandOutput) => void),
+    cb?: (err: any, data?: DeleteMetaSearchCommandOutput) => void
+  ): Promise<DeleteMetaSearchCommandOutput> | void {
+    const command = new DeleteMetaSearchCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -2636,6 +2933,35 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketAnalyticsConfigurationCommandOutput) => void
   ): Promise<GetBucketAnalyticsConfigurationCommandOutput> | void {
     const command = new GetBucketAnalyticsConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取数据回源列表接口</p>
+   */
+  public getBucketBts(
+    args: GetBucketBtsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketBtsCommandOutput>;
+  public getBucketBts(args: GetBucketBtsCommandInput, cb: (err: any, data?: GetBucketBtsCommandOutput) => void): void;
+  public getBucketBts(
+    args: GetBucketBtsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketBtsCommandOutput) => void
+  ): void;
+  public getBucketBts(
+    args: GetBucketBtsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketBtsCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketBtsCommandOutput) => void
+  ): Promise<GetBucketBtsCommandOutput> | void {
+    const command = new GetBucketBtsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3587,6 +3913,70 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>获取桶快照</p>
+   */
+  public getBucketSnapshot(
+    args: GetBucketSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketSnapshotCommandOutput>;
+  public getBucketSnapshot(
+    args: GetBucketSnapshotCommandInput,
+    cb: (err: any, data?: GetBucketSnapshotCommandOutput) => void
+  ): void;
+  public getBucketSnapshot(
+    args: GetBucketSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketSnapshotCommandOutput) => void
+  ): void;
+  public getBucketSnapshot(
+    args: GetBucketSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketSnapshotCommandOutput) => void
+  ): Promise<GetBucketSnapshotCommandOutput> | void {
+    const command = new GetBucketSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取桶统计计量配置</p>
+   */
+  public getBucketStatistic(
+    args: GetBucketStatisticCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketStatisticCommandOutput>;
+  public getBucketStatistic(
+    args: GetBucketStatisticCommandInput,
+    cb: (err: any, data?: GetBucketStatisticCommandOutput) => void
+  ): void;
+  public getBucketStatistic(
+    args: GetBucketStatisticCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketStatisticCommandOutput) => void
+  ): void;
+  public getBucketStatistic(
+    args: GetBucketStatisticCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketStatisticCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketStatisticCommandOutput) => void
+  ): Promise<GetBucketStatisticCommandOutput> | void {
+    const command = new GetBucketStatisticCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Returns the request payment configuration of a bucket. To use this version of the
    *          operation, you must be the bucket owner. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html">Requester Pays Buckets</a>.</p>
    *
@@ -4246,6 +4636,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetObjectTorrentCommandOutput) => void
   ): Promise<GetObjectTorrentCommandOutput> | void {
     const command = new GetObjectTorrentCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Retrieves an object's WORM settings.</p>
+   */
+  public getObjectWORM(
+    args: GetObjectWORMCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetObjectWORMCommandOutput>;
+  public getObjectWORM(
+    args: GetObjectWORMCommandInput,
+    cb: (err: any, data?: GetObjectWORMCommandOutput) => void
+  ): void;
+  public getObjectWORM(
+    args: GetObjectWORMCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetObjectWORMCommandOutput) => void
+  ): void;
+  public getObjectWORM(
+    args: GetObjectWORMCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetObjectWORMCommandOutput) => void),
+    cb?: (err: any, data?: GetObjectWORMCommandOutput) => void
+  ): Promise<GetObjectWORMCommandOutput> | void {
+    const command = new GetObjectWORMCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5078,6 +5500,102 @@ export class S3 extends S3Client {
   }
 
   /**
+   * 列举桶快照
+   */
+  public listBucketSnapshots(
+    args: ListBucketSnapshotsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListBucketSnapshotsCommandOutput>;
+  public listBucketSnapshots(
+    args: ListBucketSnapshotsCommandInput,
+    cb: (err: any, data?: ListBucketSnapshotsCommandOutput) => void
+  ): void;
+  public listBucketSnapshots(
+    args: ListBucketSnapshotsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListBucketSnapshotsCommandOutput) => void
+  ): void;
+  public listBucketSnapshots(
+    args: ListBucketSnapshotsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListBucketSnapshotsCommandOutput) => void),
+    cb?: (err: any, data?: ListBucketSnapshotsCommandOutput) => void
+  ): Promise<ListBucketSnapshotsCommandOutput> | void {
+    const command = new ListBucketSnapshotsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 列举元数据查询结果
+   */
+  public listMetaSearch(
+    args: ListMetaSearchCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListMetaSearchCommandOutput>;
+  public listMetaSearch(
+    args: ListMetaSearchCommandInput,
+    cb: (err: any, data?: ListMetaSearchCommandOutput) => void
+  ): void;
+  public listMetaSearch(
+    args: ListMetaSearchCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListMetaSearchCommandOutput) => void
+  ): void;
+  public listMetaSearch(
+    args: ListMetaSearchCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListMetaSearchCommandOutput) => void),
+    cb?: (err: any, data?: ListMetaSearchCommandOutput) => void
+  ): Promise<ListMetaSearchCommandOutput> | void {
+    const command = new ListMetaSearchCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>列举当前开启智能检索的桶</p>
+   */
+  public listMetaSearchBuckets(
+    args: ListMetaSearchBucketsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListMetaSearchBucketsCommandOutput>;
+  public listMetaSearchBuckets(
+    args: ListMetaSearchBucketsCommandInput,
+    cb: (err: any, data?: ListMetaSearchBucketsCommandOutput) => void
+  ): void;
+  public listMetaSearchBuckets(
+    args: ListMetaSearchBucketsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListMetaSearchBucketsCommandOutput) => void
+  ): void;
+  public listMetaSearchBuckets(
+    args: ListMetaSearchBucketsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListMetaSearchBucketsCommandOutput) => void),
+    cb?: (err: any, data?: ListMetaSearchBucketsCommandOutput) => void
+  ): Promise<ListMetaSearchBucketsCommandOutput> | void {
+    const command = new ListMetaSearchBucketsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>This operation lists in-progress multipart uploads. An in-progress multipart upload is a
    *          multipart upload that has been initiated using the Initiate Multipart Upload request, but
    *          has not yet been completed or aborted.</p>
@@ -5415,6 +5933,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: ListPartsCommandOutput) => void
   ): Promise<ListPartsCommandOutput> | void {
     const command = new ListPartsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>转储或恢复对象</p>
+   */
+  public postBucketRestore(
+    args: PostBucketRestoreCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PostBucketRestoreCommandOutput>;
+  public postBucketRestore(
+    args: PostBucketRestoreCommandInput,
+    cb: (err: any, data?: PostBucketRestoreCommandOutput) => void
+  ): void;
+  public postBucketRestore(
+    args: PostBucketRestoreCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PostBucketRestoreCommandOutput) => void
+  ): void;
+  public postBucketRestore(
+    args: PostBucketRestoreCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PostBucketRestoreCommandOutput) => void),
+    cb?: (err: any, data?: PostBucketRestoreCommandOutput) => void
+  ): Promise<PostBucketRestoreCommandOutput> | void {
+    const command = new PostBucketRestoreCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5858,6 +6408,35 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketAnalyticsConfigurationCommandOutput) => void
   ): Promise<PutBucketAnalyticsConfigurationCommandOutput> | void {
     const command = new PutBucketAnalyticsConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>设置数据回源</p>
+   */
+  public putBucketBts(
+    args: PutBucketBtsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketBtsCommandOutput>;
+  public putBucketBts(args: PutBucketBtsCommandInput, cb: (err: any, data?: PutBucketBtsCommandOutput) => void): void;
+  public putBucketBts(
+    args: PutBucketBtsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketBtsCommandOutput) => void
+  ): void;
+  public putBucketBts(
+    args: PutBucketBtsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketBtsCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketBtsCommandOutput) => void
+  ): Promise<PutBucketBtsCommandOutput> | void {
+    const command = new PutBucketBtsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7071,6 +7650,102 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>创建桶快照</p>
+   */
+  public putBucketSnapshot(
+    args: PutBucketSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketSnapshotCommandOutput>;
+  public putBucketSnapshot(
+    args: PutBucketSnapshotCommandInput,
+    cb: (err: any, data?: PutBucketSnapshotCommandOutput) => void
+  ): void;
+  public putBucketSnapshot(
+    args: PutBucketSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketSnapshotCommandOutput) => void
+  ): void;
+  public putBucketSnapshot(
+    args: PutBucketSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketSnapshotCommandOutput) => void
+  ): Promise<PutBucketSnapshotCommandOutput> | void {
+    const command = new PutBucketSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>修改桶快照描述</p>
+   */
+  public putBucketSnapshotDescription(
+    args: PutBucketSnapshotDescriptionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketSnapshotDescriptionCommandOutput>;
+  public putBucketSnapshotDescription(
+    args: PutBucketSnapshotDescriptionCommandInput,
+    cb: (err: any, data?: PutBucketSnapshotDescriptionCommandOutput) => void
+  ): void;
+  public putBucketSnapshotDescription(
+    args: PutBucketSnapshotDescriptionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketSnapshotDescriptionCommandOutput) => void
+  ): void;
+  public putBucketSnapshotDescription(
+    args: PutBucketSnapshotDescriptionCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketSnapshotDescriptionCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketSnapshotDescriptionCommandOutput) => void
+  ): Promise<PutBucketSnapshotDescriptionCommandOutput> | void {
+    const command = new PutBucketSnapshotDescriptionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>配置桶统计计量配置</p>
+   */
+  public putBucketStatistic(
+    args: PutBucketStatisticCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketStatisticCommandOutput>;
+  public putBucketStatistic(
+    args: PutBucketStatisticCommandInput,
+    cb: (err: any, data?: PutBucketStatisticCommandOutput) => void
+  ): void;
+  public putBucketStatistic(
+    args: PutBucketStatisticCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketStatisticCommandOutput) => void
+  ): void;
+  public putBucketStatistic(
+    args: PutBucketStatisticCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketStatisticCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketStatisticCommandOutput) => void
+  ): Promise<PutBucketStatisticCommandOutput> | void {
+    const command = new PutBucketStatisticCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>put bucket storage class.</p>
    */
   public putBucketStorageClass(
@@ -7449,6 +8124,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * 打开桶元数据智能检索
+   */
+  public putMetaSearchConfiguration(
+    args: PutMetaSearchConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutMetaSearchConfigurationCommandOutput>;
+  public putMetaSearchConfiguration(
+    args: PutMetaSearchConfigurationCommandInput,
+    cb: (err: any, data?: PutMetaSearchConfigurationCommandOutput) => void
+  ): void;
+  public putMetaSearchConfiguration(
+    args: PutMetaSearchConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutMetaSearchConfigurationCommandOutput) => void
+  ): void;
+  public putMetaSearchConfiguration(
+    args: PutMetaSearchConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutMetaSearchConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutMetaSearchConfigurationCommandOutput) => void
+  ): Promise<PutMetaSearchConfigurationCommandOutput> | void {
+    const command = new PutMetaSearchConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Adds an object to a bucket. You must have WRITE permissions on a bucket to add an object
    *          to it.</p>
    *
@@ -7762,6 +8469,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * 开启桶重删功能
+   */
+  public putObjectDedupConfiguration(
+    args: PutObjectDedupConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutObjectDedupConfigurationCommandOutput>;
+  public putObjectDedupConfiguration(
+    args: PutObjectDedupConfigurationCommandInput,
+    cb: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
+  ): void;
+  public putObjectDedupConfiguration(
+    args: PutObjectDedupConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
+  ): void;
+  public putObjectDedupConfiguration(
+    args: PutObjectDedupConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutObjectDedupConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
+  ): Promise<PutObjectDedupConfigurationCommandOutput> | void {
+    const command = new PutObjectDedupConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Applies a Legal Hold configuration to the specified object.</p>
    *          <p>This action is not supported by Amazon S3 on Outposts.</p>
    *          <p class="title">
@@ -8049,6 +8788,58 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutObjectTaggingCommandOutput) => void
   ): Promise<PutObjectTaggingCommandOutput> | void {
     const command = new PutObjectTaggingCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Places an WORM configuration on the specified bucket. The rule specified in the
+   *          WORM configuration will be applied by default to every new object placed in the
+   *          specified bucket.
+   *       </p>
+   *          <note>
+   *             <ul>
+   *                <li>
+   *                   <p>The <code>WORMDefaultRetention</code> settings require a
+   *                period.</p>
+   *                </li>
+   *                <li>
+   *                   <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>
+   *                or <code>Years</code> but you must select one. You cannot specify <code>Days</code>
+   *                and <code>Years</code> at the same time.</p>
+   *                </li>
+   *                <li>
+   *                   <p>You can only enable WORM for new buckets. If you want to turn on
+   *                WORM for an existing bucket, contact AWS Support.</p>
+   *                </li>
+   *             </ul>
+   *          </note>
+   */
+  public putObjectWORM(
+    args: PutObjectWORMCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutObjectWORMCommandOutput>;
+  public putObjectWORM(
+    args: PutObjectWORMCommandInput,
+    cb: (err: any, data?: PutObjectWORMCommandOutput) => void
+  ): void;
+  public putObjectWORM(
+    args: PutObjectWORMCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutObjectWORMCommandOutput) => void
+  ): void;
+  public putObjectWORM(
+    args: PutObjectWORMCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutObjectWORMCommandOutput) => void),
+    cb?: (err: any, data?: PutObjectWORMCommandOutput) => void
+  ): Promise<PutObjectWORMCommandOutput> | void {
+    const command = new PutObjectWORMCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

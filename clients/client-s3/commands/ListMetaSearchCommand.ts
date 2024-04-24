@@ -1,0 +1,80 @@
+import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
+import { ListMetaSearchOutput, ListMetaSearchRequest } from "../models/models_1";
+import {
+  deserializeAws_restXmlListMetaSearchCommand,
+  serializeAws_restXmlListMetaSearchCommand,
+} from "../protocols/Aws_restXml";
+import { getSerdePlugin } from "@aws-sdk/middleware-serde";
+import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
+import { Command as $Command } from "@aws-sdk/smithy-client";
+import {
+  FinalizeHandlerArguments,
+  Handler,
+  HandlerExecutionContext,
+  MiddlewareStack,
+  HttpHandlerOptions as __HttpHandlerOptions,
+  MetadataBearer as __MetadataBearer,
+  SerdeContext as __SerdeContext,
+} from "@aws-sdk/types";
+
+export type ListMetaSearchCommandInput = ListMetaSearchRequest;
+export type ListMetaSearchCommandOutput = ListMetaSearchOutput & __MetadataBearer;
+
+/**
+ * 列举元数据查询结果
+ */
+export class ListMetaSearchCommand extends $Command<
+  ListMetaSearchCommandInput,
+  ListMetaSearchCommandOutput,
+  S3ClientResolvedConfig
+> {
+  // Start section: command_properties
+  // End section: command_properties
+
+  constructor(readonly input: ListMetaSearchCommandInput) {
+    // Start section: command_constructor
+    super();
+    // End section: command_constructor
+  }
+
+  /**
+   * @internal
+   */
+  resolveMiddleware(
+    clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
+    configuration: S3ClientResolvedConfig,
+    options?: __HttpHandlerOptions
+  ): Handler<ListMetaSearchCommandInput, ListMetaSearchCommandOutput> {
+    this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
+
+    const stack = clientStack.concat(this.middlewareStack);
+
+    const { logger } = configuration;
+    const clientName = "S3Client";
+    const commandName = "ListMetaSearchCommand";
+    const handlerExecutionContext: HandlerExecutionContext = {
+      logger,
+      clientName,
+      commandName,
+      inputFilterSensitiveLog: ListMetaSearchRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: ListMetaSearchOutput.filterSensitiveLog,
+    };
+    const { requestHandler } = configuration;
+    return stack.resolve(
+      (request: FinalizeHandlerArguments<any>) =>
+        requestHandler.handle(request.request as __HttpRequest, options || {}),
+      handlerExecutionContext
+    );
+  }
+
+  private serialize(input: ListMetaSearchCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlListMetaSearchCommand(input, context);
+  }
+
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<ListMetaSearchCommandOutput> {
+    return deserializeAws_restXmlListMetaSearchCommand(output, context);
+  }
+
+  // Start section: command_body_extra
+  // End section: command_body_extra
+}

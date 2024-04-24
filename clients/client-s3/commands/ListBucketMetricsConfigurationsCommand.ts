@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { ListBucketMetricsConfigurationsOutput, ListBucketMetricsConfigurationsRequest } from "../models/models_0";
+import { ListBucketMetricsConfigurationsOutput, ListBucketMetricsConfigurationsRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlListBucketMetricsConfigurationsCommand,
   serializeAws_restXmlListBucketMetricsConfigurationsCommand,
