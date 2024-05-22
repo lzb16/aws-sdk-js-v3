@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetWORMRetainPeriodOutput, GetWORMRetainPeriodRequest } from "../models/models_1";
+import { PutObjectSymlinkRequest } from "../models/models_1";
 import {
-  deserializeAws_restXmlGetWORMRetainPeriodCommand,
-  serializeAws_restXmlGetWORMRetainPeriodCommand,
+  deserializeAws_restXmlPutObjectSymlinkCommand,
+  serializeAws_restXmlPutObjectSymlinkCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,22 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetWORMRetainPeriodCommandInput = GetWORMRetainPeriodRequest;
-export type GetWORMRetainPeriodCommandOutput = GetWORMRetainPeriodOutput & __MetadataBearer;
+export type PutObjectSymlinkCommandInput = PutObjectSymlinkRequest;
+export type PutObjectSymlinkCommandOutput = __MetadataBearer;
 
 /**
- * <p>Gets an object's current Retain Period status. </p>
- *          <p>This action is not supported by Amazon S3 on Outposts.</p>
+ * <p>设置软链接对象</p>
  */
-export class GetWORMRetainPeriodCommand extends $Command<
-  GetWORMRetainPeriodCommandInput,
-  GetWORMRetainPeriodCommandOutput,
+export class PutObjectSymlinkCommand extends $Command<
+  PutObjectSymlinkCommandInput,
+  PutObjectSymlinkCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetWORMRetainPeriodCommandInput) {
+  constructor(readonly input: PutObjectSymlinkCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -46,7 +45,7 @@ export class GetWORMRetainPeriodCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetWORMRetainPeriodCommandInput, GetWORMRetainPeriodCommandOutput> {
+  ): Handler<PutObjectSymlinkCommandInput, PutObjectSymlinkCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -54,13 +53,13 @@ export class GetWORMRetainPeriodCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetWORMRetainPeriodCommand";
+    const commandName = "PutObjectSymlinkCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetWORMRetainPeriodRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetWORMRetainPeriodOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: PutObjectSymlinkRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -70,12 +69,12 @@ export class GetWORMRetainPeriodCommand extends $Command<
     );
   }
 
-  private serialize(input: GetWORMRetainPeriodCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetWORMRetainPeriodCommand(input, context);
+  private serialize(input: PutObjectSymlinkCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlPutObjectSymlinkCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetWORMRetainPeriodCommandOutput> {
-    return deserializeAws_restXmlGetWORMRetainPeriodCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutObjectSymlinkCommandOutput> {
+    return deserializeAws_restXmlPutObjectSymlinkCommand(output, context);
   }
 
   // Start section: command_body_extra

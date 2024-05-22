@@ -389,6 +389,9 @@
           "target": "com.amazonaws.s3#GetBucketWebsite"
         },
         {
+          "target": "com.amazonaws.s3#GetObjectSymlink"
+        },
+        {
           "target": "com.amazonaws.s3#GetObject"
         },
         {
@@ -549,6 +552,9 @@
         },
         {
           "target": "com.amazonaws.s3#PutObject"
+        },
+        {
+          "target": "com.amazonaws.s3#PutObjectSymlink"
         },
         {
           "target": "com.amazonaws.s3#PutObjectAcl"
@@ -11018,6 +11024,12 @@
             "smithy.api#documentation": "<p>对象来源</p>"
           }
         },
+        "Type": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象类型，SymLink代表软链接对象</p>"
+          }
+        },
         "ObjectExpirationDay": {
           "target": "com.amazonaws.s3#integerType",
           "traits": {
@@ -11415,6 +11427,12 @@
           "target": "com.amazonaws.s3#IsLatest",
           "traits": {
             "smithy.api#documentation": "<p>Specifies whether the object is (true) or is not (false) the latest version of an\n         object.</p>"
+          }
+        },
+        "Type": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象类型，SymLink代表软链接对象</p>"
           }
         },
         "LastModified": {
@@ -13252,6 +13270,113 @@
           "traits": {
             "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetObjectSymlink": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetObjectSymlinkRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetObjectSymlinkOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取软链接源对象</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}/{Key+}?symlink",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetObjectSymlinkRequest": {
+      "type": "structure",
+      "members": {
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>当前软链接名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>bucket name</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "SymlinkCheck": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>软链接检查</p>",
+            "smithy.api#httpHeader": "x-amz-meta-symlink-check"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetObjectSymlinkOutput": {
+      "type": "structure",
+      "members": {
+        "TargetStatus": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>软链接源对象状态/p>",
+            "smithy.api#httpHeader": "x-amz-meta-target-status"
+          }
+        },
+        "SymlinkTarget": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>软链接源对象名称</p>",
+            "smithy.api#httpHeader": "x-amz-meta-symlink-target"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectSymlink": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutObjectSymlinkRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>设置软链接对象</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}/{Key+}?symlink",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutObjectSymlinkRequest": {
+      "type": "structure",
+      "members": {
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>当前软链接名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>bucket name</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "TargetObjectKey": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>源对象名称</p>",
+            "smithy.api#httpHeader": "x-amz-meta-symlink-target",
+            "smithy.api#required": {}
           }
         }
       }

@@ -67,6 +67,9 @@
           "target": "com.amazonaws.iam#AttachUserPolicy"
         },
         {
+          "target": "com.amazonaws.iam#ChangeAccountAccessType"
+        },
+        {
           "target": "com.amazonaws.iam#ChangeAccountPassword"
         },
         {
@@ -872,6 +875,12 @@
           "target": "com.amazonaws.iam#userDescriptionType",
           "traits": {
             "smithy.api#documentation": "<p>Account description.</p>"
+          }
+        },
+        "AccessType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Access type, 1 means web, 2 means api, 3 means all.</p>"
           }
         },
         "Arn": {
@@ -1894,6 +1903,43 @@
           "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "<p>The quota of the account you want to create.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountAccessType": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#ChangeAccountAccessTypeRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>Change IAM account accessType.</p>"
+      }
+    },
+    "com.amazonaws.iam#ChangeAccountAccessTypeRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "Password": {
+          "target": "com.amazonaws.iam#passwordType",
+          "traits": {
+            "smithy.api#documentation": "<p>Password</p>"
+          }
+        },
+        "AccessType": {
+          "target": "com.amazonaws.iam#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>Access type, 1 means web, 2 means api, 3 means all.</p>"
           }
         }
       }

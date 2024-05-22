@@ -120,6 +120,11 @@ import {
   BatchRemoveUsersFromGroupCommandOutput,
 } from "./commands/BatchRemoveUsersFromGroupCommand";
 import {
+  ChangeAccountAccessTypeCommand,
+  ChangeAccountAccessTypeCommandInput,
+  ChangeAccountAccessTypeCommandOutput,
+} from "./commands/ChangeAccountAccessTypeCommand";
+import {
   ChangeAccountDescriptionCommand,
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
@@ -1750,6 +1755,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: BatchRemoveUsersFromGroupCommandOutput) => void
   ): Promise<BatchRemoveUsersFromGroupCommandOutput> | void {
     const command = new BatchRemoveUsersFromGroupCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>Change IAM account accessType.</p>
+   */
+  public changeAccountAccessType(
+    args: ChangeAccountAccessTypeCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ChangeAccountAccessTypeCommandOutput>;
+  public changeAccountAccessType(
+    args: ChangeAccountAccessTypeCommandInput,
+    cb: (err: any, data?: ChangeAccountAccessTypeCommandOutput) => void
+  ): void;
+  public changeAccountAccessType(
+    args: ChangeAccountAccessTypeCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ChangeAccountAccessTypeCommandOutput) => void
+  ): void;
+  public changeAccountAccessType(
+    args: ChangeAccountAccessTypeCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ChangeAccountAccessTypeCommandOutput) => void),
+    cb?: (err: any, data?: ChangeAccountAccessTypeCommandOutput) => void
+  ): Promise<ChangeAccountAccessTypeCommandOutput> | void {
+    const command = new ChangeAccountAccessTypeCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

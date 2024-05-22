@@ -24,6 +24,7 @@ export * from "./commands/BatchDetachPolicyFromMultiUsersCommand";
 export * from "./commands/BatchRemoveUserFromGroupsCommand";
 export * from "./commands/BatchRemoveUserFromMultiGroupsCommand";
 export * from "./commands/BatchRemoveUsersFromGroupCommand";
+export * from "./commands/ChangeAccountAccessTypeCommand";
 export * from "./commands/ChangeAccountDescriptionCommand";
 export * from "./commands/ChangeAccountPasswordCommand";
 export * from "./commands/ChangePasswordCommand";

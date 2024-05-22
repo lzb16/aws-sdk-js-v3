@@ -164,6 +164,7 @@ import {
   GetObjectLockConfigurationCommandOutput,
 } from "../commands/GetObjectLockConfigurationCommand";
 import { GetObjectRetentionCommandInput, GetObjectRetentionCommandOutput } from "../commands/GetObjectRetentionCommand";
+import { GetObjectSymlinkCommandInput, GetObjectSymlinkCommandOutput } from "../commands/GetObjectSymlinkCommand";
 import { GetObjectTaggingCommandInput, GetObjectTaggingCommandOutput } from "../commands/GetObjectTaggingCommand";
 import { GetObjectTorrentCommandInput, GetObjectTorrentCommandOutput } from "../commands/GetObjectTorrentCommand";
 import { GetObjectWORMCommandInput, GetObjectWORMCommandOutput } from "../commands/GetObjectWORMCommand";
@@ -310,6 +311,7 @@ import {
 } from "../commands/PutObjectLockConfigurationCommand";
 import { PutObjectMetadataCommandInput, PutObjectMetadataCommandOutput } from "../commands/PutObjectMetadataCommand";
 import { PutObjectRetentionCommandInput, PutObjectRetentionCommandOutput } from "../commands/PutObjectRetentionCommand";
+import { PutObjectSymlinkCommandInput, PutObjectSymlinkCommandOutput } from "../commands/PutObjectSymlinkCommand";
 import { PutObjectTaggingCommandInput, PutObjectTaggingCommandOutput } from "../commands/PutObjectTaggingCommand";
 import { PutObjectWORMCommandInput, PutObjectWORMCommandOutput } from "../commands/PutObjectWORMCommand";
 import {
@@ -3163,6 +3165,57 @@ export const serializeAws_restXmlGetObjectRetentionCommand = async (
   });
 };
 
+export const serializeAws_restXmlGetObjectSymlinkCommand = async (
+  input: GetObjectSymlinkCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    ...(isSerializableHeaderValue(input.SymlinkCheck) && {
+      "x-amz-meta-symlink-check": input.SymlinkCheck!.toString(),
+    }),
+  };
+  let resolvedPath = "/{Bucket}/{Key+}";
+  if (input.Key !== undefined) {
+    const labelValue: string = input.Key;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Key.");
+    }
+    resolvedPath = resolvedPath.replace(
+      "{Key+}",
+      labelValue
+        .split("/")
+        .map((segment) => __extendedEncodeURIComponent(segment))
+        .join("/")
+    );
+  } else {
+    throw new Error("No value provided for input HTTP label: Key.");
+  }
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    symlink: "",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlGetObjectTaggingCommand = async (
   input: GetObjectTaggingCommandInput,
   context: __SerdeContext
@@ -5867,6 +5920,55 @@ export const serializeAws_restXmlPutObjectRetentionCommand = async (
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
   }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlPutObjectSymlinkCommand = async (
+  input: PutObjectSymlinkCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    ...(isSerializableHeaderValue(input.TargetObjectKey) && { "x-amz-meta-symlink-target": input.TargetObjectKey! }),
+  };
+  let resolvedPath = "/{Bucket}/{Key+}";
+  if (input.Key !== undefined) {
+    const labelValue: string = input.Key;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Key.");
+    }
+    resolvedPath = resolvedPath.replace(
+      "{Key+}",
+      labelValue
+        .split("/")
+        .map((segment) => __extendedEncodeURIComponent(segment))
+        .join("/")
+    );
+  } else {
+    throw new Error("No value provided for input HTTP label: Key.");
+  }
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    symlink: "",
+  };
+  let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
   return new __HttpRequest({
     protocol,
@@ -9806,6 +9908,57 @@ const deserializeAws_restXmlGetObjectRetentionCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlGetObjectSymlinkCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetObjectSymlinkCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetObjectSymlinkCommandError(output, context);
+  }
+  const contents: GetObjectSymlinkCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    SymlinkTarget: undefined,
+    TargetStatus: undefined,
+  };
+  if (output.headers["x-amz-meta-target-status"] !== undefined) {
+    contents.TargetStatus = parseInt(output.headers["x-amz-meta-target-status"], 10);
+  }
+  if (output.headers["x-amz-meta-symlink-target"] !== undefined) {
+    contents.SymlinkTarget = output.headers["x-amz-meta-symlink-target"];
+  }
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetObjectSymlinkCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetObjectSymlinkCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlGetObjectTaggingCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -13029,6 +13182,49 @@ const deserializeAws_restXmlPutObjectRetentionCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<PutObjectRetentionCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlPutObjectSymlinkCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutObjectSymlinkCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlPutObjectSymlinkCommandError(output, context);
+  }
+  const contents: PutObjectSymlinkCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlPutObjectSymlinkCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutObjectSymlinkCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -18767,6 +18963,7 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
     StorageClass: undefined,
     IsEncrypted: undefined,
     ObjectSource: undefined,
+    Type: undefined,
     ObjectExpirationDay: undefined,
     RestoreOnGoing: undefined,
     RestoredExpiryDate: undefined,
@@ -18792,6 +18989,9 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   }
   if (output["ObjectSource"] !== undefined) {
     contents.ObjectSource = output["ObjectSource"];
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
   }
   if (output["ObjectExpirationDay"] !== undefined) {
     contents.ObjectExpirationDay = parseInt(output["ObjectExpirationDay"]);
@@ -18896,6 +19096,7 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
     Key: undefined,
     VersionId: undefined,
     IsLatest: undefined,
+    Type: undefined,
     LastModified: undefined,
     RestoreOnGoing: undefined,
     RestoredExpiryDate: undefined,
@@ -18919,6 +19120,9 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
   }
   if (output["IsLatest"] !== undefined) {
     contents.IsLatest = output["IsLatest"] == "true";
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
   }
   if (output["LastModified"] !== undefined) {
     contents.LastModified = new Date(output["LastModified"]);

@@ -50,6 +50,56 @@ import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
 
+export interface GetWORMRetainPeriodOutput {
+  /**
+   * <p>The current Retain Period status for the specified object.</p>
+   */
+  RetainPeriod?: WORMRetainPeriod;
+}
+
+export namespace GetWORMRetainPeriodOutput {
+  export const filterSensitiveLog = (obj: GetWORMRetainPeriodOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMRetainPeriodRequest {
+  /**
+   * <p>The bucket name containing the object whose Retain Period status you want to retrieve. </p>
+   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object whose Retain Period status you want to retrieve.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The version ID of the object whose Retain Period status you want to retrieve.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetWORMRetainPeriodRequest {
+  export const filterSensitiveLog = (obj: GetWORMRetainPeriodRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface HeadBucketRequest {
   /**
    * <p>The bucket name.</p>
@@ -1203,6 +1253,11 @@ export interface _Object {
   ObjectSource?: string;
 
   /**
+   * <p>对象类型，SymLink代表软链接对象</p>
+   */
+  Type?: string;
+
+  /**
    * <p>恢复有效期</p>
    */
   ObjectExpirationDay?: number;
@@ -1637,6 +1692,11 @@ export interface ObjectVersion {
    *          object.</p>
    */
   IsLatest?: boolean;
+
+  /**
+   * <p>对象类型，SymLink代表软链接对象</p>
+   */
+  Type?: string;
 
   /**
    * <p>Date and time the object was last modified.</p>
@@ -3740,6 +3800,29 @@ export interface PutObjectRetentionRequest {
 
 export namespace PutObjectRetentionRequest {
   export const filterSensitiveLog = (obj: PutObjectRetentionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutObjectSymlinkRequest {
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>bucket name</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>源对象名称</p>
+   */
+  TargetObjectKey: string | undefined;
+}
+
+export namespace PutObjectSymlinkRequest {
+  export const filterSensitiveLog = (obj: PutObjectSymlinkRequest): any => ({
     ...obj,
   });
 }

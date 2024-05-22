@@ -164,6 +164,7 @@ import {
   GetObjectLockConfigurationCommandOutput,
 } from "./commands/GetObjectLockConfigurationCommand";
 import { GetObjectRetentionCommandInput, GetObjectRetentionCommandOutput } from "./commands/GetObjectRetentionCommand";
+import { GetObjectSymlinkCommandInput, GetObjectSymlinkCommandOutput } from "./commands/GetObjectSymlinkCommand";
 import { GetObjectTaggingCommandInput, GetObjectTaggingCommandOutput } from "./commands/GetObjectTaggingCommand";
 import { GetObjectTorrentCommandInput, GetObjectTorrentCommandOutput } from "./commands/GetObjectTorrentCommand";
 import { GetObjectWORMCommandInput, GetObjectWORMCommandOutput } from "./commands/GetObjectWORMCommand";
@@ -310,6 +311,7 @@ import {
 } from "./commands/PutObjectLockConfigurationCommand";
 import { PutObjectMetadataCommandInput, PutObjectMetadataCommandOutput } from "./commands/PutObjectMetadataCommand";
 import { PutObjectRetentionCommandInput, PutObjectRetentionCommandOutput } from "./commands/PutObjectRetentionCommand";
+import { PutObjectSymlinkCommandInput, PutObjectSymlinkCommandOutput } from "./commands/PutObjectSymlinkCommand";
 import { PutObjectTaggingCommandInput, PutObjectTaggingCommandOutput } from "./commands/PutObjectTaggingCommand";
 import { PutObjectWORMCommandInput, PutObjectWORMCommandOutput } from "./commands/PutObjectWORMCommand";
 import {
@@ -463,6 +465,7 @@ export type ServiceInputTypes =
   | GetObjectLegalHoldCommandInput
   | GetObjectLockConfigurationCommandInput
   | GetObjectRetentionCommandInput
+  | GetObjectSymlinkCommandInput
   | GetObjectTaggingCommandInput
   | GetObjectTorrentCommandInput
   | GetObjectWORMCommandInput
@@ -522,6 +525,7 @@ export type ServiceInputTypes =
   | PutObjectLockConfigurationCommandInput
   | PutObjectMetadataCommandInput
   | PutObjectRetentionCommandInput
+  | PutObjectSymlinkCommandInput
   | PutObjectTaggingCommandInput
   | PutObjectWORMCommandInput
   | PutPublicAccessBlockCommandInput
@@ -598,6 +602,7 @@ export type ServiceOutputTypes =
   | GetObjectLegalHoldCommandOutput
   | GetObjectLockConfigurationCommandOutput
   | GetObjectRetentionCommandOutput
+  | GetObjectSymlinkCommandOutput
   | GetObjectTaggingCommandOutput
   | GetObjectTorrentCommandOutput
   | GetObjectWORMCommandOutput
@@ -657,6 +662,7 @@ export type ServiceOutputTypes =
   | PutObjectLockConfigurationCommandOutput
   | PutObjectMetadataCommandOutput
   | PutObjectRetentionCommandOutput
+  | PutObjectSymlinkCommandOutput
   | PutObjectTaggingCommandOutput
   | PutObjectWORMCommandOutput
   | PutPublicAccessBlockCommandOutput

@@ -74,6 +74,10 @@ import {
   BatchRemoveUsersFromGroupCommandOutput,
 } from "../commands/BatchRemoveUsersFromGroupCommand";
 import {
+  ChangeAccountAccessTypeCommandInput,
+  ChangeAccountAccessTypeCommandOutput,
+} from "../commands/ChangeAccountAccessTypeCommand";
+import {
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
 } from "../commands/ChangeAccountDescriptionCommand";
@@ -529,6 +533,7 @@ import {
   BatchRemoveUserFromMultiGroupsResponse,
   BatchRemoveUsersFromGroupRequest,
   BatchRemoveUsersFromGroupResponse,
+  ChangeAccountAccessTypeRequest,
   ChangeAccountDescriptionRequest,
   ChangeAccountPasswordRequest,
   ChangePasswordRequest,
@@ -729,7 +734,6 @@ import {
   ListRolesResponse,
   ListSAMLProvidersRequest,
   ListSAMLProvidersResponse,
-  ListServerCertificatesRequest,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -781,6 +785,7 @@ import {
   KeyPairMismatchException,
   ListSSHPublicKeysRequest,
   ListSSHPublicKeysResponse,
+  ListServerCertificatesRequest,
   ListServerCertificatesResponse,
   ListServiceSpecificCredentialsRequest,
   ListServiceSpecificCredentialsResponse,
@@ -1267,6 +1272,22 @@ export const serializeAws_queryBatchRemoveUsersFromGroupCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryBatchRemoveUsersFromGroupRequest(input, context),
     Action: "BatchRemoveUsersFromGroup",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryChangeAccountAccessTypeCommand = async (
+  input: ChangeAccountAccessTypeCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryChangeAccountAccessTypeRequest(input, context),
+    Action: "ChangeAccountAccessType",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -5792,6 +5813,57 @@ const deserializeAws_queryBatchRemoveUsersFromGroupCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryChangeAccountAccessTypeCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ChangeAccountAccessTypeCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryChangeAccountAccessTypeCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: ChangeAccountAccessTypeCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryChangeAccountAccessTypeCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ChangeAccountAccessTypeCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
     case "ServiceFailureException":
     case "com.amazonaws.iam#ServiceFailureException":
       response = {
@@ -18368,6 +18440,23 @@ const serializeAws_queryBatchRemoveUsersFromGroupRequest = (
   return entries;
 };
 
+const serializeAws_queryChangeAccountAccessTypeRequest = (
+  input: ChangeAccountAccessTypeRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.Password !== undefined && input.Password !== null) {
+    entries["Password"] = input.Password;
+  }
+  if (input.AccessType !== undefined && input.AccessType !== null) {
+    entries["AccessType"] = input.AccessType;
+  }
+  return entries;
+};
+
 const serializeAws_queryChangeAccountDescriptionRequest = (
   input: ChangeAccountDescriptionRequest,
   context: __SerdeContext
@@ -21656,6 +21745,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     GroupId: undefined,
     Path: undefined,
     AccountDesc: undefined,
+    AccessType: undefined,
     Arn: undefined,
     CreateDate: undefined,
     PasswordLastUsed: undefined,
@@ -21686,6 +21776,9 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   }
   if (output["AccountDesc"] !== undefined) {
     contents.AccountDesc = output["AccountDesc"];
+  }
+  if (output["AccessType"] !== undefined) {
+    contents.AccessType = parseInt(output["AccessType"]);
   }
   if (output["Arn"] !== undefined) {
     contents.Arn = output["Arn"];

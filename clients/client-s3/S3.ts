@@ -308,6 +308,11 @@ import {
   GetObjectRetentionCommandOutput,
 } from "./commands/GetObjectRetentionCommand";
 import {
+  GetObjectSymlinkCommand,
+  GetObjectSymlinkCommandInput,
+  GetObjectSymlinkCommandOutput,
+} from "./commands/GetObjectSymlinkCommand";
+import {
   GetObjectTaggingCommand,
   GetObjectTaggingCommandInput,
   GetObjectTaggingCommandOutput,
@@ -574,6 +579,11 @@ import {
   PutObjectRetentionCommandInput,
   PutObjectRetentionCommandOutput,
 } from "./commands/PutObjectRetentionCommand";
+import {
+  PutObjectSymlinkCommand,
+  PutObjectSymlinkCommandInput,
+  PutObjectSymlinkCommandOutput,
+} from "./commands/PutObjectSymlinkCommand";
 import {
   PutObjectTaggingCommand,
   PutObjectTaggingCommandInput,
@@ -4534,6 +4544,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetObjectRetentionCommandOutput) => void
   ): Promise<GetObjectRetentionCommandOutput> | void {
     const command = new GetObjectRetentionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取软链接源对象</p>
+   */
+  public getObjectSymlink(
+    args: GetObjectSymlinkCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetObjectSymlinkCommandOutput>;
+  public getObjectSymlink(
+    args: GetObjectSymlinkCommandInput,
+    cb: (err: any, data?: GetObjectSymlinkCommandOutput) => void
+  ): void;
+  public getObjectSymlink(
+    args: GetObjectSymlinkCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetObjectSymlinkCommandOutput) => void
+  ): void;
+  public getObjectSymlink(
+    args: GetObjectSymlinkCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetObjectSymlinkCommandOutput) => void),
+    cb?: (err: any, data?: GetObjectSymlinkCommandOutput) => void
+  ): Promise<GetObjectSymlinkCommandOutput> | void {
+    const command = new GetObjectSymlinkCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -8658,6 +8700,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutObjectRetentionCommandOutput) => void
   ): Promise<PutObjectRetentionCommandOutput> | void {
     const command = new PutObjectRetentionCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>设置软链接对象</p>
+   */
+  public putObjectSymlink(
+    args: PutObjectSymlinkCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutObjectSymlinkCommandOutput>;
+  public putObjectSymlink(
+    args: PutObjectSymlinkCommandInput,
+    cb: (err: any, data?: PutObjectSymlinkCommandOutput) => void
+  ): void;
+  public putObjectSymlink(
+    args: PutObjectSymlinkCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutObjectSymlinkCommandOutput) => void
+  ): void;
+  public putObjectSymlink(
+    args: PutObjectSymlinkCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutObjectSymlinkCommandOutput) => void),
+    cb?: (err: any, data?: PutObjectSymlinkCommandOutput) => void
+  ): Promise<PutObjectSymlinkCommandOutput> | void {
+    const command = new PutObjectSymlinkCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

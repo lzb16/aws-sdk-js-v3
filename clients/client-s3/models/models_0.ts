@@ -8786,6 +8786,47 @@ export namespace GetObjectRetentionRequest {
   });
 }
 
+export interface GetObjectSymlinkOutput {
+  /**
+   * <p>软链接源对象状态/p>
+   */
+  TargetStatus?: number;
+
+  /**
+   * <p>软链接源对象名称</p>
+   */
+  SymlinkTarget?: string;
+}
+
+export namespace GetObjectSymlinkOutput {
+  export const filterSensitiveLog = (obj: GetObjectSymlinkOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectSymlinkRequest {
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>bucket name</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>软链接检查</p>
+   */
+  SymlinkCheck?: boolean;
+}
+
+export namespace GetObjectSymlinkRequest {
+  export const filterSensitiveLog = (obj: GetObjectSymlinkRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface GetObjectTaggingOutput {
   /**
    * <p>The versionId of the object for which you got the tagging information.</p>
@@ -9891,56 +9932,6 @@ export interface WORMRetainPeriod {
 
 export namespace WORMRetainPeriod {
   export const filterSensitiveLog = (obj: WORMRetainPeriod): any => ({
-    ...obj,
-  });
-}
-
-export interface GetWORMRetainPeriodOutput {
-  /**
-   * <p>The current Retain Period status for the specified object.</p>
-   */
-  RetainPeriod?: WORMRetainPeriod;
-}
-
-export namespace GetWORMRetainPeriodOutput {
-  export const filterSensitiveLog = (obj: GetWORMRetainPeriodOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetWORMRetainPeriodRequest {
-  /**
-   * <p>The bucket name containing the object whose Retain Period status you want to retrieve. </p>
-   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The key name for the object whose Retain Period status you want to retrieve.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>The version ID of the object whose Retain Period status you want to retrieve.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
-   *          owners need not specify this parameter in their requests. For information about downloading
-   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
-   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
-   */
-  RequestPayer?: RequestPayer | string;
-
-  /**
-   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetWORMRetainPeriodRequest {
-  export const filterSensitiveLog = (obj: GetWORMRetainPeriodRequest): any => ({
     ...obj,
   });
 }

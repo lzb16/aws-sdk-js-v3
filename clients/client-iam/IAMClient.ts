@@ -74,6 +74,10 @@ import {
   BatchRemoveUsersFromGroupCommandOutput,
 } from "./commands/BatchRemoveUsersFromGroupCommand";
 import {
+  ChangeAccountAccessTypeCommandInput,
+  ChangeAccountAccessTypeCommandOutput,
+} from "./commands/ChangeAccountAccessTypeCommand";
+import {
   ChangeAccountDescriptionCommandInput,
   ChangeAccountDescriptionCommandOutput,
 } from "./commands/ChangeAccountDescriptionCommand";
@@ -561,6 +565,7 @@ export type ServiceInputTypes =
   | BatchRemoveUserFromGroupsCommandInput
   | BatchRemoveUserFromMultiGroupsCommandInput
   | BatchRemoveUsersFromGroupCommandInput
+  | ChangeAccountAccessTypeCommandInput
   | ChangeAccountDescriptionCommandInput
   | ChangeAccountPasswordCommandInput
   | ChangePasswordCommandInput
@@ -759,6 +764,7 @@ export type ServiceOutputTypes =
   | BatchRemoveUserFromGroupsCommandOutput
   | BatchRemoveUserFromMultiGroupsCommandOutput
   | BatchRemoveUsersFromGroupCommandOutput
+  | ChangeAccountAccessTypeCommandOutput
   | ChangeAccountDescriptionCommandOutput
   | ChangeAccountPasswordCommandOutput
   | ChangePasswordCommandOutput
