@@ -61,7 +61,8 @@ public final class AddS3Config implements TypeScriptIntegration {
         "DeleteBucket",
         "ListBuckets",
         "ListMetaSearch",
-        "ListMetaSearchBuckets"
+        "ListMetaSearchBuckets",
+        "Dedupstat"
     );
 
     private static final Set<String> EXCEPTIONS_OF_200_OPERATIONS = SetUtils.of(

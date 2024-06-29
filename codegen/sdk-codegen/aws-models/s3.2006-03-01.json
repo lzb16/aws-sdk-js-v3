@@ -467,6 +467,9 @@
           "target": "com.amazonaws.s3#ListMetaSearchBuckets"
         },
         {
+          "target": "com.amazonaws.s3#Dedupstat"
+        },
+        {
           "target": "com.amazonaws.s3#ListMetaSearch"
         },
         {
@@ -533,7 +536,7 @@
           "target": "com.amazonaws.s3#PutBucketStatistic"
         },
         {
-          "target": "com.amazonaws.s3#PutObjectDedupConfiguration"
+          "target": "com.amazonaws.s3#PutDedupConfiguration"
         },
         {
           "target": "com.amazonaws.s3#PutBucketReplication"
@@ -1493,7 +1496,7 @@
           }
         },
         "DedupConfiguration": {
-          "target": "com.amazonaws.s3#DedupConfiguration",
+          "target": "com.amazonaws.s3#BucketDedupConfiguration",
           "traits": {
             "smithy.api#documentation": "在桶概览中添加桶重删的相关信息，如果存在桶重删的话，在返回结构中插入下面信息"
           }
@@ -1503,7 +1506,7 @@
         "smithy.api#documentation": "<p> In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name is globally\n         unique, and the namespace is shared by all AWS accounts. </p>"
       }
     },
-    "com.amazonaws.s3#DedupConfiguration": {
+    "com.amazonaws.s3#BucketDedupConfiguration": {
       "type": "structure",
       "members": {
         "Status": {
@@ -1534,6 +1537,18 @@
           "target": "com.amazonaws.s3#integerType",
           "traits": {
             "smithy.api#documentation": "重删对象容量"
+          }
+        },
+        "Region": {
+          "target": "com.amazonaws.s3#Region",
+          "traits": {
+            "smithy.api#documentation": "重删域"
+          }
+        },
+        "CompareByte": {
+          "target": "com.amazonaws.s3#CompareByte",
+          "traits": {
+            "smithy.api#documentation": "逐字节比较"
           }
         }
       }
@@ -9444,6 +9459,114 @@
     "com.amazonaws.s3#SearchResult": {
       "type": "string"
     },
+    "com.amazonaws.s3#Dedupstat": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DedupstatRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#DedupstatOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>查询系统重删数据或存储池重删数据</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/?dedupstat",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DedupstatRequest": {
+      "type": "structure",
+      "members": {
+        "DedupStatReq": {
+          "target": "com.amazonaws.s3#DedupStatReq",
+          "traits": {
+            "smithy.api#documentation": "<p>查询系统重删参数</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DedupStatReq": {
+      "type": "structure",
+      "members": {
+        "Region": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选，重删域信息，枚举值SYSTEM, POOL</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Value": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选，重删域信息，枚举值</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DedupstatOutput": {
+      "type": "structure",
+      "members": {
+        "Stat": {
+          "target": "com.amazonaws.s3#Stat",
+          "traits": {
+            "smithy.api#documentation": "<p>系统重删返回数据</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SystemDedupStat": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#Stat",
+        "traits": {
+          "smithy.api#documentation": "<p>系统重删返回数据</p>"
+        }
+      }
+    },
+    "com.amazonaws.s3#Stat": {
+      "type": "structure",
+      "members": {
+        "Region": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选，重删域信息，枚举值SYSTEM, POOL</p>"
+          }
+        },
+        "Num": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>开启重删后上传的对象数量</p>"
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>开启重删后上传的对象容量</p>"
+          }
+        },
+        "DedupNum": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>重删对象数量</p>"
+          }
+        },
+        "DedupSize": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>重删对象容量</p>"
+          }
+        },
+        "Redundancy": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>在region为POOL_REDUNDANCY 时存在</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#ListMetaSearchBuckets": {
       "type": "operation",
       "input": {
@@ -11268,17 +11391,17 @@
         "smithy.api#documentation": "<p>The container element for an Object Lock rule.</p>"
       }
     },
-    "com.amazonaws.s3#ObjectDedupConfiguration": {
+    "com.amazonaws.s3#DedupConfiguration": {
       "type": "structure",
       "members": {
         "Region": {
-          "target": "com.amazonaws.s3#ObjectDedupRegion",
+          "target": "com.amazonaws.s3#Region",
           "traits": {
             "smithy.api#documentation": "重删域，默认同一存储池、同一配比重删"
           }
         },
         "CompareByte": {
-          "target": "com.amazonaws.s3#ObjectDedupCompareByte",
+          "target": "com.amazonaws.s3#CompareByte",
           "traits": {
             "smithy.api#documentation": "逐字节比较，默认关闭"
           }
@@ -11288,7 +11411,7 @@
         "smithy.api#documentation": "<p>开启重删的参数.</p>"
       }
     },
-    "com.amazonaws.s3#ObjectDedupRegion": {
+    "com.amazonaws.s3#Region": {
       "type": "string",
       "traits": {
         "smithy.api#enum": [
@@ -11310,7 +11433,7 @@
         ]
       }
     },
-    "com.amazonaws.s3#ObjectDedupCompareByte": {
+    "com.amazonaws.s3#CompareByte": {
       "type": "boolean"
     },
     "com.amazonaws.s3#ObjectLockToken": {
@@ -13922,13 +14045,13 @@
         }
       }
     },
-    "com.amazonaws.s3#PutObjectDedupConfiguration": {
+    "com.amazonaws.s3#PutDedupConfiguration": {
       "type": "operation",
       "input": {
-        "target": "com.amazonaws.s3#PutObjectDedupConfigurationRequest"
+        "target": "com.amazonaws.s3#PutDedupConfigurationRequest"
       },
       "output": {
-        "target": "com.amazonaws.s3#PutObjectDedupConfigurationOutput"
+        "target": "com.amazonaws.s3#PutDedupConfigurationOutput"
       },
       "traits": {
         "smithy.api#documentation": "开启桶重删功能",
@@ -13941,7 +14064,7 @@
       }
     },
 
-    "com.amazonaws.s3#PutObjectDedupConfigurationOutput": {
+    "com.amazonaws.s3#PutDedupConfigurationOutput": {
       "type": "structure",
       "members": {
         "RequestCharged": {
@@ -13952,7 +14075,7 @@
         }
       }
     },
-    "com.amazonaws.s3#PutObjectDedupConfigurationRequest": {
+    "com.amazonaws.s3#PutDedupConfigurationRequest": {
       "type": "structure",
       "members": {
         "Bucket": {
@@ -13963,8 +14086,8 @@
             "smithy.api#required": {}
           }
         },
-        "ObjectDedupConfiguration": {
-          "target": "com.amazonaws.s3#ObjectDedupConfiguration",
+        "DedupConfiguration": {
+          "target": "com.amazonaws.s3#DedupConfiguration",
           "traits": {
             "smithy.api#documentation": "",
             "smithy.api#httpPayload": {}

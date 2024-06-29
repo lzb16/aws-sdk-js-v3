@@ -30,6 +30,7 @@ import {
   Quota,
   RedirectAllRequestsTo,
   RefererConfiguration,
+  Region,
   ReplicationConfiguration,
   ReplicationStatus,
   RequestCharged,
@@ -43,12 +44,89 @@ import {
   Tag,
   VersioningConfiguration,
   WORM,
-  WORMConfiguration,
-  WORMRetainPeriod,
+  WORMRule,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export enum WORMEnabled {
+  Enabled = "Enabled",
+}
+
+/**
+ * <p>The container element for WORM configuration parameters.</p>
+ */
+export interface WORMConfiguration {
+  /**
+   * <p>Indicates whether this bucket has an WORM configuration enabled.
+   *          Enable <code>WORMEnabled</code> when you apply <code>WORMConfiguration</code>
+   *          to a bucket. </p>
+   */
+  WORMEnabled?: WORMEnabled | string;
+
+  /**
+   * <p>Specifies the WORM rule for the specified object. Enable the this rule when you apply
+   *          <code>WORMConfiguration</code> to a bucket. Bucket settings require both a mode and a period.
+   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
+   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
+   */
+  Rule?: WORMRule;
+}
+
+export namespace WORMConfiguration {
+  export const filterSensitiveLog = (obj: WORMConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMConfigurationOutput {
+  /**
+   * <p>The specified bucket's WORM configuration.</p>
+   */
+  WORMConfiguration?: WORMConfiguration;
+}
+
+export namespace GetWORMConfigurationOutput {
+  export const filterSensitiveLog = (obj: GetWORMConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetWORMConfigurationRequest {
+  /**
+   * <p>The bucket whose WORM configuration you want to retrieve.</p>
+   *          <p>When using this action with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this action with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using access points</a> in the <i>Amazon S3 User Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetWORMConfigurationRequest {
+  export const filterSensitiveLog = (obj: GetWORMConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A Retain Period configuration for an object.</p>
+ */
+export interface WORMRetainPeriod {
+  /**
+   * <p>The date on which this Worm Retain Period will expire.</p>
+   */
+  RetainUntilDate?: Date;
+}
+
+export namespace WORMRetainPeriod {
+  export const filterSensitiveLog = (obj: WORMRetainPeriod): any => ({
+    ...obj,
+  });
+}
 
 export interface GetWORMRetainPeriodOutput {
   /**
@@ -3020,6 +3098,59 @@ export namespace PutBucketWebsiteRequest {
   });
 }
 
+export interface PutDedupConfigurationOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace PutDedupConfigurationOutput {
+  export const filterSensitiveLog = (obj: PutDedupConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>开启重删的参数.</p>
+ */
+export interface DedupConfiguration {
+  /**
+   * 重删域，默认同一存储池、同一配比重删
+   */
+  Region?: Region | string;
+
+  /**
+   * 逐字节比较，默认关闭
+   */
+  CompareByte?: boolean;
+}
+
+export namespace DedupConfiguration {
+  export const filterSensitiveLog = (obj: DedupConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface PutDedupConfigurationRequest {
+  /**
+   * 开启重删功能时，重删域必选
+   */
+  Bucket: string | undefined;
+
+  /**
+   *
+   */
+  DedupConfiguration?: DedupConfiguration;
+}
+
+export namespace PutDedupConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutDedupConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface PutMetaSearchConfigurationRequest {
   /**
    * <p>The name of the bucket for which to set the configuration.</p>
@@ -3474,61 +3605,6 @@ export interface PutObjectAclRequest {
 
 export namespace PutObjectAclRequest {
   export const filterSensitiveLog = (obj: PutObjectAclRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface PutObjectDedupConfigurationOutput {
-  /**
-   * <p>If present, indicates that the requester was successfully charged for the
-   *          request.</p>
-   */
-  RequestCharged?: RequestCharged | string;
-}
-
-export namespace PutObjectDedupConfigurationOutput {
-  export const filterSensitiveLog = (obj: PutObjectDedupConfigurationOutput): any => ({
-    ...obj,
-  });
-}
-
-export type ObjectDedupRegion = "ACCOUNT" | "BUCKET" | "POOL" | "POOL_REDUNDANCY" | "SYSTEM";
-
-/**
- * <p>开启重删的参数.</p>
- */
-export interface ObjectDedupConfiguration {
-  /**
-   * 重删域，默认同一存储池、同一配比重删
-   */
-  Region?: ObjectDedupRegion | string;
-
-  /**
-   * 逐字节比较，默认关闭
-   */
-  CompareByte?: boolean;
-}
-
-export namespace ObjectDedupConfiguration {
-  export const filterSensitiveLog = (obj: ObjectDedupConfiguration): any => ({
-    ...obj,
-  });
-}
-
-export interface PutObjectDedupConfigurationRequest {
-  /**
-   * 开启重删功能时，重删域必选
-   */
-  Bucket: string | undefined;
-
-  /**
-   *
-   */
-  ObjectDedupConfiguration?: ObjectDedupConfiguration;
-}
-
-export namespace PutObjectDedupConfigurationRequest {
-  export const filterSensitiveLog = (obj: PutObjectDedupConfigurationRequest): any => ({
     ...obj,
   });
 }

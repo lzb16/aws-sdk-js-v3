@@ -20,6 +20,7 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "./commands/CreateMultipartUploadCommand";
+import { DedupstatCommand, DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommand,
   DeleteBucketAnalyticsConfigurationCommandInput,
@@ -539,6 +540,11 @@ import {
   PutBucketWebsiteCommandOutput,
 } from "./commands/PutBucketWebsiteCommand";
 import {
+  PutDedupConfigurationCommand,
+  PutDedupConfigurationCommandInput,
+  PutDedupConfigurationCommandOutput,
+} from "./commands/PutDedupConfigurationCommand";
+import {
   PutMetaSearchConfigurationCommand,
   PutMetaSearchConfigurationCommandInput,
   PutMetaSearchConfigurationCommandOutput,
@@ -554,11 +560,6 @@ import {
   PutObjectAclCommandOutput,
 } from "./commands/PutObjectAclCommand";
 import { PutObjectCommand, PutObjectCommandInput, PutObjectCommandOutput } from "./commands/PutObjectCommand";
-import {
-  PutObjectDedupConfigurationCommand,
-  PutObjectDedupConfigurationCommandInput,
-  PutObjectDedupConfigurationCommandOutput,
-} from "./commands/PutObjectDedupConfigurationCommand";
 import {
   PutObjectLegalHoldCommand,
   PutObjectLegalHoldCommandInput,
@@ -1457,6 +1458,32 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: CreateMultipartUploadCommandOutput) => void
   ): Promise<CreateMultipartUploadCommandOutput> | void {
     const command = new CreateMultipartUploadCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>查询系统重删数据或存储池重删数据</p>
+   */
+  public dedupstat(args: DedupstatCommandInput, options?: __HttpHandlerOptions): Promise<DedupstatCommandOutput>;
+  public dedupstat(args: DedupstatCommandInput, cb: (err: any, data?: DedupstatCommandOutput) => void): void;
+  public dedupstat(
+    args: DedupstatCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DedupstatCommandOutput) => void
+  ): void;
+  public dedupstat(
+    args: DedupstatCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DedupstatCommandOutput) => void),
+    cb?: (err: any, data?: DedupstatCommandOutput) => void
+  ): Promise<DedupstatCommandOutput> | void {
+    const command = new DedupstatCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -8166,6 +8193,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * 开启桶重删功能
+   */
+  public putDedupConfiguration(
+    args: PutDedupConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutDedupConfigurationCommandOutput>;
+  public putDedupConfiguration(
+    args: PutDedupConfigurationCommandInput,
+    cb: (err: any, data?: PutDedupConfigurationCommandOutput) => void
+  ): void;
+  public putDedupConfiguration(
+    args: PutDedupConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutDedupConfigurationCommandOutput) => void
+  ): void;
+  public putDedupConfiguration(
+    args: PutDedupConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutDedupConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutDedupConfigurationCommandOutput) => void
+  ): Promise<PutDedupConfigurationCommandOutput> | void {
+    const command = new PutDedupConfigurationCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * 打开桶元数据智能检索
    */
   public putMetaSearchConfiguration(
@@ -8500,38 +8559,6 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutObjectAclCommandOutput) => void
   ): Promise<PutObjectAclCommandOutput> | void {
     const command = new PutObjectAclCommand(args);
-    if (typeof optionsOrCb === "function") {
-      this.send(command, optionsOrCb);
-    } else if (typeof cb === "function") {
-      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
-      this.send(command, optionsOrCb || {}, cb);
-    } else {
-      return this.send(command, optionsOrCb);
-    }
-  }
-
-  /**
-   * 开启桶重删功能
-   */
-  public putObjectDedupConfiguration(
-    args: PutObjectDedupConfigurationCommandInput,
-    options?: __HttpHandlerOptions
-  ): Promise<PutObjectDedupConfigurationCommandOutput>;
-  public putObjectDedupConfiguration(
-    args: PutObjectDedupConfigurationCommandInput,
-    cb: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
-  ): void;
-  public putObjectDedupConfiguration(
-    args: PutObjectDedupConfigurationCommandInput,
-    options: __HttpHandlerOptions,
-    cb: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
-  ): void;
-  public putObjectDedupConfiguration(
-    args: PutObjectDedupConfigurationCommandInput,
-    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutObjectDedupConfigurationCommandOutput) => void),
-    cb?: (err: any, data?: PutObjectDedupConfigurationCommandOutput) => void
-  ): Promise<PutObjectDedupConfigurationCommandOutput> | void {
-    const command = new PutObjectDedupConfigurationCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

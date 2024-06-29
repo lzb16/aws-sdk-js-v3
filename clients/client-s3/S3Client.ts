@@ -12,6 +12,7 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "./commands/CreateMultipartUploadCommand";
+import { DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -291,6 +292,10 @@ import {
 } from "./commands/PutBucketVersioningCommand";
 import { PutBucketWebsiteCommandInput, PutBucketWebsiteCommandOutput } from "./commands/PutBucketWebsiteCommand";
 import {
+  PutDedupConfigurationCommandInput,
+  PutDedupConfigurationCommandOutput,
+} from "./commands/PutDedupConfigurationCommand";
+import {
   PutMetaSearchConfigurationCommandInput,
   PutMetaSearchConfigurationCommandOutput,
 } from "./commands/PutMetaSearchConfigurationCommand";
@@ -300,10 +305,6 @@ import {
 } from "./commands/PutOSCPConfigurationCommand";
 import { PutObjectAclCommandInput, PutObjectAclCommandOutput } from "./commands/PutObjectAclCommand";
 import { PutObjectCommandInput, PutObjectCommandOutput } from "./commands/PutObjectCommand";
-import {
-  PutObjectDedupConfigurationCommandInput,
-  PutObjectDedupConfigurationCommandOutput,
-} from "./commands/PutObjectDedupConfigurationCommand";
 import { PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput } from "./commands/PutObjectLegalHoldCommand";
 import {
   PutObjectLockConfigurationCommandInput,
@@ -406,6 +407,7 @@ export type ServiceInputTypes =
   | CopyObjectCommandInput
   | CreateBucketCommandInput
   | CreateMultipartUploadCommandInput
+  | DedupstatCommandInput
   | DeleteBucketAnalyticsConfigurationCommandInput
   | DeleteBucketBtsCommandInput
   | DeleteBucketCommandInput
@@ -516,11 +518,11 @@ export type ServiceInputTypes =
   | PutBucketTaggingCommandInput
   | PutBucketVersioningCommandInput
   | PutBucketWebsiteCommandInput
+  | PutDedupConfigurationCommandInput
   | PutMetaSearchConfigurationCommandInput
   | PutOSCPConfigurationCommandInput
   | PutObjectAclCommandInput
   | PutObjectCommandInput
-  | PutObjectDedupConfigurationCommandInput
   | PutObjectLegalHoldCommandInput
   | PutObjectLockConfigurationCommandInput
   | PutObjectMetadataCommandInput
@@ -543,6 +545,7 @@ export type ServiceOutputTypes =
   | CopyObjectCommandOutput
   | CreateBucketCommandOutput
   | CreateMultipartUploadCommandOutput
+  | DedupstatCommandOutput
   | DeleteBucketAnalyticsConfigurationCommandOutput
   | DeleteBucketBtsCommandOutput
   | DeleteBucketCommandOutput
@@ -653,11 +656,11 @@ export type ServiceOutputTypes =
   | PutBucketTaggingCommandOutput
   | PutBucketVersioningCommandOutput
   | PutBucketWebsiteCommandOutput
+  | PutDedupConfigurationCommandOutput
   | PutMetaSearchConfigurationCommandOutput
   | PutOSCPConfigurationCommandOutput
   | PutObjectAclCommandOutput
   | PutObjectCommandOutput
-  | PutObjectDedupConfigurationCommandOutput
   | PutObjectLegalHoldCommandOutput
   | PutObjectLockConfigurationCommandOutput
   | PutObjectMetadataCommandOutput

@@ -12,6 +12,7 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "../commands/CreateMultipartUploadCommand";
+import { DedupstatCommandInput, DedupstatCommandOutput } from "../commands/DedupstatCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -291,6 +292,10 @@ import {
 } from "../commands/PutBucketVersioningCommand";
 import { PutBucketWebsiteCommandInput, PutBucketWebsiteCommandOutput } from "../commands/PutBucketWebsiteCommand";
 import {
+  PutDedupConfigurationCommandInput,
+  PutDedupConfigurationCommandOutput,
+} from "../commands/PutDedupConfigurationCommand";
+import {
   PutMetaSearchConfigurationCommandInput,
   PutMetaSearchConfigurationCommandOutput,
 } from "../commands/PutMetaSearchConfigurationCommand";
@@ -300,10 +305,6 @@ import {
 } from "../commands/PutOSCPConfigurationCommand";
 import { PutObjectAclCommandInput, PutObjectAclCommandOutput } from "../commands/PutObjectAclCommand";
 import { PutObjectCommandInput, PutObjectCommandOutput } from "../commands/PutObjectCommand";
-import {
-  PutObjectDedupConfigurationCommandInput,
-  PutObjectDedupConfigurationCommandOutput,
-} from "../commands/PutObjectDedupConfigurationCommand";
 import { PutObjectLegalHoldCommandInput, PutObjectLegalHoldCommandOutput } from "../commands/PutObjectLegalHoldCommand";
 import {
   PutObjectLockConfigurationCommandInput,
@@ -348,6 +349,7 @@ import {
   Bucket,
   BucketAlreadyExists,
   BucketAlreadyOwnedByYou,
+  BucketDedupConfiguration,
   BucketLifecycleConfiguration,
   BucketLoggingConfiguration,
   BucketOSCPConfiguration,
@@ -359,7 +361,7 @@ import {
   Condition,
   CopyObjectResult,
   CreateBucketConfiguration,
-  DedupConfiguration,
+  DedupStatReq,
   DefaultRetention,
   Delete,
   DeleteMarkerReplication,
@@ -452,6 +454,7 @@ import {
   SnapshotIdentifier,
   SourceSelectionCriteria,
   SseKmsEncryptedObjects,
+  Stat,
   StatisticConfiguration,
   StorageClassAnalysis,
   StorageClassAnalysisDataExport,
@@ -466,9 +469,7 @@ import {
   UserMetadataSingle,
   VersioningConfiguration,
   WORM,
-  WORMConfiguration,
   WORMDefaultRetention,
-  WORMRetainPeriod,
   WORMRule,
   _Error,
 } from "../models/models_0";
@@ -479,6 +480,7 @@ import {
   CommonPrefix,
   ContinuationEvent,
   CopyPartResult,
+  DedupConfiguration,
   DeleteMarkerEntry,
   Encryption,
   EndEvent,
@@ -493,7 +495,6 @@ import {
   NoSuchBucket,
   OSCPConfiguration,
   ObjectAlreadyInActiveTierError,
-  ObjectDedupConfiguration,
   ObjectVersion,
   OutputLocation,
   OutputSerialization,
@@ -512,6 +513,8 @@ import {
   SnapshotDescription,
   StatsEvent,
   Tagging,
+  WORMConfiguration,
+  WORMRetainPeriod,
   WebsiteConfiguration,
   _Object,
 } from "../models/models_1";
@@ -943,6 +946,38 @@ export const serializeAws_restXmlCreateMultipartUploadCommand = async (
     hostname,
     port,
     method: "POST",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDedupstatCommand = async (
+  input: DedupstatCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/";
+  const query: any = {
+    dedupstat: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.DedupStatReq !== undefined) {
+    contents = serializeAws_restXmlDedupStatReq(input.DedupStatReq, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
     headers,
     path: resolvedPath,
     query,
@@ -5408,6 +5443,47 @@ export const serializeAws_restXmlPutBucketWebsiteCommand = async (
   });
 };
 
+export const serializeAws_restXmlPutDedupConfigurationCommand = async (
+  input: PutDedupConfigurationCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    dedup: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.DedupConfiguration !== undefined) {
+    contents = serializeAws_restXmlDedupConfiguration(input.DedupConfiguration, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlPutMetaSearchConfigurationCommand = async (
   input: PutMetaSearchConfigurationCommandInput,
   context: __SerdeContext
@@ -5626,47 +5702,6 @@ export const serializeAws_restXmlPutObjectAclCommand = async (
   let contents: any;
   if (input.AccessControlPolicy !== undefined) {
     contents = serializeAws_restXmlAccessControlPolicy(input.AccessControlPolicy, context);
-    body = '<?xml version="1.0" encoding="UTF-8"?>';
-    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
-    body += contents.toString();
-  }
-  const { hostname, protocol = "https", port } = await context.endpoint();
-  return new __HttpRequest({
-    protocol,
-    hostname,
-    port,
-    method: "PUT",
-    headers,
-    path: resolvedPath,
-    query,
-    body,
-  });
-};
-
-export const serializeAws_restXmlPutObjectDedupConfigurationCommand = async (
-  input: PutObjectDedupConfigurationCommandInput,
-  context: __SerdeContext
-): Promise<__HttpRequest> => {
-  const headers: any = {
-    "content-type": "application/xml;charset=utf-8",
-  };
-  let resolvedPath = "/{Bucket}";
-  if (input.Bucket !== undefined) {
-    const labelValue: string = input.Bucket;
-    if (labelValue.length <= 0) {
-      throw new Error("Empty value provided for input HTTP label: Bucket.");
-    }
-    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
-  } else {
-    throw new Error("No value provided for input HTTP label: Bucket.");
-  }
-  const query: any = {
-    dedup: "",
-  };
-  let body: any;
-  let contents: any;
-  if (input.ObjectDedupConfiguration !== undefined) {
-    contents = serializeAws_restXmlObjectDedupConfiguration(input.ObjectDedupConfiguration, context);
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -7020,6 +7055,53 @@ const deserializeAws_restXmlCreateMultipartUploadCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<CreateMultipartUploadCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlDedupstatCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DedupstatCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDedupstatCommandError(output, context);
+  }
+  const contents: DedupstatCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    Stat: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  if (data["Stat"] !== undefined) {
+    contents.Stat = deserializeAws_restXmlStat(data["Stat"], context);
+  }
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDedupstatCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DedupstatCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -12795,6 +12877,53 @@ const deserializeAws_restXmlPutBucketWebsiteCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlPutDedupConfigurationCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutDedupConfigurationCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlPutDedupConfigurationCommandError(output, context);
+  }
+  const contents: PutDedupConfigurationCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    RequestCharged: undefined,
+  };
+  if (output.headers["x-amz-request-charged"] !== undefined) {
+    contents.RequestCharged = output.headers["x-amz-request-charged"];
+  }
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlPutDedupConfigurationCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutDedupConfigurationCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlPutMetaSearchConfigurationCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -12959,53 +13088,6 @@ const deserializeAws_restXmlPutObjectAclCommandError = async (
         $metadata: deserializeMetadata(output),
       };
       break;
-    default:
-      const parsedBody = parsedOutput.body;
-      errorCode = parsedBody.code || parsedBody.Code || errorCode;
-      response = {
-        ...parsedBody,
-        name: `${errorCode}`,
-        message: parsedBody.message || parsedBody.Message || errorCode,
-        $fault: "client",
-        $metadata: deserializeMetadata(output),
-      } as any;
-  }
-  const message = response.message || response.Message || errorCode;
-  response.message = message;
-  delete response.Message;
-  return Promise.reject(Object.assign(new Error(message), response));
-};
-
-export const deserializeAws_restXmlPutObjectDedupConfigurationCommand = async (
-  output: __HttpResponse,
-  context: __SerdeContext
-): Promise<PutObjectDedupConfigurationCommandOutput> => {
-  if (output.statusCode !== 200 && output.statusCode >= 300) {
-    return deserializeAws_restXmlPutObjectDedupConfigurationCommandError(output, context);
-  }
-  const contents: PutObjectDedupConfigurationCommandOutput = {
-    $metadata: deserializeMetadata(output),
-    RequestCharged: undefined,
-  };
-  if (output.headers["x-amz-request-charged"] !== undefined) {
-    contents.RequestCharged = output.headers["x-amz-request-charged"];
-  }
-  await collectBody(output.body, context);
-  return Promise.resolve(contents);
-};
-
-const deserializeAws_restXmlPutObjectDedupConfigurationCommandError = async (
-  output: __HttpResponse,
-  context: __SerdeContext
-): Promise<PutObjectDedupConfigurationCommandOutput> => {
-  const parsedOutput: any = {
-    ...output,
-    body: await parseBody(output.body, context),
-  };
-  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
-  let errorCode: string = "UnknownError";
-  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
-  switch (errorCode) {
     default:
       const parsedBody = parsedOutput.body;
       errorCode = parsedBody.code || parsedBody.Code || errorCode;
@@ -14452,6 +14534,34 @@ const serializeAws_restXmlCSVOutput = (input: CSVOutput, context: __SerdeContext
   return bodyNode;
 };
 
+const serializeAws_restXmlDedupConfiguration = (input: DedupConfiguration, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("DedupConfiguration");
+  if (input.Region !== undefined && input.Region !== null) {
+    const node = new __XmlNode("Region").addChildNode(new __XmlText(input.Region)).withName("Region");
+    bodyNode.addChildNode(node);
+  }
+  if (input.CompareByte !== undefined && input.CompareByte !== null) {
+    const node = new __XmlNode("CompareByte")
+      .addChildNode(new __XmlText(String(input.CompareByte)))
+      .withName("CompareByte");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlDedupStatReq = (input: DedupStatReq, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("DedupStatReq");
+  if (input.Region !== undefined && input.Region !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Region)).withName("Region");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Value !== undefined && input.Value !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Value))).withName("Value");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
 const serializeAws_restXmlDefaultRetention = (input: DefaultRetention, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("DefaultRetention");
   if (input.Mode !== undefined && input.Mode !== null) {
@@ -15539,24 +15649,6 @@ const serializeAws_restXmlNotificationConfigurationFilter = (
   const bodyNode = new __XmlNode("NotificationConfigurationFilter");
   if (input.Key !== undefined && input.Key !== null) {
     const node = serializeAws_restXmlS3KeyFilter(input.Key, context).withName("S3Key");
-    bodyNode.addChildNode(node);
-  }
-  return bodyNode;
-};
-
-const serializeAws_restXmlObjectDedupConfiguration = (
-  input: ObjectDedupConfiguration,
-  context: __SerdeContext
-): any => {
-  const bodyNode = new __XmlNode("ObjectDedupConfiguration");
-  if (input.Region !== undefined && input.Region !== null) {
-    const node = new __XmlNode("ObjectDedupRegion").addChildNode(new __XmlText(input.Region)).withName("Region");
-    bodyNode.addChildNode(node);
-  }
-  if (input.CompareByte !== undefined && input.CompareByte !== null) {
-    const node = new __XmlNode("ObjectDedupCompareByte")
-      .addChildNode(new __XmlText(String(input.CompareByte)))
-      .withName("CompareByte");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -17483,7 +17575,44 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     contents.RepPairConfiguration = deserializeAws_restXmlRepPairConfiguration(output["RepPairConfiguration"], context);
   }
   if (output["DedupConfiguration"] !== undefined) {
-    contents.DedupConfiguration = deserializeAws_restXmlDedupConfiguration(output["DedupConfiguration"], context);
+    contents.DedupConfiguration = deserializeAws_restXmlBucketDedupConfiguration(output["DedupConfiguration"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlBucketDedupConfiguration = (
+  output: any,
+  context: __SerdeContext
+): BucketDedupConfiguration => {
+  let contents: any = {
+    Status: undefined,
+    Num: undefined,
+    Size: undefined,
+    DedupNum: undefined,
+    DedupSize: undefined,
+    Region: undefined,
+    CompareByte: undefined,
+  };
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
+  }
+  if (output["Num"] !== undefined) {
+    contents.Num = parseInt(output["Num"]);
+  }
+  if (output["Size"] !== undefined) {
+    contents.Size = parseInt(output["Size"]);
+  }
+  if (output["DedupNum"] !== undefined) {
+    contents.DedupNum = parseInt(output["DedupNum"]);
+  }
+  if (output["DedupSize"] !== undefined) {
+    contents.DedupSize = parseInt(output["DedupSize"]);
+  }
+  if (output["Region"] !== undefined) {
+    contents.Region = output["Region"];
+  }
+  if (output["CompareByte"] !== undefined) {
+    contents.CompareByte = output["CompareByte"] == "true";
   }
   return contents;
 };
@@ -17697,32 +17826,6 @@ const deserializeAws_restXmlCORSRules = (output: any, context: __SerdeContext): 
       }
       return deserializeAws_restXmlCORSRule(entry, context);
     });
-};
-
-const deserializeAws_restXmlDedupConfiguration = (output: any, context: __SerdeContext): DedupConfiguration => {
-  let contents: any = {
-    Status: undefined,
-    Num: undefined,
-    Size: undefined,
-    DedupNum: undefined,
-    DedupSize: undefined,
-  };
-  if (output["Status"] !== undefined) {
-    contents.Status = output["Status"];
-  }
-  if (output["Num"] !== undefined) {
-    contents.Num = parseInt(output["Num"]);
-  }
-  if (output["Size"] !== undefined) {
-    contents.Size = parseInt(output["Size"]);
-  }
-  if (output["DedupNum"] !== undefined) {
-    contents.DedupNum = parseInt(output["DedupNum"]);
-  }
-  if (output["DedupSize"] !== undefined) {
-    contents.DedupSize = parseInt(output["DedupSize"]);
-  }
-  return contents;
 };
 
 const deserializeAws_restXmlDefaultRetention = (output: any, context: __SerdeContext): DefaultRetention => {
@@ -20066,6 +20169,36 @@ const deserializeAws_restXmlSseKmsEncryptedObjects = (output: any, context: __Se
 
 const deserializeAws_restXmlSSES3 = (output: any, context: __SerdeContext): SSES3 => {
   let contents: any = {};
+  return contents;
+};
+
+const deserializeAws_restXmlStat = (output: any, context: __SerdeContext): Stat => {
+  let contents: any = {
+    Region: undefined,
+    Num: undefined,
+    Size: undefined,
+    DedupNum: undefined,
+    DedupSize: undefined,
+    Redundancy: undefined,
+  };
+  if (output["Region"] !== undefined) {
+    contents.Region = output["Region"];
+  }
+  if (output["Num"] !== undefined) {
+    contents.Num = parseInt(output["Num"]);
+  }
+  if (output["Size"] !== undefined) {
+    contents.Size = parseInt(output["Size"]);
+  }
+  if (output["DedupNum"] !== undefined) {
+    contents.DedupNum = parseInt(output["DedupNum"]);
+  }
+  if (output["DedupSize"] !== undefined) {
+    contents.DedupSize = parseInt(output["DedupSize"]);
+  }
+  if (output["Redundancy"] !== undefined) {
+    contents.Redundancy = output["Redundancy"];
+  }
   return contents;
 };
 
