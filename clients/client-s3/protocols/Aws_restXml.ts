@@ -13,6 +13,7 @@ import {
   CreateMultipartUploadCommandOutput,
 } from "../commands/CreateMultipartUploadCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "../commands/DedupstatCommand";
+import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "../commands/DeleteAgentsCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -84,6 +85,8 @@ import {
   DeletePublicAccessBlockCommandOutput,
 } from "../commands/DeletePublicAccessBlockCommand";
 import { DeleteRefererCommandInput, DeleteRefererCommandOutput } from "../commands/DeleteRefererCommand";
+import { DeleteSingleAgentCommandInput, DeleteSingleAgentCommandOutput } from "../commands/DeleteSingleAgentCommand";
+import { GetAgentConfigCommandInput, GetAgentConfigCommandOutput } from "../commands/GetAgentConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -333,6 +336,7 @@ import {
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
 } from "../commands/SelectObjectContentCommand";
+import { UpdateAgentConfigCommandInput, UpdateAgentConfigCommandOutput } from "../commands/UpdateAgentConfigCommand";
 import { UploadPartCommandInput, UploadPartCommandOutput } from "../commands/UploadPartCommand";
 import { UploadPartCopyCommandInput, UploadPartCopyCommandOutput } from "../commands/UploadPartCopyCommand";
 import {
@@ -469,8 +473,6 @@ import {
   UserMetadataSingle,
   VersioningConfiguration,
   WORM,
-  WORMDefaultRetention,
-  WORMRule,
   _Error,
 } from "../models/models_0";
 import {
@@ -514,7 +516,9 @@ import {
   StatsEvent,
   Tagging,
   WORMConfiguration,
+  WORMDefaultRetention,
   WORMRetainPeriod,
+  WORMRule,
   WebsiteConfiguration,
   _Object,
 } from "../models/models_1";
@@ -978,6 +982,38 @@ export const serializeAws_restXmlDedupstatCommand = async (
     hostname,
     port,
     method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDeleteAgentsCommand = async (
+  input: DeleteAgentsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "text/plain",
+    ...(isSerializableHeaderValue(input.ContentType) && { "content-type": input.ContentType! }),
+  };
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+    ...(input.operation !== undefined && { operation: input.operation }),
+  };
+  let body: any;
+  let contents: any;
+  if (input.AgentList !== undefined) {
+    contents = input.AgentList;
+    body = contents;
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
     headers,
     path: resolvedPath,
     query,
@@ -1951,6 +1987,54 @@ export const serializeAws_restXmlDeleteRefererCommand = async (
     hostname,
     port,
     method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDeleteSingleAgentCommand = async (
+  input: DeleteSingleAgentCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+    ...(input.name !== undefined && { name: input.name }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetAgentConfigCommand = async (
+  input: GetAgentConfigCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+    ...(input.name !== undefined && { name: input.name }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
     headers,
     path: resolvedPath,
     query,
@@ -6535,6 +6619,37 @@ export const serializeAws_restXmlSelectObjectContentCommand = async (
   });
 };
 
+export const serializeAws_restXmlUpdateAgentConfigCommand = async (
+  input: UpdateAgentConfigCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "text/plain",
+    ...(isSerializableHeaderValue(input.ContentType) && { "content-type": input.ContentType! }),
+  };
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.AgentConfig !== undefined) {
+    contents = input.AgentConfig;
+    body = contents;
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlUploadPartCommand = async (
   input: UploadPartCommandInput,
   context: __SerdeContext
@@ -7102,6 +7217,49 @@ const deserializeAws_restXmlDedupstatCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<DedupstatCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlDeleteAgentsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAgentsCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteAgentsCommandError(output, context);
+  }
+  const contents: DeleteAgentsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteAgentsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAgentsCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -8268,6 +8426,94 @@ const deserializeAws_restXmlDeleteRefererCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<DeleteRefererCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlDeleteSingleAgentCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSingleAgentCommandOutput> => {
+  if (output.statusCode !== 204 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteSingleAgentCommandError(output, context);
+  }
+  const contents: DeleteSingleAgentCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteSingleAgentCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSingleAgentCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlGetAgentConfigCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAgentConfigCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetAgentConfigCommandError(output, context);
+  }
+  const contents: GetAgentConfigCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    AgentConfig: undefined,
+  };
+  const data: any = await collectBodyString(output.body, context);
+  contents.AgentConfig = data;
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetAgentConfigCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAgentConfigCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -13742,6 +13988,53 @@ const deserializeAws_restXmlSelectObjectContentCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<SelectObjectContentCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlUpdateAgentConfigCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAgentConfigCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlUpdateAgentConfigCommandError(output, context);
+  }
+  const contents: UpdateAgentConfigCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    RequestCharged: undefined,
+  };
+  if (output.headers["x-amz-request-charged"] !== undefined) {
+    contents.RequestCharged = output.headers["x-amz-request-charged"];
+  }
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlUpdateAgentConfigCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAgentConfigCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),

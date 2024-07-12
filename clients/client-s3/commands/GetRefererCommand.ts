@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetRefererOutput, GetRefererRequest } from "../models/models_0";
+import { GetRefererOutput, GetRefererRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlGetRefererCommand,
   serializeAws_restXmlGetRefererCommand,

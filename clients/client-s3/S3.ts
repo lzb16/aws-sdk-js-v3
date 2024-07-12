@@ -22,6 +22,11 @@ import {
 } from "./commands/CreateMultipartUploadCommand";
 import { DedupstatCommand, DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import {
+  DeleteAgentsCommand,
+  DeleteAgentsCommandInput,
+  DeleteAgentsCommandOutput,
+} from "./commands/DeleteAgentsCommand";
+import {
   DeleteBucketAnalyticsConfigurationCommand,
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -147,6 +152,16 @@ import {
   DeleteRefererCommandInput,
   DeleteRefererCommandOutput,
 } from "./commands/DeleteRefererCommand";
+import {
+  DeleteSingleAgentCommand,
+  DeleteSingleAgentCommandInput,
+  DeleteSingleAgentCommandOutput,
+} from "./commands/DeleteSingleAgentCommand";
+import {
+  GetAgentConfigCommand,
+  GetAgentConfigCommandInput,
+  GetAgentConfigCommandOutput,
+} from "./commands/GetAgentConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommand,
   GetBucketAccelerateConfigurationCommandInput,
@@ -621,6 +636,11 @@ import {
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
 } from "./commands/SelectObjectContentCommand";
+import {
+  UpdateAgentConfigCommand,
+  UpdateAgentConfigCommandInput,
+  UpdateAgentConfigCommandOutput,
+} from "./commands/UpdateAgentConfigCommand";
 import { UploadPartCommand, UploadPartCommandInput, UploadPartCommandOutput } from "./commands/UploadPartCommand";
 import {
   UploadPartCopyCommand,
@@ -1484,6 +1504,35 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DedupstatCommandOutput) => void
   ): Promise<DedupstatCommandOutput> | void {
     const command = new DedupstatCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除多个Agent配置</p>
+   */
+  public deleteAgents(
+    args: DeleteAgentsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteAgentsCommandOutput>;
+  public deleteAgents(args: DeleteAgentsCommandInput, cb: (err: any, data?: DeleteAgentsCommandOutput) => void): void;
+  public deleteAgents(
+    args: DeleteAgentsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteAgentsCommandOutput) => void
+  ): void;
+  public deleteAgents(
+    args: DeleteAgentsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteAgentsCommandOutput) => void),
+    cb?: (err: any, data?: DeleteAgentsCommandOutput) => void
+  ): Promise<DeleteAgentsCommandOutput> | void {
+    const command = new DeleteAgentsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -2807,6 +2856,70 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteRefererCommandOutput) => void
   ): Promise<DeleteRefererCommandOutput> | void {
     const command = new DeleteRefererCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除单个Agent配置</p>
+   */
+  public deleteSingleAgent(
+    args: DeleteSingleAgentCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteSingleAgentCommandOutput>;
+  public deleteSingleAgent(
+    args: DeleteSingleAgentCommandInput,
+    cb: (err: any, data?: DeleteSingleAgentCommandOutput) => void
+  ): void;
+  public deleteSingleAgent(
+    args: DeleteSingleAgentCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteSingleAgentCommandOutput) => void
+  ): void;
+  public deleteSingleAgent(
+    args: DeleteSingleAgentCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteSingleAgentCommandOutput) => void),
+    cb?: (err: any, data?: DeleteSingleAgentCommandOutput) => void
+  ): Promise<DeleteSingleAgentCommandOutput> | void {
+    const command = new DeleteSingleAgentCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取单个Agent配置</p>
+   */
+  public getAgentConfig(
+    args: GetAgentConfigCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetAgentConfigCommandOutput>;
+  public getAgentConfig(
+    args: GetAgentConfigCommandInput,
+    cb: (err: any, data?: GetAgentConfigCommandOutput) => void
+  ): void;
+  public getAgentConfig(
+    args: GetAgentConfigCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAgentConfigCommandOutput) => void
+  ): void;
+  public getAgentConfig(
+    args: GetAgentConfigCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAgentConfigCommandOutput) => void),
+    cb?: (err: any, data?: GetAgentConfigCommandOutput) => void
+  ): Promise<GetAgentConfigCommandOutput> | void {
+    const command = new GetAgentConfigCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -9835,6 +9948,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: SelectObjectContentCommandOutput) => void
   ): Promise<SelectObjectContentCommandOutput> | void {
     const command = new SelectObjectContentCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>更新单个或多个Agent配置</p>
+   */
+  public updateAgentConfig(
+    args: UpdateAgentConfigCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAgentConfigCommandOutput>;
+  public updateAgentConfig(
+    args: UpdateAgentConfigCommandInput,
+    cb: (err: any, data?: UpdateAgentConfigCommandOutput) => void
+  ): void;
+  public updateAgentConfig(
+    args: UpdateAgentConfigCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAgentConfigCommandOutput) => void
+  ): void;
+  public updateAgentConfig(
+    args: UpdateAgentConfigCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAgentConfigCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAgentConfigCommandOutput) => void
+  ): Promise<UpdateAgentConfigCommandOutput> | void {
+    const command = new UpdateAgentConfigCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

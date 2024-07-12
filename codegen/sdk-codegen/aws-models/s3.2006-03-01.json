@@ -473,6 +473,18 @@
           "target": "com.amazonaws.s3#ListMetaSearch"
         },
         {
+          "target": "com.amazonaws.s3#GetAgentConfig"
+        },
+        {
+          "target": "com.amazonaws.s3#UpdateAgentConfig"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteSingleAgent"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteAgents"
+        },
+        {
           "target": "com.amazonaws.s3#PutBucketAccelerateConfiguration"
         },
         {
@@ -9458,6 +9470,378 @@
     },
     "com.amazonaws.s3#SearchResult": {
       "type": "string"
+    },
+    "com.amazonaws.s3#DeleteSingleAgent": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteSingleAgentRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除单个Agent配置</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/?agent",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSingleAgentRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Agent 名称</p>",
+            "smithy.api#httpQuery": "name",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteAgents": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteAgentsRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除多个Agent配置</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/?agent",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteAgentsRequest": {
+      "type": "structure",
+      "members": {
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
+        "AgentList": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Agent 名称和IP的数组然后转成字符串传给后台</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>用于区分删除与后续的升级，删除池传delete</p>",
+            "smithy.api#httpQuery": "operation"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetAgentConfigRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetAgentConfigOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取单个Agent配置</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/?agent",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentConfigRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Agent 名称</p>",
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentConfigOutput": {
+      "type": "structure",
+      "members": {
+        "AgentConfig": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>查询单个agent配置时返回字符串，与批量配置时的Config字段一致</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentNameList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#StringType"
+      }
+    },
+    "com.amazonaws.s3#UpdateAgentConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#UpdateAgentConfigRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#UpdateAgentConfigOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>更新单个或多个Agent配置</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/?agent",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#UpdateAgentConfigOutput": {
+      "type": "structure",
+      "members": {
+        "RequestCharged": {
+          "target": "com.amazonaws.s3#RequestCharged",
+          "traits": {
+            "smithy.api#httpHeader": "x-amz-request-charged"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#UpdateAgentConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
+        "AgentConfig": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket bts as a JSON document.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#AgentListItem"
+      }
+    },
+    "com.amazonaws.s3#AgentListItem": {
+      "type": "structure",
+      "members": {
+        "AgentName": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 Agent名称</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AgentAddress": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 Agent IPV4地址</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentConfig": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 Agent账户名称</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "BucketName": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 桶名称</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "ObjectNamePrefix": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象名称前缀</p>"
+          }
+        },
+        "AgentBandWidthMaxBytes": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 Agents上传速度，0代表不限制</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AgentRunningTime": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>运行时间段，已分号分隔，最多设置4个时间段</p>"
+          }
+        },
+        "AgentDelayDeleteObjTimeH": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 关闭延迟删除本地文件时传-1，开启时传小时数</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AgentBackupDir": {
+          "target": "com.amazonaws.s3#AgentBackupDir",
+          "traits": {
+            "smithy.api#documentation": "<p>必选 备份路径， string list</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "AgentCopyDir": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p> 必选 迁移路径</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "CompressPolicy": {
+          "target": "com.amazonaws.s3#AgentCompressPolicy",
+          "traits": {
+            "smithy.api#documentation": "<p> 非必选 图片压缩策略</p>"
+          }
+        },
+        "TagPolicy": {
+          "target": "com.amazonaws.s3#AgentTagPolicy",
+          "traits": {
+            "smithy.api#documentation": "<p> 非必选 图片压缩策略</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentCompressPolicy": {
+      "type": "structure",
+      "members": {
+        "Image": {
+          "target": "com.amazonaws.s3#ImageCompressPolicy"
+        }
+      }
+    },
+    "com.amazonaws.s3#ImageCompressPolicy": {
+      "type": "structure",
+      "members": {
+        "CompressionRatio": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>图片压缩率</p>"
+          }
+        },
+        "convert": {
+          "target": "com.amazonaws.s3#ImageConvert",
+          "traits": {
+            "smithy.api#documentation": "<p>图片转换方式</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ImageConvert": {
+      "type": "structure",
+      "members": {
+        "bmp": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "png": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "tiff": {
+          "target": "com.amazonaws.s3#StringType"
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentTagPolicy": {
+      "type": "structure",
+      "members": {
+        "RegEx": {
+          "target": "com.amazonaws.s3#AgentTagPolicyRegEx"
+        },
+        "FixTag": {
+          "target": "com.amazonaws.s3#AgentTagPolicyFixTag"
+        },
+        "AutoTag": {
+          "target": "com.amazonaws.s3#AgentTagPolicyAutoTag"
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentTagPolicyRegEx": {
+      "type": "structure",
+      "members": {
+        "Origin": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#AgentTagList"
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentTagPolicyFixTag": {
+      "type": "structure",
+      "members": {
+        "BusinesssAttributes": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "Tag": {
+          "target": "com.amazonaws.s3#AgentTagList"
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentTagPolicyAutoTag": {
+      "type": "structure",
+      "members": {
+        "Tag": {
+          "target": "com.amazonaws.s3#AgentTagList"
+        }
+      }
+    },
+    "com.amazonaws.s3#AgentTagList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#AgentTagListItem"
+      }
+    },
+    "com.amazonaws.s3#AgentTagListItem": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>tag name</p>"
+          }
+        },
+        "Value": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>tagname 对应的值，可能为正则，可能是字符串</p>"
+          }
+        }
+      }
+    },
+
+    "com.amazonaws.s3#AgentBackupDir": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#StringType"
+      }
     },
     "com.amazonaws.s3#Dedupstat": {
       "type": "operation",

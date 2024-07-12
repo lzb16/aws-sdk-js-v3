@@ -1407,6 +1407,29 @@ export namespace DedupstatRequest {
   });
 }
 
+export interface DeleteAgentsRequest {
+  /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>Agent 名称和IP的数组然后转成字符串传给后台</p>
+   */
+  AgentList: string | undefined;
+
+  /**
+   * <p>用于区分删除与后续的升级，删除池传delete</p>
+   */
+  operation?: string;
+}
+
+export namespace DeleteAgentsRequest {
+  export const filterSensitiveLog = (obj: DeleteAgentsRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface DeleteBucketRequest {
   /**
    * <p>Specifies the bucket being deleted.</p>
@@ -4039,6 +4062,45 @@ export interface DeleteRefererRequest {
 
 export namespace DeleteRefererRequest {
   export const filterSensitiveLog = (obj: DeleteRefererRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteSingleAgentRequest {
+  /**
+   * <p>Agent 名称</p>
+   */
+  name: string | undefined;
+}
+
+export namespace DeleteSingleAgentRequest {
+  export const filterSensitiveLog = (obj: DeleteSingleAgentRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAgentConfigOutput {
+  /**
+   * <p>查询单个agent配置时返回字符串，与批量配置时的Config字段一致</p>
+   */
+  AgentConfig?: string;
+}
+
+export namespace GetAgentConfigOutput {
+  export const filterSensitiveLog = (obj: GetAgentConfigOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAgentConfigRequest {
+  /**
+   * <p>Agent 名称</p>
+   */
+  name?: string;
+}
+
+export namespace GetAgentConfigRequest {
+  export const filterSensitiveLog = (obj: GetAgentConfigRequest): any => ({
     ...obj,
   });
 }
@@ -9839,115 +9901,6 @@ export interface GetPublicAccessBlockRequest {
 
 export namespace GetPublicAccessBlockRequest {
   export const filterSensitiveLog = (obj: GetPublicAccessBlockRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface GetRefererOutput {
-  /**
-   * <p>The configuration information for the bucket.</p>
-   */
-  RefererConfiguration?: RefererConfiguration;
-}
-
-export namespace GetRefererOutput {
-  export const filterSensitiveLog = (obj: GetRefererOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetRefererRequest {
-  /**
-   * <p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want
-   *          to retrieve. </p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetRefererRequest {
-  export const filterSensitiveLog = (obj: GetRefererRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The container element for specifying the default WORM retention settings for new
- *          objects placed in the specified bucket.</p>
- *          <note>
- *             <ul>
- *                <li>
- *                   <p>The <code>DefaultRetention</code> settings require a
- *                period.</p>
- *                </li>
- *                <li>
- *                   <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>
- *                or <code>Years</code> but you must select one. You cannot specify <code>Days</code>
- *                and <code>Years</code> at the same time.</p>
- *                </li>
- *             </ul>
- *          </note>
- */
-export interface WORMDefaultRetention {
-  /**
-   * <p>The number of days that you want to specify for the default retention period.</p>
-   */
-  Days?: number;
-
-  /**
-   * <p>The number of years that you want to specify for the default retention period.</p>
-   */
-  Years?: number;
-
-  /**
-   * <p>The number of years that you want to specify for the default retention period.</p>
-   */
-  Months?: number;
-
-  /**
-   * <p>The number of years that you want to specify for the default retention period.</p>
-   */
-  Hours?: number;
-
-  /**
-   * <p>The number of years that you want to specify for the default retention period.</p>
-   */
-  Minutes?: number;
-}
-
-export namespace WORMDefaultRetention {
-  export const filterSensitiveLog = (obj: WORMDefaultRetention): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The container element for an WORM rule.</p>
- */
-export interface WORMRule {
-  /**
-   * <p>The default WORM retention mode and period that you want to apply to new objects
-   *          placed in the specified bucket. Bucket settings require a period.
-   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
-   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
-   */
-  DefaultRetention?: WORMDefaultRetention;
-
-  /**
-   * <p>The default WORM retention mode and period that you want to apply to new objects
-   *          placed in the specified bucket. Bucket settings require a period.
-   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
-   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
-   */
-  DefaultGracePeriod?: WORMDefaultRetention;
-}
-
-export namespace WORMRule {
-  export const filterSensitiveLog = (obj: WORMRule): any => ({
     ...obj,
   });
 }

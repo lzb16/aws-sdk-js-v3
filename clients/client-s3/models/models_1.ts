@@ -44,11 +44,119 @@ import {
   Tag,
   VersioningConfiguration,
   WORM,
-  WORMRule,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface GetRefererOutput {
+  /**
+   * <p>The configuration information for the bucket.</p>
+   */
+  RefererConfiguration?: RefererConfiguration;
+}
+
+export namespace GetRefererOutput {
+  export const filterSensitiveLog = (obj: GetRefererOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetRefererRequest {
+  /**
+   * <p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want
+   *          to retrieve. </p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetRefererRequest {
+  export const filterSensitiveLog = (obj: GetRefererRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The container element for specifying the default WORM retention settings for new
+ *          objects placed in the specified bucket.</p>
+ *          <note>
+ *             <ul>
+ *                <li>
+ *                   <p>The <code>DefaultRetention</code> settings require a
+ *                period.</p>
+ *                </li>
+ *                <li>
+ *                   <p>The <code>WORMDefaultRetention</code> period can be either <code>Days</code>
+ *                or <code>Years</code> but you must select one. You cannot specify <code>Days</code>
+ *                and <code>Years</code> at the same time.</p>
+ *                </li>
+ *             </ul>
+ *          </note>
+ */
+export interface WORMDefaultRetention {
+  /**
+   * <p>The number of days that you want to specify for the default retention period.</p>
+   */
+  Days?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Years?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Months?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Hours?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Minutes?: number;
+}
+
+export namespace WORMDefaultRetention {
+  export const filterSensitiveLog = (obj: WORMDefaultRetention): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The container element for an WORM rule.</p>
+ */
+export interface WORMRule {
+  /**
+   * <p>The default WORM retention mode and period that you want to apply to new objects
+   *          placed in the specified bucket. Bucket settings require a period.
+   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
+   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
+   */
+  DefaultRetention?: WORMDefaultRetention;
+
+  /**
+   * <p>The default WORM retention mode and period that you want to apply to new objects
+   *          placed in the specified bucket. Bucket settings require a period.
+   *          The period can be either <code>Days</code> or <code>Years</code> but you must select one.
+   *          You cannot specify <code>Days</code> and <code>Years</code> at the same time.</p>
+   */
+  DefaultGracePeriod?: WORMDefaultRetention;
+}
+
+export namespace WORMRule {
+  export const filterSensitiveLog = (obj: WORMRule): any => ({
+    ...obj,
+  });
+}
 
 export enum WORMEnabled {
   Enabled = "Enabled",
@@ -5167,6 +5275,38 @@ export namespace SelectObjectContentRequest {
   export const filterSensitiveLog = (obj: SelectObjectContentRequest): any => ({
     ...obj,
     ...(obj.SSECustomerKey && { SSECustomerKey: SENSITIVE_STRING }),
+  });
+}
+
+export interface UpdateAgentConfigOutput {
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace UpdateAgentConfigOutput {
+  export const filterSensitiveLog = (obj: UpdateAgentConfigOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateAgentConfigRequest {
+  /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>The bucket bts as a JSON document.</p>
+   */
+  AgentConfig: string | undefined;
+}
+
+export namespace UpdateAgentConfigRequest {
+  export const filterSensitiveLog = (obj: UpdateAgentConfigRequest): any => ({
+    ...obj,
   });
 }
 

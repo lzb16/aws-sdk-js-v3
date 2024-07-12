@@ -13,6 +13,7 @@ import {
   CreateMultipartUploadCommandOutput,
 } from "./commands/CreateMultipartUploadCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
+import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "./commands/DeleteAgentsCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -84,6 +85,8 @@ import {
   DeletePublicAccessBlockCommandOutput,
 } from "./commands/DeletePublicAccessBlockCommand";
 import { DeleteRefererCommandInput, DeleteRefererCommandOutput } from "./commands/DeleteRefererCommand";
+import { DeleteSingleAgentCommandInput, DeleteSingleAgentCommandOutput } from "./commands/DeleteSingleAgentCommand";
+import { GetAgentConfigCommandInput, GetAgentConfigCommandOutput } from "./commands/GetAgentConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -333,6 +336,7 @@ import {
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
 } from "./commands/SelectObjectContentCommand";
+import { UpdateAgentConfigCommandInput, UpdateAgentConfigCommandOutput } from "./commands/UpdateAgentConfigCommand";
 import { UploadPartCommandInput, UploadPartCommandOutput } from "./commands/UploadPartCommand";
 import { UploadPartCopyCommandInput, UploadPartCopyCommandOutput } from "./commands/UploadPartCopyCommand";
 import { ClientDefaultValues as __ClientDefaultValues } from "./runtimeConfig";
@@ -408,6 +412,7 @@ export type ServiceInputTypes =
   | CreateBucketCommandInput
   | CreateMultipartUploadCommandInput
   | DedupstatCommandInput
+  | DeleteAgentsCommandInput
   | DeleteBucketAnalyticsConfigurationCommandInput
   | DeleteBucketBtsCommandInput
   | DeleteBucketCommandInput
@@ -434,6 +439,8 @@ export type ServiceInputTypes =
   | DeleteObjectsCommandInput
   | DeletePublicAccessBlockCommandInput
   | DeleteRefererCommandInput
+  | DeleteSingleAgentCommandInput
+  | GetAgentConfigCommandInput
   | GetBucketAccelerateConfigurationCommandInput
   | GetBucketAclCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
@@ -536,6 +543,7 @@ export type ServiceInputTypes =
   | PutWORMRetainPeriodCommandInput
   | RestoreObjectCommandInput
   | SelectObjectContentCommandInput
+  | UpdateAgentConfigCommandInput
   | UploadPartCommandInput
   | UploadPartCopyCommandInput;
 
@@ -546,6 +554,7 @@ export type ServiceOutputTypes =
   | CreateBucketCommandOutput
   | CreateMultipartUploadCommandOutput
   | DedupstatCommandOutput
+  | DeleteAgentsCommandOutput
   | DeleteBucketAnalyticsConfigurationCommandOutput
   | DeleteBucketBtsCommandOutput
   | DeleteBucketCommandOutput
@@ -572,6 +581,8 @@ export type ServiceOutputTypes =
   | DeleteObjectsCommandOutput
   | DeletePublicAccessBlockCommandOutput
   | DeleteRefererCommandOutput
+  | DeleteSingleAgentCommandOutput
+  | GetAgentConfigCommandOutput
   | GetBucketAccelerateConfigurationCommandOutput
   | GetBucketAclCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
@@ -674,6 +685,7 @@ export type ServiceOutputTypes =
   | PutWORMRetainPeriodCommandOutput
   | RestoreObjectCommandOutput
   | SelectObjectContentCommandOutput
+  | UpdateAgentConfigCommandOutput
   | UploadPartCommandOutput
   | UploadPartCopyCommandOutput;
 
