@@ -947,6 +947,9 @@ export interface AccountType {
    * 账户重删数据
    */
   Dedup?: AccoutDedup;
+
+  TrashObjectNumber?: string;
+  TrashSize?: string;
 }
 
 export namespace AccountType {
@@ -1068,6 +1071,11 @@ export interface AddOrDeleteType {
    * <p>A list of users in the group.</p>
    */
   UserName?: User[];
+
+  /**
+   * <p>A list of policy.</p>
+   */
+  PolicyName?: Policy[];
 }
 
 export namespace AddOrDeleteType {
@@ -1369,6 +1377,11 @@ export interface ErrorInfo {
   GroupName?: string;
 
   /**
+   * <p>The friendly name identifying the iam policy.</p>
+   */
+  PolicyName?: string;
+
+  /**
    * <p>The error code associated with the operation failure.</p>
    */
   Code?: string;
@@ -1385,19 +1398,6 @@ export namespace ErrorInfo {
   });
 }
 
-export interface BatchErrorType {
-  /**
-   * <p>A list of users in the group.</p>
-   */
-  ErrorInfo?: ErrorInfo[];
-}
-
-export namespace BatchErrorType {
-  export const filterSensitiveLog = (obj: BatchErrorType): any => ({
-    ...obj,
-  });
-}
-
 /**
  * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
  *       request. </p>
@@ -1408,8 +1408,17 @@ export interface BatchAddUsersToGroupResponse {
    */
   Account: AccountType | undefined;
 
-  Added?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Added?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchAddUsersToGroupResponse {
@@ -1430,6 +1439,19 @@ export interface BatchAddUserToGroupsRequest {
 
 export namespace BatchAddUserToGroupsRequest {
   export const filterSensitiveLog = (obj: BatchAddUserToGroupsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BatchErrorType {
+  /**
+   * <p>A list of users in the group.</p>
+   */
+  ErrorInfo?: ErrorInfo[];
+}
+
+export namespace BatchErrorType {
+  export const filterSensitiveLog = (obj: BatchErrorType): any => ({
     ...obj,
   });
 }
@@ -1480,8 +1502,17 @@ export interface BatchAddUserToMultiGroupsResponse {
    */
   Account: AccountType | undefined;
 
-  Added?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Added?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchAddUserToMultiGroupsResponse {
@@ -1511,6 +1542,36 @@ export namespace BatchAttachPoliciesToGroupRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAttachPoliciesToGroupResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Attached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchAttachPoliciesToGroupResponse {
+  export const filterSensitiveLog = (obj: BatchAttachPoliciesToGroupResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchAttachPoliciesToUserRequest {
   /**
    * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
@@ -1532,6 +1593,36 @@ export namespace BatchAttachPoliciesToUserRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAttachPoliciesToUserResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Attached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchAttachPoliciesToUserResponse {
+  export const filterSensitiveLog = (obj: BatchAttachPoliciesToUserResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchAttachPolicyToMultiGroupsRequest {
   /**
    * <p>eg: GroupDocument={"Name": ["group1", "group2", "group3"]}</p>
@@ -1550,6 +1641,36 @@ export namespace BatchAttachPolicyToMultiGroupsRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAttachPolicyToMultiGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Attached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchAttachPolicyToMultiGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchAttachPolicyToMultiGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchAttachPolicyToMultiUsersRequest {
   /**
    * <p>eg: UserDocument={"Name": ["user1", "user2", "user3"]}</p>
@@ -1565,6 +1686,36 @@ export interface BatchAttachPolicyToMultiUsersRequest {
 export namespace BatchAttachPolicyToMultiUsersRequest {
   export const filterSensitiveLog = (obj: BatchAttachPolicyToMultiUsersRequest): any => ({
     ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchAttachPolicyToMultiUsersResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Attached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchAttachPolicyToMultiUsersResponse {
+  export const filterSensitiveLog = (obj: BatchAttachPolicyToMultiUsersResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -1588,8 +1739,17 @@ export interface BatchDeleteGroupsResponse {
    */
   Account: AccountType | undefined;
 
-  Deleted?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Deleted?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchDeleteGroupsResponse {
@@ -1628,6 +1788,36 @@ export namespace BatchDeletePoliciesRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDeletePoliciesResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Deleted?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchDeletePoliciesResponse {
+  export const filterSensitiveLog = (obj: BatchDeletePoliciesResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchDeleteUsersRequest {
   UserDocument?: string;
 }
@@ -1648,8 +1838,17 @@ export interface BatchDeleteUsersResponse {
    */
   Account: AccountType | undefined;
 
-  Deleted?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Deleted?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchDeleteUsersResponse {
@@ -1694,6 +1893,36 @@ export namespace BatchDetachPoliciesFromGroupRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDetachPoliciesFromGroupResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Detached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchDetachPoliciesFromGroupResponse {
+  export const filterSensitiveLog = (obj: BatchDetachPoliciesFromGroupResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchDetachPoliciesFromUserRequest {
   /**
    * <p>eg: PolicyDocument={"Name": ["policy1", "policy2", "policy3"]}</p>
@@ -1715,6 +1944,36 @@ export namespace BatchDetachPoliciesFromUserRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDetachPoliciesFromUserResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Detached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchDetachPoliciesFromUserResponse {
+  export const filterSensitiveLog = (obj: BatchDetachPoliciesFromUserResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchDetachPolicyFromMultiGroupsRequest {
   /**
    * <p>eg: GroupDocument={"Name": ["group1", "group2", "group3"]}</p>
@@ -1733,6 +1992,36 @@ export namespace BatchDetachPolicyFromMultiGroupsRequest {
   });
 }
 
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDetachPolicyFromMultiGroupsResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Detached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchDetachPolicyFromMultiGroupsResponse {
+  export const filterSensitiveLog = (obj: BatchDetachPolicyFromMultiGroupsResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
+  });
+}
+
 export interface BatchDetachPolicyFromMultiUsersRequest {
   /**
    * <p>eg: UserDocument={"Name": ["user1", "user2", "user3"]}</p>
@@ -1748,6 +2037,36 @@ export interface BatchDetachPolicyFromMultiUsersRequest {
 export namespace BatchDetachPolicyFromMultiUsersRequest {
   export const filterSensitiveLog = (obj: BatchDetachPolicyFromMultiUsersRequest): any => ({
     ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>GenerateCredentialReport</a>
+ *       request. </p>
+ */
+export interface BatchDetachPolicyFromMultiUsersResponse {
+  /**
+   * <p>The account to create.</p>
+   */
+  Account: AccountType | undefined;
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Detached?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
+}
+
+export namespace BatchDetachPolicyFromMultiUsersResponse {
+  export const filterSensitiveLog = (obj: BatchDetachPolicyFromMultiUsersResponse): any => ({
+    ...obj,
+    ...(obj.Account && { Account: AccountType.filterSensitiveLog(obj.Account) }),
   });
 }
 
@@ -1813,8 +2132,17 @@ export interface BatchRemoveUserFromMultiGroupsResponse {
    */
   Account: AccountType | undefined;
 
-  Removed?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Removed?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchRemoveUserFromMultiGroupsResponse {
@@ -1851,8 +2179,17 @@ export interface BatchRemoveUsersFromGroupResponse {
    */
   Account: AccountType | undefined;
 
-  Removed?: AddOrDeleteType;
-  Error?: BatchErrorType;
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Removed?: ErrorInfo[];
+
+  /**
+   * <p>Contains a list of users.</p>
+   *          <p>This data type is used as a response element in the <a>GetGroup</a> and <a>ListUsers</a> operations. </p>
+   */
+  Error?: ErrorInfo[];
 }
 
 export namespace BatchRemoveUsersFromGroupResponse {
@@ -7995,264 +8332,6 @@ export interface ListPolicyVersionsResponse {
 
 export namespace ListPolicyVersionsResponse {
   export const filterSensitiveLog = (obj: ListPolicyVersionsResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListRolePoliciesRequest {
-  /**
-   * <p>The name of the role to list policies for.</p>
-   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  RoleName: string | undefined;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListRolePoliciesRequest {
-  export const filterSensitiveLog = (obj: ListRolePoliciesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListRolePolicies</a> request.
- *     </p>
- */
-export interface ListRolePoliciesResponse {
-  /**
-   * <p>A list of policy names.</p>
-   */
-  PolicyNames: string[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListRolePoliciesResponse {
-  export const filterSensitiveLog = (obj: ListRolePoliciesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListRolesRequest {
-  /**
-   * <p> The path prefix for filtering the results. For example, the prefix
-   *             <code>/application_abc/component_xyz/</code> gets all roles whose path starts with
-   *             <code>/application_abc/component_xyz/</code>.</p>
-   *          <p>This parameter is optional. If it is not included, it defaults to a slash (/), listing
-   *          all roles. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
-   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
-   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
-   *     most punctuation characters, digits, and upper and lowercased letters.</p>
-   */
-  PathPrefix?: string;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListRolesRequest {
-  export const filterSensitiveLog = (obj: ListRolesRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListRoles</a> request. </p>
- */
-export interface ListRolesResponse {
-  /**
-   * <p>A list of roles.</p>
-   */
-  Roles: Role[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListRolesResponse {
-  export const filterSensitiveLog = (obj: ListRolesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListRoleTagsRequest {
-  /**
-   * <p>The name of the IAM role for which you want to see the list of tags.</p>
-   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
-   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
-   */
-  RoleName: string | undefined;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>(Optional) Use this only when paginating results to indicate the
-   *     maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, it defaults to 100. Note that
-   *     IAM might return fewer results, even when more results are available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListRoleTagsRequest {
-  export const filterSensitiveLog = (obj: ListRoleTagsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface ListRoleTagsResponse {
-  /**
-   * <p>The list of tags currently that is attached to the role. Each tag consists of a key
-   *       name and an associated value. If no tags are attached to the specified role, the response
-   *       contains an empty list.</p>
-   */
-  Tags: Tag[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can use the <code>Marker</code> request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when more results are available. Check <code>IsTruncated</code> after every call to ensure that you receive all of your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListRoleTagsResponse {
-  export const filterSensitiveLog = (obj: ListRoleTagsResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListSAMLProvidersRequest {}
-
-export namespace ListSAMLProvidersRequest {
-  export const filterSensitiveLog = (obj: ListSAMLProvidersRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the list of SAML providers for this account.</p>
- */
-export interface SAMLProviderListEntry {
-  /**
-   * <p>The Amazon Resource Name (ARN) of the SAML provider.</p>
-   */
-  Arn?: string;
-
-  /**
-   * <p>The expiration date and time for the SAML provider.</p>
-   */
-  ValidUntil?: Date;
-
-  /**
-   * <p>The date and time when the SAML provider was created.</p>
-   */
-  CreateDate?: Date;
-}
-
-export namespace SAMLProviderListEntry {
-  export const filterSensitiveLog = (obj: SAMLProviderListEntry): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListSAMLProviders</a> request.
- *     </p>
- */
-export interface ListSAMLProvidersResponse {
-  /**
-   * <p>The list of SAML provider resource objects defined in IAM for this AWS
-   *          account.</p>
-   */
-  SAMLProviderList?: SAMLProviderListEntry[];
-}
-
-export namespace ListSAMLProvidersResponse {
-  export const filterSensitiveLog = (obj: ListSAMLProvidersResponse): any => ({
     ...obj,
   });
 }

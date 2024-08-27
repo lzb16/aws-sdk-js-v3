@@ -640,6 +640,36 @@
 
         {
           "target": "com.amazonaws.s3#DeleteBucketSnapshots"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#PostBucketTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketTrashObjList"
+        },
+        {
+          "target": "com.amazonaws.s3#RestoreBucketObjTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#RestoreBucketObjsTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketObjTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketObjsTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#HeadBucketObjTrash"
         }
       ],
       "traits": {
@@ -1387,6 +1417,12 @@
             "smithy.api#required": {}
           }
         },
+        "TrashObjectNumber": {
+          "target": "com.amazonaws.s3#ObjectNumber"
+        },
+        "TrashSize": {
+          "target": "com.amazonaws.s3#Size"
+        },
         "StoragePoolId": {
           "target": "com.amazonaws.s3#StoragePoolId",
           "traits": {
@@ -1512,6 +1548,12 @@
           "traits": {
             "smithy.api#documentation": "在桶概览中添加桶重删的相关信息，如果存在桶重删的话，在返回结构中插入下面信息"
           }
+        },
+        "TrashConfiguration": {
+          "target": "com.amazonaws.s3#TrashConfiguration",
+          "traits": {
+            "smithy.api#documentation": "在桶概览中添加回收站信息"
+          }
         }
       },
       "traits": {
@@ -1614,6 +1656,9 @@
       }
     },
     "com.amazonaws.s3#BucketKeyEnabled": {
+      "type": "boolean"
+    },
+    "com.amazonaws.s3#NeverExpire": {
       "type": "boolean"
     },
     "com.amazonaws.s3#OSCPPolicyAndRuleOperator": {
@@ -2061,6 +2106,17 @@
       "members": {
         "Status": {
           "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Container for rep pair status information.</p>"
+      }
+    },
+    "com.amazonaws.s3#TrashConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#BucketTrashStatus"
         }
       },
       "traits": {
@@ -4608,6 +4664,9 @@
             "smithy.api#documentation": "<p>The name of the deleted object.</p>"
           }
         },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken"
+        },
         "VersionId": {
           "target": "com.amazonaws.s3#ObjectVersionId",
           "traits": {
@@ -4784,6 +4843,12 @@
           "target": "com.amazonaws.s3#ObjectKey",
           "traits": {
             "smithy.api#documentation": "<p>The error key.</p>"
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow WORM to be enabled for an existing bucket.</p>"
           }
         },
         "VersionId": {
@@ -6160,6 +6225,12 @@
             "smithy.api#documentation": "<p>A container for one or more replication rules. A replication configuration must have at\n         least one rule and can contain a maximum of 1,000 rules. </p>",
             "smithy.api#required": {}
           }
+        },
+        "TrashObjectNumber": {
+          "target": "com.amazonaws.s3#ObjectNumber"
+        },
+        "TrashSize": {
+          "target": "com.amazonaws.s3#Size"
         }
       },
       "traits": {
@@ -7827,6 +7898,13 @@
             "smithy.api#httpHeader": "Last-Modified"
           }
         },
+        "DeletedTime": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>The date the Object was Last Modified</p>",
+            "smithy.api#httpHeader": "x-amz-deleted-time"
+          }
+        },
         "ContentLength": {
           "target": "com.amazonaws.s3#ContentLength",
           "traits": {
@@ -8854,6 +8932,9 @@
             "smithy.api#documentation": "<p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>",
             "smithy.api#xmlName": "RunningTime"
           }
+        },
+        "DeletedObjectToTrash": {
+          "target": "com.amazonaws.s3#booleanType"
         }
       },
       "traits": {
@@ -11107,6 +11188,19 @@
         "target": "com.amazonaws.s3#MetadataValue"
       }
     },
+    "com.amazonaws.s3#OrderType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "letter"
+          },
+          {
+            "value": "time"
+          }
+        ]
+      }
+    },
     "com.amazonaws.s3#MetadataDirective": {
       "type": "string",
       "traits": {
@@ -11610,6 +11704,12 @@
           "traits": {
             "smithy.api#documentation": "<p>Key name of the object to delete.</p>",
             "smithy.api#required": {}
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow WORM to be enabled for an existing bucket.</p>"
           }
         },
         "VersionId": {
@@ -13518,6 +13618,652 @@
         }
       }
     },
+    "com.amazonaws.s3#PutBucketTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketTrashRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>设置桶回收站</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?trash",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Trash": {
+          "target": "com.amazonaws.s3#Trash",
+          "traits": {
+            "smithy.api#documentation": "<p>回收站配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketTrashRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除回收站</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?trash",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>当前桶所属账户</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketTrashRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketTrashOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取桶回收站配置</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?trash",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>BucketName</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrashOutput": {
+      "type": "structure",
+      "members": {
+        "Trash": {
+          "target": "com.amazonaws.s3#Trash",
+          "traits": {
+            "smithy.api#documentation": "<p>回收站配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PostBucketTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PostBucketTrashRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>清空桶回收站对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?trash&action=cleanup",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PostBucketTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrashObjList": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketTrashObjListRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketTrashObjListOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取桶回收站对象列表</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?trash&action=list",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrashObjListRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket containing the objects.</p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the key to start with when listing objects in a bucket.</p>",
+            "smithy.api#httpQuery": "marker"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>Sets the maximum number of keys returned in the response. By default the API returns up\n         to 1,000 key names. The response might contain fewer keys but will never contain more.\n      </p>",
+            "smithy.api#httpQuery": "max-keys"
+          }
+        },
+        "OrderType": {
+          "target": "com.amazonaws.s3#OrderType",
+          "traits": {
+            "smithy.api#documentation": "<p>列举的排序方式：支持letter表示字母序，time表示时间序。开始时间/结束时间  和  prefix只能有一个，不能都填</p>",
+            "smithy.api#httpQuery": "order-type"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "prefix"
+          }
+        },
+        "BeginTime": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "begin-time"
+          }
+        },
+        "EndTime": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "end-time"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketTrashObjListOutput": {
+      "type": "structure",
+      "members": {
+        "ListBucketTrashResult": {
+          "target": "com.amazonaws.s3#ListBucketTrashResult",
+          "traits": {
+            "smithy.api#documentation": "<p>回收站配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketTrashResult": {
+      "type": "structure",
+      "members": {
+        "IsTruncated": {
+          "target": "com.amazonaws.s3#IsTruncated",
+          "traits": {
+            "smithy.api#documentation": "<p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search\n         criteria.</p>"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates where in the bucket listing begins. Marker is included in the response if it\n         was sent with the request.</p>"
+          }
+        },
+        "NextMarker": {
+          "target": "com.amazonaws.s3#NextMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>When response is truncated (the IsTruncated element value in the response is true), you\n         can use the key name in this field as marker in the subsequent request to get next set of\n         objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if\n         you have delimiter request parameter specified. If response does not include the NextMarker\n         and it is truncated, you can use the value of the last Key in the response as the marker in\n         the subsequent request to get the next set of object keys.</p>"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>The maximum number of keys returned in the response body.</p>"
+          }
+        },
+        "Name": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name.</p>"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Keys that begin with the indicated prefix.</p>"
+          }
+        },
+        "BeginTime": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>"
+          }
+        },
+        "EndTime": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>"
+          }
+        },
+        "Contents": {
+          "target": "com.amazonaws.s3#BucketTrashObjList",
+          "traits": {
+            "smithy.api#documentation": "<p>Metadata about each object returned.</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BucketTrashObjList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#BucketTrashObj"
+      }
+    },
+    "com.amazonaws.s3#BucketTrashObj": {
+      "type": "structure",
+      "members": {
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>The name that you assign to an object. You use the object key to retrieve the\n         object.</p>"
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow WORM to be enabled for an existing bucket.</p>"
+          }
+        },
+        "LastModified": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>The date the Object was Last Modified</p>"
+          }
+        },
+        "DeletedTime": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>The date the Object was Last Modified</p>"
+          }
+        },
+        "Size": {
+          "target": "com.amazonaws.s3#Size",
+          "traits": {
+            "smithy.api#documentation": "<p>Size in bytes of the object</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#ObjectStorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>"
+          }
+        },
+        "Owner": {
+          "target": "com.amazonaws.s3#Owner",
+          "traits": {
+            "smithy.api#documentation": "<p>The owner of the object</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>An object consists of data and its descriptive metadata.</p>"
+      }
+    },
+    "com.amazonaws.s3#RestoreBucketObjTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#RestoreBucketObjTrashRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>恢复桶回收站对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}/{Key+}?trash&action=restore",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#RestoreBucketObjTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>当前软链接名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow Object Lock to be enabled for an existing bucket.</p>",
+            "smithy.api#required": {},
+            "smithy.api#httpQuery": "token"
+          }
+        },
+        "Policy": {
+          "target": "com.amazonaws.s3#BucketTrashPolicy",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow Object Lock to be enabled for an existing bucket.</p>",
+            "smithy.api#required": {},
+            "smithy.api#httpQuery": "policy"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#RestoreBucketObjsTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#RestoreBucketObjsTrashRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#RestoreBucketObjsTrashOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>批量恢复桶回收站对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?trash&action=restore",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#RestoreBucketObjsTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Restore": {
+          "target": "com.amazonaws.s3#BucketObjsTrashInfo",
+          "traits": {
+            "smithy.api#documentation": "<p>对象信息</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {},
+            "smithy.api#xmlName": "Restore"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BucketObjsTrashInfo": {
+      "type": "structure",
+      "members": {
+        "Policy": {
+          "target": "com.amazonaws.s3#BucketTrashPolicy"
+        },
+        "Objects": {
+          "target": "com.amazonaws.s3#BucketTrashObjList",
+          "traits": {
+            "smithy.api#documentation": "<p>The objects to delete.</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Object"
+          }
+        },
+        "Quiet": {
+          "target": "com.amazonaws.s3#Quiet",
+          "traits": {
+            "smithy.api#documentation": "<p>Element to enable quiet mode for the request. When you add this element, you must set\n         its value to true.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#RestoreBucketObjsTrashOutput": {
+      "type": "structure",
+      "members": {
+        "RestoreResult": {
+          "target": "com.amazonaws.s3#restoreBucketObjs",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复对象的结果/p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#restoreBucketObjs": {
+      "type": "structure",
+      "members": {
+        "Restored": {
+          "target": "com.amazonaws.s3#DeletedObjects",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复对象的结果/p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
+        "Errors": {
+          "target": "com.amazonaws.s3#Errors",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a failed delete operation that describes the object that Amazon S3 attempted to\n         delete and the error it encountered.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Error"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketObjTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketObjTrashRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除桶回收站对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}/{Key+}?trash&action=delete",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketObjTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>当前软链接名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow Object Lock to be enabled for an existing bucket.</p>",
+            "smithy.api#required": {},
+            "smithy.api#httpQuery": "token"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketObjsTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketObjsTrashRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#DeleteBucketObjsTrashOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>批量删除桶回收站对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?trash&action=delete",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketObjsTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Delete": {
+          "target": "com.amazonaws.s3#Delete",
+          "traits": {
+            "smithy.api#documentation": "<p>对象信息</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {},
+            "smithy.api#xmlName": "Delete"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketObjsTrashOutput": {
+      "type": "structure",
+      "members": {
+        "DeleteResult": {
+          "target": "com.amazonaws.s3#DeletedObjects",
+          "traits": {
+            "smithy.api#documentation": "<p>删除对象的结果/p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#HeadBucketObjTrash": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#HeadBucketObjTrashRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#HeadObjectOutput"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.s3#NoSuchKey"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>The HEAD operation retrieves metadata from an object without returning the object\n         itself. This operation is useful if you're only interested in an object's metadata. To use\n         HEAD, you must have READ access to the object.</p>\n\n         <p>A <code>HEAD</code> request has the same options as a <code>GET</code> operation on an\n         object. The response is identical to the <code>GET</code> response except that there is no\n         response body.</p>\n\n         <p>If you encrypt an object by using server-side encryption with customer-provided\n         encryption keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the\n         metadata from the object, you must use the following headers:</p>\n         <ul>\n            <li>\n               <p>x-amz-server-side-encryption-customer-algorithm</p>\n            </li>\n            <li>\n               <p>x-amz-server-side-encryption-customer-key</p>\n            </li>\n            <li>\n               <p>x-amz-server-side-encryption-customer-key-MD5</p>\n            </li>\n         </ul>\n         <p>For more information about SSE-C, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html\">Server-Side Encryption (Using\n            Customer-Provided Encryption Keys)</a>.</p>\n         <note>\n            <p>Encryption request headers, like <code>x-amz-server-side-encryption</code>, should\n            not be sent for GET requests if your object uses server-side encryption with CMKs stored\n            in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys\n            (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400 BadRequest\n            error.</p>\n         </note>\n\n\n\n\n\n\n\n         <p>Request headers are limited to 8 KB in size. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html\">Common Request\n            Headers</a>.</p>\n         <p>Consider the following when using request headers:</p>\n         <ul>\n            <li>\n               <p> Consideration 1 – If both of the <code>If-Match</code> and\n                  <code>If-Unmodified-Since</code> headers are present in the request as\n               follows:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>If-Match</code> condition evaluates to <code>true</code>, and;</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>If-Unmodified-Since</code> condition evaluates to\n                     <code>false</code>;</p>\n                  </li>\n               </ul>\n               <p>Then Amazon S3 returns <code>200 OK</code> and the data requested.</p>\n            </li>\n            <li>\n               <p> Consideration 2 – If both of the <code>If-None-Match</code> and\n                  <code>If-Modified-Since</code> headers are present in the request as\n               follows:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>If-None-Match</code> condition evaluates to <code>false</code>,\n                     and;</p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>If-Modified-Since</code> condition evaluates to\n                     <code>true</code>;</p>\n                  </li>\n               </ul>\n               <p>Then Amazon S3 returns the <code>304 Not Modified</code> response code.</p>\n            </li>\n         </ul>\n\n         <p>For more information about conditional requests, see <a href=\"https://tools.ietf.org/html/rfc7232\">RFC 7232</a>.</p>\n\n         <p>\n            <b>Permissions</b>\n         </p>\n         <p>You need the <code>s3:GetObject</code> permission for this operation. For more\n         information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html\">Specifying Permissions\n            in a Policy</a>. If the object you request does not exist, the error Amazon S3 returns\n         depends on whether you also have the s3:ListBucket permission.</p>\n         <ul>\n            <li>\n               <p>If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 returns\n               an HTTP status code 404 (\"no such key\") error.</p>\n            </li>\n            <li>\n               <p>If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 returns an HTTP\n               status code 403 (\"access denied\") error.</p>\n            </li>\n         </ul>\n\n         <p>The following operation is related to <code>HeadObject</code>:</p>\n         <ul>\n            <li>\n               <p>\n                  <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html\">GetObject</a>\n               </p>\n            </li>\n         </ul>",
+        "smithy.api#http": {
+          "method": "HEAD",
+          "uri": "/{Bucket}/{Key+}?trash&action=head",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#HeadBucketObjTrashRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Key": {
+          "target": "com.amazonaws.s3#ObjectKey",
+          "traits": {
+            "smithy.api#documentation": "<p>当前软链接名称</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Token": {
+          "target": "com.amazonaws.s3#ObjectLockToken",
+          "traits": {
+            "smithy.api#documentation": "<p>A token to allow Object Lock to be enabled for an existing bucket.</p>",
+            "smithy.api#required": {},
+            "smithy.api#httpQuery": "token"
+          }
+        },
+        "WithoutContentLength": {
+          "target": "com.amazonaws.s3#WithoutContentLength",
+          "traits": {
+            "smithy.api#documentation": "<p>Custom header, when you don't want return Content-Length, set true.</p>",
+            "smithy.api#httpHeader": "x-amz-without-content-length"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#PutBucketReplication": {
       "type": "operation",
       "input": {
@@ -15121,6 +15867,37 @@
         }
       }
     },
+    "com.amazonaws.s3#Trash": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#BucketTrashStatus"
+        },
+        "Mode": {
+          "target": "com.amazonaws.s3#Mode",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>BucetTrashMode</code> of bucket.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#Mode": {
+      "type": "structure",
+      "members": {
+        "NeverExpire": {
+          "target": "com.amazonaws.s3#NeverExpire",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>BucetTrashNeverExpire</code> of bucket.</p>"
+          }
+        },
+        "Days": {
+          "target": "com.amazonaws.s3#Days",
+          "traits": {
+            "smithy.api#documentation": "<p>Lifetime of the active copy in days. Do not use with restores that specify\n            <code>OutputLocation</code>.</p>\n         <p>The Days element is required for regular restores, and must not be provided for select\n         requests.</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#QoSConfiguration": {
       "type": "structure",
       "members": {
@@ -16492,6 +17269,35 @@
         "smithy.api#enum": [
           {
             "value": "Enabled"
+          },
+          {
+            "value": "Disabled"
+          }
+        ]
+      }
+    },
+    "com.amazonaws.s3#BucketTrashPolicy": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "overwrite"
+          },
+          {
+            "value": "skip"
+          }
+        ]
+      }
+    },
+    "com.amazonaws.s3#BucketTrashStatus": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "Enabled"
+          },
+          {
+            "value": "Closing"
           },
           {
             "value": "Disabled"

@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetOSCPConfigurationOutput, GetOSCPConfigurationRequest } from "../models/models_0";
+import { GetOSCPConfigurationOutput, GetOSCPConfigurationRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlGetOSCPConfigurationCommand,
   serializeAws_restXmlGetOSCPConfigurationCommand,

@@ -43,6 +43,14 @@ import {
   DeleteBucketMetricsConfigurationCommandOutput,
 } from "./commands/DeleteBucketMetricsConfigurationCommand";
 import {
+  DeleteBucketObjTrashCommandInput,
+  DeleteBucketObjTrashCommandOutput,
+} from "./commands/DeleteBucketObjTrashCommand";
+import {
+  DeleteBucketObjsTrashCommandInput,
+  DeleteBucketObjsTrashCommandOutput,
+} from "./commands/DeleteBucketObjsTrashCommand";
+import {
   DeleteBucketOwnershipControlsCommandInput,
   DeleteBucketOwnershipControlsCommandOutput,
 } from "./commands/DeleteBucketOwnershipControlsCommand";
@@ -68,6 +76,7 @@ import {
   DeleteBucketTaggingCommandInput,
   DeleteBucketTaggingCommandOutput,
 } from "./commands/DeleteBucketTaggingCommand";
+import { DeleteBucketTrashCommandInput, DeleteBucketTrashCommandOutput } from "./commands/DeleteBucketTrashCommand";
 import {
   DeleteBucketWebsiteCommandInput,
   DeleteBucketWebsiteCommandOutput,
@@ -151,6 +160,11 @@ import {
   GetBucketStorageInfoCommandOutput,
 } from "./commands/GetBucketStorageInfoCommand";
 import { GetBucketTaggingCommandInput, GetBucketTaggingCommandOutput } from "./commands/GetBucketTaggingCommand";
+import { GetBucketTrashCommandInput, GetBucketTrashCommandOutput } from "./commands/GetBucketTrashCommand";
+import {
+  GetBucketTrashObjListCommandInput,
+  GetBucketTrashObjListCommandOutput,
+} from "./commands/GetBucketTrashObjListCommand";
 import {
   GetBucketVersioningCommandInput,
   GetBucketVersioningCommandOutput,
@@ -186,6 +200,7 @@ import {
   GetWORMRetainPeriodCommandOutput,
 } from "./commands/GetWORMRetainPeriodCommand";
 import { HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
+import { HeadBucketObjTrashCommandInput, HeadBucketObjTrashCommandOutput } from "./commands/HeadBucketObjTrashCommand";
 import { HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
   ListBucketAnalyticsConfigurationsCommandInput,
@@ -222,6 +237,7 @@ import { ListObjectsCommandInput, ListObjectsCommandOutput } from "./commands/Li
 import { ListObjectsV2CommandInput, ListObjectsV2CommandOutput } from "./commands/ListObjectsV2Command";
 import { ListPartsCommandInput, ListPartsCommandOutput } from "./commands/ListPartsCommand";
 import { PostBucketRestoreCommandInput, PostBucketRestoreCommandOutput } from "./commands/PostBucketRestoreCommand";
+import { PostBucketTrashCommandInput, PostBucketTrashCommandOutput } from "./commands/PostBucketTrashCommand";
 import {
   PutBucketAccelerateConfigurationCommandInput,
   PutBucketAccelerateConfigurationCommandOutput,
@@ -289,6 +305,7 @@ import {
   PutBucketStorageClassCommandOutput,
 } from "./commands/PutBucketStorageClassCommand";
 import { PutBucketTaggingCommandInput, PutBucketTaggingCommandOutput } from "./commands/PutBucketTaggingCommand";
+import { PutBucketTrashCommandInput, PutBucketTrashCommandOutput } from "./commands/PutBucketTrashCommand";
 import {
   PutBucketVersioningCommandInput,
   PutBucketVersioningCommandOutput,
@@ -331,6 +348,14 @@ import {
   PutWORMRetainPeriodCommandInput,
   PutWORMRetainPeriodCommandOutput,
 } from "./commands/PutWORMRetainPeriodCommand";
+import {
+  RestoreBucketObjTrashCommandInput,
+  RestoreBucketObjTrashCommandOutput,
+} from "./commands/RestoreBucketObjTrashCommand";
+import {
+  RestoreBucketObjsTrashCommandInput,
+  RestoreBucketObjsTrashCommandOutput,
+} from "./commands/RestoreBucketObjsTrashCommand";
 import { RestoreObjectCommandInput, RestoreObjectCommandOutput } from "./commands/RestoreObjectCommand";
 import {
   SelectObjectContentCommandInput,
@@ -423,6 +448,8 @@ export type ServiceInputTypes =
   | DeleteBucketInventoryConfigurationCommandInput
   | DeleteBucketLifecycleCommandInput
   | DeleteBucketMetricsConfigurationCommandInput
+  | DeleteBucketObjTrashCommandInput
+  | DeleteBucketObjsTrashCommandInput
   | DeleteBucketOwnershipControlsCommandInput
   | DeleteBucketPolicyCommandInput
   | DeleteBucketQoSCommandInput
@@ -431,6 +458,7 @@ export type ServiceInputTypes =
   | DeleteBucketSnapshotsCommandInput
   | DeleteBucketStatisticCommandInput
   | DeleteBucketTaggingCommandInput
+  | DeleteBucketTrashCommandInput
   | DeleteBucketWebsiteCommandInput
   | DeleteMetaSearchCommandInput
   | DeleteOSCPCommandInput
@@ -466,6 +494,8 @@ export type ServiceInputTypes =
   | GetBucketStatisticCommandInput
   | GetBucketStorageInfoCommandInput
   | GetBucketTaggingCommandInput
+  | GetBucketTrashCommandInput
+  | GetBucketTrashObjListCommandInput
   | GetBucketVersioningCommandInput
   | GetBucketWebsiteCommandInput
   | GetOSCPConfigurationCommandInput
@@ -483,6 +513,7 @@ export type ServiceInputTypes =
   | GetWORMConfigurationCommandInput
   | GetWORMRetainPeriodCommandInput
   | HeadBucketCommandInput
+  | HeadBucketObjTrashCommandInput
   | HeadObjectCommandInput
   | ListBucketAnalyticsConfigurationsCommandInput
   | ListBucketIntelligentTieringConfigurationsCommandInput
@@ -498,6 +529,7 @@ export type ServiceInputTypes =
   | ListObjectsV2CommandInput
   | ListPartsCommandInput
   | PostBucketRestoreCommandInput
+  | PostBucketTrashCommandInput
   | PutBucketAccelerateConfigurationCommandInput
   | PutBucketAclCommandInput
   | PutBucketAnalyticsConfigurationCommandInput
@@ -523,6 +555,7 @@ export type ServiceInputTypes =
   | PutBucketStatisticCommandInput
   | PutBucketStorageClassCommandInput
   | PutBucketTaggingCommandInput
+  | PutBucketTrashCommandInput
   | PutBucketVersioningCommandInput
   | PutBucketWebsiteCommandInput
   | PutDedupConfigurationCommandInput
@@ -541,6 +574,8 @@ export type ServiceInputTypes =
   | PutRefererCommandInput
   | PutWORMConfigurationCommandInput
   | PutWORMRetainPeriodCommandInput
+  | RestoreBucketObjTrashCommandInput
+  | RestoreBucketObjsTrashCommandInput
   | RestoreObjectCommandInput
   | SelectObjectContentCommandInput
   | UpdateAgentConfigCommandInput
@@ -565,6 +600,8 @@ export type ServiceOutputTypes =
   | DeleteBucketInventoryConfigurationCommandOutput
   | DeleteBucketLifecycleCommandOutput
   | DeleteBucketMetricsConfigurationCommandOutput
+  | DeleteBucketObjTrashCommandOutput
+  | DeleteBucketObjsTrashCommandOutput
   | DeleteBucketOwnershipControlsCommandOutput
   | DeleteBucketPolicyCommandOutput
   | DeleteBucketQoSCommandOutput
@@ -573,6 +610,7 @@ export type ServiceOutputTypes =
   | DeleteBucketSnapshotsCommandOutput
   | DeleteBucketStatisticCommandOutput
   | DeleteBucketTaggingCommandOutput
+  | DeleteBucketTrashCommandOutput
   | DeleteBucketWebsiteCommandOutput
   | DeleteMetaSearchCommandOutput
   | DeleteOSCPCommandOutput
@@ -608,6 +646,8 @@ export type ServiceOutputTypes =
   | GetBucketStatisticCommandOutput
   | GetBucketStorageInfoCommandOutput
   | GetBucketTaggingCommandOutput
+  | GetBucketTrashCommandOutput
+  | GetBucketTrashObjListCommandOutput
   | GetBucketVersioningCommandOutput
   | GetBucketWebsiteCommandOutput
   | GetOSCPConfigurationCommandOutput
@@ -625,6 +665,7 @@ export type ServiceOutputTypes =
   | GetWORMConfigurationCommandOutput
   | GetWORMRetainPeriodCommandOutput
   | HeadBucketCommandOutput
+  | HeadBucketObjTrashCommandOutput
   | HeadObjectCommandOutput
   | ListBucketAnalyticsConfigurationsCommandOutput
   | ListBucketIntelligentTieringConfigurationsCommandOutput
@@ -640,6 +681,7 @@ export type ServiceOutputTypes =
   | ListObjectsV2CommandOutput
   | ListPartsCommandOutput
   | PostBucketRestoreCommandOutput
+  | PostBucketTrashCommandOutput
   | PutBucketAccelerateConfigurationCommandOutput
   | PutBucketAclCommandOutput
   | PutBucketAnalyticsConfigurationCommandOutput
@@ -665,6 +707,7 @@ export type ServiceOutputTypes =
   | PutBucketStatisticCommandOutput
   | PutBucketStorageClassCommandOutput
   | PutBucketTaggingCommandOutput
+  | PutBucketTrashCommandOutput
   | PutBucketVersioningCommandOutput
   | PutBucketWebsiteCommandOutput
   | PutDedupConfigurationCommandOutput
@@ -683,6 +726,8 @@ export type ServiceOutputTypes =
   | PutRefererCommandOutput
   | PutWORMConfigurationCommandOutput
   | PutWORMRetainPeriodCommandOutput
+  | RestoreBucketObjTrashCommandOutput
+  | RestoreBucketObjsTrashCommandOutput
   | RestoreObjectCommandOutput
   | SelectObjectContentCommandOutput
   | UpdateAgentConfigCommandOutput

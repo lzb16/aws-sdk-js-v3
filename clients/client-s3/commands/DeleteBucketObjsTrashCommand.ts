@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectWORMOutput, GetObjectWORMRequest } from "../models/models_1";
+import { DeleteBucketObjsTrashOutput, DeleteBucketObjsTrashRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlGetObjectWORMCommand,
-  serializeAws_restXmlGetObjectWORMCommand,
+  deserializeAws_restXmlDeleteBucketObjsTrashCommand,
+  serializeAws_restXmlDeleteBucketObjsTrashCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetObjectWORMCommandInput = GetObjectWORMRequest;
-export type GetObjectWORMCommandOutput = GetObjectWORMOutput & __MetadataBearer;
+export type DeleteBucketObjsTrashCommandInput = DeleteBucketObjsTrashRequest;
+export type DeleteBucketObjsTrashCommandOutput = DeleteBucketObjsTrashOutput & __MetadataBearer;
 
 /**
- * <p>Retrieves an object's WORM settings.</p>
+ * <p>批量删除桶回收站对象</p>
  */
-export class GetObjectWORMCommand extends $Command<
-  GetObjectWORMCommandInput,
-  GetObjectWORMCommandOutput,
+export class DeleteBucketObjsTrashCommand extends $Command<
+  DeleteBucketObjsTrashCommandInput,
+  DeleteBucketObjsTrashCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetObjectWORMCommandInput) {
+  constructor(readonly input: DeleteBucketObjsTrashCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class GetObjectWORMCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetObjectWORMCommandInput, GetObjectWORMCommandOutput> {
+  ): Handler<DeleteBucketObjsTrashCommandInput, DeleteBucketObjsTrashCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class GetObjectWORMCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetObjectWORMCommand";
+    const commandName = "DeleteBucketObjsTrashCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetObjectWORMRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetObjectWORMOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteBucketObjsTrashRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: DeleteBucketObjsTrashOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class GetObjectWORMCommand extends $Command<
     );
   }
 
-  private serialize(input: GetObjectWORMCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetObjectWORMCommand(input, context);
+  private serialize(input: DeleteBucketObjsTrashCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlDeleteBucketObjsTrashCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetObjectWORMCommandOutput> {
-    return deserializeAws_restXmlGetObjectWORMCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteBucketObjsTrashCommandOutput> {
+    return deserializeAws_restXmlDeleteBucketObjsTrashCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -77,6 +77,16 @@ import {
   DeleteBucketMetricsConfigurationCommandOutput,
 } from "./commands/DeleteBucketMetricsConfigurationCommand";
 import {
+  DeleteBucketObjTrashCommand,
+  DeleteBucketObjTrashCommandInput,
+  DeleteBucketObjTrashCommandOutput,
+} from "./commands/DeleteBucketObjTrashCommand";
+import {
+  DeleteBucketObjsTrashCommand,
+  DeleteBucketObjsTrashCommandInput,
+  DeleteBucketObjsTrashCommandOutput,
+} from "./commands/DeleteBucketObjsTrashCommand";
+import {
   DeleteBucketOwnershipControlsCommand,
   DeleteBucketOwnershipControlsCommandInput,
   DeleteBucketOwnershipControlsCommandOutput,
@@ -116,6 +126,11 @@ import {
   DeleteBucketTaggingCommandInput,
   DeleteBucketTaggingCommandOutput,
 } from "./commands/DeleteBucketTaggingCommand";
+import {
+  DeleteBucketTrashCommand,
+  DeleteBucketTrashCommandInput,
+  DeleteBucketTrashCommandOutput,
+} from "./commands/DeleteBucketTrashCommand";
 import {
   DeleteBucketWebsiteCommand,
   DeleteBucketWebsiteCommandInput,
@@ -288,6 +303,16 @@ import {
   GetBucketTaggingCommandOutput,
 } from "./commands/GetBucketTaggingCommand";
 import {
+  GetBucketTrashCommand,
+  GetBucketTrashCommandInput,
+  GetBucketTrashCommandOutput,
+} from "./commands/GetBucketTrashCommand";
+import {
+  GetBucketTrashObjListCommand,
+  GetBucketTrashObjListCommandInput,
+  GetBucketTrashObjListCommandOutput,
+} from "./commands/GetBucketTrashObjListCommand";
+import {
   GetBucketVersioningCommand,
   GetBucketVersioningCommandInput,
   GetBucketVersioningCommandOutput,
@@ -360,6 +385,11 @@ import {
   GetWORMRetainPeriodCommandOutput,
 } from "./commands/GetWORMRetainPeriodCommand";
 import { HeadBucketCommand, HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
+import {
+  HeadBucketObjTrashCommand,
+  HeadBucketObjTrashCommandInput,
+  HeadBucketObjTrashCommandOutput,
+} from "./commands/HeadBucketObjTrashCommand";
 import { HeadObjectCommand, HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
 import {
   ListBucketAnalyticsConfigurationsCommand,
@@ -419,6 +449,11 @@ import {
   PostBucketRestoreCommandInput,
   PostBucketRestoreCommandOutput,
 } from "./commands/PostBucketRestoreCommand";
+import {
+  PostBucketTrashCommand,
+  PostBucketTrashCommandInput,
+  PostBucketTrashCommandOutput,
+} from "./commands/PostBucketTrashCommand";
 import {
   PutBucketAccelerateConfigurationCommand,
   PutBucketAccelerateConfigurationCommandInput,
@@ -545,6 +580,11 @@ import {
   PutBucketTaggingCommandOutput,
 } from "./commands/PutBucketTaggingCommand";
 import {
+  PutBucketTrashCommand,
+  PutBucketTrashCommandInput,
+  PutBucketTrashCommandOutput,
+} from "./commands/PutBucketTrashCommand";
+import {
   PutBucketVersioningCommand,
   PutBucketVersioningCommandInput,
   PutBucketVersioningCommandOutput,
@@ -626,6 +666,16 @@ import {
   PutWORMRetainPeriodCommandInput,
   PutWORMRetainPeriodCommandOutput,
 } from "./commands/PutWORMRetainPeriodCommand";
+import {
+  RestoreBucketObjTrashCommand,
+  RestoreBucketObjTrashCommandInput,
+  RestoreBucketObjTrashCommandOutput,
+} from "./commands/RestoreBucketObjTrashCommand";
+import {
+  RestoreBucketObjsTrashCommand,
+  RestoreBucketObjsTrashCommandInput,
+  RestoreBucketObjsTrashCommandOutput,
+} from "./commands/RestoreBucketObjsTrashCommand";
 import {
   RestoreObjectCommand,
   RestoreObjectCommandInput,
@@ -2060,6 +2110,70 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>批量删除桶回收站对象</p>
+   */
+  public deleteBucketObjsTrash(
+    args: DeleteBucketObjsTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketObjsTrashCommandOutput>;
+  public deleteBucketObjsTrash(
+    args: DeleteBucketObjsTrashCommandInput,
+    cb: (err: any, data?: DeleteBucketObjsTrashCommandOutput) => void
+  ): void;
+  public deleteBucketObjsTrash(
+    args: DeleteBucketObjsTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketObjsTrashCommandOutput) => void
+  ): void;
+  public deleteBucketObjsTrash(
+    args: DeleteBucketObjsTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketObjsTrashCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketObjsTrashCommandOutput) => void
+  ): Promise<DeleteBucketObjsTrashCommandOutput> | void {
+    const command = new DeleteBucketObjsTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除桶回收站对象</p>
+   */
+  public deleteBucketObjTrash(
+    args: DeleteBucketObjTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketObjTrashCommandOutput>;
+  public deleteBucketObjTrash(
+    args: DeleteBucketObjTrashCommandInput,
+    cb: (err: any, data?: DeleteBucketObjTrashCommandOutput) => void
+  ): void;
+  public deleteBucketObjTrash(
+    args: DeleteBucketObjTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketObjTrashCommandOutput) => void
+  ): void;
+  public deleteBucketObjTrash(
+    args: DeleteBucketObjTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketObjTrashCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketObjTrashCommandOutput) => void
+  ): Promise<DeleteBucketObjTrashCommandOutput> | void {
+    const command = new DeleteBucketObjTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Removes <code>OwnershipControls</code> for an Amazon S3 bucket. To use this operation, you
    *          must have the <code>s3:PutBucketOwnershipControls</code> permission. For more information
    *          about Amazon S3 permissions, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
@@ -2420,6 +2534,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteBucketTaggingCommandOutput) => void
   ): Promise<DeleteBucketTaggingCommandOutput> | void {
     const command = new DeleteBucketTaggingCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除回收站</p>
+   */
+  public deleteBucketTrash(
+    args: DeleteBucketTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketTrashCommandOutput>;
+  public deleteBucketTrash(
+    args: DeleteBucketTrashCommandInput,
+    cb: (err: any, data?: DeleteBucketTrashCommandOutput) => void
+  ): void;
+  public deleteBucketTrash(
+    args: DeleteBucketTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketTrashCommandOutput) => void
+  ): void;
+  public deleteBucketTrash(
+    args: DeleteBucketTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketTrashCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketTrashCommandOutput) => void
+  ): Promise<DeleteBucketTrashCommandOutput> | void {
+    const command = new DeleteBucketTrashCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -4232,6 +4378,70 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>获取桶回收站配置</p>
+   */
+  public getBucketTrash(
+    args: GetBucketTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketTrashCommandOutput>;
+  public getBucketTrash(
+    args: GetBucketTrashCommandInput,
+    cb: (err: any, data?: GetBucketTrashCommandOutput) => void
+  ): void;
+  public getBucketTrash(
+    args: GetBucketTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketTrashCommandOutput) => void
+  ): void;
+  public getBucketTrash(
+    args: GetBucketTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketTrashCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketTrashCommandOutput) => void
+  ): Promise<GetBucketTrashCommandOutput> | void {
+    const command = new GetBucketTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取桶回收站对象列表</p>
+   */
+  public getBucketTrashObjList(
+    args: GetBucketTrashObjListCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketTrashObjListCommandOutput>;
+  public getBucketTrashObjList(
+    args: GetBucketTrashObjListCommandInput,
+    cb: (err: any, data?: GetBucketTrashObjListCommandOutput) => void
+  ): void;
+  public getBucketTrashObjList(
+    args: GetBucketTrashObjListCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketTrashObjListCommandOutput) => void
+  ): void;
+  public getBucketTrashObjList(
+    args: GetBucketTrashObjListCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketTrashObjListCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketTrashObjListCommandOutput) => void
+  ): Promise<GetBucketTrashObjListCommandOutput> | void {
+    const command = new GetBucketTrashObjListCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Returns the versioning state of a bucket.</p>
    *          <p>To retrieve the versioning state of a bucket, you must be the bucket owner.</p>
    *
@@ -5363,6 +5573,144 @@ export class S3 extends S3Client {
    *             </li>
    *          </ul>
    */
+  public headBucketObjTrash(
+    args: HeadBucketObjTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<HeadBucketObjTrashCommandOutput>;
+  public headBucketObjTrash(
+    args: HeadBucketObjTrashCommandInput,
+    cb: (err: any, data?: HeadBucketObjTrashCommandOutput) => void
+  ): void;
+  public headBucketObjTrash(
+    args: HeadBucketObjTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: HeadBucketObjTrashCommandOutput) => void
+  ): void;
+  public headBucketObjTrash(
+    args: HeadBucketObjTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: HeadBucketObjTrashCommandOutput) => void),
+    cb?: (err: any, data?: HeadBucketObjTrashCommandOutput) => void
+  ): Promise<HeadBucketObjTrashCommandOutput> | void {
+    const command = new HeadBucketObjTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>The HEAD operation retrieves metadata from an object without returning the object
+   *          itself. This operation is useful if you're only interested in an object's metadata. To use
+   *          HEAD, you must have READ access to the object.</p>
+   *
+   *          <p>A <code>HEAD</code> request has the same options as a <code>GET</code> operation on an
+   *          object. The response is identical to the <code>GET</code> response except that there is no
+   *          response body.</p>
+   *
+   *          <p>If you encrypt an object by using server-side encryption with customer-provided
+   *          encryption keys (SSE-C) when you store the object in Amazon S3, then when you retrieve the
+   *          metadata from the object, you must use the following headers:</p>
+   *          <ul>
+   *             <li>
+   *                <p>x-amz-server-side-encryption-customer-algorithm</p>
+   *             </li>
+   *             <li>
+   *                <p>x-amz-server-side-encryption-customer-key</p>
+   *             </li>
+   *             <li>
+   *                <p>x-amz-server-side-encryption-customer-key-MD5</p>
+   *             </li>
+   *          </ul>
+   *          <p>For more information about SSE-C, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side Encryption (Using
+   *             Customer-Provided Encryption Keys)</a>.</p>
+   *          <note>
+   *             <p>Encryption request headers, like <code>x-amz-server-side-encryption</code>, should
+   *             not be sent for GET requests if your object uses server-side encryption with CMKs stored
+   *             in AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys
+   *             (SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400 BadRequest
+   *             error.</p>
+   *          </note>
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   *          <p>Request headers are limited to 8 KB in size. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html">Common Request
+   *             Headers</a>.</p>
+   *          <p>Consider the following when using request headers:</p>
+   *          <ul>
+   *             <li>
+   *                <p> Consideration 1 – If both of the <code>If-Match</code> and
+   *                   <code>If-Unmodified-Since</code> headers are present in the request as
+   *                follows:</p>
+   *                <ul>
+   *                   <li>
+   *                      <p>
+   *                         <code>If-Match</code> condition evaluates to <code>true</code>, and;</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>If-Unmodified-Since</code> condition evaluates to
+   *                      <code>false</code>;</p>
+   *                   </li>
+   *                </ul>
+   *                <p>Then Amazon S3 returns <code>200 OK</code> and the data requested.</p>
+   *             </li>
+   *             <li>
+   *                <p> Consideration 2 – If both of the <code>If-None-Match</code> and
+   *                   <code>If-Modified-Since</code> headers are present in the request as
+   *                follows:</p>
+   *                <ul>
+   *                   <li>
+   *                      <p>
+   *                         <code>If-None-Match</code> condition evaluates to <code>false</code>,
+   *                      and;</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>
+   *                         <code>If-Modified-Since</code> condition evaluates to
+   *                      <code>true</code>;</p>
+   *                   </li>
+   *                </ul>
+   *                <p>Then Amazon S3 returns the <code>304 Not Modified</code> response code.</p>
+   *             </li>
+   *          </ul>
+   *
+   *          <p>For more information about conditional requests, see <a href="https://tools.ietf.org/html/rfc7232">RFC 7232</a>.</p>
+   *
+   *          <p>
+   *             <b>Permissions</b>
+   *          </p>
+   *          <p>You need the <code>s3:GetObject</code> permission for this operation. For more
+   *          information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying Permissions
+   *             in a Policy</a>. If the object you request does not exist, the error Amazon S3 returns
+   *          depends on whether you also have the s3:ListBucket permission.</p>
+   *          <ul>
+   *             <li>
+   *                <p>If you have the <code>s3:ListBucket</code> permission on the bucket, Amazon S3 returns
+   *                an HTTP status code 404 ("no such key") error.</p>
+   *             </li>
+   *             <li>
+   *                <p>If you don’t have the <code>s3:ListBucket</code> permission, Amazon S3 returns an HTTP
+   *                status code 403 ("access denied") error.</p>
+   *             </li>
+   *          </ul>
+   *
+   *          <p>The following operation is related to <code>HeadObject</code>:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
+   *                </p>
+   *             </li>
+   *          </ul>
+   */
   public headObject(args: HeadObjectCommandInput, options?: __HttpHandlerOptions): Promise<HeadObjectCommandOutput>;
   public headObject(args: HeadObjectCommandInput, cb: (err: any, data?: HeadObjectCommandOutput) => void): void;
   public headObject(
@@ -6147,6 +6495,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PostBucketRestoreCommandOutput) => void
   ): Promise<PostBucketRestoreCommandOutput> | void {
     const command = new PostBucketRestoreCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>清空桶回收站对象</p>
+   */
+  public postBucketTrash(
+    args: PostBucketTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PostBucketTrashCommandOutput>;
+  public postBucketTrash(
+    args: PostBucketTrashCommandInput,
+    cb: (err: any, data?: PostBucketTrashCommandOutput) => void
+  ): void;
+  public postBucketTrash(
+    args: PostBucketTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PostBucketTrashCommandOutput) => void
+  ): void;
+  public postBucketTrash(
+    args: PostBucketTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PostBucketTrashCommandOutput) => void),
+    cb?: (err: any, data?: PostBucketTrashCommandOutput) => void
+  ): Promise<PostBucketTrashCommandOutput> | void {
+    const command = new PostBucketTrashCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -8069,6 +8449,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>设置桶回收站</p>
+   */
+  public putBucketTrash(
+    args: PutBucketTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketTrashCommandOutput>;
+  public putBucketTrash(
+    args: PutBucketTrashCommandInput,
+    cb: (err: any, data?: PutBucketTrashCommandOutput) => void
+  ): void;
+  public putBucketTrash(
+    args: PutBucketTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketTrashCommandOutput) => void
+  ): void;
+  public putBucketTrash(
+    args: PutBucketTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketTrashCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketTrashCommandOutput) => void
+  ): Promise<PutBucketTrashCommandOutput> | void {
+    const command = new PutBucketTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Sets the versioning state of an existing bucket. To set the versioning state, you must
    *          be the bucket owner.</p>
    *          <p>You can set the versioning state with one of the following values:</p>
@@ -9476,6 +9888,70 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutWORMRetainPeriodCommandOutput) => void
   ): Promise<PutWORMRetainPeriodCommandOutput> | void {
     const command = new PutWORMRetainPeriodCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>批量恢复桶回收站对象</p>
+   */
+  public restoreBucketObjsTrash(
+    args: RestoreBucketObjsTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<RestoreBucketObjsTrashCommandOutput>;
+  public restoreBucketObjsTrash(
+    args: RestoreBucketObjsTrashCommandInput,
+    cb: (err: any, data?: RestoreBucketObjsTrashCommandOutput) => void
+  ): void;
+  public restoreBucketObjsTrash(
+    args: RestoreBucketObjsTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: RestoreBucketObjsTrashCommandOutput) => void
+  ): void;
+  public restoreBucketObjsTrash(
+    args: RestoreBucketObjsTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: RestoreBucketObjsTrashCommandOutput) => void),
+    cb?: (err: any, data?: RestoreBucketObjsTrashCommandOutput) => void
+  ): Promise<RestoreBucketObjsTrashCommandOutput> | void {
+    const command = new RestoreBucketObjsTrashCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>恢复桶回收站对象</p>
+   */
+  public restoreBucketObjTrash(
+    args: RestoreBucketObjTrashCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<RestoreBucketObjTrashCommandOutput>;
+  public restoreBucketObjTrash(
+    args: RestoreBucketObjTrashCommandInput,
+    cb: (err: any, data?: RestoreBucketObjTrashCommandOutput) => void
+  ): void;
+  public restoreBucketObjTrash(
+    args: RestoreBucketObjTrashCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: RestoreBucketObjTrashCommandOutput) => void
+  ): void;
+  public restoreBucketObjTrash(
+    args: RestoreBucketObjTrashCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: RestoreBucketObjTrashCommandOutput) => void),
+    cb?: (err: any, data?: RestoreBucketObjTrashCommandOutput) => void
+  ): Promise<RestoreBucketObjTrashCommandOutput> | void {
+    const command = new RestoreBucketObjTrashCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

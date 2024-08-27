@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { BatchAttachPolicyToMultiGroupsRequest } from "../models/models_0";
+import { BatchAttachPolicyToMultiGroupsRequest, BatchAttachPolicyToMultiGroupsResponse } from "../models/models_0";
 import {
   deserializeAws_queryBatchAttachPolicyToMultiGroupsCommand,
   serializeAws_queryBatchAttachPolicyToMultiGroupsCommand,
@@ -18,7 +18,7 @@ import {
 } from "@aws-sdk/types";
 
 export type BatchAttachPolicyToMultiGroupsCommandInput = BatchAttachPolicyToMultiGroupsRequest;
-export type BatchAttachPolicyToMultiGroupsCommandOutput = __MetadataBearer;
+export type BatchAttachPolicyToMultiGroupsCommandOutput = BatchAttachPolicyToMultiGroupsResponse & __MetadataBearer;
 
 /**
  * <p>BatchAttachPolicyToMultiGroups.</p>
@@ -57,7 +57,7 @@ export class BatchAttachPolicyToMultiGroupsCommand extends $Command<
       clientName,
       commandName,
       inputFilterSensitiveLog: BatchAttachPolicyToMultiGroupsRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      outputFilterSensitiveLog: BatchAttachPolicyToMultiGroupsResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(

@@ -514,18 +514,27 @@ import {
   BatchAddUsersToGroupRequest,
   BatchAddUsersToGroupResponse,
   BatchAttachPoliciesToGroupRequest,
+  BatchAttachPoliciesToGroupResponse,
   BatchAttachPoliciesToUserRequest,
+  BatchAttachPoliciesToUserResponse,
   BatchAttachPolicyToMultiGroupsRequest,
+  BatchAttachPolicyToMultiGroupsResponse,
   BatchAttachPolicyToMultiUsersRequest,
+  BatchAttachPolicyToMultiUsersResponse,
   BatchDeleteGroupsRequest,
   BatchDeleteGroupsResponse,
   BatchDeletePoliciesRequest,
+  BatchDeletePoliciesResponse,
   BatchDeleteUsersRequest,
   BatchDeleteUsersResponse,
   BatchDetachPoliciesFromGroupRequest,
+  BatchDetachPoliciesFromGroupResponse,
   BatchDetachPoliciesFromUserRequest,
+  BatchDetachPoliciesFromUserResponse,
   BatchDetachPolicyFromMultiGroupsRequest,
+  BatchDetachPolicyFromMultiGroupsResponse,
   BatchDetachPolicyFromMultiUsersRequest,
+  BatchDetachPolicyFromMultiUsersResponse,
   BatchErrorType,
   BatchRemoveUserFromGroupsRequest,
   BatchRemoveUserFromGroupsResponse,
@@ -726,14 +735,6 @@ import {
   ListPoliciesResponse,
   ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
-  ListRolePoliciesRequest,
-  ListRolePoliciesResponse,
-  ListRoleTagsRequest,
-  ListRoleTagsResponse,
-  ListRolesRequest,
-  ListRolesResponse,
-  ListSAMLProvidersRequest,
-  ListSAMLProvidersResponse,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -758,7 +759,6 @@ import {
   RoleDetail,
   RoleLastUsed,
   RoleUsageType,
-  SAMLProviderListEntry,
   SSHPublicKey,
   ServerCertificate,
   ServerCertificateMetadata,
@@ -783,6 +783,14 @@ import {
   InvalidCertificateException,
   InvalidPublicKeyException,
   KeyPairMismatchException,
+  ListRolePoliciesRequest,
+  ListRolePoliciesResponse,
+  ListRoleTagsRequest,
+  ListRoleTagsResponse,
+  ListRolesRequest,
+  ListRolesResponse,
+  ListSAMLProvidersRequest,
+  ListSAMLProvidersResponse,
   ListSSHPublicKeysRequest,
   ListSSHPublicKeysResponse,
   ListServerCertificatesRequest,
@@ -825,6 +833,7 @@ import {
   ResetUserPasswordRequest,
   ResourceSpecificResult,
   ResyncMFADeviceRequest,
+  SAMLProviderListEntry,
   SSHPublicKeyMetadata,
   ServiceSpecificCredentialMetadata,
   SetDefaultPolicyVersionRequest,
@@ -4785,9 +4794,12 @@ export const deserializeAws_queryBatchAttachPoliciesToGroupCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchAttachPoliciesToGroupCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAttachPoliciesToGroupResponse(data.BatchAttachPoliciesToGroupResult, context);
   const response: BatchAttachPoliciesToGroupCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -4860,9 +4872,12 @@ export const deserializeAws_queryBatchAttachPoliciesToUserCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchAttachPoliciesToUserCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAttachPoliciesToUserResponse(data.BatchAttachPoliciesToUserResult, context);
   const response: BatchAttachPoliciesToUserCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -4935,9 +4950,15 @@ export const deserializeAws_queryBatchAttachPolicyToMultiGroupsCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchAttachPolicyToMultiGroupsCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAttachPolicyToMultiGroupsResponse(
+    data.BatchAttachPolicyToMultiGroupsResult,
+    context
+  );
   const response: BatchAttachPolicyToMultiGroupsCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5010,9 +5031,15 @@ export const deserializeAws_queryBatchAttachPolicyToMultiUsersCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchAttachPolicyToMultiUsersCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchAttachPolicyToMultiUsersResponse(
+    data.BatchAttachPolicyToMultiUsersResult,
+    context
+  );
   const response: BatchAttachPolicyToMultiUsersCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5163,9 +5190,12 @@ export const deserializeAws_queryBatchDeletePoliciesCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchDeletePoliciesCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDeletePoliciesResponse(data.BatchDeletePoliciesResult, context);
   const response: BatchDeletePoliciesCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5332,9 +5362,12 @@ export const deserializeAws_queryBatchDetachPoliciesFromGroupCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchDetachPoliciesFromGroupCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDetachPoliciesFromGroupResponse(data.BatchDetachPoliciesFromGroupResult, context);
   const response: BatchDetachPoliciesFromGroupCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5407,9 +5440,12 @@ export const deserializeAws_queryBatchDetachPoliciesFromUserCommand = async (
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchDetachPoliciesFromUserCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDetachPoliciesFromUserResponse(data.BatchDetachPoliciesFromUserResult, context);
   const response: BatchDetachPoliciesFromUserCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5482,9 +5518,15 @@ export const deserializeAws_queryBatchDetachPolicyFromMultiGroupsCommand = async
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchDetachPolicyFromMultiGroupsCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDetachPolicyFromMultiGroupsResponse(
+    data.BatchDetachPolicyFromMultiGroupsResult,
+    context
+  );
   const response: BatchDetachPolicyFromMultiGroupsCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -5557,9 +5599,15 @@ export const deserializeAws_queryBatchDetachPolicyFromMultiUsersCommand = async 
   if (output.statusCode >= 300) {
     return deserializeAws_queryBatchDetachPolicyFromMultiUsersCommandError(output, context);
   }
-  await collectBody(output.body, context);
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryBatchDetachPolicyFromMultiUsersResponse(
+    data.BatchDetachPolicyFromMultiUsersResult,
+    context
+  );
   const response: BatchDetachPolicyFromMultiUsersCommandOutput = {
     $metadata: deserializeMetadata(output),
+    ...contents,
   };
   return Promise.resolve(response);
 };
@@ -21758,6 +21806,8 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     AccessKeys: undefined,
     User: undefined,
     Dedup: undefined,
+    TrashObjectNumber: undefined,
+    TrashSize: undefined,
   };
   if (output["AccountName"] !== undefined) {
     contents.AccountName = output["AccountName"];
@@ -21822,6 +21872,12 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   if (output["Dedup"] !== undefined) {
     contents.Dedup = deserializeAws_queryAccoutDedup(output["Dedup"], context);
   }
+  if (output["TrashObjectNumber"] !== undefined) {
+    contents.TrashObjectNumber = output["TrashObjectNumber"];
+  }
+  if (output["TrashSize"] !== undefined) {
+    contents.TrashSize = output["TrashSize"];
+  }
   return contents;
 };
 
@@ -21851,6 +21907,7 @@ const deserializeAws_queryAddOrDeleteType = (output: any, context: __SerdeContex
   let contents: any = {
     GroupName: undefined,
     UserName: undefined,
+    PolicyName: undefined,
   };
   if (output.GroupName === "") {
     contents.GroupName = [];
@@ -21866,6 +21923,15 @@ const deserializeAws_queryAddOrDeleteType = (output: any, context: __SerdeContex
   }
   if (output["UserName"] !== undefined && output["UserName"]["member"] !== undefined) {
     contents.UserName = deserializeAws_queryuserListType(__getArrayIfSingleItem(output["UserName"]["member"]), context);
+  }
+  if (output.PolicyName === "") {
+    contents.PolicyName = [];
+  }
+  if (output["PolicyName"] !== undefined && output["PolicyName"]["member"] !== undefined) {
+    contents.PolicyName = deserializeAws_querypolicyListType(
+      __getArrayIfSingleItem(output["PolicyName"]["member"]),
+      context
+    );
   }
   return contents;
 };
@@ -21959,11 +22025,17 @@ const deserializeAws_queryBatchAddUsersToGroupResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Added"] !== undefined) {
-    contents.Added = deserializeAws_queryAddOrDeleteType(output["Added"], context);
+  if (output.Added === "") {
+    contents.Added = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Added"] !== undefined && output["Added"]["member"] !== undefined) {
+    contents.Added = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Added"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22001,11 +22073,137 @@ const deserializeAws_queryBatchAddUserToMultiGroupsResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Added"] !== undefined) {
-    contents.Added = deserializeAws_queryAddOrDeleteType(output["Added"], context);
+  if (output.Added === "") {
+    contents.Added = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Added"] !== undefined && output["Added"]["member"] !== undefined) {
+    contents.Added = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Added"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAttachPoliciesToGroupResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAttachPoliciesToGroupResponse => {
+  let contents: any = {
+    Account: undefined,
+    Attached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Attached === "") {
+    contents.Attached = [];
+  }
+  if (output["Attached"] !== undefined && output["Attached"]["member"] !== undefined) {
+    contents.Attached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Attached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAttachPoliciesToUserResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAttachPoliciesToUserResponse => {
+  let contents: any = {
+    Account: undefined,
+    Attached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Attached === "") {
+    contents.Attached = [];
+  }
+  if (output["Attached"] !== undefined && output["Attached"]["member"] !== undefined) {
+    contents.Attached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Attached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAttachPolicyToMultiGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAttachPolicyToMultiGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Attached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Attached === "") {
+    contents.Attached = [];
+  }
+  if (output["Attached"] !== undefined && output["Attached"]["member"] !== undefined) {
+    contents.Attached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Attached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchAttachPolicyToMultiUsersResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchAttachPolicyToMultiUsersResponse => {
+  let contents: any = {
+    Account: undefined,
+    Attached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Attached === "") {
+    contents.Attached = [];
+  }
+  if (output["Attached"] !== undefined && output["Attached"]["member"] !== undefined) {
+    contents.Attached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Attached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22022,11 +22220,44 @@ const deserializeAws_queryBatchDeleteGroupsResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Deleted"] !== undefined) {
-    contents.Deleted = deserializeAws_queryAddOrDeleteType(output["Deleted"], context);
+  if (output.Deleted === "") {
+    contents.Deleted = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Deleted"] !== undefined && output["Deleted"]["member"] !== undefined) {
+    contents.Deleted = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Deleted"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDeletePoliciesResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDeletePoliciesResponse => {
+  let contents: any = {
+    Account: undefined,
+    Deleted: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Deleted === "") {
+    contents.Deleted = [];
+  }
+  if (output["Deleted"] !== undefined && output["Deleted"]["member"] !== undefined) {
+    contents.Deleted = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Deleted"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22043,11 +22274,137 @@ const deserializeAws_queryBatchDeleteUsersResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Deleted"] !== undefined) {
-    contents.Deleted = deserializeAws_queryAddOrDeleteType(output["Deleted"], context);
+  if (output.Deleted === "") {
+    contents.Deleted = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Deleted"] !== undefined && output["Deleted"]["member"] !== undefined) {
+    contents.Deleted = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Deleted"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDetachPoliciesFromGroupResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDetachPoliciesFromGroupResponse => {
+  let contents: any = {
+    Account: undefined,
+    Detached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Detached === "") {
+    contents.Detached = [];
+  }
+  if (output["Detached"] !== undefined && output["Detached"]["member"] !== undefined) {
+    contents.Detached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Detached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDetachPoliciesFromUserResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDetachPoliciesFromUserResponse => {
+  let contents: any = {
+    Account: undefined,
+    Detached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Detached === "") {
+    contents.Detached = [];
+  }
+  if (output["Detached"] !== undefined && output["Detached"]["member"] !== undefined) {
+    contents.Detached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Detached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDetachPolicyFromMultiGroupsResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDetachPolicyFromMultiGroupsResponse => {
+  let contents: any = {
+    Account: undefined,
+    Detached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Detached === "") {
+    contents.Detached = [];
+  }
+  if (output["Detached"] !== undefined && output["Detached"]["member"] !== undefined) {
+    contents.Detached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Detached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
+  }
+  return contents;
+};
+
+const deserializeAws_queryBatchDetachPolicyFromMultiUsersResponse = (
+  output: any,
+  context: __SerdeContext
+): BatchDetachPolicyFromMultiUsersResponse => {
+  let contents: any = {
+    Account: undefined,
+    Detached: undefined,
+    Error: undefined,
+  };
+  if (output["Account"] !== undefined) {
+    contents.Account = deserializeAws_queryAccountType(output["Account"], context);
+  }
+  if (output.Detached === "") {
+    contents.Detached = [];
+  }
+  if (output["Detached"] !== undefined && output["Detached"]["member"] !== undefined) {
+    contents.Detached = deserializeAws_queryresultListType(
+      __getArrayIfSingleItem(output["Detached"]["member"]),
+      context
+    );
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22060,7 +22417,7 @@ const deserializeAws_queryBatchErrorType = (output: any, context: __SerdeContext
     contents.ErrorInfo = [];
   }
   if (output["ErrorInfo"] !== undefined && output["ErrorInfo"]["member"] !== undefined) {
-    contents.ErrorInfo = deserializeAws_queryerrorListType(
+    contents.ErrorInfo = deserializeAws_queryresultListType(
       __getArrayIfSingleItem(output["ErrorInfo"]["member"]),
       context
     );
@@ -22101,11 +22458,17 @@ const deserializeAws_queryBatchRemoveUserFromMultiGroupsResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Removed"] !== undefined) {
-    contents.Removed = deserializeAws_queryAddOrDeleteType(output["Removed"], context);
+  if (output.Removed === "") {
+    contents.Removed = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Removed"] !== undefined && output["Removed"]["member"] !== undefined) {
+    contents.Removed = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Removed"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22122,11 +22485,17 @@ const deserializeAws_queryBatchRemoveUsersFromGroupResponse = (
   if (output["Account"] !== undefined) {
     contents.Account = deserializeAws_queryAccountType(output["Account"], context);
   }
-  if (output["Removed"] !== undefined) {
-    contents.Removed = deserializeAws_queryAddOrDeleteType(output["Removed"], context);
+  if (output.Removed === "") {
+    contents.Removed = [];
   }
-  if (output["Error"] !== undefined) {
-    contents.Error = deserializeAws_queryBatchErrorType(output["Error"], context);
+  if (output["Removed"] !== undefined && output["Removed"]["member"] !== undefined) {
+    contents.Removed = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Removed"]["member"]), context);
+  }
+  if (output.Error === "") {
+    contents.Error = [];
+  }
+  if (output["Error"] !== undefined && output["Error"]["member"] !== undefined) {
+    contents.Error = deserializeAws_queryresultListType(__getArrayIfSingleItem(output["Error"]["member"]), context);
   }
   return contents;
 };
@@ -22600,6 +22969,7 @@ const deserializeAws_queryErrorInfo = (output: any, context: __SerdeContext): Er
   let contents: any = {
     UserName: undefined,
     GroupName: undefined,
+    PolicyName: undefined,
     Code: undefined,
     Message: undefined,
   };
@@ -22609,6 +22979,9 @@ const deserializeAws_queryErrorInfo = (output: any, context: __SerdeContext): Er
   if (output["GroupName"] !== undefined) {
     contents.GroupName = output["GroupName"];
   }
+  if (output["PolicyName"] !== undefined) {
+    contents.PolicyName = output["PolicyName"];
+  }
   if (output["Code"] !== undefined) {
     contents.Code = output["Code"];
   }
@@ -22616,17 +22989,6 @@ const deserializeAws_queryErrorInfo = (output: any, context: __SerdeContext): Er
     contents.Message = output["Message"];
   }
   return contents;
-};
-
-const deserializeAws_queryerrorListType = (output: any, context: __SerdeContext): ErrorInfo[] => {
-  return (output || [])
-    .filter((e: any) => e != null)
-    .map((entry: any) => {
-      if (entry === null) {
-        return null as any;
-      }
-      return deserializeAws_queryErrorInfo(entry, context);
-    });
 };
 
 const deserializeAws_queryEvalDecisionDetailsType = (
@@ -25262,6 +25624,17 @@ const deserializeAws_queryResourceSpecificResultListType = (
         return null as any;
       }
       return deserializeAws_queryResourceSpecificResult(entry, context);
+    });
+};
+
+const deserializeAws_queryresultListType = (output: any, context: __SerdeContext): ErrorInfo[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_queryErrorInfo(entry, context);
     });
 };
 

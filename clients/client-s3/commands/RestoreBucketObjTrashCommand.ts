@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectWORMOutput, GetObjectWORMRequest } from "../models/models_1";
+import { RestoreBucketObjTrashRequest } from "../models/models_1";
 import {
-  deserializeAws_restXmlGetObjectWORMCommand,
-  serializeAws_restXmlGetObjectWORMCommand,
+  deserializeAws_restXmlRestoreBucketObjTrashCommand,
+  serializeAws_restXmlRestoreBucketObjTrashCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetObjectWORMCommandInput = GetObjectWORMRequest;
-export type GetObjectWORMCommandOutput = GetObjectWORMOutput & __MetadataBearer;
+export type RestoreBucketObjTrashCommandInput = RestoreBucketObjTrashRequest;
+export type RestoreBucketObjTrashCommandOutput = __MetadataBearer;
 
 /**
- * <p>Retrieves an object's WORM settings.</p>
+ * <p>恢复桶回收站对象</p>
  */
-export class GetObjectWORMCommand extends $Command<
-  GetObjectWORMCommandInput,
-  GetObjectWORMCommandOutput,
+export class RestoreBucketObjTrashCommand extends $Command<
+  RestoreBucketObjTrashCommandInput,
+  RestoreBucketObjTrashCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetObjectWORMCommandInput) {
+  constructor(readonly input: RestoreBucketObjTrashCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class GetObjectWORMCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetObjectWORMCommandInput, GetObjectWORMCommandOutput> {
+  ): Handler<RestoreBucketObjTrashCommandInput, RestoreBucketObjTrashCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class GetObjectWORMCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetObjectWORMCommand";
+    const commandName = "RestoreBucketObjTrashCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetObjectWORMRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetObjectWORMOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: RestoreBucketObjTrashRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class GetObjectWORMCommand extends $Command<
     );
   }
 
-  private serialize(input: GetObjectWORMCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetObjectWORMCommand(input, context);
+  private serialize(input: RestoreBucketObjTrashCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlRestoreBucketObjTrashCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetObjectWORMCommandOutput> {
-    return deserializeAws_restXmlGetObjectWORMCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<RestoreBucketObjTrashCommandOutput> {
+    return deserializeAws_restXmlRestoreBucketObjTrashCommand(output, context);
   }
 
   // Start section: command_body_extra

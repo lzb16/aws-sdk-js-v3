@@ -955,6 +955,12 @@
           "traits": {
             "smithy.api#documentation": "账户重删数据"
           }
+        },
+        "TrashObjectNumber": {
+          "target": "com.amazonaws.iam#stringType"
+        },
+        "TrashSize": {
+          "target": "com.amazonaws.iam#stringType"
         }
       },
       "traits": {
@@ -1229,10 +1235,10 @@
           }
         },
         "Removed": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -1287,10 +1293,10 @@
           }
         },
         "Added": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -1346,10 +1352,10 @@
           }
         },
         "Added": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -4180,6 +4186,9 @@
       "input": {
         "target": "com.amazonaws.iam#BatchDeletePoliciesRequest"
       },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDeletePoliciesResponse"
+      },
       "errors": [
         {
           "target": "com.amazonaws.iam#DeleteConflictException"
@@ -4211,6 +4220,27 @@
             "smithy.api#required": {}
           }
         }
+      }
+    },
+    "com.amazonaws.iam#BatchDeletePoliciesResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Deleted": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
       }
     },
     "com.amazonaws.iam#UpdatePolicyDescription": {
@@ -4260,6 +4290,9 @@
       "input": {
         "target": "com.amazonaws.iam#BatchAttachPoliciesToUserRequest"
       },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAttachPoliciesToUserResponse"
+      },
       "errors": [
         {
           "target": "com.amazonaws.iam#InvalidInputException"
@@ -4297,10 +4330,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchAttachPoliciesToUserResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Attached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchAttachPolicyToMultiUsers": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchAttachPolicyToMultiUsersRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAttachPolicyToMultiUsersResponse"
       },
       "errors": [
         {
@@ -4339,10 +4396,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiUsersResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Attached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchDetachPoliciesFromUser": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchDetachPoliciesFromUserRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDetachPoliciesFromUserResponse"
       },
       "errors": [
         {
@@ -4381,10 +4462,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchDetachPoliciesFromUserResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Detached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchDetachPolicyFromMultiUsers": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiUsersRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiUsersResponse"
       },
       "errors": [
         {
@@ -4423,10 +4528,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiUsersResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Detached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchAttachPoliciesToGroup": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchAttachPoliciesToGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAttachPoliciesToGroupResponse"
       },
       "errors": [
         {
@@ -4465,10 +4594,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchAttachPoliciesToGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Attached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchAttachPolicyToMultiGroups": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchAttachPolicyToMultiGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchAttachPolicyToMultiGroupsResponse"
       },
       "errors": [
         {
@@ -4507,10 +4660,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchAttachPolicyToMultiGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Attached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchDetachPoliciesFromGroup": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchDetachPoliciesFromGroupRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDetachPoliciesFromGroupResponse"
       },
       "errors": [
         {
@@ -4549,10 +4726,34 @@
         }
       }
     },
+    "com.amazonaws.iam#BatchDetachPoliciesFromGroupResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Detached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
+      }
+    },
     "com.amazonaws.iam#BatchDetachPolicyFromMultiGroups": {
       "type": "operation",
       "input": {
         "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiGroupsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#BatchDetachPolicyFromMultiGroupsResponse"
       },
       "errors": [
         {
@@ -4589,6 +4790,27 @@
             "smithy.api#required": {}
           }
         }
+      }
+    },
+    "com.amazonaws.iam#BatchDetachPolicyFromMultiGroupsResponse": {
+      "type": "structure",
+      "members": {
+        "Account": {
+          "target": "com.amazonaws.iam#AccountType",
+          "traits": {
+            "smithy.api#documentation": "<p>The account to create.</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Detached": {
+          "target": "com.amazonaws.iam#resultListType"
+        },
+        "Error": {
+          "target": "com.amazonaws.iam#resultListType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Contains the response to a successful <a>GenerateCredentialReport</a>\n      request. </p>"
       }
     },
     "com.amazonaws.iam#DeletePolicyVersion": {
@@ -5125,10 +5347,10 @@
           }
         },
         "Deleted": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -5154,10 +5376,10 @@
           }
         },
         "Deleted": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -11267,10 +11489,10 @@
           }
         },
         "Removed": {
-          "target": "com.amazonaws.iam#addOrDeleteType"
+          "target": "com.amazonaws.iam#resultListType"
         },
         "Error": {
-          "target": "com.amazonaws.iam#batchErrorType"
+          "target": "com.amazonaws.iam#resultListType"
         }
       },
       "traits": {
@@ -15873,7 +16095,7 @@
         "target": "com.amazonaws.iam#userNameType"
       }
     },
-    "com.amazonaws.iam#errorListType": {
+    "com.amazonaws.iam#resultListType": {
       "type": "list",
       "member": {
         "target": "com.amazonaws.iam#ErrorInfo"
@@ -15896,6 +16118,12 @@
           "traits": {
             "smithy.api#documentation": "<p>A list of users in the group.</p>"
           }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyListType",
+          "traits": {
+            "smithy.api#documentation": "<p>A list of policy.</p>"
+          }
         }
       }
     },
@@ -15903,7 +16131,7 @@
       "type": "structure",
       "members": {
         "ErrorInfo": {
-          "target": "com.amazonaws.iam#errorListType",
+          "target": "com.amazonaws.iam#resultListType",
           "traits": {
             "smithy.api#documentation": "<p>A list of users in the group.</p>"
           }
@@ -15923,6 +16151,12 @@
           "target": "com.amazonaws.iam#groupNameType",
           "traits": {
             "smithy.api#documentation": "<p>Name of the IAM group to update. If you're changing the name of the group, this is the\n         original name.</p>\n         <p>This parameter allows (through its <a href=\"http://wikipedia.org/wiki/regex\">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric \n    characters with no spaces. You can also include any of the following characters: _+=,.@-</p>"
+          }
+        },
+        "PolicyName": {
+          "target": "com.amazonaws.iam#policyNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>The friendly name identifying the iam policy.</p>"
           }
         },
         "Code": {

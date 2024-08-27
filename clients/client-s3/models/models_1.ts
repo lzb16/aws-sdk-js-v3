@@ -5,7 +5,9 @@ import {
   Bucket,
   BucketCannedACL,
   BucketLifecycleConfiguration,
+  BucketTrashObj,
   CORSConfiguration,
+  DeletedObject,
   ErrorDocument,
   Grant,
   IndexDocument,
@@ -15,17 +17,17 @@ import {
   MetaSearchConfiguration,
   MetricsConfiguration,
   NotificationConfiguration,
-  OSCPPolicy,
   ObjectCannedACL,
   ObjectLockConfiguration,
   ObjectLockLegalHold,
   ObjectLockLegalHoldStatus,
   ObjectLockMode,
   ObjectLockRetention,
+  ObjectSizeRange,
+  ObjectStorageClass,
   Owner,
   OwnershipControls,
   Payer,
-  PublicAccessBlockConfiguration,
   QoSConfiguration,
   Quota,
   RedirectAllRequestsTo,
@@ -42,12 +44,918 @@ import {
   StatisticConfiguration,
   StorageClass,
   Tag,
+  TagMultiInOrMode,
+  Trash,
   VersioningConfiguration,
-  WORM,
+  _Error,
 } from "./models_0";
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface GetObjectTaggingRequest {
+  /**
+   * <p>The bucket name containing the object for which to get the tagging information. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Object key for which to get the tagging information.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The versionId of the object for which to get the tagging information.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectTaggingRequest {
+  export const filterSensitiveLog = (obj: GetObjectTaggingRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectTorrentOutput {
+  /**
+   * <p>A Bencoded dictionary as defined by the BitTorrent specification</p>
+   */
+  Body?: Readable | ReadableStream | Blob;
+
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace GetObjectTorrentOutput {
+  export const filterSensitiveLog = (obj: GetObjectTorrentOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectTorrentRequest {
+  /**
+   * <p>The name of the bucket containing the object for which to get the torrent files.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The object key for which to get the information.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectTorrentRequest {
+  export const filterSensitiveLog = (obj: GetObjectTorrentRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A Retention configuration for an object.</p>
+ */
+export interface WORM {
+  /**
+   * <p>宽限期</p>
+   */
+  GraceUntilDate?: Date;
+
+  /**
+   * <p>The date on which this Object WORM will expire.</p>
+   */
+  RetainUntilDate?: Date;
+}
+
+export namespace WORM {
+  export const filterSensitiveLog = (obj: WORM): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectWORMOutput {
+  /**
+   * <p>The container element for an object's retention settings.</p>
+   */
+  WORM?: WORM;
+}
+
+export namespace GetObjectWORMOutput {
+  export const filterSensitiveLog = (obj: GetObjectWORMOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectWORMRequest {
+  /**
+   * <p>The bucket name containing the object whose retention settings you want to retrieve. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object whose retention settings you want to retrieve.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The version ID for the object whose retention settings you want to retrieve.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectWORMRequest {
+  export const filterSensitiveLog = (obj: GetObjectWORMRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A metadata key-value pair to store with an object.</p>
+ */
+export interface UserMetadataSingle {
+  /**
+   * <p>Name of the Object.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>Value of the Object.</p>
+   */
+  Value?: string;
+}
+
+export namespace UserMetadataSingle {
+  export const filterSensitiveLog = (obj: UserMetadataSingle): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+ *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+ *          configured inside the And operator.</p>
+ */
+export interface OSCPPolicyAndRuleOperator {
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  PrefixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Suffix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  SuffixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeBetween?: ObjectSizeRange;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  UserMetadata?: UserMetadataSingle;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  Tags?: Tag[];
+}
+
+export namespace OSCPPolicyAndRuleOperator {
+  export const filterSensitiveLog = (obj: OSCPPolicyAndRuleOperator): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+ *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+ *          configured inside the And operator.</p>
+ */
+export interface OSCPPolicyOrRuleOperator {
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  PrefixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  Suffix?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  SuffixNotMatch?: string;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeLessThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeBetween?: ObjectSizeRange;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThanOrEqualTo?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  ObjectSizeGreaterThan?: number;
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  UserMetadata?: UserMetadataSingle;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  Tag?: Tag;
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to
+   *          apply.</p>
+   */
+  And?: TagMultiInOrMode;
+}
+
+export namespace OSCPPolicyOrRuleOperator {
+  export const filterSensitiveLog = (obj: OSCPPolicyOrRuleOperator): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A
+ *             <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or
+ *             <code>And</code> specified.</p>
+ */
+export type OSCPPolicyFilter =
+  | OSCPPolicyFilter.AndMember
+  | OSCPPolicyFilter.ObjectSizeBetweenMember
+  | OSCPPolicyFilter.ObjectSizeEqualToMember
+  | OSCPPolicyFilter.ObjectSizeGreaterThanMember
+  | OSCPPolicyFilter.ObjectSizeGreaterThanOrEqualToMember
+  | OSCPPolicyFilter.ObjectSizeLessThanMember
+  | OSCPPolicyFilter.ObjectSizeLessThanOrEqualToMember
+  | OSCPPolicyFilter.OrMember
+  | OSCPPolicyFilter.PrefixMember
+  | OSCPPolicyFilter.PrefixNotMatchMember
+  | OSCPPolicyFilter.SuffixMember
+  | OSCPPolicyFilter.SuffixNotMatchMember
+  | OSCPPolicyFilter.TagMember
+  | OSCPPolicyFilter.UserMetadataMember
+  | OSCPPolicyFilter.$UnknownMember;
+
+export namespace OSCPPolicyFilter {
+  /**
+   * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+   *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+   *          configured inside the And operator.</p>
+   */
+  export interface AndMember {
+    And: OSCPPolicyAndRuleOperator;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>This is used in a Lifecycle Rule Filter to apply a logical AND to two or more
+   *          predicates. The Lifecycle Rule will apply to any object matching all of the predicates
+   *          configured inside the And operator.</p>
+   */
+  export interface OrMember {
+    And?: never;
+    Or: OSCPPolicyOrRuleOperator;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>All of these tags must exist in the object's tag set in order for the rule to apply.</p>
+   */
+  export interface TagMember {
+    And?: never;
+    Or?: never;
+    Tag: Tag;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix: string;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface PrefixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch: string;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix: string;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface SuffixNotMatchMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch: string;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan: number;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeLessThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo: number;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeEqualToMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo: number;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeBetweenMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween: ObjectSizeRange;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanOrEqualToMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo: number;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface ObjectSizeGreaterThanMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan: number;
+    UserMetadata?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Prefix identifying one or more objects to which the rule applies.</p>
+   */
+  export interface UserMetadataMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata: UserMetadataSingle;
+    $unknown?: never;
+  }
+
+  export interface $UnknownMember {
+    And?: never;
+    Or?: never;
+    Tag?: never;
+    Prefix?: never;
+    PrefixNotMatch?: never;
+    Suffix?: never;
+    SuffixNotMatch?: never;
+    ObjectSizeLessThan?: never;
+    ObjectSizeLessThanOrEqualTo?: never;
+    ObjectSizeEqualTo?: never;
+    ObjectSizeBetween?: never;
+    ObjectSizeGreaterThanOrEqualTo?: never;
+    ObjectSizeGreaterThan?: never;
+    UserMetadata?: never;
+    $unknown: [string, any];
+  }
+
+  export interface Visitor<T> {
+    And: (value: OSCPPolicyAndRuleOperator) => T;
+    Or: (value: OSCPPolicyOrRuleOperator) => T;
+    Tag: (value: Tag) => T;
+    Prefix: (value: string) => T;
+    PrefixNotMatch: (value: string) => T;
+    Suffix: (value: string) => T;
+    SuffixNotMatch: (value: string) => T;
+    ObjectSizeLessThan: (value: number) => T;
+    ObjectSizeLessThanOrEqualTo: (value: number) => T;
+    ObjectSizeEqualTo: (value: number) => T;
+    ObjectSizeBetween: (value: ObjectSizeRange) => T;
+    ObjectSizeGreaterThanOrEqualTo: (value: number) => T;
+    ObjectSizeGreaterThan: (value: number) => T;
+    UserMetadata: (value: UserMetadataSingle) => T;
+    _: (name: string, value: any) => T;
+  }
+
+  export const visit = <T>(value: OSCPPolicyFilter, visitor: Visitor<T>): T => {
+    if (value.And !== undefined) return visitor.And(value.And);
+    if (value.Or !== undefined) return visitor.Or(value.Or);
+    if (value.Tag !== undefined) return visitor.Tag(value.Tag);
+    if (value.Prefix !== undefined) return visitor.Prefix(value.Prefix);
+    if (value.PrefixNotMatch !== undefined) return visitor.PrefixNotMatch(value.PrefixNotMatch);
+    if (value.Suffix !== undefined) return visitor.Suffix(value.Suffix);
+    if (value.SuffixNotMatch !== undefined) return visitor.SuffixNotMatch(value.SuffixNotMatch);
+    if (value.ObjectSizeLessThan !== undefined) return visitor.ObjectSizeLessThan(value.ObjectSizeLessThan);
+    if (value.ObjectSizeLessThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeLessThanOrEqualTo(value.ObjectSizeLessThanOrEqualTo);
+    if (value.ObjectSizeEqualTo !== undefined) return visitor.ObjectSizeEqualTo(value.ObjectSizeEqualTo);
+    if (value.ObjectSizeBetween !== undefined) return visitor.ObjectSizeBetween(value.ObjectSizeBetween);
+    if (value.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return visitor.ObjectSizeGreaterThanOrEqualTo(value.ObjectSizeGreaterThanOrEqualTo);
+    if (value.ObjectSizeGreaterThan !== undefined) return visitor.ObjectSizeGreaterThan(value.ObjectSizeGreaterThan);
+    if (value.UserMetadata !== undefined) return visitor.UserMetadata(value.UserMetadata);
+    return visitor._(value.$unknown[0], value.$unknown[1]);
+  };
+
+  export const filterSensitiveLog = (obj: OSCPPolicyFilter): any => {
+    if (obj.And !== undefined) return { And: OSCPPolicyAndRuleOperator.filterSensitiveLog(obj.And) };
+    if (obj.Or !== undefined) return { Or: OSCPPolicyOrRuleOperator.filterSensitiveLog(obj.Or) };
+    if (obj.Tag !== undefined) return { Tag: Tag.filterSensitiveLog(obj.Tag) };
+    if (obj.Prefix !== undefined) return { Prefix: obj.Prefix };
+    if (obj.PrefixNotMatch !== undefined) return { PrefixNotMatch: obj.PrefixNotMatch };
+    if (obj.Suffix !== undefined) return { Suffix: obj.Suffix };
+    if (obj.SuffixNotMatch !== undefined) return { SuffixNotMatch: obj.SuffixNotMatch };
+    if (obj.ObjectSizeLessThan !== undefined) return { ObjectSizeLessThan: obj.ObjectSizeLessThan };
+    if (obj.ObjectSizeLessThanOrEqualTo !== undefined)
+      return { ObjectSizeLessThanOrEqualTo: obj.ObjectSizeLessThanOrEqualTo };
+    if (obj.ObjectSizeEqualTo !== undefined) return { ObjectSizeEqualTo: obj.ObjectSizeEqualTo };
+    if (obj.ObjectSizeBetween !== undefined)
+      return { ObjectSizeBetween: ObjectSizeRange.filterSensitiveLog(obj.ObjectSizeBetween) };
+    if (obj.ObjectSizeGreaterThanOrEqualTo !== undefined)
+      return { ObjectSizeGreaterThanOrEqualTo: obj.ObjectSizeGreaterThanOrEqualTo };
+    if (obj.ObjectSizeGreaterThan !== undefined) return { ObjectSizeGreaterThan: obj.ObjectSizeGreaterThan };
+    if (obj.UserMetadata !== undefined)
+      return { UserMetadata: UserMetadataSingle.filterSensitiveLog(obj.UserMetadata) };
+    if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
+  };
+}
+
+/**
+ * <p>A lifecycle rule for individual objects in an Amazon S3 bucket.</p>
+ */
+export interface OSCPPolicy {
+  /**
+   * <p>Unique identifier for the rule. The value cannot be longer than 255 characters.</p>
+   */
+  ID?: string;
+
+  /**
+   * <p>The <code>Filter</code> is used to identify objects that a Lifecycle Rule applies to. A
+   *          <code>Filter</code> must have exactly one of <code>Prefix</code>, <code>Tag</code>, or
+   *          <code>And</code> specified. <code>Filter</code> is required if the <code>LifecycleRule</code>
+   *          does not containt a <code>Prefix</code> element.</p>
+   */
+  Filter?: OSCPPolicyFilter;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  Priority?: number;
+
+  /**
+   * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
+   *          STANDARD storage class provides high durability and high availability. Depending on
+   *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
+   *          the OUTPOSTS Storage Class. For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage Classes</a> in the
+   *          <i>Amazon S3 User Guide</i>.</p>
+   */
+  Comment?: string;
+}
+
+export namespace OSCPPolicy {
+  export const filterSensitiveLog = (obj: OSCPPolicy): any => ({
+    ...obj,
+    ...(obj.Filter && { Filter: OSCPPolicyFilter.filterSensitiveLog(obj.Filter) }),
+  });
+}
+
+export interface GetOSCPConfigurationOutput {
+  /**
+   * <p>Container for a lifecycle rule.</p>
+   */
+  Policies?: OSCPPolicy[];
+}
+
+export namespace GetOSCPConfigurationOutput {
+  export const filterSensitiveLog = (obj: GetOSCPConfigurationOutput): any => ({
+    ...obj,
+    ...(obj.Policies && { Policies: obj.Policies.map((item) => OSCPPolicy.filterSensitiveLog(item)) }),
+  });
+}
+
+export interface GetOSCPConfigurationRequest {
+  /**
+   * <p>The name of the bucket for which to get the lifecycle information.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetOSCPConfigurationRequest {
+  export const filterSensitiveLog = (obj: GetOSCPConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can
+ *          enable the configuration options in any combination. For more information about when Amazon S3
+ *          considers a bucket or object public, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer Guide</i>. </p>
+ */
+export interface PublicAccessBlockConfiguration {
+  /**
+   * <p>Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket
+   *          and objects in this bucket. Setting this element to <code>TRUE</code> causes the following
+   *          behavior:</p>
+   *          <ul>
+   *             <li>
+   *                <p>PUT Bucket acl and PUT Object acl calls fail if the specified ACL is
+   *                public.</p>
+   *             </li>
+   *             <li>
+   *                <p>PUT Object calls fail if the request includes a public ACL.</p>
+   *             </li>
+   *             <li>
+   *                <p>PUT Bucket calls fail if the request includes a public ACL.</p>
+   *             </li>
+   *          </ul>
+   *          <p>Enabling this setting doesn't affect existing policies or ACLs.</p>
+   */
+  BlockPublicAcls?: boolean;
+
+  /**
+   * <p>Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this
+   *          bucket. Setting this element to <code>TRUE</code> causes Amazon S3 to ignore all public ACLs on
+   *          this bucket and objects in this bucket.</p>
+   *          <p>Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't
+   *          prevent new public ACLs from being set.</p>
+   */
+  IgnorePublicAcls?: boolean;
+
+  /**
+   * <p>Specifies whether Amazon S3 should block public bucket policies for this bucket. Setting this
+   *          element to <code>TRUE</code> causes Amazon S3 to reject calls to PUT Bucket policy if the
+   *          specified bucket policy allows public access. </p>
+   *          <p>Enabling this setting doesn't affect existing bucket policies.</p>
+   */
+  BlockPublicPolicy?: boolean;
+
+  /**
+   * <p>Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting
+   *          this element to <code>TRUE</code> restricts access to this bucket to only AWS service
+   *          principals and authorized users within this account if the bucket has a public
+   *          policy.</p>
+   *          <p>Enabling this setting doesn't affect previously stored bucket policies, except that
+   *          public and cross-account access within any public bucket policy, including non-public
+   *          delegation to specific accounts, is blocked.</p>
+   */
+  RestrictPublicBuckets?: boolean;
+}
+
+export namespace PublicAccessBlockConfiguration {
+  export const filterSensitiveLog = (obj: PublicAccessBlockConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface GetPublicAccessBlockOutput {
+  /**
+   * <p>The <code>PublicAccessBlock</code> configuration currently in effect for this Amazon S3
+   *          bucket.</p>
+   */
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
+}
+
+export namespace GetPublicAccessBlockOutput {
+  export const filterSensitiveLog = (obj: GetPublicAccessBlockOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetPublicAccessBlockRequest {
+  /**
+   * <p>The name of the Amazon S3 bucket whose <code>PublicAccessBlock</code> configuration you want
+   *          to retrieve. </p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetPublicAccessBlockRequest {
+  export const filterSensitiveLog = (obj: GetPublicAccessBlockRequest): any => ({
+    ...obj,
+  });
+}
 
 export interface GetRefererOutput {
   /**
@@ -325,6 +1233,34 @@ export namespace NoSuchBucket {
   });
 }
 
+export interface HeadBucketObjTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Token: string | undefined;
+
+  /**
+   * <p>Custom header, when you don't want return Content-Length, set true.</p>
+   */
+  WithoutContentLength?: boolean;
+}
+
+export namespace HeadBucketObjTrashRequest {
+  export const filterSensitiveLog = (obj: HeadBucketObjTrashRequest): any => ({
+    ...obj,
+  });
+}
+
 export type ArchiveStatus = "ARCHIVE_ACCESS" | "DEEP_ARCHIVE_ACCESS";
 
 export interface HeadObjectOutput {
@@ -379,6 +1315,11 @@ export interface HeadObjectOutput {
    * <p>Last modified date of the object</p>
    */
   LastModified?: Date;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  DeletedTime?: Date;
 
   /**
    * <p>Size of the body in bytes.</p>
@@ -1369,16 +2310,6 @@ export namespace ListMultipartUploadsRequest {
   });
 }
 
-export type ObjectStorageClass =
-  | "DEEP_ARCHIVE"
-  | "GLACIER"
-  | "INTELLIGENT_TIERING"
-  | "ONEZONE_IA"
-  | "OUTPOSTS"
-  | "REDUCED_REDUNDANCY"
-  | "STANDARD"
-  | "STANDARD_IA";
-
 /**
  * <p>An object consists of data and its descriptive metadata.</p>
  */
@@ -2312,6 +3243,19 @@ export namespace PostBucketRestoreRequest {
   });
 }
 
+export interface PostBucketTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+}
+
+export namespace PostBucketTrashRequest {
+  export const filterSensitiveLog = (obj: PostBucketTrashRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface PutBucketAccelerateConfigurationRequest {
   /**
    * <p>The name of the bucket for which the accelerate configuration is set.</p>
@@ -3099,6 +4043,24 @@ export interface PutBucketTaggingRequest {
 
 export namespace PutBucketTaggingRequest {
   export const filterSensitiveLog = (obj: PutBucketTaggingRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>回收站配置信息</p>
+   */
+  Trash?: Trash;
+}
+
+export namespace PutBucketTrashRequest {
+  export const filterSensitiveLog = (obj: PutBucketTrashRequest): any => ({
     ...obj,
   });
 }
@@ -4322,6 +5284,106 @@ export interface PutWORMRetainPeriodRequest {
 
 export namespace PutWORMRetainPeriodRequest {
   export const filterSensitiveLog = (obj: PutWORMRetainPeriodRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RestoreBucketObjs {
+  /**
+   * <p>恢复对象的结果/p>
+   */
+  Restored?: DeletedObject[];
+
+  /**
+   * <p>Container for a failed delete operation that describes the object that Amazon S3 attempted to
+   *          delete and the error it encountered.</p>
+   */
+  Errors?: _Error[];
+}
+
+export namespace RestoreBucketObjs {
+  export const filterSensitiveLog = (obj: RestoreBucketObjs): any => ({
+    ...obj,
+  });
+}
+
+export interface RestoreBucketObjsTrashOutput {
+  /**
+   * <p>恢复对象的结果/p>
+   */
+  RestoreResult?: RestoreBucketObjs;
+}
+
+export namespace RestoreBucketObjsTrashOutput {
+  export const filterSensitiveLog = (obj: RestoreBucketObjsTrashOutput): any => ({
+    ...obj,
+  });
+}
+
+export type BucketTrashPolicy = "overwrite" | "skip";
+
+export interface BucketObjsTrashInfo {
+  Policy?: BucketTrashPolicy | string;
+  /**
+   * <p>The objects to delete.</p>
+   */
+  Objects: BucketTrashObj[] | undefined;
+
+  /**
+   * <p>Element to enable quiet mode for the request. When you add this element, you must set
+   *          its value to true.</p>
+   */
+  Quiet?: boolean;
+}
+
+export namespace BucketObjsTrashInfo {
+  export const filterSensitiveLog = (obj: BucketObjsTrashInfo): any => ({
+    ...obj,
+  });
+}
+
+export interface RestoreBucketObjsTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>对象信息</p>
+   */
+  Restore: BucketObjsTrashInfo | undefined;
+}
+
+export namespace RestoreBucketObjsTrashRequest {
+  export const filterSensitiveLog = (obj: RestoreBucketObjsTrashRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface RestoreBucketObjTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Token: string | undefined;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Policy: BucketTrashPolicy | string | undefined;
+}
+
+export namespace RestoreBucketObjTrashRequest {
+  export const filterSensitiveLog = (obj: RestoreBucketObjTrashRequest): any => ({
     ...obj,
   });
 }

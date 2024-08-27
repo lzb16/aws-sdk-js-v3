@@ -15,6 +15,264 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 
+export interface ListRolePoliciesRequest {
+  /**
+   * <p>The name of the role to list policies for.</p>
+   *          <p>This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListRolePoliciesRequest {
+  export const filterSensitiveLog = (obj: ListRolePoliciesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListRolePolicies</a> request.
+ *     </p>
+ */
+export interface ListRolePoliciesResponse {
+  /**
+   * <p>A list of policy names.</p>
+   */
+  PolicyNames: string[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListRolePoliciesResponse {
+  export const filterSensitiveLog = (obj: ListRolePoliciesResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListRolesRequest {
+  /**
+   * <p> The path prefix for filtering the results. For example, the prefix
+   *             <code>/application_abc/component_xyz/</code> gets all roles whose path starts with
+   *             <code>/application_abc/component_xyz/</code>.</p>
+   *          <p>This parameter is optional. If it is not included, it defaults to a slash (/), listing
+   *          all roles. This parameter allows (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters consisting
+   *     of either a forward slash (/) by itself or a string that must begin and end with forward slashes.
+   *     In addition, it can contain any ASCII character from the ! (<code>\u0021</code>) through the DEL character (<code>\u007F</code>), including
+   *     most punctuation characters, digits, and upper and lowercased letters.</p>
+   */
+  PathPrefix?: string;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Use this only when paginating results to indicate the
+   *     maximum number of items you want in the response. If additional items exist beyond the maximum
+   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
+   *     IAM might return fewer results, even when there are more results available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListRolesRequest {
+  export const filterSensitiveLog = (obj: ListRolesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListRoles</a> request. </p>
+ */
+export interface ListRolesResponse {
+  /**
+   * <p>A list of roles.</p>
+   */
+  Roles: Role[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListRolesResponse {
+  export const filterSensitiveLog = (obj: ListRolesResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListRoleTagsRequest {
+  /**
+   * <p>The name of the IAM role for which you want to see the list of tags.</p>
+   *          <p>This parameter accepts (through its <a href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of characters that consist of upper and lowercase alphanumeric
+   *     characters with no spaces. You can also include any of the following characters: _+=,.@-</p>
+   */
+  RoleName: string | undefined;
+
+  /**
+   * <p>Use this parameter only when paginating results and only after
+   *     you receive a response indicating that the results are truncated. Set it to the value of the
+   *     <code>Marker</code> element in the response that you received to indicate where the next call
+   *     should start.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>(Optional) Use this only when paginating results to indicate the
+   *     maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
+   *          <p>If you do not include this parameter, it defaults to 100. Note that
+   *     IAM might return fewer results, even when more results are available. In that case, the
+   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
+   *     contains a value to include in the subsequent call that tells the service where to continue
+   *     from.</p>
+   */
+  MaxItems?: number;
+}
+
+export namespace ListRoleTagsRequest {
+  export const filterSensitiveLog = (obj: ListRoleTagsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ListRoleTagsResponse {
+  /**
+   * <p>The list of tags currently that is attached to the role. Each tag consists of a key
+   *       name and an associated value. If no tags are attached to the specified role, the response
+   *       contains an empty list.</p>
+   */
+  Tags: Tag[] | undefined;
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can use the <code>Marker</code> request parameter to make a subsequent pagination request that retrieves more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when more results are available. Check <code>IsTruncated</code> after every call to ensure that you receive all of your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListRoleTagsResponse {
+  export const filterSensitiveLog = (obj: ListRoleTagsResponse): any => ({
+    ...obj,
+  });
+}
+
+export interface ListSAMLProvidersRequest {}
+
+export namespace ListSAMLProvidersRequest {
+  export const filterSensitiveLog = (obj: ListSAMLProvidersRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the list of SAML providers for this account.</p>
+ */
+export interface SAMLProviderListEntry {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the SAML provider.</p>
+   */
+  Arn?: string;
+
+  /**
+   * <p>The expiration date and time for the SAML provider.</p>
+   */
+  ValidUntil?: Date;
+
+  /**
+   * <p>The date and time when the SAML provider was created.</p>
+   */
+  CreateDate?: Date;
+}
+
+export namespace SAMLProviderListEntry {
+  export const filterSensitiveLog = (obj: SAMLProviderListEntry): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListSAMLProviders</a> request.
+ *     </p>
+ */
+export interface ListSAMLProvidersResponse {
+  /**
+   * <p>The list of SAML provider resource objects defined in IAM for this AWS
+   *          account.</p>
+   */
+  SAMLProviderList?: SAMLProviderListEntry[];
+}
+
+export namespace ListSAMLProvidersResponse {
+  export const filterSensitiveLog = (obj: ListSAMLProvidersResponse): any => ({
+    ...obj,
+  });
+}
+
 export interface ListServerCertificatesRequest {
   /**
    * <p> The path prefix for filtering the results. For example:

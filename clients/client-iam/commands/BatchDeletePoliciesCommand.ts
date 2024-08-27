@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { BatchDeletePoliciesRequest } from "../models/models_0";
+import { BatchDeletePoliciesRequest, BatchDeletePoliciesResponse } from "../models/models_0";
 import {
   deserializeAws_queryBatchDeletePoliciesCommand,
   serializeAws_queryBatchDeletePoliciesCommand,
@@ -18,7 +18,7 @@ import {
 } from "@aws-sdk/types";
 
 export type BatchDeletePoliciesCommandInput = BatchDeletePoliciesRequest;
-export type BatchDeletePoliciesCommandOutput = __MetadataBearer;
+export type BatchDeletePoliciesCommandOutput = BatchDeletePoliciesResponse & __MetadataBearer;
 
 /**
  * <p>Deletes the specified managed policy.</p>
@@ -80,7 +80,7 @@ export class BatchDeletePoliciesCommand extends $Command<
       clientName,
       commandName,
       inputFilterSensitiveLog: BatchDeletePoliciesRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      outputFilterSensitiveLog: BatchDeletePoliciesResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(

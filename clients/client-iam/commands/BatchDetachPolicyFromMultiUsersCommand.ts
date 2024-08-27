@@ -1,5 +1,5 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { BatchDetachPolicyFromMultiUsersRequest } from "../models/models_0";
+import { BatchDetachPolicyFromMultiUsersRequest, BatchDetachPolicyFromMultiUsersResponse } from "../models/models_0";
 import {
   deserializeAws_queryBatchDetachPolicyFromMultiUsersCommand,
   serializeAws_queryBatchDetachPolicyFromMultiUsersCommand,
@@ -18,7 +18,7 @@ import {
 } from "@aws-sdk/types";
 
 export type BatchDetachPolicyFromMultiUsersCommandInput = BatchDetachPolicyFromMultiUsersRequest;
-export type BatchDetachPolicyFromMultiUsersCommandOutput = __MetadataBearer;
+export type BatchDetachPolicyFromMultiUsersCommandOutput = BatchDetachPolicyFromMultiUsersResponse & __MetadataBearer;
 
 /**
  * <p>BatchDetachPolicyFromMultiUsers.</p>
@@ -57,7 +57,7 @@ export class BatchDetachPolicyFromMultiUsersCommand extends $Command<
       clientName,
       commandName,
       inputFilterSensitiveLog: BatchDetachPolicyFromMultiUsersRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: (output: any) => output,
+      outputFilterSensitiveLog: BatchDetachPolicyFromMultiUsersResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
