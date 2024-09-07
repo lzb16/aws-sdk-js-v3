@@ -101,6 +101,7 @@ export * from "./pagination/ListObjectsV2Paginator";
 export * from "./commands/ListObjectVersionsCommand";
 export * from "./commands/ListPartsCommand";
 export * from "./pagination/ListPartsPaginator";
+export * from "./commands/MozObjectsCommand";
 export * from "./commands/PostBucketRestoreCommand";
 export * from "./commands/PostBucketTrashCommand";
 export * from "./commands/PutBucketAccelerateConfigurationCommand";

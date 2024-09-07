@@ -8,6 +8,7 @@ import {
   BucketTrashObj,
   CORSConfiguration,
   DeletedObject,
+  EncodingType,
   ErrorDocument,
   Grant,
   IndexDocument,
@@ -18,6 +19,7 @@ import {
   MetricsConfiguration,
   NotificationConfiguration,
   ObjectCannedACL,
+  ObjectIdentifier,
   ObjectLockConfiguration,
   ObjectLockLegalHold,
   ObjectLockLegalHoldStatus,
@@ -52,6 +54,24 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface GetObjectTaggingOutput {
+  /**
+   * <p>The versionId of the object for which you got the tagging information.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Contains the tag set.</p>
+   */
+  TagSet: Tag[] | undefined;
+}
+
+export namespace GetObjectTaggingOutput {
+  export const filterSensitiveLog = (obj: GetObjectTaggingOutput): any => ({
+    ...obj,
+  });
+}
 
 export interface GetObjectTaggingRequest {
   /**
@@ -2079,8 +2099,6 @@ export namespace CommonPrefix {
   });
 }
 
-export type EncodingType = "url";
-
 /**
  * <p>Container element that identifies who initiated the multipart upload. </p>
  */
@@ -3193,6 +3211,57 @@ export interface ListPartsRequest {
 
 export namespace ListPartsRequest {
   export const filterSensitiveLog = (obj: ListPartsRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Container for the objects to moz.</p>
+ */
+export interface Compress {
+  /**
+   * <p>The objects to moz.</p>
+   */
+  Objects: ObjectIdentifier[] | undefined;
+
+  /**
+   * <p>压缩包路径</p>
+   */
+  Archive?: string;
+
+  /**
+   * <p>FailedQuit</p>
+   */
+  FailedQuit?: boolean;
+}
+
+export namespace Compress {
+  export const filterSensitiveLog = (obj: Compress): any => ({
+    ...obj,
+  });
+}
+
+export interface MozObjectsRequest {
+  /**
+   * <p>The bucket name containing the objects to delete. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Container for the request.</p>
+   */
+  Compress: Compress | undefined;
+
+  /**
+   * <p>是否是web请求</p>
+   */
+  Moz?: number;
+}
+
+export namespace MozObjectsRequest {
+  export const filterSensitiveLog = (obj: MozObjectsRequest): any => ({
     ...obj,
   });
 }
@@ -5288,7 +5357,7 @@ export namespace PutWORMRetainPeriodRequest {
   });
 }
 
-export interface RestoreBucketObjs {
+export interface RestoreBucketObjsTrashOutput {
   /**
    * <p>恢复对象的结果/p>
    */
@@ -5299,19 +5368,6 @@ export interface RestoreBucketObjs {
    *          delete and the error it encountered.</p>
    */
   Errors?: _Error[];
-}
-
-export namespace RestoreBucketObjs {
-  export const filterSensitiveLog = (obj: RestoreBucketObjs): any => ({
-    ...obj,
-  });
-}
-
-export interface RestoreBucketObjsTrashOutput {
-  /**
-   * <p>恢复对象的结果/p>
-   */
-  RestoreResult?: RestoreBucketObjs;
 }
 
 export namespace RestoreBucketObjsTrashOutput {
@@ -5352,6 +5408,15 @@ export interface RestoreBucketObjsTrashRequest {
    * <p>对象信息</p>
    */
   Restore: BucketObjsTrashInfo | undefined;
+
+  /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
 }
 
 export namespace RestoreBucketObjsTrashRequest {

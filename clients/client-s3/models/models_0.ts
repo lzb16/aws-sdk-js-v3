@@ -1652,214 +1652,6 @@ export namespace DeletedObject {
   });
 }
 
-export interface DeleteBucketObjsTrashOutput {
-  /**
-   * <p>删除对象的结果/p>
-   */
-  DeleteResult?: DeletedObject[];
-}
-
-export namespace DeleteBucketObjsTrashOutput {
-  export const filterSensitiveLog = (obj: DeleteBucketObjsTrashOutput): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Object Identifier is unique value to identify objects.</p>
- */
-export interface ObjectIdentifier {
-  /**
-   * <p>Key name of the object to delete.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
-   */
-  Token?: string;
-
-  /**
-   * <p>VersionId for the specific version of the object to delete.</p>
-   */
-  VersionId?: string;
-}
-
-export namespace ObjectIdentifier {
-  export const filterSensitiveLog = (obj: ObjectIdentifier): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Container for the objects to delete.</p>
- */
-export interface Delete {
-  /**
-   * <p>The objects to delete.</p>
-   */
-  Objects: ObjectIdentifier[] | undefined;
-
-  /**
-   * <p>Element to enable quiet mode for the request. When you add this element, you must set
-   *          its value to true.</p>
-   */
-  Quiet?: boolean;
-}
-
-export namespace Delete {
-  export const filterSensitiveLog = (obj: Delete): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketObjsTrashRequest {
-  /**
-   * <p>桶名</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>对象信息</p>
-   */
-  Delete: Delete | undefined;
-}
-
-export namespace DeleteBucketObjsTrashRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketObjsTrashRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketObjTrashRequest {
-  /**
-   * <p>桶名</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>当前软链接名称</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
-   */
-  Token: string | undefined;
-}
-
-export namespace DeleteBucketObjTrashRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketObjTrashRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketOwnershipControlsRequest {
-  /**
-   * <p>The Amazon S3 bucket whose <code>OwnershipControls</code> you want to delete. </p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace DeleteBucketOwnershipControlsRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketOwnershipControlsRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketPolicyRequest {
-  /**
-   * <p>The bucket name.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace DeleteBucketPolicyRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketPolicyRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketQoSRequest {
-  /**
-   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace DeleteBucketQoSRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketQoSRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketReplicationRequest {
-  /**
-   * <p> The bucket name. </p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace DeleteBucketReplicationRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketReplicationRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface DeleteBucketSnapshotRequest {
-  /**
-   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>Snapshot Name</p>
-   */
-  Name?: string;
-}
-
-export namespace DeleteBucketSnapshotRequest {
-  export const filterSensitiveLog = (obj: DeleteBucketSnapshotRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Snapshot Identifier is unique value to identify snapshots.</p>
- */
-export interface SnapshotIdentifier {
-  /**
-   * <p>Name of the snapshot to delete.</p>
-   */
-  Name: string | undefined;
-}
-
-export namespace SnapshotIdentifier {
-  export const filterSensitiveLog = (obj: SnapshotIdentifier): any => ({
-    ...obj,
-  });
-}
-
 /**
  * <p>Container for all error elements.</p>
  */
@@ -3758,6 +3550,232 @@ export interface _Error {
 
 export namespace _Error {
   export const filterSensitiveLog = (obj: _Error): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketObjsTrashOutput {
+  /**
+   * <p>Container element for a successful delete. It identifies the object that was
+   *          successfully deleted.</p>
+   */
+  Deleted?: DeletedObject[];
+
+  /**
+   * <p>Container for a failed delete operation that describes the object that Amazon S3 attempted to
+   *          delete and the error it encountered.</p>
+   */
+  Errors?: _Error[];
+}
+
+export namespace DeleteBucketObjsTrashOutput {
+  export const filterSensitiveLog = (obj: DeleteBucketObjsTrashOutput): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Object Identifier is unique value to identify objects.</p>
+ */
+export interface ObjectIdentifier {
+  /**
+   * <p>Key name of the object to delete.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>VersionId for the specific version of the object to delete.</p>
+   */
+  VersionId?: string;
+}
+
+export namespace ObjectIdentifier {
+  export const filterSensitiveLog = (obj: ObjectIdentifier): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Container for the objects to delete.</p>
+ */
+export interface Delete {
+  /**
+   * <p>The objects to delete.</p>
+   */
+  Objects: ObjectIdentifier[] | undefined;
+
+  /**
+   * <p>Element to enable quiet mode for the request. When you add this element, you must set
+   *          its value to true.</p>
+   */
+  Quiet?: boolean;
+}
+
+export namespace Delete {
+  export const filterSensitiveLog = (obj: Delete): any => ({
+    ...obj,
+  });
+}
+
+export type EncodingType = "url";
+
+export interface DeleteBucketObjsTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>对象信息</p>
+   */
+  Delete: Delete | undefined;
+
+  /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
+}
+
+export namespace DeleteBucketObjsTrashRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketObjsTrashRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketObjTrashRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>A token to allow Object Lock to be enabled for an existing bucket.</p>
+   */
+  Token: string | undefined;
+}
+
+export namespace DeleteBucketObjTrashRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketObjTrashRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketOwnershipControlsRequest {
+  /**
+   * <p>The Amazon S3 bucket whose <code>OwnershipControls</code> you want to delete. </p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteBucketOwnershipControlsRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketOwnershipControlsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketPolicyRequest {
+  /**
+   * <p>The bucket name.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteBucketPolicyRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketQoSRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteBucketQoSRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketQoSRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketReplicationRequest {
+  /**
+   * <p> The bucket name. </p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace DeleteBucketReplicationRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketReplicationRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteBucketSnapshotRequest {
+  /**
+   * <p>The name of the bucket from which an analytics configuration is deleted.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Snapshot Name</p>
+   */
+  Name?: string;
+}
+
+export namespace DeleteBucketSnapshotRequest {
+  export const filterSensitiveLog = (obj: DeleteBucketSnapshotRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Snapshot Identifier is unique value to identify snapshots.</p>
+ */
+export interface SnapshotIdentifier {
+  /**
+   * <p>Name of the snapshot to delete.</p>
+   */
+  Name: string | undefined;
+}
+
+export namespace SnapshotIdentifier {
+  export const filterSensitiveLog = (obj: SnapshotIdentifier): any => ({
     ...obj,
   });
 }
@@ -8419,6 +8437,15 @@ export interface GetBucketTrashObjListRequest {
   Bucket: string | undefined;
 
   /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
+
+  /**
    * <p>Specifies the key to start with when listing objects in a bucket.</p>
    */
   Marker?: string;
@@ -9339,24 +9366,6 @@ export interface GetObjectSymlinkRequest {
 
 export namespace GetObjectSymlinkRequest {
   export const filterSensitiveLog = (obj: GetObjectSymlinkRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectTaggingOutput {
-  /**
-   * <p>The versionId of the object for which you got the tagging information.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Contains the tag set.</p>
-   */
-  TagSet: Tag[] | undefined;
-}
-
-export namespace GetObjectTaggingOutput {
-  export const filterSensitiveLog = (obj: GetObjectTaggingOutput): any => ({
     ...obj,
   });
 }

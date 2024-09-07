@@ -236,6 +236,7 @@ import { ListObjectVersionsCommandInput, ListObjectVersionsCommandOutput } from 
 import { ListObjectsCommandInput, ListObjectsCommandOutput } from "../commands/ListObjectsCommand";
 import { ListObjectsV2CommandInput, ListObjectsV2CommandOutput } from "../commands/ListObjectsV2Command";
 import { ListPartsCommandInput, ListPartsCommandOutput } from "../commands/ListPartsCommand";
+import { MozObjectsCommandInput, MozObjectsCommandOutput } from "../commands/MozObjectsCommand";
 import { PostBucketRestoreCommandInput, PostBucketRestoreCommandOutput } from "../commands/PostBucketRestoreCommand";
 import { PostBucketTrashCommandInput, PostBucketTrashCommandOutput } from "../commands/PostBucketTrashCommand";
 import {
@@ -504,6 +505,7 @@ import {
   CSVInput,
   CSVOutput,
   CommonPrefix,
+  Compress,
   ContinuationEvent,
   CopyPartResult,
   DedupConfiguration,
@@ -535,7 +537,6 @@ import {
   RecordsEvent,
   RequestPaymentConfiguration,
   RequestProgress,
-  RestoreBucketObjs,
   RestoreEXRequest,
   RestoreRequest,
   S3Location,
@@ -1421,6 +1422,7 @@ export const serializeAws_restXmlDeleteBucketObjsTrashCommand = async (
   const query: any = {
     trash: "",
     action: "delete",
+    ...(input.EncodingType !== undefined && { "encoding-type": input.EncodingType }),
   };
   let body: any;
   let contents: any;
@@ -3148,6 +3150,7 @@ export const serializeAws_restXmlGetBucketTrashObjListCommand = async (
   const query: any = {
     trash: "",
     action: "list",
+    ...(input.EncodingType !== undefined && { "encoding-type": input.EncodingType }),
     ...(input.Marker !== undefined && { marker: input.Marker }),
     ...(input.MaxKeys !== undefined && { "max-keys": input.MaxKeys.toString() }),
     ...(input.OrderType !== undefined && { "order-type": input.OrderType }),
@@ -4569,6 +4572,48 @@ export const serializeAws_restXmlListPartsCommand = async (
     hostname,
     port,
     method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlMozObjectsCommand = async (
+  input: MozObjectsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+    ...(isSerializableHeaderValue(input.Moz) && { "x-amz-moz": input.Moz!.toString() }),
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    moz: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Compress !== undefined) {
+    contents = serializeAws_restXmlCompress(input.Compress, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
     headers,
     path: resolvedPath,
     query,
@@ -6845,6 +6890,7 @@ export const serializeAws_restXmlRestoreBucketObjsTrashCommand = async (
   const query: any = {
     trash: "",
     action: "restore",
+    ...(input.EncodingType !== undefined && { "encoding-type": input.EncodingType }),
   };
   let body: any;
   let contents: any;
@@ -8180,17 +8226,21 @@ export const deserializeAws_restXmlDeleteBucketObjsTrashCommand = async (
   }
   const contents: DeleteBucketObjsTrashCommandOutput = {
     $metadata: deserializeMetadata(output),
-    DeleteResult: undefined,
+    Deleted: undefined,
+    Errors: undefined,
   };
   const data: any = await parseBody(output.body, context);
-  if (data.DeleteResult === "") {
-    contents.DeleteResult = [];
+  if (data.Deleted === "") {
+    contents.Deleted = [];
   }
-  if (data["DeleteResult"] !== undefined && data["DeleteResult"]["member"] !== undefined) {
-    contents.DeleteResult = deserializeAws_restXmlDeletedObjects(
-      __getArrayIfSingleItem(data["DeleteResult"]["member"]),
-      context
-    );
+  if (data["Deleted"] !== undefined) {
+    contents.Deleted = deserializeAws_restXmlDeletedObjects(__getArrayIfSingleItem(data["Deleted"]), context);
+  }
+  if (data.Error === "") {
+    contents.Errors = [];
+  }
+  if (data["Error"] !== undefined) {
+    contents.Errors = deserializeAws_restXmlErrors(__getArrayIfSingleItem(data["Error"]), context);
   }
   return Promise.resolve(contents);
 };
@@ -12792,6 +12842,49 @@ const deserializeAws_restXmlListPartsCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlMozObjectsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<MozObjectsCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlMozObjectsCommandError(output, context);
+  }
+  const contents: MozObjectsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlMozObjectsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<MozObjectsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlPostBucketRestoreCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -14863,11 +14956,21 @@ export const deserializeAws_restXmlRestoreBucketObjsTrashCommand = async (
   }
   const contents: RestoreBucketObjsTrashCommandOutput = {
     $metadata: deserializeMetadata(output),
-    RestoreResult: undefined,
+    Errors: undefined,
+    Restored: undefined,
   };
   const data: any = await parseBody(output.body, context);
-  if (data["RestoreResult"] !== undefined) {
-    contents.RestoreResult = deserializeAws_restXmlRestoreBucketObjs(data["RestoreResult"], context);
+  if (data.Error === "") {
+    contents.Errors = [];
+  }
+  if (data["Error"] !== undefined) {
+    contents.Errors = deserializeAws_restXmlErrors(__getArrayIfSingleItem(data["Error"]), context);
+  }
+  if (data.Restored === "") {
+    contents.Restored = [];
+  }
+  if (data["Restored"] !== undefined) {
+    contents.Restored = deserializeAws_restXmlDeletedObjects(__getArrayIfSingleItem(data["Restored"]), context);
   }
   return Promise.resolve(contents);
 };
@@ -15773,6 +15876,28 @@ const serializeAws_restXmlCompletedPartList = (input: CompletedPart[], context: 
       const node = serializeAws_restXmlCompletedPart(entry, context);
       return node.withName("member");
     });
+};
+
+const serializeAws_restXmlCompress = (input: Compress, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("Compress");
+  if (input.Objects !== undefined && input.Objects !== null) {
+    const nodes = serializeAws_restXmlObjectIdentifierList(input.Objects, context);
+    nodes.map((node: any) => {
+      node = node.withName("Object");
+      bodyNode.addChildNode(node);
+    });
+  }
+  if (input.Archive !== undefined && input.Archive !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Archive)).withName("Archive");
+    bodyNode.addChildNode(node);
+  }
+  if (input.FailedQuit !== undefined && input.FailedQuit !== null) {
+    const node = new __XmlNode("booleanType")
+      .addChildNode(new __XmlText(String(input.FailedQuit)))
+      .withName("FailedQuit");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
 };
 
 const serializeAws_restXmlCondition = (input: Condition, context: __SerdeContext): any => {
@@ -21537,26 +21662,6 @@ const deserializeAws_restXmlRepPairConfiguration = (output: any, context: __Serd
   };
   if (output["Status"] !== undefined) {
     contents.Status = output["Status"];
-  }
-  return contents;
-};
-
-const deserializeAws_restXmlRestoreBucketObjs = (output: any, context: __SerdeContext): RestoreBucketObjs => {
-  let contents: any = {
-    Restored: undefined,
-    Errors: undefined,
-  };
-  if (output.Restored === "") {
-    contents.Restored = [];
-  }
-  if (output["Restored"] !== undefined) {
-    contents.Restored = deserializeAws_restXmlDeletedObjects(__getArrayIfSingleItem(output["Restored"]), context);
-  }
-  if (output.Error === "") {
-    contents.Errors = [];
-  }
-  if (output["Error"] !== undefined) {
-    contents.Errors = deserializeAws_restXmlErrors(__getArrayIfSingleItem(output["Error"]), context);
   }
   return contents;
 };

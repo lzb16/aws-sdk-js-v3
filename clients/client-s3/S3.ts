@@ -444,6 +444,7 @@ import {
   ListObjectsV2CommandOutput,
 } from "./commands/ListObjectsV2Command";
 import { ListPartsCommand, ListPartsCommandInput, ListPartsCommandOutput } from "./commands/ListPartsCommand";
+import { MozObjectsCommand, MozObjectsCommandInput, MozObjectsCommandOutput } from "./commands/MozObjectsCommand";
 import {
   PostBucketRestoreCommand,
   PostBucketRestoreCommandInput,
@@ -6463,6 +6464,32 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: ListPartsCommandOutput) => void
   ): Promise<ListPartsCommandOutput> | void {
     const command = new ListPartsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>压缩对象</p>
+   */
+  public mozObjects(args: MozObjectsCommandInput, options?: __HttpHandlerOptions): Promise<MozObjectsCommandOutput>;
+  public mozObjects(args: MozObjectsCommandInput, cb: (err: any, data?: MozObjectsCommandOutput) => void): void;
+  public mozObjects(
+    args: MozObjectsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: MozObjectsCommandOutput) => void
+  ): void;
+  public mozObjects(
+    args: MozObjectsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: MozObjectsCommandOutput) => void),
+    cb?: (err: any, data?: MozObjectsCommandOutput) => void
+  ): Promise<MozObjectsCommandOutput> | void {
+    const command = new MozObjectsCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

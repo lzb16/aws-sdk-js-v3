@@ -236,6 +236,7 @@ import { ListObjectVersionsCommandInput, ListObjectVersionsCommandOutput } from 
 import { ListObjectsCommandInput, ListObjectsCommandOutput } from "./commands/ListObjectsCommand";
 import { ListObjectsV2CommandInput, ListObjectsV2CommandOutput } from "./commands/ListObjectsV2Command";
 import { ListPartsCommandInput, ListPartsCommandOutput } from "./commands/ListPartsCommand";
+import { MozObjectsCommandInput, MozObjectsCommandOutput } from "./commands/MozObjectsCommand";
 import { PostBucketRestoreCommandInput, PostBucketRestoreCommandOutput } from "./commands/PostBucketRestoreCommand";
 import { PostBucketTrashCommandInput, PostBucketTrashCommandOutput } from "./commands/PostBucketTrashCommand";
 import {
@@ -528,6 +529,7 @@ export type ServiceInputTypes =
   | ListObjectsCommandInput
   | ListObjectsV2CommandInput
   | ListPartsCommandInput
+  | MozObjectsCommandInput
   | PostBucketRestoreCommandInput
   | PostBucketTrashCommandInput
   | PutBucketAccelerateConfigurationCommandInput
@@ -680,6 +682,7 @@ export type ServiceOutputTypes =
   | ListObjectsCommandOutput
   | ListObjectsV2CommandOutput
   | ListPartsCommandOutput
+  | MozObjectsCommandOutput
   | PostBucketRestoreCommandOutput
   | PostBucketTrashCommandOutput
   | PutBucketAccelerateConfigurationCommandOutput

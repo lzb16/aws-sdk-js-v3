@@ -296,6 +296,9 @@
           "target": "com.amazonaws.s3#DeleteObject"
         },
         {
+          "target": "com.amazonaws.s3#MozObjects"
+        },
+        {
           "target": "com.amazonaws.s3#DeleteObjects"
         },
         {
@@ -4493,6 +4496,78 @@
             "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
+      }
+    },
+    "com.amazonaws.s3#MozObjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#MozObjectsRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>压缩对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?moz",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#MozObjectsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the objects to delete. </p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Compress": {
+          "target": "com.amazonaws.s3#Compress",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for the request.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Moz": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "<p>是否是web请求</p>",
+            "smithy.api#httpHeader": "x-amz-moz"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#Compress": {
+      "type": "structure",
+      "members": {
+        "Objects": {
+          "target": "com.amazonaws.s3#ObjectIdentifierList",
+          "traits": {
+            "smithy.api#documentation": "<p>The objects to moz.</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Object"
+          }
+        },
+        "Archive": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>压缩包路径</p>"
+          }
+        },
+        "FailedQuit": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>FailedQuit</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Container for the objects to moz.</p>"
       }
     },
     "com.amazonaws.s3#DeleteObjects": {
@@ -13784,6 +13859,12 @@
             "smithy.api#required": {}
           }
         },
+        "EncodingType": {
+          "target": "com.amazonaws.s3#EncodingType",
+          "traits": {
+            "smithy.api#httpQuery": "encoding-type"
+          }
+        },
         "Marker": {
           "target": "com.amazonaws.s3#Marker",
           "traits": {
@@ -14056,6 +14137,12 @@
             "smithy.api#required": {},
             "smithy.api#xmlName": "Restore"
           }
+        },
+        "EncodingType": {
+          "target": "com.amazonaws.s3#EncodingType",
+          "traits": {
+            "smithy.api#httpQuery": "encoding-type"
+          }
         }
       }
     },
@@ -14083,17 +14170,6 @@
       }
     },
     "com.amazonaws.s3#RestoreBucketObjsTrashOutput": {
-      "type": "structure",
-      "members": {
-        "RestoreResult": {
-          "target": "com.amazonaws.s3#restoreBucketObjs",
-          "traits": {
-            "smithy.api#documentation": "<p>恢复对象的结果/p>"
-          }
-        }
-      }
-    },
-    "com.amazonaws.s3#restoreBucketObjs": {
       "type": "structure",
       "members": {
         "Restored": {
@@ -14192,16 +14268,31 @@
             "smithy.api#required": {},
             "smithy.api#xmlName": "Delete"
           }
+        },
+        "EncodingType": {
+          "target": "com.amazonaws.s3#EncodingType",
+          "traits": {
+            "smithy.api#httpQuery": "encoding-type"
+          }
         }
       }
     },
     "com.amazonaws.s3#DeleteBucketObjsTrashOutput": {
       "type": "structure",
       "members": {
-        "DeleteResult": {
+        "Deleted": {
           "target": "com.amazonaws.s3#DeletedObjects",
           "traits": {
-            "smithy.api#documentation": "<p>删除对象的结果/p>"
+            "smithy.api#documentation": "<p>Container element for a successful delete. It identifies the object that was\n         successfully deleted.</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
+        "Errors": {
+          "target": "com.amazonaws.s3#Errors",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a failed delete operation that describes the object that Amazon S3 attempted to\n         delete and the error it encountered.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Error"
           }
         }
       }
