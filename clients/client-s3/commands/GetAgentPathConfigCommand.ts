@@ -1,10 +1,9 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectSymlinkOutput, GetObjectSymlinkRequest } from "../models/models_1";
+import { GetAgentPathConfigOutput, GetAgentPathConfigRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlGetObjectSymlinkCommand,
-  serializeAws_restXmlGetObjectSymlinkCommand,
+  deserializeAws_restXmlGetAgentPathConfigCommand,
+  serializeAws_restXmlGetAgentPathConfigCommand,
 } from "../protocols/Aws_restXml";
-import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -18,21 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetObjectSymlinkCommandInput = GetObjectSymlinkRequest;
-export type GetObjectSymlinkCommandOutput = GetObjectSymlinkOutput & __MetadataBearer;
+export type GetAgentPathConfigCommandInput = GetAgentPathConfigRequest;
+export type GetAgentPathConfigCommandOutput = GetAgentPathConfigOutput & __MetadataBearer;
 
 /**
- * <p>获取软链接源对象</p>
+ * <p>获取单个Agent配置</p>
  */
-export class GetObjectSymlinkCommand extends $Command<
-  GetObjectSymlinkCommandInput,
-  GetObjectSymlinkCommandOutput,
+export class GetAgentPathConfigCommand extends $Command<
+  GetAgentPathConfigCommandInput,
+  GetAgentPathConfigCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetObjectSymlinkCommandInput) {
+  constructor(readonly input: GetAgentPathConfigCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,21 +44,20 @@ export class GetObjectSymlinkCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetObjectSymlinkCommandInput, GetObjectSymlinkCommandOutput> {
+  ): Handler<GetAgentPathConfigCommandInput, GetAgentPathConfigCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
-    this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetObjectSymlinkCommand";
+    const commandName = "GetAgentPathConfigCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetObjectSymlinkRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetObjectSymlinkOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: GetAgentPathConfigRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetAgentPathConfigOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +67,12 @@ export class GetObjectSymlinkCommand extends $Command<
     );
   }
 
-  private serialize(input: GetObjectSymlinkCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetObjectSymlinkCommand(input, context);
+  private serialize(input: GetAgentPathConfigCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetAgentPathConfigCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetObjectSymlinkCommandOutput> {
-    return deserializeAws_restXmlGetObjectSymlinkCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetAgentPathConfigCommandOutput> {
+    return deserializeAws_restXmlGetAgentPathConfigCommand(output, context);
   }
 
   // Start section: command_body_extra

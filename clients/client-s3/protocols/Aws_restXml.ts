@@ -12,6 +12,11 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "../commands/CreateMultipartUploadCommand";
+import { CreateSnapshotCommandInput, CreateSnapshotCommandOutput } from "../commands/CreateSnapshotCommand";
+import {
+  CreateSnapshotPolicyCommandInput,
+  CreateSnapshotPolicyCommandOutput,
+} from "../commands/CreateSnapshotPolicyCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "../commands/DedupstatCommand";
 import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "../commands/DeleteAgentsCommand";
 import {
@@ -95,7 +100,14 @@ import {
 } from "../commands/DeletePublicAccessBlockCommand";
 import { DeleteRefererCommandInput, DeleteRefererCommandOutput } from "../commands/DeleteRefererCommand";
 import { DeleteSingleAgentCommandInput, DeleteSingleAgentCommandOutput } from "../commands/DeleteSingleAgentCommand";
+import { DeleteSnapshotCommandInput, DeleteSnapshotCommandOutput } from "../commands/DeleteSnapshotCommand";
+import {
+  DeleteSnapshotPolicyCommandInput,
+  DeleteSnapshotPolicyCommandOutput,
+} from "../commands/DeleteSnapshotPolicyCommand";
+import { DeleteSnapshotsCommandInput, DeleteSnapshotsCommandOutput } from "../commands/DeleteSnapshotsCommand";
 import { GetAgentConfigCommandInput, GetAgentConfigCommandOutput } from "../commands/GetAgentConfigCommand";
+import { GetAgentPathConfigCommandInput, GetAgentPathConfigCommandOutput } from "../commands/GetAgentPathConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -191,6 +203,9 @@ import {
   GetPublicAccessBlockCommandOutput,
 } from "../commands/GetPublicAccessBlockCommand";
 import { GetRefererCommandInput, GetRefererCommandOutput } from "../commands/GetRefererCommand";
+import { GetSnapshotInfoCommandInput, GetSnapshotInfoCommandOutput } from "../commands/GetSnapshotInfoCommand";
+import { GetSnapshotPolicyCommandInput, GetSnapshotPolicyCommandOutput } from "../commands/GetSnapshotPolicyCommand";
+import { GetSnapshotsCommandInput, GetSnapshotsCommandOutput } from "../commands/GetSnapshotsCommand";
 import {
   GetWORMConfigurationCommandInput,
   GetWORMConfigurationCommandOutput,
@@ -202,6 +217,10 @@ import {
 import { HeadBucketCommandInput, HeadBucketCommandOutput } from "../commands/HeadBucketCommand";
 import { HeadBucketObjTrashCommandInput, HeadBucketObjTrashCommandOutput } from "../commands/HeadBucketObjTrashCommand";
 import { HeadObjectCommandInput, HeadObjectCommandOutput } from "../commands/HeadObjectCommand";
+import {
+  IdentityAuthenticationConfigCommandInput,
+  IdentityAuthenticationConfigCommandOutput,
+} from "../commands/IdentityAuthenticationConfigCommand";
 import {
   ListBucketAnalyticsConfigurationsCommandInput,
   ListBucketAnalyticsConfigurationsCommandOutput,
@@ -218,6 +237,10 @@ import {
   ListBucketMetricsConfigurationsCommandInput,
   ListBucketMetricsConfigurationsCommandOutput,
 } from "../commands/ListBucketMetricsConfigurationsCommand";
+import {
+  ListBucketSnapshotObjectCommandInput,
+  ListBucketSnapshotObjectCommandOutput,
+} from "../commands/ListBucketSnapshotObjectCommand";
 import {
   ListBucketSnapshotsCommandInput,
   ListBucketSnapshotsCommandOutput,
@@ -358,11 +381,13 @@ import {
   RestoreBucketObjsTrashCommandOutput,
 } from "../commands/RestoreBucketObjsTrashCommand";
 import { RestoreObjectCommandInput, RestoreObjectCommandOutput } from "../commands/RestoreObjectCommand";
+import { RollbackSnapshotCommandInput, RollbackSnapshotCommandOutput } from "../commands/RollbackSnapshotCommand";
 import {
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
 } from "../commands/SelectObjectContentCommand";
 import { UpdateAgentConfigCommandInput, UpdateAgentConfigCommandOutput } from "../commands/UpdateAgentConfigCommand";
+import { UpdateSnapshotCommandInput, UpdateSnapshotCommandOutput } from "../commands/UpdateSnapshotCommand";
 import { UploadPartCommandInput, UploadPartCommandOutput } from "../commands/UploadPartCommand";
 import { UploadPartCopyCommandInput, UploadPartCopyCommandOutput } from "../commands/UploadPartCopyCommand";
 import {
@@ -396,6 +421,7 @@ import {
   DefaultRetention,
   Delete,
   DeleteMarkerReplication,
+  DeleteSnapshotInfo,
   DeletedObject,
   Destination,
   DomainNames,
@@ -436,7 +462,6 @@ import {
   MetricsConfiguration,
   MetricsFilter,
   Mode,
-  NoSuchKey,
   NoSuchUpload,
   NoncurrentVersionExpiration,
   NoncurrentVersionTransition,
@@ -444,8 +469,6 @@ import {
   NotificationConfigurationFilter,
   ObjectIdentifier,
   ObjectLockConfiguration,
-  ObjectLockLegalHold,
-  ObjectLockRetention,
   ObjectLockRule,
   ObjectNotInActiveTierError,
   ObjectSizeRange,
@@ -453,6 +476,7 @@ import {
   OwnershipControls,
   OwnershipControlsRule,
   PolicyConfiguration,
+  PolicySourceGroup,
   PolicyStatus,
   QoSConfiguration,
   QueueConfiguration,
@@ -480,12 +504,15 @@ import {
   Snapshot,
   SnapshotDelete,
   SnapshotIdentifier,
+  SnapshotPolicy,
+  SnapshotPolicyPeriod,
   SourceSelectionCriteria,
   SseKmsEncryptedObjects,
   Stat,
   StatisticConfiguration,
   StorageClassAnalysis,
   StorageClassAnalysisDataExport,
+  StringTypeListAgentDirectoryResult,
   Tag,
   TagMultiInOrMode,
   TaggingConfiguration,
@@ -517,16 +544,21 @@ import {
   InputSerialization,
   JSONInput,
   JSONOutput,
+  ListBucketAllSnapshotResult,
+  ListBucketSnapshotObjectResult,
   MetaSearchBucket,
   MetadataEntry,
   MultipartUpload,
   NoSuchBucket,
+  NoSuchKey,
   OSCPConfiguration,
   OSCPPolicy,
   OSCPPolicyAndRuleOperator,
   OSCPPolicyFilter,
   OSCPPolicyOrRuleOperator,
   ObjectAlreadyInActiveTierError,
+  ObjectLockLegalHold,
+  ObjectLockRetention,
   ObjectVersion,
   OutputLocation,
   OutputSerialization,
@@ -814,6 +846,8 @@ export const serializeAws_restXmlCopyObjectCommand = async (
   }
   const query: any = {
     "x-id": "CopyObject",
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
+    ...(input.VersionId !== undefined && { versionId: input.VersionId }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -990,6 +1024,90 @@ export const serializeAws_restXmlCreateMultipartUploadCommand = async (
   });
 };
 
+export const serializeAws_restXmlCreateSnapshotCommand = async (
+  input: CreateSnapshotCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "createSnapshot",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Snapshot !== undefined) {
+    contents = serializeAws_restXmlSnapshot(input.Snapshot, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlCreateSnapshotPolicyCommand = async (
+  input: CreateSnapshotPolicyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "createPolicy",
+  };
+  let body: any;
+  let contents: any;
+  if (input.SnapshotPolicy !== undefined) {
+    contents = serializeAws_restXmlSnapshotPolicy(input.SnapshotPolicy, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlDedupstatCommand = async (
   input: DedupstatCommandInput,
   context: __SerdeContext
@@ -1033,7 +1151,7 @@ export const serializeAws_restXmlDeleteAgentsCommand = async (
   let resolvedPath = "/";
   const query: any = {
     agent: "",
-    ...(input.operation !== undefined && { operation: input.operation }),
+    ...(input.action !== undefined && { action: input.action }),
   };
   let body: any;
   let contents: any;
@@ -2179,6 +2297,116 @@ export const serializeAws_restXmlDeleteSingleAgentCommand = async (
   });
 };
 
+export const serializeAws_restXmlDeleteSnapshotCommand = async (
+  input: DeleteSnapshotCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "deleteSnapshot",
+    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDeleteSnapshotPolicyCommand = async (
+  input: DeleteSnapshotPolicyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "deletePolicy",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDeleteSnapshotsCommand = async (
+  input: DeleteSnapshotsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "delete",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Snapshot !== undefined) {
+    contents = serializeAws_restXmlDeleteSnapshotInfo(input.Snapshot, context);
+    contents = contents.withName("Snapshot");
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlGetAgentConfigCommand = async (
   input: GetAgentConfigCommandInput,
   context: __SerdeContext
@@ -2188,6 +2416,33 @@ export const serializeAws_restXmlGetAgentConfigCommand = async (
   const query: any = {
     agent: "",
     ...(input.name !== undefined && { name: input.name }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetAgentPathConfigCommand = async (
+  input: GetAgentPathConfigCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+    action: "getDirector",
+    ...(input.name !== undefined && { name: input.name }),
+    ...(input.ip !== undefined && { ip: input.ip }),
+    ...(input.marker !== undefined && { marker: input.marker }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -3301,6 +3556,7 @@ export const serializeAws_restXmlGetObjectCommand = async (
   }
   const query: any = {
     "x-id": "GetObject",
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
     ...(input.ResponseCacheControl !== undefined && { "response-cache-control": input.ResponseCacheControl }),
     ...(input.ResponseContentDisposition !== undefined && {
       "response-content-disposition": input.ResponseContentDisposition,
@@ -3365,6 +3621,7 @@ export const serializeAws_restXmlGetObjectAclCommand = async (
   }
   const query: any = {
     acl: "",
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
     ...(input.VersionId !== undefined && { versionId: input.VersionId }),
   };
   let body: any;
@@ -3610,6 +3867,7 @@ export const serializeAws_restXmlGetObjectTaggingCommand = async (
   }
   const query: any = {
     tagging: "",
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
     ...(input.VersionId !== undefined && { versionId: input.VersionId }),
   };
   let body: any;
@@ -3824,6 +4082,109 @@ export const serializeAws_restXmlGetRefererCommand = async (
   }
   const query: any = {
     referer: "",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetSnapshotInfoCommand = async (
+  input: GetSnapshotInfoCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "getSnapshotInfo",
+    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetSnapshotPolicyCommand = async (
+  input: GetSnapshotPolicyCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "getPolicy",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetSnapshotsCommand = async (
+  input: GetSnapshotsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "listAllSnapshot",
+    ...(input.Marker !== undefined && { marker: input.Marker }),
+    ...(input.MaxKeys !== undefined && { "max-keys": input.MaxKeys.toString() }),
+    ...(input.Prefix !== undefined && { prefix: input.Prefix }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -4075,6 +4436,7 @@ export const serializeAws_restXmlHeadObjectCommand = async (
   }
   const query: any = {
     ...(input.VersionId !== undefined && { versionId: input.VersionId }),
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
     ...(input.FetchEncryptionType !== undefined && { "fetch-encryption-type": input.FetchEncryptionType.toString() }),
     ...(input.PartNumber !== undefined && { partNumber: input.PartNumber.toString() }),
   };
@@ -4085,6 +4447,38 @@ export const serializeAws_restXmlHeadObjectCommand = async (
     hostname,
     port,
     method: "HEAD",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlIdentityAuthenticationConfigCommand = async (
+  input: IdentityAuthenticationConfigCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "text/plain",
+    ...(isSerializableHeaderValue(input.ContentType) && { "content-type": input.ContentType! }),
+  };
+  let resolvedPath = "/";
+  const query: any = {
+    agent: "",
+    action: "auth",
+  };
+  let body: any;
+  let contents: any;
+  if (input.IdentityAuthConfig !== undefined) {
+    contents = input.IdentityAuthConfig;
+    body = contents;
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
     headers,
     path: resolvedPath,
     query,
@@ -4248,6 +4642,44 @@ export const serializeAws_restXmlListBucketsCommand = async (
   let resolvedPath = "/";
   const query: any = {
     ...(input.FetchStorageInfo !== undefined && { "fetch-storageinfo": input.FetchStorageInfo.toString() }),
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlListBucketSnapshotObjectCommand = async (
+  input: ListBucketSnapshotObjectCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "listObject",
+    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+    ...(input.MaxKeys !== undefined && { "max-keys": input.MaxKeys.toString() }),
+    ...(input.Marker !== undefined && { marker: input.Marker }),
+    ...(input.Delimiter !== undefined && { delimiter: input.Delimiter }),
+    ...(input.Prefix !== undefined && { prefix: input.Prefix }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -7025,6 +7457,48 @@ export const serializeAws_restXmlRestoreObjectCommand = async (
   });
 };
 
+export const serializeAws_restXmlRollbackSnapshotCommand = async (
+  input: RollbackSnapshotCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "rollbackSnapshot",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Snapshot !== undefined) {
+    contents = serializeAws_restXmlSnapshot(input.Snapshot, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
 export const serializeAws_restXmlSelectObjectContentCommand = async (
   input: SelectObjectContentCommandInput,
   context: __SerdeContext
@@ -7145,6 +7619,48 @@ export const serializeAws_restXmlUpdateAgentConfigCommand = async (
     hostname,
     port,
     method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlUpdateSnapshotCommand = async (
+  input: UpdateSnapshotCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    snapshot: "",
+    action: "modifySnapshotDescription",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Snapshot !== undefined) {
+    contents = serializeAws_restXmlSnapshot(input.Snapshot, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
     headers,
     path: resolvedPath,
     query,
@@ -7672,6 +8188,92 @@ const deserializeAws_restXmlCreateMultipartUploadCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<CreateMultipartUploadCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlCreateSnapshotCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSnapshotCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlCreateSnapshotCommandError(output, context);
+  }
+  const contents: CreateSnapshotCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlCreateSnapshotCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSnapshotCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlCreateSnapshotPolicyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSnapshotPolicyCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlCreateSnapshotPolicyCommandError(output, context);
+  }
+  const contents: CreateSnapshotPolicyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlCreateSnapshotPolicyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CreateSnapshotPolicyCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -9139,6 +9741,135 @@ const deserializeAws_restXmlDeleteSingleAgentCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlDeleteSnapshotCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteSnapshotCommandError(output, context);
+  }
+  const contents: DeleteSnapshotCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteSnapshotCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlDeleteSnapshotPolicyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotPolicyCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteSnapshotPolicyCommandError(output, context);
+  }
+  const contents: DeleteSnapshotPolicyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteSnapshotPolicyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotPolicyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlDeleteSnapshotsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotsCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteSnapshotsCommandError(output, context);
+  }
+  const contents: DeleteSnapshotsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteSnapshotsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteSnapshotsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlGetAgentConfigCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -9159,6 +9890,51 @@ const deserializeAws_restXmlGetAgentConfigCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<GetAgentConfigCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlGetAgentPathConfigCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAgentPathConfigCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetAgentPathConfigCommandError(output, context);
+  }
+  const contents: GetAgentPathConfigCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ListAgentDirectoryResult: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.ListAgentDirectoryResult = deserializeAws_restXmlStringTypeListAgentDirectoryResult(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetAgentPathConfigCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAgentPathConfigCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -11310,6 +12086,141 @@ const deserializeAws_restXmlGetRefererCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlGetSnapshotInfoCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotInfoCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetSnapshotInfoCommandError(output, context);
+  }
+  const contents: GetSnapshotInfoCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    Snapshot: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.Snapshot = deserializeAws_restXmlSnapshot(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetSnapshotInfoCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotInfoCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlGetSnapshotPolicyCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotPolicyCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetSnapshotPolicyCommandError(output, context);
+  }
+  const contents: GetSnapshotPolicyCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    SnapshotPolicy: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.SnapshotPolicy = deserializeAws_restXmlSnapshotPolicy(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetSnapshotPolicyCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotPolicyCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlGetSnapshotsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotsCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetSnapshotsCommandError(output, context);
+  }
+  const contents: GetSnapshotsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ListBucketAllSnapshotResult: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.ListBucketAllSnapshotResult = deserializeAws_restXmlListBucketAllSnapshotResult(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetSnapshotsCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetSnapshotsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlGetWORMConfigurationCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -11819,6 +12730,49 @@ const deserializeAws_restXmlHeadObjectCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlIdentityAuthenticationConfigCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<IdentityAuthenticationConfigCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlIdentityAuthenticationConfigCommandError(output, context);
+  }
+  const contents: IdentityAuthenticationConfigCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlIdentityAuthenticationConfigCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<IdentityAuthenticationConfigCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlListBucketAnalyticsConfigurationsCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -12108,6 +13062,51 @@ const deserializeAws_restXmlListBucketsCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<ListBucketsCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlListBucketSnapshotObjectCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListBucketSnapshotObjectCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlListBucketSnapshotObjectCommandError(output, context);
+  }
+  const contents: ListBucketSnapshotObjectCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ListBucketSnapshotObjectResult: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.ListBucketSnapshotObjectResult = deserializeAws_restXmlListBucketSnapshotObjectResult(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlListBucketSnapshotObjectCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<ListBucketSnapshotObjectCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -15106,6 +16105,49 @@ const deserializeAws_restXmlRestoreObjectCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlRollbackSnapshotCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<RollbackSnapshotCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlRollbackSnapshotCommandError(output, context);
+  }
+  const contents: RollbackSnapshotCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlRollbackSnapshotCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<RollbackSnapshotCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlSelectObjectContentCommand = async (
   output: __HttpResponse,
   context: __SerdeContext & __EventStreamSerdeContext
@@ -15187,6 +16229,49 @@ const deserializeAws_restXmlUpdateAgentConfigCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<UpdateAgentConfigCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlUpdateSnapshotCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateSnapshotCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlUpdateSnapshotCommandError(output, context);
+  }
+  const contents: UpdateSnapshotCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlUpdateSnapshotCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateSnapshotCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -16150,6 +17235,30 @@ const serializeAws_restXmlDeleteMarkerReplication = (input: DeleteMarkerReplicat
     bodyNode.addChildNode(node);
   }
   return bodyNode;
+};
+
+const serializeAws_restXmlDeleteSnapshotInfo = (input: DeleteSnapshotInfo, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("DeleteSnapshotInfo");
+  if (input.Names !== undefined && input.Names !== null) {
+    const nodes = serializeAws_restXmlDeleteSnapshotNameList(input.Names, context);
+    nodes.map((node: any) => {
+      node = node.withName("Name");
+      bodyNode.addChildNode(node);
+    });
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlDeleteSnapshotNameList = (input: string[], context: __SerdeContext): any => {
+  return input
+    .filter((e: any) => e != null)
+    .map((entry) => {
+      if (entry === null) {
+        return null as any;
+      }
+      const node = new __XmlNode("SnapshotName").addChildNode(new __XmlText(entry));
+      return node.withName("member");
+    });
 };
 
 const serializeAws_restXmlDestination = (input: Destination, context: __SerdeContext): any => {
@@ -18297,6 +19406,10 @@ const serializeAws_restXmlSnapshot = (input: Snapshot, context: __SerdeContext):
     const node = new __XmlNode("ID").addChildNode(new __XmlText(input.ID)).withName("ID");
     bodyNode.addChildNode(node);
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    const node = new __XmlNode("SnapshotType").addChildNode(new __XmlText(input.Type)).withName("Type");
+    bodyNode.addChildNode(node);
+  }
   if (input.Name !== undefined && input.Name !== null) {
     const node = new __XmlNode("SnapshotName").addChildNode(new __XmlText(input.Name)).withName("Name");
     bodyNode.addChildNode(node);
@@ -18309,6 +19422,12 @@ const serializeAws_restXmlSnapshot = (input: Snapshot, context: __SerdeContext):
     const node = new __XmlNode("Date")
       .addChildNode(new __XmlText(input.CreateDate.toISOString().split(".")[0] + "Z"))
       .withName("CreateDate");
+    bodyNode.addChildNode(node);
+  }
+  if (input.CreateTime !== undefined && input.CreateTime !== null) {
+    const node = new __XmlNode("LastModified")
+      .addChildNode(new __XmlText(input.CreateTime.toISOString().split(".")[0] + "Z"))
+      .withName("CreateTime");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -18354,6 +19473,54 @@ const serializeAws_restXmlSnapshotIdentifierList = (input: SnapshotIdentifier[],
       const node = serializeAws_restXmlSnapshotIdentifier(entry, context);
       return node.withName("member");
     });
+};
+
+const serializeAws_restXmlSnapshotPolicy = (input: SnapshotPolicy, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("SnapshotPolicy");
+  if (input.Type !== undefined && input.Type !== null) {
+    const node = new __XmlNode("SnapshotType").addChildNode(new __XmlText(input.Type)).withName("Type");
+    bodyNode.addChildNode(node);
+  }
+  if (input.SnapshotPrefix !== undefined && input.SnapshotPrefix !== null) {
+    const node = new __XmlNode("SnapshotName")
+      .addChildNode(new __XmlText(input.SnapshotPrefix))
+      .withName("SnapshotPrefix");
+    bodyNode.addChildNode(node);
+  }
+  if (input.CreatePeriod !== undefined && input.CreatePeriod !== null) {
+    const node = serializeAws_restXmlSnapshotPolicyPeriod(input.CreatePeriod, context).withName("CreatePeriod");
+    bodyNode.addChildNode(node);
+  }
+  if (input.SnapshotReservedNum !== undefined && input.SnapshotReservedNum !== null) {
+    const node = new __XmlNode("ObjectNumber")
+      .addChildNode(new __XmlText(String(input.SnapshotReservedNum)))
+      .withName("SnapshotReservedNum");
+    bodyNode.addChildNode(node);
+  }
+  if (input.EnableSpacePolicy !== undefined && input.EnableSpacePolicy !== null) {
+    const node = new __XmlNode("IsEnabled")
+      .addChildNode(new __XmlText(String(input.EnableSpacePolicy)))
+      .withName("EnableSpacePolicy");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Description !== undefined && input.Description !== null) {
+    const node = new __XmlNode("Description").addChildNode(new __XmlText(input.Description)).withName("Description");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlSnapshotPolicyPeriod = (input: SnapshotPolicyPeriod, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("SnapshotPolicyPeriod");
+  if (input.Day !== undefined && input.Day !== null) {
+    const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Day))).withName("Day");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Hour !== undefined && input.Hour !== null) {
+    const node = new __XmlNode("Hours").addChildNode(new __XmlText(String(input.Hour))).withName("Hour");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
 };
 
 const serializeAws_restXmlSourceSelectionCriteria = (input: SourceSelectionCriteria, context: __SerdeContext): any => {
@@ -19051,6 +20218,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     RepPairConfiguration: undefined,
     DedupConfiguration: undefined,
     TrashConfiguration: undefined,
+    SnapConfiguration: undefined,
   };
   if (output["ID"] !== undefined) {
     contents.ID = parseInt(output["ID"]);
@@ -19168,6 +20336,9 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["TrashConfiguration"] !== undefined) {
     contents.TrashConfiguration = deserializeAws_restXmlTrashConfiguration(output["TrashConfiguration"], context);
+  }
+  if (output["SnapConfiguration"] !== undefined) {
+    contents.SnapConfiguration = deserializeAws_restXmlTrashConfiguration(output["SnapConfiguration"], context);
   }
   return contents;
 };
@@ -19616,6 +20787,17 @@ const deserializeAws_restXmlDestination = (output: any, context: __SerdeContext)
     contents.Metrics = deserializeAws_restXmlMetrics(output["Metrics"], context);
   }
   return contents;
+};
+
+const deserializeAws_restXmlDirectoryList = (output: any, context: __SerdeContext): PolicySourceGroup[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_restXmlPolicySourceGroup(entry, context);
+    });
 };
 
 const deserializeAws_restXmlDomainNameList = (output: any, context: __SerdeContext): DomainNames[] => {
@@ -20458,6 +21640,42 @@ const deserializeAws_restXmlLifecycleRunningTimes = (output: any, context: __Ser
   return contents;
 };
 
+const deserializeAws_restXmlListBucketAllSnapshotResult = (
+  output: any,
+  context: __SerdeContext
+): ListBucketAllSnapshotResult => {
+  let contents: any = {
+    BucketName: undefined,
+    TotalSnapshot: undefined,
+    Snapshots: undefined,
+    IsTruncated: undefined,
+    Marker: undefined,
+    NextMarker: undefined,
+  };
+  if (output["BucketName"] !== undefined) {
+    contents.BucketName = output["BucketName"];
+  }
+  if (output["TotalSnapshot"] !== undefined) {
+    contents.TotalSnapshot = parseInt(output["TotalSnapshot"]);
+  }
+  if (output.Snapshot === "") {
+    contents.Snapshots = [];
+  }
+  if (output["Snapshot"] !== undefined) {
+    contents.Snapshots = deserializeAws_restXmlSnapshotList(__getArrayIfSingleItem(output["Snapshot"]), context);
+  }
+  if (output["IsTruncated"] !== undefined) {
+    contents.IsTruncated = output["IsTruncated"] == "true";
+  }
+  if (output["Marker"] !== undefined) {
+    contents.Marker = output["Marker"];
+  }
+  if (output["NextMarker"] !== undefined) {
+    contents.NextMarker = output["NextMarker"];
+  }
+  return contents;
+};
+
 const deserializeAws_restXmlListBucketResult = (output: any, context: __SerdeContext): ListBucketResult => {
   let contents: any = {
     Bucket: undefined,
@@ -20468,6 +21686,64 @@ const deserializeAws_restXmlListBucketResult = (output: any, context: __SerdeCon
   }
   if (output["Owner"] !== undefined) {
     contents.Owner = deserializeAws_restXmlOwner(output["Owner"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlListBucketSnapshotObjectResult = (
+  output: any,
+  context: __SerdeContext
+): ListBucketSnapshotObjectResult => {
+  let contents: any = {
+    BucketName: undefined,
+    BucketSnapshotName: undefined,
+    IsTruncated: undefined,
+    Prefix: undefined,
+    Delimiter: undefined,
+    MaxKeys: undefined,
+    Marker: undefined,
+    NextMarker: undefined,
+    CommonPrefixes: undefined,
+    Contents: undefined,
+  };
+  if (output["BucketName"] !== undefined) {
+    contents.BucketName = output["BucketName"];
+  }
+  if (output["BucketSnapshotName"] !== undefined) {
+    contents.BucketSnapshotName = output["BucketSnapshotName"];
+  }
+  if (output["IsTruncated"] !== undefined) {
+    contents.IsTruncated = output["IsTruncated"] == "true";
+  }
+  if (output["Prefix"] !== undefined) {
+    contents.Prefix = output["Prefix"];
+  }
+  if (output["Delimiter"] !== undefined) {
+    contents.Delimiter = output["Delimiter"];
+  }
+  if (output["MaxKeys"] !== undefined) {
+    contents.MaxKeys = parseInt(output["MaxKeys"]);
+  }
+  if (output["Marker"] !== undefined) {
+    contents.Marker = output["Marker"];
+  }
+  if (output["NextMarker"] !== undefined) {
+    contents.NextMarker = output["NextMarker"];
+  }
+  if (output.CommonPrefixes === "") {
+    contents.CommonPrefixes = [];
+  }
+  if (output["CommonPrefixes"] !== undefined) {
+    contents.CommonPrefixes = deserializeAws_restXmlCommonPrefixList(
+      __getArrayIfSingleItem(output["CommonPrefixes"]),
+      context
+    );
+  }
+  if (output.Contents === "") {
+    contents.Contents = [];
+  }
+  if (output["Contents"] !== undefined) {
+    contents.Contents = deserializeAws_restXmlObjectList(__getArrayIfSingleItem(output["Contents"]), context);
   }
   return contents;
 };
@@ -20780,6 +22056,8 @@ const deserializeAws_restXmlNotificationConfigurationFilter = (
 const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _Object => {
   let contents: any = {
     Key: undefined,
+    IsDeleteMarker: undefined,
+    VersionId: undefined,
     LastModified: undefined,
     ETag: undefined,
     Size: undefined,
@@ -20794,6 +22072,12 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   };
   if (output["Key"] !== undefined) {
     contents.Key = output["Key"];
+  }
+  if (output["IsDeleteMarker"] !== undefined) {
+    contents.IsDeleteMarker = output["IsDeleteMarker"] == "true";
+  }
+  if (output["VersionId"] !== undefined) {
+    contents.VersionId = output["VersionId"];
   }
   if (output["LastModified"] !== undefined) {
     contents.LastModified = new Date(output["LastModified"]);
@@ -21306,6 +22590,16 @@ const deserializeAws_restXmlPolicyConfiguration = (output: any, context: __Serde
   return contents;
 };
 
+const deserializeAws_restXmlPolicySourceGroup = (output: any, context: __SerdeContext): PolicySourceGroup => {
+  let contents: any = {
+    Name: undefined,
+  };
+  if (output["Name"] !== undefined) {
+    contents.Name = output["Name"];
+  }
+  return contents;
+};
+
 const deserializeAws_restXmlPolicyStatus = (output: any, context: __SerdeContext): PolicyStatus => {
   let contents: any = {
     IsPublic: undefined,
@@ -21796,12 +23090,17 @@ const deserializeAws_restXmlServerSideEncryptionRules = (
 const deserializeAws_restXmlSnapshot = (output: any, context: __SerdeContext): Snapshot => {
   let contents: any = {
     ID: undefined,
+    Type: undefined,
     Name: undefined,
     Description: undefined,
     CreateDate: undefined,
+    CreateTime: undefined,
   };
   if (output["ID"] !== undefined) {
     contents.ID = output["ID"];
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
   }
   if (output["Name"] !== undefined) {
     contents.Name = output["Name"];
@@ -21811,6 +23110,9 @@ const deserializeAws_restXmlSnapshot = (output: any, context: __SerdeContext): S
   }
   if (output["CreateDate"] !== undefined) {
     contents.CreateDate = new Date(output["CreateDate"]);
+  }
+  if (output["CreateTime"] !== undefined) {
+    contents.CreateTime = new Date(output["CreateTime"]);
   }
   return contents;
 };
@@ -21845,6 +23147,50 @@ const deserializeAws_restXmlSnapshotList = (output: any, context: __SerdeContext
       }
       return deserializeAws_restXmlSnapshot(entry, context);
     });
+};
+
+const deserializeAws_restXmlSnapshotPolicy = (output: any, context: __SerdeContext): SnapshotPolicy => {
+  let contents: any = {
+    Type: undefined,
+    SnapshotPrefix: undefined,
+    CreatePeriod: undefined,
+    SnapshotReservedNum: undefined,
+    EnableSpacePolicy: undefined,
+    Description: undefined,
+  };
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
+  }
+  if (output["SnapshotPrefix"] !== undefined) {
+    contents.SnapshotPrefix = output["SnapshotPrefix"];
+  }
+  if (output["CreatePeriod"] !== undefined) {
+    contents.CreatePeriod = deserializeAws_restXmlSnapshotPolicyPeriod(output["CreatePeriod"], context);
+  }
+  if (output["SnapshotReservedNum"] !== undefined) {
+    contents.SnapshotReservedNum = parseInt(output["SnapshotReservedNum"]);
+  }
+  if (output["EnableSpacePolicy"] !== undefined) {
+    contents.EnableSpacePolicy = output["EnableSpacePolicy"] == "true";
+  }
+  if (output["Description"] !== undefined) {
+    contents.Description = output["Description"];
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlSnapshotPolicyPeriod = (output: any, context: __SerdeContext): SnapshotPolicyPeriod => {
+  let contents: any = {
+    Day: undefined,
+    Hour: undefined,
+  };
+  if (output["Day"] !== undefined) {
+    contents.Day = parseInt(output["Day"]);
+  }
+  if (output["Hour"] !== undefined) {
+    contents.Hour = parseInt(output["Hour"]);
+  }
+  return contents;
 };
 
 const deserializeAws_restXmlSourceSelectionCriteria = (
@@ -21983,6 +23329,38 @@ const deserializeAws_restXmlStorageClassAnalysisDataExport = (
   }
   if (output["Destination"] !== undefined) {
     contents.Destination = deserializeAws_restXmlAnalyticsExportDestination(output["Destination"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlStringTypeListAgentDirectoryResult = (
+  output: any,
+  context: __SerdeContext
+): StringTypeListAgentDirectoryResult => {
+  let contents: any = {
+    MaxKeys: undefined,
+    IsTruncated: undefined,
+    Marker: undefined,
+    NextMarker: undefined,
+    Directory: undefined,
+  };
+  if (output["MaxKeys"] !== undefined) {
+    contents.MaxKeys = parseInt(output["MaxKeys"]);
+  }
+  if (output["IsTruncated"] !== undefined) {
+    contents.IsTruncated = output["IsTruncated"] == "true";
+  }
+  if (output["Marker"] !== undefined) {
+    contents.Marker = output["Marker"];
+  }
+  if (output["NextMarker"] !== undefined) {
+    contents.NextMarker = output["NextMarker"];
+  }
+  if (output.Directory === "") {
+    contents.Directory = [];
+  }
+  if (output["Directory"] !== undefined) {
+    contents.Directory = deserializeAws_restXmlDirectoryList(__getArrayIfSingleItem(output["Directory"]), context);
   }
   return contents;
 };

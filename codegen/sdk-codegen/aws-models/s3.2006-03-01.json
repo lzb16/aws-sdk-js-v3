@@ -479,7 +479,13 @@
           "target": "com.amazonaws.s3#GetAgentConfig"
         },
         {
+          "target": "com.amazonaws.s3#GetAgentPathConfig"
+        },
+        {
           "target": "com.amazonaws.s3#UpdateAgentConfig"
+        },
+        {
+          "target": "com.amazonaws.s3#IdentityAuthenticationConfig"
         },
         {
           "target": "com.amazonaws.s3#DeleteSingleAgent"
@@ -673,6 +679,39 @@
         },
         {
           "target": "com.amazonaws.s3#HeadBucketObjTrash"
+        },
+        {
+          "target": "com.amazonaws.s3#CreateSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#GetSnapshots"
+        },
+        {
+          "target": "com.amazonaws.s3#GetSnapshotInfo"
+        },
+        {
+          "target": "com.amazonaws.s3#UpdateSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteSnapshots"
+        },
+        {
+          "target": "com.amazonaws.s3#RollbackSnapshot"
+        },
+        {
+          "target": "com.amazonaws.s3#CreateSnapshotPolicy"
+        },
+        {
+          "target": "com.amazonaws.s3#GetSnapshotPolicy"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteSnapshotPolicy"
+        },
+        {
+          "target": "com.amazonaws.s3#ListBucketSnapshotObject"
         }
       ],
       "traits": {
@@ -852,6 +891,12 @@
             "smithy.api#documentation": "<p>快照ID</p>"
           }
         },
+        "Type": {
+          "target": "com.amazonaws.s3#SnapshotType",
+          "traits": {
+            "smithy.api#documentation": "<p>快照类型</p>"
+          }
+        },
         "Name": {
           "target": "com.amazonaws.s3#SnapshotName",
           "traits": {
@@ -868,6 +913,70 @@
           "target": "com.amazonaws.s3#Date",
           "traits": {
             "smithy.api#documentation": "<p>快照创建日期</p>"
+          }
+        },
+        "CreateTime": {
+          "target": "com.amazonaws.s3#LastModified",
+          "traits": {
+            "smithy.api#documentation": "<p>快照创建日期</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SnapshotPolicy": {
+      "type": "structure",
+      "members": {
+        "Type": {
+          "target": "com.amazonaws.s3#SnapshotType",
+          "traits": {
+            "smithy.api#documentation": "<p>快照策略类型</p>"
+          }
+        },
+        "SnapshotPrefix": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照策略前缀</p>"
+          }
+        },
+        "CreatePeriod": {
+          "target": "com.amazonaws.s3#SnapshotPolicyPeriod",
+          "traits": {
+            "smithy.api#documentation": "<p>快照策略周期</p>"
+          }
+        },
+        "SnapshotReservedNum": {
+          "target": "com.amazonaws.s3#ObjectNumber",
+          "traits": {
+            "smithy.api#documentation": "<p>保留数量</p>"
+          }
+        },
+        "EnableSpacePolicy": {
+          "target": "com.amazonaws.s3#IsEnabled",
+          "traits": {
+            "smithy.api#documentation": "<p>空间删除策略</p>"
+          }
+        },
+        "Description": {
+          "target": "com.amazonaws.s3#Description",
+          "traits": {
+            "smithy.api#documentation": "<p>快照描述</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#SnapshotPolicyPeriod": {
+      "type": "structure",
+      "members": {
+        "Day": {
+          "target": "com.amazonaws.s3#Days",
+          "traits": {
+            "smithy.api#documentation": "<p>天</p>"
+          }
+        },
+        "Hour": {
+          "target": "com.amazonaws.s3#Hours",
+          "traits": {
+            "smithy.api#documentation": "<p>小时</p>"
           }
         }
       }
@@ -1023,6 +1132,25 @@
       "type": "list",
       "member": {
         "target": "com.amazonaws.s3#Snapshot"
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotInfo": {
+      "type": "structure",
+      "members": {
+        "Names": {
+          "target": "com.amazonaws.s3#DeleteSnapshotNameList",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名称</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Name"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotNameList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#SnapshotName"
       }
     },
     "com.amazonaws.s3#DeleteBucketSnapshot": {
@@ -1553,6 +1681,12 @@
           }
         },
         "TrashConfiguration": {
+          "target": "com.amazonaws.s3#TrashConfiguration",
+          "traits": {
+            "smithy.api#documentation": "在桶概览中添加回收站信息"
+          }
+        },
+        "SnapConfiguration": {
           "target": "com.amazonaws.s3#TrashConfiguration",
           "traits": {
             "smithy.api#documentation": "在桶概览中添加回收站信息"
@@ -2170,6 +2304,60 @@
     "com.amazonaws.s3#StringType": {
       "type": "string"
     },
+    "com.amazonaws.s3#StringTypeListAgentDirectoryResult": {
+      "type": "structure",
+      "members": {
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>MaxKey</p>"
+          }
+        },
+        "IsTruncated": {
+          "target": "com.amazonaws.s3#IsTruncated",
+          "traits": {
+            "smithy.api#documentation": "<p>       for a subsequent request.</p>"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>如果marker为空，则认为是列举盘符；如果最后一个字符是\\,则认为是列举这个文件夹下面的目录；如果最后一个字符不是\\。则认为是继续根据这个文件夹列举</p>"
+          }
+        },
+        "NextMarker": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>--</p>"
+          }
+        },
+        "Directory": {
+          "target": "com.amazonaws.s3#DirectoryList",
+          "traits": {
+            "smithy.api#documentation": "<p>返回当前迁移路径列表数据</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Directory"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DirectoryList": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#PolicySourceGroup"
+      }
+    },
+    "com.amazonaws.s3#PolicySourceGroup": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>路径名称</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#BucketID": {
       "type": "integer"
     },
@@ -2786,6 +2974,20 @@
             "smithy.api#documentation": "<p>The name of the destination bucket.</p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "snapshotName"
+          }
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>",
+            "smithy.api#httpQuery": "versionId"
           }
         },
         "CacheControl": {
@@ -4780,6 +4982,19 @@
     "com.amazonaws.s3#SnapshotName": {
       "type": "string"
     },
+    "com.amazonaws.s3#SnapshotType": {
+      "type": "string",
+      "traits": {
+        "smithy.api#enum": [
+          {
+            "value": "system"
+          },
+          {
+            "value": "manual"
+          }
+        ]
+      }
+    },
     "com.amazonaws.s3#Destination": {
       "type": "structure",
       "members": {
@@ -6572,6 +6787,13 @@
             "smithy.api#required": {}
           }
         },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "snapshotName"
+          }
+        },
         "VersionId": {
           "target": "com.amazonaws.s3#ObjectVersionId",
           "traits": {
@@ -7174,6 +7396,13 @@
             "smithy.api#required": {}
           }
         },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "snapshotName"
+          }
+        },
         "IfMatch": {
           "target": "com.amazonaws.s3#IfMatch",
           "traits": {
@@ -7522,6 +7751,13 @@
             "smithy.api#documentation": "<p>Object key for which to get the tagging information.</p>",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "snapshotName"
           }
         },
         "VersionId": {
@@ -8208,6 +8444,13 @@
           "traits": {
             "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>",
             "smithy.api#httpQuery": "versionId"
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "snapshotName"
           }
         },
         "FetchEncryptionType": {
@@ -9686,11 +9929,11 @@
             "smithy.api#required": {}
           }
         },
-        "operation": {
+        "action": {
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>用于区分删除与后续的升级，删除池传delete</p>",
-            "smithy.api#httpQuery": "operation"
+            "smithy.api#httpQuery": "action"
           }
         }
       }
@@ -9731,6 +9974,95 @@
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>查询单个agent配置时返回字符串，与批量配置时的Config字段一致</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#IdentityAuthenticationConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#IdentityAuthenticationConfigRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>身份认证</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/?agent&action=auth",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#IdentityAuthenticationConfigRequest": {
+      "type": "structure",
+      "members": {
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
+        "IdentityAuthConfig": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>身份认证入参</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentPathConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetAgentPathConfigRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetAgentPathConfigOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取单个Agent配置</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/?agent&action=getDirector",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentPathConfigRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Agent 名称</p>",
+            "smithy.api#httpQuery": "name"
+          }
+        },
+        "ip": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Agent IP地址</p>",
+            "smithy.api#httpQuery": "ip"
+          }
+        },
+        "marker": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>获取路径的上一级路径。如果传空，则列举盘符；如果传值最后一个字符为\\(一个字符，这里转译了)，则列举这个文件夹下面的路径；如果传值最后一个字符不是\\，则继续列举这个文件夹同级的文件夹</p>",
+            "smithy.api#httpQuery": "marker"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetAgentPathConfigOutput": {
+      "type": "structure",
+      "members": {
+        "ListAgentDirectoryResult": {
+          "target": "com.amazonaws.s3#StringTypeListAgentDirectoryResult",
+          "traits": {
+            "smithy.api#documentation": "<p>返回迁移路径数据</p>",
             "smithy.api#httpPayload": {}
           }
         }
@@ -11662,6 +11994,15 @@
           "target": "com.amazonaws.s3#ObjectKey",
           "traits": {
             "smithy.api#documentation": "<p>The name that you assign to an object. You use the object key to retrieve the\n         object.</p>"
+          }
+        },
+        "IsDeleteMarker": {
+          "target": "com.amazonaws.s3#booleanType"
+        },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId for the specific version of the object to delete.</p>"
           }
         },
         "LastModified": {
@@ -14351,6 +14692,573 @@
           "traits": {
             "smithy.api#documentation": "<p>Custom header, when you don't want return Content-Length, set true.</p>",
             "smithy.api#httpHeader": "x-amz-without-content-length"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#CreateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#CreateSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>创建桶快照</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?snapshot&action=createSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#CreateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>回收站配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetSnapshotsRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetSnapshotsOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>列举桶快照</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot&action=listAllSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the key to start with when listing objects in a bucket.</p>",
+            "smithy.api#httpQuery": "marker"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>Sets the maximum number of keys returned in the response. By default the API returns up\n         to 1,000 key names. The response might contain fewer keys but will never contain more.\n      </p>",
+            "smithy.api#httpQuery": "max-keys"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "prefix"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotsOutput": {
+      "type": "structure",
+      "members": {
+        "ListBucketAllSnapshotResult": {
+          "target": "com.amazonaws.s3#ListBucketAllSnapshotResult",
+          "traits": {
+            "smithy.api#documentation": "<p>桶快照列表</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketAllSnapshotResult": {
+      "type": "structure",
+      "members": {
+        "BucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket.</p>"
+          }
+        },
+        "TotalSnapshot": {
+          "target": "com.amazonaws.s3#ObjectNumber"
+        },
+        "Snapshots": {
+          "target": "com.amazonaws.s3#SnapshotList",
+          "traits": {
+            "smithy.api#documentation": "<p>The Snapshots.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Snapshot"
+          }
+        },
+        "IsTruncated": {
+          "target": "com.amazonaws.s3#IsTruncated",
+          "traits": {
+            "smithy.api#documentation": "<p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search\n         criteria.</p>"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates where in the bucket listing begins. Marker is included in the response if it\n         was sent with the request.</p>"
+          }
+        },
+        "NextMarker": {
+          "target": "com.amazonaws.s3#NextMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>When response is truncated (the IsTruncated element value in the response is true), you\n         can use the key name in this field as marker in the subsequent request to get next set of\n         objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if\n         you have delimiter request parameter specified. If response does not include the NextMarker\n         and it is truncated, you can use the value of the last Key in the response as the marker in\n         the subsequent request to get the next set of object keys.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotInfo": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetSnapshotInfoRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetSnapshotInfoOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取单个快照信息</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot&action=getSnapshotInfo",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotInfoRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotInfoOutput": {
+      "type": "structure",
+      "members": {
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>桶快照信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#UpdateSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#UpdateSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>修改桶快照描述</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?snapshot&action=modifySnapshotDescription",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#UpdateSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>回收站配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除单个快照</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?snapshot&action=deleteSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "name"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshots": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteSnapshotsRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>批量删除快照</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?snapshot&action=delete",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotsRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#DeleteSnapshotInfo",
+          "traits": {
+            "smithy.api#documentation": "<p>The Snapshots.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "Snapshot"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#RollbackSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#RollbackSnapshotRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>快照回滚</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?snapshot&action=rollbackSnapshot",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#RollbackSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Snapshot": {
+          "target": "com.amazonaws.s3#Snapshot",
+          "traits": {
+            "smithy.api#documentation": "<p>快照配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#CreateSnapshotPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#CreateSnapshotPolicyRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>创建快照策略</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?snapshot&action=createPolicy",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#CreateSnapshotPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "SnapshotPolicy": {
+          "target": "com.amazonaws.s3#SnapshotPolicy",
+          "traits": {
+            "smithy.api#documentation": "<p>快照策略配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetSnapshotPolicyRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetSnapshotPolicyOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取快照策略</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot&action=getPolicy",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetSnapshotPolicyOutput": {
+      "type": "structure",
+      "members": {
+        "SnapshotPolicy": {
+          "target": "com.amazonaws.s3#SnapshotPolicy",
+          "traits": {
+            "smithy.api#documentation": "<p>快照策略配置信息</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotPolicy": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteSnapshotPolicyRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除快照策略</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?snapshot&action=deletePolicy",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteSnapshotPolicyRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotObject": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#ListBucketSnapshotObjectRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#ListBucketSnapshotObjectOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取快照下的对象列表</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?snapshot&action=listObject",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotObjectRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>快照名</p>",
+            "smithy.api#httpQuery": "name"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>Sets the maximum number of keys returned in the response. By default the API returns up\n         to 1,000 key names. The response might contain fewer keys but will never contain\n         more.</p>",
+            "smithy.api#httpQuery": "max-keys"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates where in the bucket listing begins. Marker is included in the response if it\n         was sent with the request.</p>",
+            "smithy.api#httpQuery": "marker"
+          }
+        },
+        "Delimiter": {
+          "target": "com.amazonaws.s3#Delimiter",
+          "traits": {
+            "smithy.api#documentation": "<p>Causes keys that contain the same string between the prefix and the first occurrence of\n         the delimiter to be rolled up into a single result element in the\n            <code>CommonPrefixes</code> collection. These rolled-up keys are not returned elsewhere\n         in the response. Each rolled-up result counts as only one return against the\n            <code>MaxKeys</code> value.</p>",
+            "smithy.api#httpQuery": "delimiter"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
+            "smithy.api#httpQuery": "prefix"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotObjectOutput": {
+      "type": "structure",
+      "members": {
+        "ListBucketSnapshotObjectResult": {
+          "target": "com.amazonaws.s3#ListBucketSnapshotObjectResult",
+          "traits": {
+            "smithy.api#documentation": "<p>快照下的对象列表</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#ListBucketSnapshotObjectResult": {
+      "type": "structure",
+      "members": {
+        "BucketName": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket.</p>"
+          }
+        },
+        "BucketSnapshotName": {
+          "target": "com.amazonaws.s3#BucketName"
+        },
+        "IsTruncated": {
+          "target": "com.amazonaws.s3#IsTruncated",
+          "traits": {
+            "smithy.api#documentation": "<p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search\n         criteria.</p>"
+          }
+        },
+        "Prefix": {
+          "target": "com.amazonaws.s3#Prefix",
+          "traits": {
+            "smithy.api#documentation": "<p>Selects objects that start with the value supplied by this parameter.</p>"
+          }
+        },
+        "Delimiter": {
+          "target": "com.amazonaws.s3#Delimiter",
+          "traits": {
+            "smithy.api#documentation": "<p>The delimiter grouping the included keys. A delimiter is a character that you specify to\n         group keys. All keys that contain the same string between the prefix and the first\n         occurrence of the delimiter are grouped under a single result element in\n            <code>CommonPrefixes</code>. These groups are counted as one result against the max-keys\n         limitation. These keys are not returned elsewhere in the response.</p>"
+          }
+        },
+        "MaxKeys": {
+          "target": "com.amazonaws.s3#MaxKeys",
+          "traits": {
+            "smithy.api#documentation": "<p>Specifies the maximum number of objects to return.</p>"
+          }
+        },
+        "Marker": {
+          "target": "com.amazonaws.s3#Marker",
+          "traits": {
+            "smithy.api#documentation": "<p>Indicates where in the bucket listing begins. Marker is included in the response if it\n         was sent with the request.</p>"
+          }
+        },
+        "NextMarker": {
+          "target": "com.amazonaws.s3#NextMarker",
+          "traits": {
+            "smithy.api#documentation": "<p>When response is truncated (the IsTruncated element value in the response is true), you\n         can use the key name in this field as marker in the subsequent request to get next set of\n         objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if\n         you have delimiter request parameter specified. If response does not include the NextMarker\n         and it is truncated, you can use the value of the last Key in the response as the marker in\n         the subsequent request to get the next set of object keys.</p>"
+          }
+        },
+        "CommonPrefixes": {
+          "target": "com.amazonaws.s3#CommonPrefixList",
+          "traits": {
+            "smithy.api#documentation": "<p>If you specify a delimiter in the request, then the result returns each distinct key\n         prefix containing the delimiter in a <code>CommonPrefixes</code> element. The distinct key\n         prefixes are returned in the <code>Prefix</code> child element.</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
+        "Contents": {
+          "target": "com.amazonaws.s3#ObjectList",
+          "traits": {
+            "smithy.api#documentation": "<p>Metadata about each object returned.</p>",
+            "smithy.api#xmlFlattened": {}
           }
         }
       }

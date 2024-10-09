@@ -21,10 +21,9 @@ import {
   ObjectCannedACL,
   ObjectIdentifier,
   ObjectLockConfiguration,
-  ObjectLockLegalHold,
   ObjectLockLegalHoldStatus,
   ObjectLockMode,
-  ObjectLockRetention,
+  ObjectLockRetentionMode,
   ObjectSizeRange,
   ObjectStorageClass,
   Owner,
@@ -43,6 +42,7 @@ import {
   ServerSideEncryption,
   ServerSideEncryptionConfiguration,
   Snapshot,
+  SnapshotPolicy,
   StatisticConfiguration,
   StorageClass,
   Tag,
@@ -54,6 +54,296 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>The specified key does not exist.</p>
+ */
+export interface NoSuchKey extends __SmithyException, $MetadataBearer {
+  name: "NoSuchKey";
+  $fault: "client";
+}
+
+export namespace NoSuchKey {
+  export const filterSensitiveLog = (obj: NoSuchKey): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectAclOutput {
+  /**
+   * <p> Container for the bucket owner's display name and ID.</p>
+   */
+  Owner?: Owner;
+
+  /**
+   * <p>A list of grants.</p>
+   */
+  Grants?: Grant[];
+
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+}
+
+export namespace GetObjectAclOutput {
+  export const filterSensitiveLog = (obj: GetObjectAclOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectAclRequest {
+  /**
+   * <p>The bucket name that contains the object for which to get the ACL information. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key of the object for which to get the ACL information.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectAclRequest {
+  export const filterSensitiveLog = (obj: GetObjectAclRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A Legal Hold configuration for an object.</p>
+ */
+export interface ObjectLockLegalHold {
+  /**
+   * <p>Indicates whether the specified object has a Legal Hold in place.</p>
+   */
+  Status?: ObjectLockLegalHoldStatus | string;
+}
+
+export namespace ObjectLockLegalHold {
+  export const filterSensitiveLog = (obj: ObjectLockLegalHold): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectLegalHoldOutput {
+  /**
+   * <p>The current Legal Hold status for the specified object.</p>
+   */
+  LegalHold?: ObjectLockLegalHold;
+}
+
+export namespace GetObjectLegalHoldOutput {
+  export const filterSensitiveLog = (obj: GetObjectLegalHoldOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectLegalHoldRequest {
+  /**
+   * <p>The bucket name containing the object whose Legal Hold status you want to retrieve. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object whose Legal Hold status you want to retrieve.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The version ID of the object whose Legal Hold status you want to retrieve.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectLegalHoldRequest {
+  export const filterSensitiveLog = (obj: GetObjectLegalHoldRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectLockConfigurationOutput {
+  /**
+   * <p>The specified bucket's Object Lock configuration.</p>
+   */
+  ObjectLockConfiguration?: ObjectLockConfiguration;
+}
+
+export namespace GetObjectLockConfigurationOutput {
+  export const filterSensitiveLog = (obj: GetObjectLockConfigurationOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectLockConfigurationRequest {
+  /**
+   * <p>The bucket whose Object Lock configuration you want to retrieve.</p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectLockConfigurationRequest {
+  export const filterSensitiveLog = (obj: GetObjectLockConfigurationRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A Retention configuration for an object.</p>
+ */
+export interface ObjectLockRetention {
+  /**
+   * <p>Indicates the Retention mode for the specified object.</p>
+   */
+  Mode?: ObjectLockRetentionMode | string;
+
+  /**
+   * <p>The date on which this Object Lock Retention will expire.</p>
+   */
+  RetainUntilDate?: Date;
+}
+
+export namespace ObjectLockRetention {
+  export const filterSensitiveLog = (obj: ObjectLockRetention): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectRetentionOutput {
+  /**
+   * <p>The container element for an object's retention settings.</p>
+   */
+  Retention?: ObjectLockRetention;
+}
+
+export namespace GetObjectRetentionOutput {
+  export const filterSensitiveLog = (obj: GetObjectRetentionOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectRetentionRequest {
+  /**
+   * <p>The bucket name containing the object whose retention settings you want to retrieve. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The key name for the object whose retention settings you want to retrieve.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>The version ID for the object whose retention settings you want to retrieve.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectRetentionRequest {
+  export const filterSensitiveLog = (obj: GetObjectRetentionRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectSymlinkOutput {
+  /**
+   * <p>软链接源对象状态/p>
+   */
+  TargetStatus?: number;
+
+  /**
+   * <p>软链接源对象名称</p>
+   */
+  SymlinkTarget?: string;
+}
+
+export namespace GetObjectSymlinkOutput {
+  export const filterSensitiveLog = (obj: GetObjectSymlinkOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetObjectSymlinkRequest {
+  /**
+   * <p>当前软链接名称</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>bucket name</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>软链接检查</p>
+   */
+  SymlinkCheck?: boolean;
+}
+
+export namespace GetObjectSymlinkRequest {
+  export const filterSensitiveLog = (obj: GetObjectSymlinkRequest): any => ({
+    ...obj,
+  });
+}
 
 export interface GetObjectTaggingOutput {
   /**
@@ -85,6 +375,11 @@ export interface GetObjectTaggingRequest {
    * <p>Object key for which to get the tagging information.</p>
    */
   Key: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
 
   /**
    * <p>The versionId of the object for which to get the tagging information.</p>
@@ -1009,6 +1304,147 @@ export namespace GetRefererRequest {
   });
 }
 
+export interface GetSnapshotInfoOutput {
+  /**
+   * <p>桶快照信息</p>
+   */
+  Snapshot?: Snapshot;
+}
+
+export namespace GetSnapshotInfoOutput {
+  export const filterSensitiveLog = (obj: GetSnapshotInfoOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetSnapshotInfoRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+}
+
+export namespace GetSnapshotInfoRequest {
+  export const filterSensitiveLog = (obj: GetSnapshotInfoRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetSnapshotPolicyOutput {
+  /**
+   * <p>快照策略配置信息</p>
+   */
+  SnapshotPolicy?: SnapshotPolicy;
+}
+
+export namespace GetSnapshotPolicyOutput {
+  export const filterSensitiveLog = (obj: GetSnapshotPolicyOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetSnapshotPolicyRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+}
+
+export namespace GetSnapshotPolicyRequest {
+  export const filterSensitiveLog = (obj: GetSnapshotPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface ListBucketAllSnapshotResult {
+  /**
+   * <p>The name of the bucket.</p>
+   */
+  BucketName?: string;
+
+  TotalSnapshot?: number;
+  /**
+   * <p>The Snapshots.</p>
+   */
+  Snapshots?: Snapshot[];
+
+  /**
+   * <p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search
+   *          criteria.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>Indicates where in the bucket listing begins. Marker is included in the response if it
+   *          was sent with the request.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>When response is truncated (the IsTruncated element value in the response is true), you
+   *          can use the key name in this field as marker in the subsequent request to get next set of
+   *          objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if
+   *          you have delimiter request parameter specified. If response does not include the NextMarker
+   *          and it is truncated, you can use the value of the last Key in the response as the marker in
+   *          the subsequent request to get the next set of object keys.</p>
+   */
+  NextMarker?: string;
+}
+
+export namespace ListBucketAllSnapshotResult {
+  export const filterSensitiveLog = (obj: ListBucketAllSnapshotResult): any => ({
+    ...obj,
+  });
+}
+
+export interface GetSnapshotsOutput {
+  /**
+   * <p>桶快照列表</p>
+   */
+  ListBucketAllSnapshotResult?: ListBucketAllSnapshotResult;
+}
+
+export namespace GetSnapshotsOutput {
+  export const filterSensitiveLog = (obj: GetSnapshotsOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetSnapshotsRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Specifies the key to start with when listing objects in a bucket.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Sets the maximum number of keys returned in the response. By default the API returns up
+   *          to 1,000 key names. The response might contain fewer keys but will never contain more.
+   *       </p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  Prefix?: string;
+}
+
+export namespace GetSnapshotsRequest {
+  export const filterSensitiveLog = (obj: GetSnapshotsRequest): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p>The container element for specifying the default WORM retention settings for new
  *          objects placed in the specified bucket.</p>
@@ -1586,6 +2022,11 @@ export interface HeadObjectRequest {
   VersionId?: string;
 
   /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
    * <p>是否查询加密方式</p>
    */
   FetchEncryptionType?: boolean;
@@ -1646,6 +2087,24 @@ export namespace HeadObjectRequest {
   export const filterSensitiveLog = (obj: HeadObjectRequest): any => ({
     ...obj,
     ...(obj.SSECustomerKey && { SSECustomerKey: SENSITIVE_STRING }),
+  });
+}
+
+export interface IdentityAuthenticationConfigRequest {
+  /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>身份认证入参</p>
+   */
+  IdentityAuthConfig: string | undefined;
+}
+
+export namespace IdentityAuthenticationConfigRequest {
+  export const filterSensitiveLog = (obj: IdentityAuthenticationConfigRequest): any => ({
+    ...obj,
   });
 }
 
@@ -1924,6 +2383,247 @@ export namespace ListBucketsRequest {
   });
 }
 
+/**
+ * <p>Container for all (if there are any) keys between Prefix and the next occurrence of the
+ *          string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in
+ *          the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter
+ *          is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. </p>
+ */
+export interface CommonPrefix {
+  /**
+   * <p>Container for the specified common prefix.</p>
+   */
+  Prefix?: string;
+}
+
+export namespace CommonPrefix {
+  export const filterSensitiveLog = (obj: CommonPrefix): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>An object consists of data and its descriptive metadata.</p>
+ */
+export interface _Object {
+  /**
+   * <p>The name that you assign to an object. You use the object key to retrieve the
+   *          object.</p>
+   */
+  Key?: string;
+
+  IsDeleteMarker?: boolean;
+  /**
+   * <p>VersionId for the specific version of the object to delete.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>The entity tag is a hash of the object. The ETag reflects changes only to the contents
+   *          of an object, not its metadata. The ETag may or may not be an MD5 digest of the object
+   *          data. Whether or not it is depends on how the object was created and how it is encrypted as
+   *          described below:</p>
+   *          <ul>
+   *             <li>
+   *                <p>Objects created by the PUT Object, POST Object, or Copy operation, or through the
+   *                AWS Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are
+   *                an MD5 digest of their object data.</p>
+   *             </li>
+   *             <li>
+   *                <p>Objects created by the PUT Object, POST Object, or Copy operation, or through the
+   *                AWS Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are
+   *                not an MD5 digest of their object data.</p>
+   *             </li>
+   *             <li>
+   *                <p>If an object is created by either the Multipart Upload or Part Copy operation, the
+   *                ETag is not an MD5 digest, regardless of the method of encryption.</p>
+   *             </li>
+   *          </ul>
+   */
+  ETag?: string;
+
+  /**
+   * <p>Size in bytes of the object</p>
+   */
+  Size?: number;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  StorageClass?: ObjectStorageClass | string;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  IsEncrypted?: boolean;
+
+  /**
+   * <p>对象来源</p>
+   */
+  ObjectSource?: string;
+
+  /**
+   * <p>对象类型，SymLink代表软链接对象</p>
+   */
+  Type?: string;
+
+  /**
+   * <p>恢复有效期</p>
+   */
+  ObjectExpirationDay?: number;
+
+  /**
+   * <p>恢复状态</p>
+   */
+  RestoreOnGoing?: string;
+
+  /**
+   * <p>恢复过期时间</p>
+   */
+  RestoredExpiryDate?: Date;
+
+  /**
+   * <p>The owner of the object</p>
+   */
+  Owner?: Owner;
+}
+
+export namespace _Object {
+  export const filterSensitiveLog = (obj: _Object): any => ({
+    ...obj,
+  });
+}
+
+export interface ListBucketSnapshotObjectResult {
+  /**
+   * <p>The name of the bucket.</p>
+   */
+  BucketName?: string;
+
+  BucketSnapshotName?: string;
+  /**
+   * <p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search
+   *          criteria.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>Selects objects that start with the value supplied by this parameter.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>The delimiter grouping the included keys. A delimiter is a character that you specify to
+   *          group keys. All keys that contain the same string between the prefix and the first
+   *          occurrence of the delimiter are grouped under a single result element in
+   *             <code>CommonPrefixes</code>. These groups are counted as one result against the max-keys
+   *          limitation. These keys are not returned elsewhere in the response.</p>
+   */
+  Delimiter?: string;
+
+  /**
+   * <p>Specifies the maximum number of objects to return.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>Indicates where in the bucket listing begins. Marker is included in the response if it
+   *          was sent with the request.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>When response is truncated (the IsTruncated element value in the response is true), you
+   *          can use the key name in this field as marker in the subsequent request to get next set of
+   *          objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if
+   *          you have delimiter request parameter specified. If response does not include the NextMarker
+   *          and it is truncated, you can use the value of the last Key in the response as the marker in
+   *          the subsequent request to get the next set of object keys.</p>
+   */
+  NextMarker?: string;
+
+  /**
+   * <p>If you specify a delimiter in the request, then the result returns each distinct key
+   *          prefix containing the delimiter in a <code>CommonPrefixes</code> element. The distinct key
+   *          prefixes are returned in the <code>Prefix</code> child element.</p>
+   */
+  CommonPrefixes?: CommonPrefix[];
+
+  /**
+   * <p>Metadata about each object returned.</p>
+   */
+  Contents?: _Object[];
+}
+
+export namespace ListBucketSnapshotObjectResult {
+  export const filterSensitiveLog = (obj: ListBucketSnapshotObjectResult): any => ({
+    ...obj,
+  });
+}
+
+export interface ListBucketSnapshotObjectOutput {
+  /**
+   * <p>快照下的对象列表</p>
+   */
+  ListBucketSnapshotObjectResult?: ListBucketSnapshotObjectResult;
+}
+
+export namespace ListBucketSnapshotObjectOutput {
+  export const filterSensitiveLog = (obj: ListBucketSnapshotObjectOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface ListBucketSnapshotObjectRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
+   * <p>Sets the maximum number of keys returned in the response. By default the API returns up
+   *          to 1,000 key names. The response might contain fewer keys but will never contain
+   *          more.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>Indicates where in the bucket listing begins. Marker is included in the response if it
+   *          was sent with the request.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Causes keys that contain the same string between the prefix and the first occurrence of
+   *          the delimiter to be rolled up into a single result element in the
+   *             <code>CommonPrefixes</code> collection. These rolled-up keys are not returned elsewhere
+   *          in the response. Each rolled-up result counts as only one return against the
+   *             <code>MaxKeys</code> value.</p>
+   */
+  Delimiter?: string;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  Prefix?: string;
+}
+
+export namespace ListBucketSnapshotObjectRequest {
+  export const filterSensitiveLog = (obj: ListBucketSnapshotObjectRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface ListBucketSnapshotsOutput {
   /**
    * SnapshotList
@@ -2076,25 +2776,6 @@ export interface ListMetaSearchBucketsRequest {
 
 export namespace ListMetaSearchBucketsRequest {
   export const filterSensitiveLog = (obj: ListMetaSearchBucketsRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Container for all (if there are any) keys between Prefix and the next occurrence of the
- *          string specified by a delimiter. CommonPrefixes lists keys that act like subdirectories in
- *          the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter
- *          is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. </p>
- */
-export interface CommonPrefix {
-  /**
-   * <p>Container for the specified common prefix.</p>
-   */
-  Prefix?: string;
-}
-
-export namespace CommonPrefix {
-  export const filterSensitiveLog = (obj: CommonPrefix): any => ({
     ...obj,
   });
 }
@@ -2324,97 +3005,6 @@ export interface ListMultipartUploadsRequest {
 
 export namespace ListMultipartUploadsRequest {
   export const filterSensitiveLog = (obj: ListMultipartUploadsRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>An object consists of data and its descriptive metadata.</p>
- */
-export interface _Object {
-  /**
-   * <p>The name that you assign to an object. You use the object key to retrieve the
-   *          object.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>The date the Object was Last Modified</p>
-   */
-  LastModified?: Date;
-
-  /**
-   * <p>The entity tag is a hash of the object. The ETag reflects changes only to the contents
-   *          of an object, not its metadata. The ETag may or may not be an MD5 digest of the object
-   *          data. Whether or not it is depends on how the object was created and how it is encrypted as
-   *          described below:</p>
-   *          <ul>
-   *             <li>
-   *                <p>Objects created by the PUT Object, POST Object, or Copy operation, or through the
-   *                AWS Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are
-   *                an MD5 digest of their object data.</p>
-   *             </li>
-   *             <li>
-   *                <p>Objects created by the PUT Object, POST Object, or Copy operation, or through the
-   *                AWS Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are
-   *                not an MD5 digest of their object data.</p>
-   *             </li>
-   *             <li>
-   *                <p>If an object is created by either the Multipart Upload or Part Copy operation, the
-   *                ETag is not an MD5 digest, regardless of the method of encryption.</p>
-   *             </li>
-   *          </ul>
-   */
-  ETag?: string;
-
-  /**
-   * <p>Size in bytes of the object</p>
-   */
-  Size?: number;
-
-  /**
-   * <p>The class of storage used to store the object.</p>
-   */
-  StorageClass?: ObjectStorageClass | string;
-
-  /**
-   * <p>The class of storage used to store the object.</p>
-   */
-  IsEncrypted?: boolean;
-
-  /**
-   * <p>对象来源</p>
-   */
-  ObjectSource?: string;
-
-  /**
-   * <p>对象类型，SymLink代表软链接对象</p>
-   */
-  Type?: string;
-
-  /**
-   * <p>恢复有效期</p>
-   */
-  ObjectExpirationDay?: number;
-
-  /**
-   * <p>恢复状态</p>
-   */
-  RestoreOnGoing?: string;
-
-  /**
-   * <p>恢复过期时间</p>
-   */
-  RestoredExpiryDate?: Date;
-
-  /**
-   * <p>The owner of the object</p>
-   */
-  Owner?: Owner;
-}
-
-export namespace _Object {
-  export const filterSensitiveLog = (obj: _Object): any => ({
     ...obj,
   });
 }
@@ -6005,6 +6595,24 @@ export namespace RestoreObjectRequest {
   });
 }
 
+export interface RollbackSnapshotRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照配置信息</p>
+   */
+  Snapshot?: Snapshot;
+}
+
+export namespace RollbackSnapshotRequest {
+  export const filterSensitiveLog = (obj: RollbackSnapshotRequest): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p></p>
  */
@@ -6433,6 +7041,24 @@ export interface UpdateAgentConfigRequest {
 
 export namespace UpdateAgentConfigRequest {
   export const filterSensitiveLog = (obj: UpdateAgentConfigRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface UpdateSnapshotRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>回收站配置信息</p>
+   */
+  Snapshot?: Snapshot;
+}
+
+export namespace UpdateSnapshotRequest {
+  export const filterSensitiveLog = (obj: UpdateSnapshotRequest): any => ({
     ...obj,
   });
 }

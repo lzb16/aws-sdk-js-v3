@@ -20,6 +20,16 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "./commands/CreateMultipartUploadCommand";
+import {
+  CreateSnapshotCommand,
+  CreateSnapshotCommandInput,
+  CreateSnapshotCommandOutput,
+} from "./commands/CreateSnapshotCommand";
+import {
+  CreateSnapshotPolicyCommand,
+  CreateSnapshotPolicyCommandInput,
+  CreateSnapshotPolicyCommandOutput,
+} from "./commands/CreateSnapshotPolicyCommand";
 import { DedupstatCommand, DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import {
   DeleteAgentsCommand,
@@ -173,10 +183,30 @@ import {
   DeleteSingleAgentCommandOutput,
 } from "./commands/DeleteSingleAgentCommand";
 import {
+  DeleteSnapshotCommand,
+  DeleteSnapshotCommandInput,
+  DeleteSnapshotCommandOutput,
+} from "./commands/DeleteSnapshotCommand";
+import {
+  DeleteSnapshotPolicyCommand,
+  DeleteSnapshotPolicyCommandInput,
+  DeleteSnapshotPolicyCommandOutput,
+} from "./commands/DeleteSnapshotPolicyCommand";
+import {
+  DeleteSnapshotsCommand,
+  DeleteSnapshotsCommandInput,
+  DeleteSnapshotsCommandOutput,
+} from "./commands/DeleteSnapshotsCommand";
+import {
   GetAgentConfigCommand,
   GetAgentConfigCommandInput,
   GetAgentConfigCommandOutput,
 } from "./commands/GetAgentConfigCommand";
+import {
+  GetAgentPathConfigCommand,
+  GetAgentPathConfigCommandInput,
+  GetAgentPathConfigCommandOutput,
+} from "./commands/GetAgentPathConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommand,
   GetBucketAccelerateConfigurationCommandInput,
@@ -375,6 +405,21 @@ import {
 } from "./commands/GetPublicAccessBlockCommand";
 import { GetRefererCommand, GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
 import {
+  GetSnapshotInfoCommand,
+  GetSnapshotInfoCommandInput,
+  GetSnapshotInfoCommandOutput,
+} from "./commands/GetSnapshotInfoCommand";
+import {
+  GetSnapshotPolicyCommand,
+  GetSnapshotPolicyCommandInput,
+  GetSnapshotPolicyCommandOutput,
+} from "./commands/GetSnapshotPolicyCommand";
+import {
+  GetSnapshotsCommand,
+  GetSnapshotsCommandInput,
+  GetSnapshotsCommandOutput,
+} from "./commands/GetSnapshotsCommand";
+import {
   GetWORMConfigurationCommand,
   GetWORMConfigurationCommandInput,
   GetWORMConfigurationCommandOutput,
@@ -391,6 +436,11 @@ import {
   HeadBucketObjTrashCommandOutput,
 } from "./commands/HeadBucketObjTrashCommand";
 import { HeadObjectCommand, HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
+import {
+  IdentityAuthenticationConfigCommand,
+  IdentityAuthenticationConfigCommandInput,
+  IdentityAuthenticationConfigCommandOutput,
+} from "./commands/IdentityAuthenticationConfigCommand";
 import {
   ListBucketAnalyticsConfigurationsCommand,
   ListBucketAnalyticsConfigurationsCommandInput,
@@ -411,6 +461,11 @@ import {
   ListBucketMetricsConfigurationsCommandInput,
   ListBucketMetricsConfigurationsCommandOutput,
 } from "./commands/ListBucketMetricsConfigurationsCommand";
+import {
+  ListBucketSnapshotObjectCommand,
+  ListBucketSnapshotObjectCommandInput,
+  ListBucketSnapshotObjectCommandOutput,
+} from "./commands/ListBucketSnapshotObjectCommand";
 import {
   ListBucketSnapshotsCommand,
   ListBucketSnapshotsCommandInput,
@@ -683,6 +738,11 @@ import {
   RestoreObjectCommandOutput,
 } from "./commands/RestoreObjectCommand";
 import {
+  RollbackSnapshotCommand,
+  RollbackSnapshotCommandInput,
+  RollbackSnapshotCommandOutput,
+} from "./commands/RollbackSnapshotCommand";
+import {
   SelectObjectContentCommand,
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
@@ -692,6 +752,11 @@ import {
   UpdateAgentConfigCommandInput,
   UpdateAgentConfigCommandOutput,
 } from "./commands/UpdateAgentConfigCommand";
+import {
+  UpdateSnapshotCommand,
+  UpdateSnapshotCommandInput,
+  UpdateSnapshotCommandOutput,
+} from "./commands/UpdateSnapshotCommand";
 import { UploadPartCommand, UploadPartCommandInput, UploadPartCommandOutput } from "./commands/UploadPartCommand";
 import {
   UploadPartCopyCommand,
@@ -1529,6 +1594,70 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: CreateMultipartUploadCommandOutput) => void
   ): Promise<CreateMultipartUploadCommandOutput> | void {
     const command = new CreateMultipartUploadCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>创建桶快照</p>
+   */
+  public createSnapshot(
+    args: CreateSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateSnapshotCommandOutput>;
+  public createSnapshot(
+    args: CreateSnapshotCommandInput,
+    cb: (err: any, data?: CreateSnapshotCommandOutput) => void
+  ): void;
+  public createSnapshot(
+    args: CreateSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateSnapshotCommandOutput) => void
+  ): void;
+  public createSnapshot(
+    args: CreateSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: CreateSnapshotCommandOutput) => void
+  ): Promise<CreateSnapshotCommandOutput> | void {
+    const command = new CreateSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>创建快照策略</p>
+   */
+  public createSnapshotPolicy(
+    args: CreateSnapshotPolicyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<CreateSnapshotPolicyCommandOutput>;
+  public createSnapshotPolicy(
+    args: CreateSnapshotPolicyCommandInput,
+    cb: (err: any, data?: CreateSnapshotPolicyCommandOutput) => void
+  ): void;
+  public createSnapshotPolicy(
+    args: CreateSnapshotPolicyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: CreateSnapshotPolicyCommandOutput) => void
+  ): void;
+  public createSnapshotPolicy(
+    args: CreateSnapshotPolicyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: CreateSnapshotPolicyCommandOutput) => void),
+    cb?: (err: any, data?: CreateSnapshotPolicyCommandOutput) => void
+  ): Promise<CreateSnapshotPolicyCommandOutput> | void {
+    const command = new CreateSnapshotPolicyCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3046,6 +3175,102 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>删除单个快照</p>
+   */
+  public deleteSnapshot(
+    args: DeleteSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteSnapshotCommandOutput>;
+  public deleteSnapshot(
+    args: DeleteSnapshotCommandInput,
+    cb: (err: any, data?: DeleteSnapshotCommandOutput) => void
+  ): void;
+  public deleteSnapshot(
+    args: DeleteSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteSnapshotCommandOutput) => void
+  ): void;
+  public deleteSnapshot(
+    args: DeleteSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: DeleteSnapshotCommandOutput) => void
+  ): Promise<DeleteSnapshotCommandOutput> | void {
+    const command = new DeleteSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除快照策略</p>
+   */
+  public deleteSnapshotPolicy(
+    args: DeleteSnapshotPolicyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteSnapshotPolicyCommandOutput>;
+  public deleteSnapshotPolicy(
+    args: DeleteSnapshotPolicyCommandInput,
+    cb: (err: any, data?: DeleteSnapshotPolicyCommandOutput) => void
+  ): void;
+  public deleteSnapshotPolicy(
+    args: DeleteSnapshotPolicyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteSnapshotPolicyCommandOutput) => void
+  ): void;
+  public deleteSnapshotPolicy(
+    args: DeleteSnapshotPolicyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteSnapshotPolicyCommandOutput) => void),
+    cb?: (err: any, data?: DeleteSnapshotPolicyCommandOutput) => void
+  ): Promise<DeleteSnapshotPolicyCommandOutput> | void {
+    const command = new DeleteSnapshotPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>批量删除快照</p>
+   */
+  public deleteSnapshots(
+    args: DeleteSnapshotsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteSnapshotsCommandOutput>;
+  public deleteSnapshots(
+    args: DeleteSnapshotsCommandInput,
+    cb: (err: any, data?: DeleteSnapshotsCommandOutput) => void
+  ): void;
+  public deleteSnapshots(
+    args: DeleteSnapshotsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteSnapshotsCommandOutput) => void
+  ): void;
+  public deleteSnapshots(
+    args: DeleteSnapshotsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteSnapshotsCommandOutput) => void),
+    cb?: (err: any, data?: DeleteSnapshotsCommandOutput) => void
+  ): Promise<DeleteSnapshotsCommandOutput> | void {
+    const command = new DeleteSnapshotsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>获取单个Agent配置</p>
    */
   public getAgentConfig(
@@ -3067,6 +3292,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetAgentConfigCommandOutput) => void
   ): Promise<GetAgentConfigCommandOutput> | void {
     const command = new GetAgentConfigCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取单个Agent配置</p>
+   */
+  public getAgentPathConfig(
+    args: GetAgentPathConfigCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetAgentPathConfigCommandOutput>;
+  public getAgentPathConfig(
+    args: GetAgentPathConfigCommandInput,
+    cb: (err: any, data?: GetAgentPathConfigCommandOutput) => void
+  ): void;
+  public getAgentPathConfig(
+    args: GetAgentPathConfigCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetAgentPathConfigCommandOutput) => void
+  ): void;
+  public getAgentPathConfig(
+    args: GetAgentPathConfigCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAgentPathConfigCommandOutput) => void),
+    cb?: (err: any, data?: GetAgentPathConfigCommandOutput) => void
+  ): Promise<GetAgentPathConfigCommandOutput> | void {
+    const command = new GetAgentPathConfigCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5367,6 +5624,99 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>获取单个快照信息</p>
+   */
+  public getSnapshotInfo(
+    args: GetSnapshotInfoCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetSnapshotInfoCommandOutput>;
+  public getSnapshotInfo(
+    args: GetSnapshotInfoCommandInput,
+    cb: (err: any, data?: GetSnapshotInfoCommandOutput) => void
+  ): void;
+  public getSnapshotInfo(
+    args: GetSnapshotInfoCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetSnapshotInfoCommandOutput) => void
+  ): void;
+  public getSnapshotInfo(
+    args: GetSnapshotInfoCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetSnapshotInfoCommandOutput) => void),
+    cb?: (err: any, data?: GetSnapshotInfoCommandOutput) => void
+  ): Promise<GetSnapshotInfoCommandOutput> | void {
+    const command = new GetSnapshotInfoCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取快照策略</p>
+   */
+  public getSnapshotPolicy(
+    args: GetSnapshotPolicyCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetSnapshotPolicyCommandOutput>;
+  public getSnapshotPolicy(
+    args: GetSnapshotPolicyCommandInput,
+    cb: (err: any, data?: GetSnapshotPolicyCommandOutput) => void
+  ): void;
+  public getSnapshotPolicy(
+    args: GetSnapshotPolicyCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetSnapshotPolicyCommandOutput) => void
+  ): void;
+  public getSnapshotPolicy(
+    args: GetSnapshotPolicyCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetSnapshotPolicyCommandOutput) => void),
+    cb?: (err: any, data?: GetSnapshotPolicyCommandOutput) => void
+  ): Promise<GetSnapshotPolicyCommandOutput> | void {
+    const command = new GetSnapshotPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>列举桶快照</p>
+   */
+  public getSnapshots(
+    args: GetSnapshotsCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetSnapshotsCommandOutput>;
+  public getSnapshots(args: GetSnapshotsCommandInput, cb: (err: any, data?: GetSnapshotsCommandOutput) => void): void;
+  public getSnapshots(
+    args: GetSnapshotsCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetSnapshotsCommandOutput) => void
+  ): void;
+  public getSnapshots(
+    args: GetSnapshotsCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetSnapshotsCommandOutput) => void),
+    cb?: (err: any, data?: GetSnapshotsCommandOutput) => void
+  ): Promise<GetSnapshotsCommandOutput> | void {
+    const command = new GetSnapshotsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Gets the WORM configuration for a bucket.</p>
    */
   public getWORMConfiguration(
@@ -5736,6 +6086,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>身份认证</p>
+   */
+  public identityAuthenticationConfig(
+    args: IdentityAuthenticationConfigCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<IdentityAuthenticationConfigCommandOutput>;
+  public identityAuthenticationConfig(
+    args: IdentityAuthenticationConfigCommandInput,
+    cb: (err: any, data?: IdentityAuthenticationConfigCommandOutput) => void
+  ): void;
+  public identityAuthenticationConfig(
+    args: IdentityAuthenticationConfigCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: IdentityAuthenticationConfigCommandOutput) => void
+  ): void;
+  public identityAuthenticationConfig(
+    args: IdentityAuthenticationConfigCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: IdentityAuthenticationConfigCommandOutput) => void),
+    cb?: (err: any, data?: IdentityAuthenticationConfigCommandOutput) => void
+  ): Promise<IdentityAuthenticationConfigCommandOutput> | void {
+    const command = new IdentityAuthenticationConfigCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Lists the analytics configurations for the bucket. You can have up to 1,000 analytics
    *          configurations per bucket.</p>
    *
@@ -6020,6 +6402,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: ListBucketsCommandOutput) => void
   ): Promise<ListBucketsCommandOutput> | void {
     const command = new ListBucketsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取快照下的对象列表</p>
+   */
+  public listBucketSnapshotObject(
+    args: ListBucketSnapshotObjectCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<ListBucketSnapshotObjectCommandOutput>;
+  public listBucketSnapshotObject(
+    args: ListBucketSnapshotObjectCommandInput,
+    cb: (err: any, data?: ListBucketSnapshotObjectCommandOutput) => void
+  ): void;
+  public listBucketSnapshotObject(
+    args: ListBucketSnapshotObjectCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: ListBucketSnapshotObjectCommandOutput) => void
+  ): void;
+  public listBucketSnapshotObject(
+    args: ListBucketSnapshotObjectCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: ListBucketSnapshotObjectCommandOutput) => void),
+    cb?: (err: any, data?: ListBucketSnapshotObjectCommandOutput) => void
+  ): Promise<ListBucketSnapshotObjectCommandOutput> | void {
+    const command = new ListBucketSnapshotObjectCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -10313,6 +10727,38 @@ export class S3 extends S3Client {
   }
 
   /**
+   * <p>快照回滚</p>
+   */
+  public rollbackSnapshot(
+    args: RollbackSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<RollbackSnapshotCommandOutput>;
+  public rollbackSnapshot(
+    args: RollbackSnapshotCommandInput,
+    cb: (err: any, data?: RollbackSnapshotCommandOutput) => void
+  ): void;
+  public rollbackSnapshot(
+    args: RollbackSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: RollbackSnapshotCommandOutput) => void
+  ): void;
+  public rollbackSnapshot(
+    args: RollbackSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: RollbackSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: RollbackSnapshotCommandOutput) => void
+  ): Promise<RollbackSnapshotCommandOutput> | void {
+    const command = new RollbackSnapshotCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>This operation filters the contents of an Amazon S3 object based on a simple structured query
    *          language (SQL) statement. In the request, along with the SQL expression, you must also
    *          specify a data serialization format (JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses
@@ -10483,6 +10929,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: UpdateAgentConfigCommandOutput) => void
   ): Promise<UpdateAgentConfigCommandOutput> | void {
     const command = new UpdateAgentConfigCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>修改桶快照描述</p>
+   */
+  public updateSnapshot(
+    args: UpdateSnapshotCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateSnapshotCommandOutput>;
+  public updateSnapshot(
+    args: UpdateSnapshotCommandInput,
+    cb: (err: any, data?: UpdateSnapshotCommandOutput) => void
+  ): void;
+  public updateSnapshot(
+    args: UpdateSnapshotCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateSnapshotCommandOutput) => void
+  ): void;
+  public updateSnapshot(
+    args: UpdateSnapshotCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateSnapshotCommandOutput) => void),
+    cb?: (err: any, data?: UpdateSnapshotCommandOutput) => void
+  ): Promise<UpdateSnapshotCommandOutput> | void {
+    const command = new UpdateSnapshotCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

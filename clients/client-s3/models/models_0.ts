@@ -575,6 +575,16 @@ export interface CopyObjectRequest {
   Bucket: string | undefined;
 
   /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
    * <p>Specifies caching behavior along the request/reply chain.</p>
    */
   CacheControl?: string;
@@ -1325,6 +1335,138 @@ export namespace CreateMultipartUploadRequest {
   });
 }
 
+export type SnapshotType = "manual" | "system";
+
+export interface Snapshot {
+  /**
+   * <p>快照ID</p>
+   */
+  ID?: string;
+
+  /**
+   * <p>快照类型</p>
+   */
+  Type?: SnapshotType | string;
+
+  /**
+   * <p>快照名称</p>
+   */
+  Name?: string;
+
+  /**
+   * <p>快照描述</p>
+   */
+  Description?: string;
+
+  /**
+   * <p>快照创建日期</p>
+   */
+  CreateDate?: Date;
+
+  /**
+   * <p>快照创建日期</p>
+   */
+  CreateTime?: Date;
+}
+
+export namespace Snapshot {
+  export const filterSensitiveLog = (obj: Snapshot): any => ({
+    ...obj,
+  });
+}
+
+export interface CreateSnapshotRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>回收站配置信息</p>
+   */
+  Snapshot?: Snapshot;
+}
+
+export namespace CreateSnapshotRequest {
+  export const filterSensitiveLog = (obj: CreateSnapshotRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface SnapshotPolicyPeriod {
+  /**
+   * <p>天</p>
+   */
+  Day?: number;
+
+  /**
+   * <p>小时</p>
+   */
+  Hour?: number;
+}
+
+export namespace SnapshotPolicyPeriod {
+  export const filterSensitiveLog = (obj: SnapshotPolicyPeriod): any => ({
+    ...obj,
+  });
+}
+
+export interface SnapshotPolicy {
+  /**
+   * <p>快照策略类型</p>
+   */
+  Type?: SnapshotType | string;
+
+  /**
+   * <p>快照策略前缀</p>
+   */
+  SnapshotPrefix?: string;
+
+  /**
+   * <p>快照策略周期</p>
+   */
+  CreatePeriod?: SnapshotPolicyPeriod;
+
+  /**
+   * <p>保留数量</p>
+   */
+  SnapshotReservedNum?: number;
+
+  /**
+   * <p>空间删除策略</p>
+   */
+  EnableSpacePolicy?: boolean;
+
+  /**
+   * <p>快照描述</p>
+   */
+  Description?: string;
+}
+
+export namespace SnapshotPolicy {
+  export const filterSensitiveLog = (obj: SnapshotPolicy): any => ({
+    ...obj,
+  });
+}
+
+export interface CreateSnapshotPolicyRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照策略配置信息</p>
+   */
+  SnapshotPolicy?: SnapshotPolicy;
+}
+
+export namespace CreateSnapshotPolicyRequest {
+  export const filterSensitiveLog = (obj: CreateSnapshotPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface Stat {
   /**
    * <p>必选，重删域信息，枚举值SYSTEM, POOL</p>
@@ -1421,7 +1563,7 @@ export interface DeleteAgentsRequest {
   /**
    * <p>用于区分删除与后续的升级，删除池传delete</p>
    */
-  operation?: string;
+  action?: string;
 }
 
 export namespace DeleteAgentsRequest {
@@ -4180,6 +4322,68 @@ export namespace DeleteSingleAgentRequest {
   });
 }
 
+export interface DeleteSnapshotRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+}
+
+export namespace DeleteSnapshotRequest {
+  export const filterSensitiveLog = (obj: DeleteSnapshotRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteSnapshotPolicyRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+}
+
+export namespace DeleteSnapshotPolicyRequest {
+  export const filterSensitiveLog = (obj: DeleteSnapshotPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteSnapshotInfo {
+  /**
+   * <p>快照名称</p>
+   */
+  Names?: string[];
+}
+
+export namespace DeleteSnapshotInfo {
+  export const filterSensitiveLog = (obj: DeleteSnapshotInfo): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteSnapshotsRequest {
+  /**
+   * <p>桶名</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The Snapshots.</p>
+   */
+  Snapshot?: DeleteSnapshotInfo;
+}
+
+export namespace DeleteSnapshotsRequest {
+  export const filterSensitiveLog = (obj: DeleteSnapshotsRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface GetAgentConfigOutput {
   /**
    * <p>查询单个agent配置时返回字符串，与批量配置时的Config字段一致</p>
@@ -4202,6 +4406,88 @@ export interface GetAgentConfigRequest {
 
 export namespace GetAgentConfigRequest {
   export const filterSensitiveLog = (obj: GetAgentConfigRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PolicySourceGroup {
+  /**
+   * <p>路径名称</p>
+   */
+  Name?: string;
+}
+
+export namespace PolicySourceGroup {
+  export const filterSensitiveLog = (obj: PolicySourceGroup): any => ({
+    ...obj,
+  });
+}
+
+export interface StringTypeListAgentDirectoryResult {
+  /**
+   * <p>MaxKey</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>       for a subsequent request.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>如果marker为空，则认为是列举盘符；如果最后一个字符是\,则认为是列举这个文件夹下面的目录；如果最后一个字符不是\。则认为是继续根据这个文件夹列举</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>--</p>
+   */
+  NextMarker?: string;
+
+  /**
+   * <p>返回当前迁移路径列表数据</p>
+   */
+  Directory?: PolicySourceGroup[];
+}
+
+export namespace StringTypeListAgentDirectoryResult {
+  export const filterSensitiveLog = (obj: StringTypeListAgentDirectoryResult): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAgentPathConfigOutput {
+  /**
+   * <p>返回迁移路径数据</p>
+   */
+  ListAgentDirectoryResult?: StringTypeListAgentDirectoryResult;
+}
+
+export namespace GetAgentPathConfigOutput {
+  export const filterSensitiveLog = (obj: GetAgentPathConfigOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetAgentPathConfigRequest {
+  /**
+   * <p>Agent 名称</p>
+   */
+  name?: string;
+
+  /**
+   * <p>Agent IP地址</p>
+   */
+  ip?: string;
+
+  /**
+   * <p>获取路径的上一级路径。如果传空，则列举盘符；如果传值最后一个字符为\(一个字符，这里转译了)，则列举这个文件夹下面的路径；如果传值最后一个字符不是\，则继续列举这个文件夹同级的文件夹</p>
+   */
+  marker?: string;
+}
+
+export namespace GetAgentPathConfigRequest {
+  export const filterSensitiveLog = (obj: GetAgentPathConfigRequest): any => ({
     ...obj,
   });
 }
@@ -6902,6 +7188,21 @@ export namespace RepPairConfiguration {
   });
 }
 
+export type BucketTrashStatus = "Closing" | "Disabled" | "Enabled";
+
+/**
+ * <p>Container for rep pair status information.</p>
+ */
+export interface TrashConfiguration {
+  Status?: BucketTrashStatus | string;
+}
+
+export namespace TrashConfiguration {
+  export const filterSensitiveLog = (obj: TrashConfiguration): any => ({
+    ...obj,
+  });
+}
+
 export interface DomainNames {
   /**
    * <p>域名</p>
@@ -6974,21 +7275,6 @@ export interface TaggingConfiguration {
 
 export namespace TaggingConfiguration {
   export const filterSensitiveLog = (obj: TaggingConfiguration): any => ({
-    ...obj,
-  });
-}
-
-export type BucketTrashStatus = "Closing" | "Disabled" | "Enabled";
-
-/**
- * <p>Container for rep pair status information.</p>
- */
-export interface TrashConfiguration {
-  Status?: BucketTrashStatus | string;
-}
-
-export namespace TrashConfiguration {
-  export const filterSensitiveLog = (obj: TrashConfiguration): any => ({
     ...obj,
   });
 }
@@ -7178,6 +7464,11 @@ export interface Bucket {
    * 在桶概览中添加回收站信息
    */
   TrashConfiguration?: TrashConfiguration;
+
+  /**
+   * 在桶概览中添加回收站信息
+   */
+  SnapConfiguration?: TrashConfiguration;
 }
 
 export namespace Bucket {
@@ -8044,34 +8335,6 @@ export interface GetBucketRequestPaymentRequest {
 
 export namespace GetBucketRequestPaymentRequest {
   export const filterSensitiveLog = (obj: GetBucketRequestPaymentRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface Snapshot {
-  /**
-   * <p>快照ID</p>
-   */
-  ID?: string;
-
-  /**
-   * <p>快照名称</p>
-   */
-  Name?: string;
-
-  /**
-   * <p>快照描述</p>
-   */
-  Description?: string;
-
-  /**
-   * <p>快照创建日期</p>
-   */
-  CreateDate?: Date;
-}
-
-export namespace Snapshot {
-  export const filterSensitiveLog = (obj: Snapshot): any => ({
     ...obj,
   });
 }
@@ -8947,6 +9210,11 @@ export interface GetObjectRequest {
   Bucket: string | undefined;
 
   /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
    * <p>Return the object only if its entity tag (ETag) is the same as the one specified,
    *          otherwise return a 412 (precondition failed).</p>
    */
@@ -9081,291 +9349,6 @@ export interface InvalidObjectState extends __SmithyException, $MetadataBearer {
 
 export namespace InvalidObjectState {
   export const filterSensitiveLog = (obj: InvalidObjectState): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>The specified key does not exist.</p>
- */
-export interface NoSuchKey extends __SmithyException, $MetadataBearer {
-  name: "NoSuchKey";
-  $fault: "client";
-}
-
-export namespace NoSuchKey {
-  export const filterSensitiveLog = (obj: NoSuchKey): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectAclOutput {
-  /**
-   * <p> Container for the bucket owner's display name and ID.</p>
-   */
-  Owner?: Owner;
-
-  /**
-   * <p>A list of grants.</p>
-   */
-  Grants?: Grant[];
-
-  /**
-   * <p>If present, indicates that the requester was successfully charged for the
-   *          request.</p>
-   */
-  RequestCharged?: RequestCharged | string;
-}
-
-export namespace GetObjectAclOutput {
-  export const filterSensitiveLog = (obj: GetObjectAclOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectAclRequest {
-  /**
-   * <p>The bucket name that contains the object for which to get the ACL information. </p>
-   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The key of the object for which to get the ACL information.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>VersionId used to reference a specific version of the object.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
-   *          owners need not specify this parameter in their requests. For information about downloading
-   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
-   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
-   */
-  RequestPayer?: RequestPayer | string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetObjectAclRequest {
-  export const filterSensitiveLog = (obj: GetObjectAclRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>A Legal Hold configuration for an object.</p>
- */
-export interface ObjectLockLegalHold {
-  /**
-   * <p>Indicates whether the specified object has a Legal Hold in place.</p>
-   */
-  Status?: ObjectLockLegalHoldStatus | string;
-}
-
-export namespace ObjectLockLegalHold {
-  export const filterSensitiveLog = (obj: ObjectLockLegalHold): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectLegalHoldOutput {
-  /**
-   * <p>The current Legal Hold status for the specified object.</p>
-   */
-  LegalHold?: ObjectLockLegalHold;
-}
-
-export namespace GetObjectLegalHoldOutput {
-  export const filterSensitiveLog = (obj: GetObjectLegalHoldOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectLegalHoldRequest {
-  /**
-   * <p>The bucket name containing the object whose Legal Hold status you want to retrieve. </p>
-   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The key name for the object whose Legal Hold status you want to retrieve.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>The version ID of the object whose Legal Hold status you want to retrieve.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
-   *          owners need not specify this parameter in their requests. For information about downloading
-   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
-   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
-   */
-  RequestPayer?: RequestPayer | string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetObjectLegalHoldRequest {
-  export const filterSensitiveLog = (obj: GetObjectLegalHoldRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectLockConfigurationOutput {
-  /**
-   * <p>The specified bucket's Object Lock configuration.</p>
-   */
-  ObjectLockConfiguration?: ObjectLockConfiguration;
-}
-
-export namespace GetObjectLockConfigurationOutput {
-  export const filterSensitiveLog = (obj: GetObjectLockConfigurationOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectLockConfigurationRequest {
-  /**
-   * <p>The bucket whose Object Lock configuration you want to retrieve.</p>
-   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetObjectLockConfigurationRequest {
-  export const filterSensitiveLog = (obj: GetObjectLockConfigurationRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>A Retention configuration for an object.</p>
- */
-export interface ObjectLockRetention {
-  /**
-   * <p>Indicates the Retention mode for the specified object.</p>
-   */
-  Mode?: ObjectLockRetentionMode | string;
-
-  /**
-   * <p>The date on which this Object Lock Retention will expire.</p>
-   */
-  RetainUntilDate?: Date;
-}
-
-export namespace ObjectLockRetention {
-  export const filterSensitiveLog = (obj: ObjectLockRetention): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectRetentionOutput {
-  /**
-   * <p>The container element for an object's retention settings.</p>
-   */
-  Retention?: ObjectLockRetention;
-}
-
-export namespace GetObjectRetentionOutput {
-  export const filterSensitiveLog = (obj: GetObjectRetentionOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectRetentionRequest {
-  /**
-   * <p>The bucket name containing the object whose retention settings you want to retrieve. </p>
-   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>The key name for the object whose retention settings you want to retrieve.</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>The version ID for the object whose retention settings you want to retrieve.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
-   *          owners need not specify this parameter in their requests. For information about downloading
-   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
-   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
-   */
-  RequestPayer?: RequestPayer | string;
-
-  /**
-   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
-   */
-  ExpectedBucketOwner?: string;
-}
-
-export namespace GetObjectRetentionRequest {
-  export const filterSensitiveLog = (obj: GetObjectRetentionRequest): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectSymlinkOutput {
-  /**
-   * <p>软链接源对象状态/p>
-   */
-  TargetStatus?: number;
-
-  /**
-   * <p>软链接源对象名称</p>
-   */
-  SymlinkTarget?: string;
-}
-
-export namespace GetObjectSymlinkOutput {
-  export const filterSensitiveLog = (obj: GetObjectSymlinkOutput): any => ({
-    ...obj,
-  });
-}
-
-export interface GetObjectSymlinkRequest {
-  /**
-   * <p>当前软链接名称</p>
-   */
-  Key: string | undefined;
-
-  /**
-   * <p>bucket name</p>
-   */
-  Bucket: string | undefined;
-
-  /**
-   * <p>软链接检查</p>
-   */
-  SymlinkCheck?: boolean;
-}
-
-export namespace GetObjectSymlinkRequest {
-  export const filterSensitiveLog = (obj: GetObjectSymlinkRequest): any => ({
     ...obj,
   });
 }

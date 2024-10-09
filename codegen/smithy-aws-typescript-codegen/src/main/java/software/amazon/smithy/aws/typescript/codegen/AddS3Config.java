@@ -66,7 +66,9 @@ public final class AddS3Config implements TypeScriptIntegration {
         "GetAgentConfig",
         "UpdateAgentConfig",
         "DeleteSingleAgent",
-        "DeleteAgents"
+        "DeleteAgents",
+	    "GetAgentPathConfig",
+        "IdentityAuthenticationConfig"
     );
 
     private static final Set<String> EXCEPTIONS_OF_200_OPERATIONS = SetUtils.of(

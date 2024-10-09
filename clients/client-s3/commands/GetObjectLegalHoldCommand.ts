@@ -1,5 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectLegalHoldOutput, GetObjectLegalHoldRequest } from "../models/models_0";
+import { GetObjectLegalHoldOutput, GetObjectLegalHoldRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlGetObjectLegalHoldCommand,
   serializeAws_restXmlGetObjectLegalHoldCommand,

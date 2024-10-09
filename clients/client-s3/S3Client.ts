@@ -12,6 +12,11 @@ import {
   CreateMultipartUploadCommandInput,
   CreateMultipartUploadCommandOutput,
 } from "./commands/CreateMultipartUploadCommand";
+import { CreateSnapshotCommandInput, CreateSnapshotCommandOutput } from "./commands/CreateSnapshotCommand";
+import {
+  CreateSnapshotPolicyCommandInput,
+  CreateSnapshotPolicyCommandOutput,
+} from "./commands/CreateSnapshotPolicyCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "./commands/DeleteAgentsCommand";
 import {
@@ -95,7 +100,14 @@ import {
 } from "./commands/DeletePublicAccessBlockCommand";
 import { DeleteRefererCommandInput, DeleteRefererCommandOutput } from "./commands/DeleteRefererCommand";
 import { DeleteSingleAgentCommandInput, DeleteSingleAgentCommandOutput } from "./commands/DeleteSingleAgentCommand";
+import { DeleteSnapshotCommandInput, DeleteSnapshotCommandOutput } from "./commands/DeleteSnapshotCommand";
+import {
+  DeleteSnapshotPolicyCommandInput,
+  DeleteSnapshotPolicyCommandOutput,
+} from "./commands/DeleteSnapshotPolicyCommand";
+import { DeleteSnapshotsCommandInput, DeleteSnapshotsCommandOutput } from "./commands/DeleteSnapshotsCommand";
 import { GetAgentConfigCommandInput, GetAgentConfigCommandOutput } from "./commands/GetAgentConfigCommand";
+import { GetAgentPathConfigCommandInput, GetAgentPathConfigCommandOutput } from "./commands/GetAgentPathConfigCommand";
 import {
   GetBucketAccelerateConfigurationCommandInput,
   GetBucketAccelerateConfigurationCommandOutput,
@@ -191,6 +203,9 @@ import {
   GetPublicAccessBlockCommandOutput,
 } from "./commands/GetPublicAccessBlockCommand";
 import { GetRefererCommandInput, GetRefererCommandOutput } from "./commands/GetRefererCommand";
+import { GetSnapshotInfoCommandInput, GetSnapshotInfoCommandOutput } from "./commands/GetSnapshotInfoCommand";
+import { GetSnapshotPolicyCommandInput, GetSnapshotPolicyCommandOutput } from "./commands/GetSnapshotPolicyCommand";
+import { GetSnapshotsCommandInput, GetSnapshotsCommandOutput } from "./commands/GetSnapshotsCommand";
 import {
   GetWORMConfigurationCommandInput,
   GetWORMConfigurationCommandOutput,
@@ -202,6 +217,10 @@ import {
 import { HeadBucketCommandInput, HeadBucketCommandOutput } from "./commands/HeadBucketCommand";
 import { HeadBucketObjTrashCommandInput, HeadBucketObjTrashCommandOutput } from "./commands/HeadBucketObjTrashCommand";
 import { HeadObjectCommandInput, HeadObjectCommandOutput } from "./commands/HeadObjectCommand";
+import {
+  IdentityAuthenticationConfigCommandInput,
+  IdentityAuthenticationConfigCommandOutput,
+} from "./commands/IdentityAuthenticationConfigCommand";
 import {
   ListBucketAnalyticsConfigurationsCommandInput,
   ListBucketAnalyticsConfigurationsCommandOutput,
@@ -218,6 +237,10 @@ import {
   ListBucketMetricsConfigurationsCommandInput,
   ListBucketMetricsConfigurationsCommandOutput,
 } from "./commands/ListBucketMetricsConfigurationsCommand";
+import {
+  ListBucketSnapshotObjectCommandInput,
+  ListBucketSnapshotObjectCommandOutput,
+} from "./commands/ListBucketSnapshotObjectCommand";
 import {
   ListBucketSnapshotsCommandInput,
   ListBucketSnapshotsCommandOutput,
@@ -358,11 +381,13 @@ import {
   RestoreBucketObjsTrashCommandOutput,
 } from "./commands/RestoreBucketObjsTrashCommand";
 import { RestoreObjectCommandInput, RestoreObjectCommandOutput } from "./commands/RestoreObjectCommand";
+import { RollbackSnapshotCommandInput, RollbackSnapshotCommandOutput } from "./commands/RollbackSnapshotCommand";
 import {
   SelectObjectContentCommandInput,
   SelectObjectContentCommandOutput,
 } from "./commands/SelectObjectContentCommand";
 import { UpdateAgentConfigCommandInput, UpdateAgentConfigCommandOutput } from "./commands/UpdateAgentConfigCommand";
+import { UpdateSnapshotCommandInput, UpdateSnapshotCommandOutput } from "./commands/UpdateSnapshotCommand";
 import { UploadPartCommandInput, UploadPartCommandOutput } from "./commands/UploadPartCommand";
 import { UploadPartCopyCommandInput, UploadPartCopyCommandOutput } from "./commands/UploadPartCopyCommand";
 import { ClientDefaultValues as __ClientDefaultValues } from "./runtimeConfig";
@@ -437,6 +462,8 @@ export type ServiceInputTypes =
   | CopyObjectCommandInput
   | CreateBucketCommandInput
   | CreateMultipartUploadCommandInput
+  | CreateSnapshotCommandInput
+  | CreateSnapshotPolicyCommandInput
   | DedupstatCommandInput
   | DeleteAgentsCommandInput
   | DeleteBucketAnalyticsConfigurationCommandInput
@@ -469,7 +496,11 @@ export type ServiceInputTypes =
   | DeletePublicAccessBlockCommandInput
   | DeleteRefererCommandInput
   | DeleteSingleAgentCommandInput
+  | DeleteSnapshotCommandInput
+  | DeleteSnapshotPolicyCommandInput
+  | DeleteSnapshotsCommandInput
   | GetAgentConfigCommandInput
+  | GetAgentPathConfigCommandInput
   | GetBucketAccelerateConfigurationCommandInput
   | GetBucketAclCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
@@ -511,15 +542,20 @@ export type ServiceInputTypes =
   | GetObjectWORMCommandInput
   | GetPublicAccessBlockCommandInput
   | GetRefererCommandInput
+  | GetSnapshotInfoCommandInput
+  | GetSnapshotPolicyCommandInput
+  | GetSnapshotsCommandInput
   | GetWORMConfigurationCommandInput
   | GetWORMRetainPeriodCommandInput
   | HeadBucketCommandInput
   | HeadBucketObjTrashCommandInput
   | HeadObjectCommandInput
+  | IdentityAuthenticationConfigCommandInput
   | ListBucketAnalyticsConfigurationsCommandInput
   | ListBucketIntelligentTieringConfigurationsCommandInput
   | ListBucketInventoryConfigurationsCommandInput
   | ListBucketMetricsConfigurationsCommandInput
+  | ListBucketSnapshotObjectCommandInput
   | ListBucketSnapshotsCommandInput
   | ListBucketsCommandInput
   | ListMetaSearchBucketsCommandInput
@@ -579,8 +615,10 @@ export type ServiceInputTypes =
   | RestoreBucketObjTrashCommandInput
   | RestoreBucketObjsTrashCommandInput
   | RestoreObjectCommandInput
+  | RollbackSnapshotCommandInput
   | SelectObjectContentCommandInput
   | UpdateAgentConfigCommandInput
+  | UpdateSnapshotCommandInput
   | UploadPartCommandInput
   | UploadPartCopyCommandInput;
 
@@ -590,6 +628,8 @@ export type ServiceOutputTypes =
   | CopyObjectCommandOutput
   | CreateBucketCommandOutput
   | CreateMultipartUploadCommandOutput
+  | CreateSnapshotCommandOutput
+  | CreateSnapshotPolicyCommandOutput
   | DedupstatCommandOutput
   | DeleteAgentsCommandOutput
   | DeleteBucketAnalyticsConfigurationCommandOutput
@@ -622,7 +662,11 @@ export type ServiceOutputTypes =
   | DeletePublicAccessBlockCommandOutput
   | DeleteRefererCommandOutput
   | DeleteSingleAgentCommandOutput
+  | DeleteSnapshotCommandOutput
+  | DeleteSnapshotPolicyCommandOutput
+  | DeleteSnapshotsCommandOutput
   | GetAgentConfigCommandOutput
+  | GetAgentPathConfigCommandOutput
   | GetBucketAccelerateConfigurationCommandOutput
   | GetBucketAclCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
@@ -664,15 +708,20 @@ export type ServiceOutputTypes =
   | GetObjectWORMCommandOutput
   | GetPublicAccessBlockCommandOutput
   | GetRefererCommandOutput
+  | GetSnapshotInfoCommandOutput
+  | GetSnapshotPolicyCommandOutput
+  | GetSnapshotsCommandOutput
   | GetWORMConfigurationCommandOutput
   | GetWORMRetainPeriodCommandOutput
   | HeadBucketCommandOutput
   | HeadBucketObjTrashCommandOutput
   | HeadObjectCommandOutput
+  | IdentityAuthenticationConfigCommandOutput
   | ListBucketAnalyticsConfigurationsCommandOutput
   | ListBucketIntelligentTieringConfigurationsCommandOutput
   | ListBucketInventoryConfigurationsCommandOutput
   | ListBucketMetricsConfigurationsCommandOutput
+  | ListBucketSnapshotObjectCommandOutput
   | ListBucketSnapshotsCommandOutput
   | ListBucketsCommandOutput
   | ListMetaSearchBucketsCommandOutput
@@ -732,8 +781,10 @@ export type ServiceOutputTypes =
   | RestoreBucketObjTrashCommandOutput
   | RestoreBucketObjsTrashCommandOutput
   | RestoreObjectCommandOutput
+  | RollbackSnapshotCommandOutput
   | SelectObjectContentCommandOutput
   | UpdateAgentConfigCommandOutput
+  | UpdateSnapshotCommandOutput
   | UploadPartCommandOutput
   | UploadPartCopyCommandOutput;
 

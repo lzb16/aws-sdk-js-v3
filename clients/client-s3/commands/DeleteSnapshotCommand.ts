@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectSymlinkOutput, GetObjectSymlinkRequest } from "../models/models_1";
+import { DeleteSnapshotRequest } from "../models/models_0";
 import {
-  deserializeAws_restXmlGetObjectSymlinkCommand,
-  serializeAws_restXmlGetObjectSymlinkCommand,
+  deserializeAws_restXmlDeleteSnapshotCommand,
+  serializeAws_restXmlDeleteSnapshotCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetObjectSymlinkCommandInput = GetObjectSymlinkRequest;
-export type GetObjectSymlinkCommandOutput = GetObjectSymlinkOutput & __MetadataBearer;
+export type DeleteSnapshotCommandInput = DeleteSnapshotRequest;
+export type DeleteSnapshotCommandOutput = __MetadataBearer;
 
 /**
- * <p>获取软链接源对象</p>
+ * <p>删除单个快照</p>
  */
-export class GetObjectSymlinkCommand extends $Command<
-  GetObjectSymlinkCommandInput,
-  GetObjectSymlinkCommandOutput,
+export class DeleteSnapshotCommand extends $Command<
+  DeleteSnapshotCommandInput,
+  DeleteSnapshotCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetObjectSymlinkCommandInput) {
+  constructor(readonly input: DeleteSnapshotCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class GetObjectSymlinkCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetObjectSymlinkCommandInput, GetObjectSymlinkCommandOutput> {
+  ): Handler<DeleteSnapshotCommandInput, DeleteSnapshotCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class GetObjectSymlinkCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetObjectSymlinkCommand";
+    const commandName = "DeleteSnapshotCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetObjectSymlinkRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetObjectSymlinkOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteSnapshotRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class GetObjectSymlinkCommand extends $Command<
     );
   }
 
-  private serialize(input: GetObjectSymlinkCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetObjectSymlinkCommand(input, context);
+  private serialize(input: DeleteSnapshotCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlDeleteSnapshotCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetObjectSymlinkCommandOutput> {
-    return deserializeAws_restXmlGetObjectSymlinkCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteSnapshotCommandOutput> {
+    return deserializeAws_restXmlDeleteSnapshotCommand(output, context);
   }
 
   // Start section: command_body_extra

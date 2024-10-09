@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetObjectSymlinkOutput, GetObjectSymlinkRequest } from "../models/models_1";
+import { GetSnapshotInfoOutput, GetSnapshotInfoRequest } from "../models/models_1";
 import {
-  deserializeAws_restXmlGetObjectSymlinkCommand,
-  serializeAws_restXmlGetObjectSymlinkCommand,
+  deserializeAws_restXmlGetSnapshotInfoCommand,
+  serializeAws_restXmlGetSnapshotInfoCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetObjectSymlinkCommandInput = GetObjectSymlinkRequest;
-export type GetObjectSymlinkCommandOutput = GetObjectSymlinkOutput & __MetadataBearer;
+export type GetSnapshotInfoCommandInput = GetSnapshotInfoRequest;
+export type GetSnapshotInfoCommandOutput = GetSnapshotInfoOutput & __MetadataBearer;
 
 /**
- * <p>获取软链接源对象</p>
+ * <p>获取单个快照信息</p>
  */
-export class GetObjectSymlinkCommand extends $Command<
-  GetObjectSymlinkCommandInput,
-  GetObjectSymlinkCommandOutput,
+export class GetSnapshotInfoCommand extends $Command<
+  GetSnapshotInfoCommandInput,
+  GetSnapshotInfoCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetObjectSymlinkCommandInput) {
+  constructor(readonly input: GetSnapshotInfoCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class GetObjectSymlinkCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetObjectSymlinkCommandInput, GetObjectSymlinkCommandOutput> {
+  ): Handler<GetSnapshotInfoCommandInput, GetSnapshotInfoCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class GetObjectSymlinkCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetObjectSymlinkCommand";
+    const commandName = "GetSnapshotInfoCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetObjectSymlinkRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetObjectSymlinkOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: GetSnapshotInfoRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetSnapshotInfoOutput.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class GetObjectSymlinkCommand extends $Command<
     );
   }
 
-  private serialize(input: GetObjectSymlinkCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetObjectSymlinkCommand(input, context);
+  private serialize(input: GetSnapshotInfoCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetSnapshotInfoCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetObjectSymlinkCommandOutput> {
-    return deserializeAws_restXmlGetObjectSymlinkCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetSnapshotInfoCommandOutput> {
+    return deserializeAws_restXmlGetSnapshotInfoCommand(output, context);
   }
 
   // Start section: command_body_extra
