@@ -1316,6 +1316,18 @@ export interface CreateMultipartUploadRequest {
   ObjectLockRetainUntilDate?: Date;
 
   /**
+   * <p>The date and time when you want this object's WORM to expire. Must be formatted
+   *          as a timestamp parameter.</p>
+   */
+  WormRetainUntilDate?: Date;
+
+  /**
+   * <p>The date and time when you want this object's WORM to expire. Must be formatted
+   *          as a timestamp parameter.</p>
+   */
+  WormGraceUntilDate?: Date;
+
+  /**
    * <p>Specifies whether you want to apply a Legal Hold to the uploaded object.</p>
    */
   ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string;

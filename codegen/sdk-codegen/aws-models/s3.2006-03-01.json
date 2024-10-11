@@ -3807,6 +3807,20 @@
             "smithy.api#httpHeader": "x-amz-object-lock-retain-until-date"
           }
         },
+        "WormRetainUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-retain-until-date"
+          }
+        },
+        "WormGraceUntilDate": {
+          "target": "com.amazonaws.s3#ObjectLockRetainUntilDate",
+          "traits": {
+            "smithy.api#documentation": "<p>The date and time when you want this object's WORM to expire. Must be formatted\n         as a timestamp parameter.</p>",
+            "smithy.api#httpHeader": "x-amz-worm-grace-until-date"
+          }
+        },
         "ObjectLockLegalHoldStatus": {
           "target": "com.amazonaws.s3#ObjectLockLegalHoldStatus",
           "traits": {

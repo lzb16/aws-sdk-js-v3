@@ -967,6 +967,12 @@ export const serializeAws_restXmlCreateMultipartUploadCommand = async (
         input.ObjectLockRetainUntilDate!.toISOString().split(".")[0] + "Z"
       ).toString(),
     }),
+    ...(isSerializableHeaderValue(input.WormRetainUntilDate) && {
+      "x-amz-worm-retain-until-date": (input.WormRetainUntilDate!.toISOString().split(".")[0] + "Z").toString(),
+    }),
+    ...(isSerializableHeaderValue(input.WormGraceUntilDate) && {
+      "x-amz-worm-grace-until-date": (input.WormGraceUntilDate!.toISOString().split(".")[0] + "Z").toString(),
+    }),
     ...(isSerializableHeaderValue(input.ObjectLockLegalHoldStatus) && {
       "x-amz-object-lock-legal-hold": input.ObjectLockLegalHoldStatus!,
     }),
