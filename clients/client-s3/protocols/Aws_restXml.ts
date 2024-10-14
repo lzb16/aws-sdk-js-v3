@@ -2321,7 +2321,7 @@ export const serializeAws_restXmlDeleteSnapshotCommand = async (
   const query: any = {
     snapshot: "",
     action: "deleteSnapshot",
-    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -4121,7 +4121,7 @@ export const serializeAws_restXmlGetSnapshotInfoCommand = async (
   const query: any = {
     snapshot: "",
     action: "getSnapshotInfo",
-    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -4667,7 +4667,12 @@ export const serializeAws_restXmlListBucketSnapshotObjectCommand = async (
   input: ListBucketSnapshotObjectCommandInput,
   context: __SerdeContext
 ): Promise<__HttpRequest> => {
-  const headers: any = {};
+  const headers: any = {
+    ...(isSerializableHeaderValue(input.RequestPayer) && { "x-amz-request-payer": input.RequestPayer! }),
+    ...(isSerializableHeaderValue(input.ExpectedBucketOwner) && {
+      "x-amz-expected-bucket-owner": input.ExpectedBucketOwner!,
+    }),
+  };
   let resolvedPath = "/{Bucket}";
   if (input.Bucket !== undefined) {
     const labelValue: string = input.Bucket;
@@ -4681,11 +4686,12 @@ export const serializeAws_restXmlListBucketSnapshotObjectCommand = async (
   const query: any = {
     snapshot: "",
     action: "listObject",
-    ...(input.SnapshotName !== undefined && { name: input.SnapshotName }),
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
     ...(input.MaxKeys !== undefined && { "max-keys": input.MaxKeys.toString() }),
     ...(input.Marker !== undefined && { marker: input.Marker }),
     ...(input.Delimiter !== undefined && { delimiter: input.Delimiter }),
     ...(input.Prefix !== undefined && { prefix: input.Prefix }),
+    ...(input.EncodingType !== undefined && { "encoding-type": input.EncodingType }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();

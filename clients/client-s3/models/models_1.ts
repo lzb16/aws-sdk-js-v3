@@ -2616,6 +2616,26 @@ export interface ListBucketSnapshotObjectRequest {
    * <p>Limits the response to keys that begin with the specified prefix.</p>
    */
   Prefix?: string;
+
+  /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Confirms that the requester knows that she or he will be charged for the list objects
+   *          request. Bucket owners need not specify this parameter in their requests.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
 }
 
 export namespace ListBucketSnapshotObjectRequest {

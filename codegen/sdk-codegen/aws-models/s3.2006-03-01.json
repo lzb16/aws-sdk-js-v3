@@ -712,6 +712,9 @@
         },
         {
           "target": "com.amazonaws.s3#ListBucketSnapshotObject"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketSnapshotObjectAcl"
         }
       ],
       "traits": {
@@ -14879,7 +14882,7 @@
           "target": "com.amazonaws.s3#BucketName",
           "traits": {
             "smithy.api#documentation": "<p>快照名</p>",
-            "smithy.api#httpQuery": "name"
+            "smithy.api#httpQuery": "snapshotName"
           }
         }
       }
@@ -14959,7 +14962,7 @@
           "target": "com.amazonaws.s3#BucketName",
           "traits": {
             "smithy.api#documentation": "<p>快照名</p>",
-            "smithy.api#httpQuery": "name"
+            "smithy.api#httpQuery": "snapshotName"
           }
         }
       }
@@ -15168,7 +15171,7 @@
           "target": "com.amazonaws.s3#BucketName",
           "traits": {
             "smithy.api#documentation": "<p>快照名</p>",
-            "smithy.api#httpQuery": "name"
+            "smithy.api#httpQuery": "snapshotName"
           }
         },
         "MaxKeys": {
@@ -15197,6 +15200,26 @@
           "traits": {
             "smithy.api#documentation": "<p>Limits the response to keys that begin with the specified prefix.</p>",
             "smithy.api#httpQuery": "prefix"
+          }
+        },
+        "EncodingType": {
+          "target": "com.amazonaws.s3#EncodingType",
+          "traits": {
+            "smithy.api#httpQuery": "encoding-type"
+          }
+        },
+        "RequestPayer": {
+          "target": "com.amazonaws.s3#RequestPayer",
+          "traits": {
+            "smithy.api#documentation": "<p>Confirms that the requester knows that she or he will be charged for the list objects\n         request. Bucket owners need not specify this parameter in their requests.</p>",
+            "smithy.api#httpHeader": "x-amz-request-payer"
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
           }
         }
       }
@@ -15277,6 +15300,7 @@
         }
       }
     },
+    "com.amazonaws.s3#GetBucketSnapshotObjectAcl": {},
     "com.amazonaws.s3#PutBucketReplication": {
       "type": "operation",
       "input": {
