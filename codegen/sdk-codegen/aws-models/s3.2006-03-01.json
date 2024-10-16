@@ -712,9 +712,6 @@
         },
         {
           "target": "com.amazonaws.s3#ListBucketSnapshotObject"
-        },
-        {
-          "target": "com.amazonaws.s3#GetBucketSnapshotObjectAcl"
         }
       ],
       "traits": {
@@ -15300,7 +15297,6 @@
         }
       }
     },
-    "com.amazonaws.s3#GetBucketSnapshotObjectAcl": {},
     "com.amazonaws.s3#PutBucketReplication": {
       "type": "operation",
       "input": {
