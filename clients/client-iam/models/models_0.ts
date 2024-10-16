@@ -944,6 +944,26 @@ export interface AccountType {
   User?: User;
 
   /**
+   * <p>已归档对象数量</p>
+   */
+  ArchivedObjectNumber?: number;
+
+  /**
+   * <p>已归档对象容量</p>
+   */
+  ArchivedObjectSize?: number;
+
+  /**
+   * <p>已恢复对象数量</p>
+   */
+  RestoredObjectNumber?: number;
+
+  /**
+   * <p>已恢复对象容量</p>
+   */
+  RestoredObjectSize?: number;
+
+  /**
    * 账户重删数据
    */
   Dedup?: AccoutDedup;

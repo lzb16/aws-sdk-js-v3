@@ -21805,6 +21805,10 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     UsedSize: undefined,
     AccessKeys: undefined,
     User: undefined,
+    ArchivedObjectNumber: undefined,
+    ArchivedObjectSize: undefined,
+    RestoredObjectNumber: undefined,
+    RestoredObjectSize: undefined,
     Dedup: undefined,
     TrashObjectNumber: undefined,
     TrashSize: undefined,
@@ -21868,6 +21872,18 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   }
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
+  }
+  if (output["ArchivedObjectNumber"] !== undefined) {
+    contents.ArchivedObjectNumber = parseInt(output["ArchivedObjectNumber"]);
+  }
+  if (output["ArchivedObjectSize"] !== undefined) {
+    contents.ArchivedObjectSize = parseInt(output["ArchivedObjectSize"]);
+  }
+  if (output["RestoredObjectNumber"] !== undefined) {
+    contents.RestoredObjectNumber = parseInt(output["RestoredObjectNumber"]);
+  }
+  if (output["RestoredObjectSize"] !== undefined) {
+    contents.RestoredObjectSize = parseInt(output["RestoredObjectSize"]);
   }
   if (output["Dedup"] !== undefined) {
     contents.Dedup = deserializeAws_queryAccoutDedup(output["Dedup"], context);
