@@ -18881,6 +18881,12 @@ const serializeAws_restXmlQuota = (input: Quota, context: __SerdeContext): any =
     const node = new __XmlNode("ObjectQuota").addChildNode(new __XmlText(input.ObjectQuota)).withName("ObjectQuota");
     bodyNode.addChildNode(node);
   }
+  if (input.OverQuotaDelete !== undefined && input.OverQuotaDelete !== null) {
+    const node = new __XmlNode("StringType")
+      .addChildNode(new __XmlText(input.OverQuotaDelete))
+      .withName("OverQuotaDelete");
+    bodyNode.addChildNode(node);
+  }
   return bodyNode;
 };
 
@@ -22713,12 +22719,16 @@ const deserializeAws_restXmlQuota = (output: any, context: __SerdeContext): Quot
   let contents: any = {
     StorageQuota: undefined,
     ObjectQuota: undefined,
+    OverQuotaDelete: undefined,
   };
   if (output["StorageQuota"] !== undefined) {
     contents.StorageQuota = output["StorageQuota"];
   }
   if (output["ObjectQuota"] !== undefined) {
     contents.ObjectQuota = output["ObjectQuota"];
+  }
+  if (output["OverQuotaDelete"] !== undefined) {
+    contents.OverQuotaDelete = output["OverQuotaDelete"];
   }
   return contents;
 };

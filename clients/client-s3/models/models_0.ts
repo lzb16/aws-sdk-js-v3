@@ -7134,6 +7134,10 @@ export namespace QoSConfiguration {
 export interface Quota {
   StorageQuota?: string;
   ObjectQuota?: string;
+  /**
+   * <p>超配额删除旧对象</p>
+   */
+  OverQuotaDelete?: string;
 }
 
 export namespace Quota {
