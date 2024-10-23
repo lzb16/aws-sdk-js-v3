@@ -16634,9 +16634,21 @@ const serializeAws_restXmlAbortIncompleteMultipartUpload = (
 ): any => {
   const bodyNode = new __XmlNode("AbortIncompleteMultipartUpload");
   if (input.DaysAfterInitiation !== undefined && input.DaysAfterInitiation !== null) {
-    const node = new __XmlNode("DaysAfterInitiation")
+    const node = new __XmlNode("DatesAfterInitiation")
       .addChildNode(new __XmlText(String(input.DaysAfterInitiation)))
       .withName("DaysAfterInitiation");
+    bodyNode.addChildNode(node);
+  }
+  if (input.HoursAfterInitiation !== undefined && input.HoursAfterInitiation !== null) {
+    const node = new __XmlNode("DatesAfterInitiation")
+      .addChildNode(new __XmlText(String(input.HoursAfterInitiation)))
+      .withName("HoursAfterInitiation");
+    bodyNode.addChildNode(node);
+  }
+  if (input.MinutesAfterInitiation !== undefined && input.MinutesAfterInitiation !== null) {
+    const node = new __XmlNode("DatesAfterInitiation")
+      .addChildNode(new __XmlText(String(input.MinutesAfterInitiation)))
+      .withName("MinutesAfterInitiation");
     bodyNode.addChildNode(node);
   }
   return bodyNode;
@@ -17859,6 +17871,14 @@ const serializeAws_restXmlLifecycleExpiration = (input: LifecycleExpiration, con
     const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Days))).withName("Days");
     bodyNode.addChildNode(node);
   }
+  if (input.Hours !== undefined && input.Hours !== null) {
+    const node = new __XmlNode("Hours").addChildNode(new __XmlText(String(input.Hours))).withName("Hours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Minutes !== undefined && input.Minutes !== null) {
+    const node = new __XmlNode("Minutes").addChildNode(new __XmlText(String(input.Minutes))).withName("Minutes");
+    bodyNode.addChildNode(node);
+  }
   if (input.ExpiredObjectDeleteMarker !== undefined && input.ExpiredObjectDeleteMarker !== null) {
     const node = new __XmlNode("ExpiredObjectDeleteMarker")
       .addChildNode(new __XmlText(String(input.ExpiredObjectDeleteMarker)))
@@ -18259,6 +18279,18 @@ const serializeAws_restXmlNoncurrentVersionExpiration = (
       .withName("NoncurrentDays");
     bodyNode.addChildNode(node);
   }
+  if (input.NoncurrentHours !== undefined && input.NoncurrentHours !== null) {
+    const node = new __XmlNode("Hours")
+      .addChildNode(new __XmlText(String(input.NoncurrentHours)))
+      .withName("NoncurrentHours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.NoncurrentMinutes !== undefined && input.NoncurrentMinutes !== null) {
+    const node = new __XmlNode("Minutes")
+      .addChildNode(new __XmlText(String(input.NoncurrentMinutes)))
+      .withName("NoncurrentMinutes");
+    bodyNode.addChildNode(node);
+  }
   return bodyNode;
 };
 
@@ -18271,6 +18303,18 @@ const serializeAws_restXmlNoncurrentVersionTransition = (
     const node = new __XmlNode("Days")
       .addChildNode(new __XmlText(String(input.NoncurrentDays)))
       .withName("NoncurrentDays");
+    bodyNode.addChildNode(node);
+  }
+  if (input.NoncurrentHours !== undefined && input.NoncurrentHours !== null) {
+    const node = new __XmlNode("Hours")
+      .addChildNode(new __XmlText(String(input.NoncurrentHours)))
+      .withName("NoncurrentHours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.NoncurrentMinutes !== undefined && input.NoncurrentMinutes !== null) {
+    const node = new __XmlNode("Minutes")
+      .addChildNode(new __XmlText(String(input.NoncurrentMinutes)))
+      .withName("NoncurrentMinutes");
     bodyNode.addChildNode(node);
   }
   if (input.StorageClass !== undefined && input.StorageClass !== null) {
@@ -19822,6 +19866,14 @@ const serializeAws_restXmlTransition = (input: Transition, context: __SerdeConte
     const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Days))).withName("Days");
     bodyNode.addChildNode(node);
   }
+  if (input.Minutes !== undefined && input.Minutes !== null) {
+    const node = new __XmlNode("Minutes").addChildNode(new __XmlText(String(input.Minutes))).withName("Minutes");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Hours !== undefined && input.Hours !== null) {
+    const node = new __XmlNode("Hours").addChildNode(new __XmlText(String(input.Hours))).withName("Hours");
+    bodyNode.addChildNode(node);
+  }
   if (input.StorageClass !== undefined && input.StorageClass !== null) {
     const node = new __XmlNode("TransitionStorageClass")
       .addChildNode(new __XmlText(input.StorageClass))
@@ -20020,9 +20072,17 @@ const deserializeAws_restXmlAbortIncompleteMultipartUpload = (
 ): AbortIncompleteMultipartUpload => {
   let contents: any = {
     DaysAfterInitiation: undefined,
+    HoursAfterInitiation: undefined,
+    MinutesAfterInitiation: undefined,
   };
   if (output["DaysAfterInitiation"] !== undefined) {
     contents.DaysAfterInitiation = parseInt(output["DaysAfterInitiation"]);
+  }
+  if (output["HoursAfterInitiation"] !== undefined) {
+    contents.HoursAfterInitiation = parseInt(output["HoursAfterInitiation"]);
+  }
+  if (output["MinutesAfterInitiation"] !== undefined) {
+    contents.MinutesAfterInitiation = parseInt(output["MinutesAfterInitiation"]);
   }
   return contents;
 };
@@ -21396,6 +21456,8 @@ const deserializeAws_restXmlLifecycleExpiration = (output: any, context: __Serde
   let contents: any = {
     Date: undefined,
     Days: undefined,
+    Hours: undefined,
+    Minutes: undefined,
     ExpiredObjectDeleteMarker: undefined,
   };
   if (output["Date"] !== undefined) {
@@ -21403,6 +21465,12 @@ const deserializeAws_restXmlLifecycleExpiration = (output: any, context: __Serde
   }
   if (output["Days"] !== undefined) {
     contents.Days = parseInt(output["Days"]);
+  }
+  if (output["Hours"] !== undefined) {
+    contents.Hours = parseInt(output["Hours"]);
+  }
+  if (output["Minutes"] !== undefined) {
+    contents.Minutes = parseInt(output["Minutes"]);
   }
   if (output["ExpiredObjectDeleteMarker"] !== undefined) {
     contents.ExpiredObjectDeleteMarker = output["ExpiredObjectDeleteMarker"] == "true";
@@ -22020,9 +22088,17 @@ const deserializeAws_restXmlNoncurrentVersionExpiration = (
 ): NoncurrentVersionExpiration => {
   let contents: any = {
     NoncurrentDays: undefined,
+    NoncurrentHours: undefined,
+    NoncurrentMinutes: undefined,
   };
   if (output["NoncurrentDays"] !== undefined) {
     contents.NoncurrentDays = parseInt(output["NoncurrentDays"]);
+  }
+  if (output["NoncurrentHours"] !== undefined) {
+    contents.NoncurrentHours = parseInt(output["NoncurrentHours"]);
+  }
+  if (output["NoncurrentMinutes"] !== undefined) {
+    contents.NoncurrentMinutes = parseInt(output["NoncurrentMinutes"]);
   }
   return contents;
 };
@@ -22033,10 +22109,18 @@ const deserializeAws_restXmlNoncurrentVersionTransition = (
 ): NoncurrentVersionTransition => {
   let contents: any = {
     NoncurrentDays: undefined,
+    NoncurrentHours: undefined,
+    NoncurrentMinutes: undefined,
     StorageClass: undefined,
   };
   if (output["NoncurrentDays"] !== undefined) {
     contents.NoncurrentDays = parseInt(output["NoncurrentDays"]);
+  }
+  if (output["NoncurrentHours"] !== undefined) {
+    contents.NoncurrentHours = parseInt(output["NoncurrentHours"]);
+  }
+  if (output["NoncurrentMinutes"] !== undefined) {
+    contents.NoncurrentMinutes = parseInt(output["NoncurrentMinutes"]);
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
@@ -23546,6 +23630,8 @@ const deserializeAws_restXmlTransition = (output: any, context: __SerdeContext):
   let contents: any = {
     Date: undefined,
     Days: undefined,
+    Minutes: undefined,
+    Hours: undefined,
     StorageClass: undefined,
   };
   if (output["Date"] !== undefined) {
@@ -23553,6 +23639,12 @@ const deserializeAws_restXmlTransition = (output: any, context: __SerdeContext):
   }
   if (output["Days"] !== undefined) {
     contents.Days = parseInt(output["Days"]);
+  }
+  if (output["Minutes"] !== undefined) {
+    contents.Minutes = parseInt(output["Minutes"]);
+  }
+  if (output["Hours"] !== undefined) {
+    contents.Hours = parseInt(output["Hours"]);
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];

@@ -14,6 +14,18 @@ export interface AbortIncompleteMultipartUpload {
    *          upload.</p>
    */
   DaysAfterInitiation?: number;
+
+  /**
+   * <p>Specifies the number of days after which Amazon S3 aborts an incomplete multipart
+   *          upload.</p>
+   */
+  HoursAfterInitiation?: number;
+
+  /**
+   * <p>Specifies the number of days after which Amazon S3 aborts an incomplete multipart
+   *          upload.</p>
+   */
+  MinutesAfterInitiation?: number;
 }
 
 export namespace AbortIncompleteMultipartUpload {
@@ -5527,6 +5539,16 @@ export interface LifecycleExpiration {
   Days?: number;
 
   /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Hours?: number;
+
+  /**
+   * <p>The number of years that you want to specify for the default retention period.</p>
+   */
+  Minutes?: number;
+
+  /**
    * <p>Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set
    *          to true, the delete marker will be expired; if set to false the policy takes no action.
    *          This cannot be specified with Days or Date in a Lifecycle Expiration Policy.</p>
@@ -6094,6 +6116,16 @@ export interface NoncurrentVersionExpiration {
    *             Storage Service Developer Guide</i>.</p>
    */
   NoncurrentDays?: number;
+
+  /**
+   * <p>Hours</p>
+   */
+  NoncurrentHours?: number;
+
+  /**
+   * <p>Minutes</p>
+   */
+  NoncurrentMinutes?: number;
 }
 
 export namespace NoncurrentVersionExpiration {
@@ -6122,6 +6154,16 @@ export interface NoncurrentVersionTransition {
    *             <i>Amazon Simple Storage Service Developer Guide</i>.</p>
    */
   NoncurrentDays?: number;
+
+  /**
+   * <p>Hours</p>
+   */
+  NoncurrentHours?: number;
+
+  /**
+   * <p>Minutes</p>
+   */
+  NoncurrentMinutes?: number;
 
   /**
    * <p>The class of storage used to store the object.</p>
@@ -6203,6 +6245,16 @@ export interface Transition {
    *          specified storage class. The value must be a positive integer.</p>
    */
   Days?: number;
+
+  /**
+   * <p>Minutes</p>
+   */
+  Minutes?: number;
+
+  /**
+   * <p>Hours</p>
+   */
+  Hours?: number;
 
   /**
    * <p>The storage class to which you want the object to transition.</p>
