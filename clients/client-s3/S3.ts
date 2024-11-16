@@ -52,6 +52,11 @@ import {
   DeleteBucketCommandOutput,
 } from "./commands/DeleteBucketCommand";
 import {
+  DeleteBucketCompressionConfigurationCommand,
+  DeleteBucketCompressionConfigurationCommandInput,
+  DeleteBucketCompressionConfigurationCommandOutput,
+} from "./commands/DeleteBucketCompressionConfigurationCommand";
+import {
   DeleteBucketCorsCommand,
   DeleteBucketCorsCommandInput,
   DeleteBucketCorsCommandOutput,
@@ -227,6 +232,11 @@ import {
   GetBucketBtsCommandInput,
   GetBucketBtsCommandOutput,
 } from "./commands/GetBucketBtsCommand";
+import {
+  GetBucketCompressionConfigurationCommand,
+  GetBucketCompressionConfigurationCommandInput,
+  GetBucketCompressionConfigurationCommandOutput,
+} from "./commands/GetBucketCompressionConfigurationCommand";
 import {
   GetBucketCorsCommand,
   GetBucketCorsCommandInput,
@@ -530,6 +540,11 @@ import {
   PutBucketBtsCommandInput,
   PutBucketBtsCommandOutput,
 } from "./commands/PutBucketBtsCommand";
+import {
+  PutBucketCompressionConfigurationCommand,
+  PutBucketCompressionConfigurationCommandInput,
+  PutBucketCompressionConfigurationCommandOutput,
+} from "./commands/PutBucketCompressionConfigurationCommand";
 import {
   PutBucketCorsCommand,
   PutBucketCorsCommandInput,
@@ -1852,6 +1867,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteBucketBtsCommandOutput) => void
   ): Promise<DeleteBucketBtsCommandOutput> | void {
     const command = new DeleteBucketBtsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   *
+   */
+  public deleteBucketCompressionConfiguration(
+    args: DeleteBucketCompressionConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketCompressionConfigurationCommandOutput>;
+  public deleteBucketCompressionConfiguration(
+    args: DeleteBucketCompressionConfigurationCommandInput,
+    cb: (err: any, data?: DeleteBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public deleteBucketCompressionConfiguration(
+    args: DeleteBucketCompressionConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public deleteBucketCompressionConfiguration(
+    args: DeleteBucketCompressionConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketCompressionConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketCompressionConfigurationCommandOutput) => void
+  ): Promise<DeleteBucketCompressionConfigurationCommandOutput> | void {
+    const command = new DeleteBucketCompressionConfigurationCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3516,6 +3563,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketBtsCommandOutput) => void
   ): Promise<GetBucketBtsCommandOutput> | void {
     const command = new GetBucketBtsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   *
+   */
+  public getBucketCompressionConfiguration(
+    args: GetBucketCompressionConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketCompressionConfigurationCommandOutput>;
+  public getBucketCompressionConfiguration(
+    args: GetBucketCompressionConfigurationCommandInput,
+    cb: (err: any, data?: GetBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public getBucketCompressionConfiguration(
+    args: GetBucketCompressionConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public getBucketCompressionConfiguration(
+    args: GetBucketCompressionConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketCompressionConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketCompressionConfigurationCommandOutput) => void
+  ): Promise<GetBucketCompressionConfigurationCommandOutput> | void {
+    const command = new GetBucketCompressionConfigurationCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7440,6 +7519,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketBtsCommandOutput) => void
   ): Promise<PutBucketBtsCommandOutput> | void {
     const command = new PutBucketBtsCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   *
+   */
+  public putBucketCompressionConfiguration(
+    args: PutBucketCompressionConfigurationCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketCompressionConfigurationCommandOutput>;
+  public putBucketCompressionConfiguration(
+    args: PutBucketCompressionConfigurationCommandInput,
+    cb: (err: any, data?: PutBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public putBucketCompressionConfiguration(
+    args: PutBucketCompressionConfigurationCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketCompressionConfigurationCommandOutput) => void
+  ): void;
+  public putBucketCompressionConfiguration(
+    args: PutBucketCompressionConfigurationCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketCompressionConfigurationCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketCompressionConfigurationCommandOutput) => void
+  ): Promise<PutBucketCompressionConfigurationCommandOutput> | void {
+    const command = new PutBucketCompressionConfigurationCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

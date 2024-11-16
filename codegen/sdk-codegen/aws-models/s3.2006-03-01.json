@@ -724,6 +724,15 @@
         },
         {
           "target": "com.amazonaws.s3#ListBucketSnapshotObject"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketCompressionConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketCompressionConfiguration"
+        },
+        {
+          "target": "com.amazonaws.s3#DeleteBucketCompressionConfiguration"
         }
       ],
       "traits": {
@@ -1553,6 +1562,18 @@
             "smithy.api#documentation": "<p>Date the Size of bucket was created.</p>"
           }
         },
+        "CompressSize": {
+          "target": "com.amazonaws.s3#Size",
+          "traits": {
+            "smithy.api#documentation": "<p>对象压缩后容量</p>"
+          }
+        },
+        "CompressRatio": {
+          "target": "com.amazonaws.s3#CompressRatio",
+          "traits": {
+            "smithy.api#documentation": "<p>对象压缩率</p>"
+          }
+        },
         "PhysicalSize": {
           "target": "com.amazonaws.s3#PhysicalSize",
           "traits": {
@@ -1703,10 +1724,33 @@
           "traits": {
             "smithy.api#documentation": "在桶概览中添加回收站信息"
           }
+        },
+        "CompressionConfiguration": {
+          "target": "com.amazonaws.s3#CompressionConfigurations",
+          "traits": {
+            "smithy.api#documentation": "当前桶是否配置压缩策略"
+          }
+        },
+        "HistoryCompressionConfiguration": {
+          "target": "com.amazonaws.s3#CompressionConfigurations",
+          "traits": {
+            "smithy.api#documentation": "桶曾经是否配置过压缩策略"
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "<p> In terms of implementation, a Bucket is a resource. An Amazon S3 bucket name is globally\n         unique, and the namespace is shared by all AWS accounts. </p>"
+      }
+    },
+    "com.amazonaws.s3#CompressionConfigurations": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#CompressionStr",
+          "traits": {
+            "smithy.api#documentation": "<p>Status</p>"
+          }
+        }
       }
     },
     "com.amazonaws.s3#BucketDedupConfiguration": {
@@ -2312,6 +2356,72 @@
     },
     "com.amazonaws.s3#BucketName": {
       "type": "string"
+    },
+    "com.amazonaws.s3#CompressionStr": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#CompressionNum": {
+      "type": "integer"
+    },
+    "com.amazonaws.s3#CompressionRule": {
+      "type": "structure",
+      "members": {
+        "CompressFilter": {
+          "target": "com.amazonaws.s3#NotOrCompressFilter",
+          "traits": {
+            "smithy.api#documentation": "<p>CompressFilter</p>"
+          }
+        },
+        "NotCompressFilter": {
+          "target": "com.amazonaws.s3#NotOrCompressFilter",
+          "traits": {
+            "smithy.api#documentation": "<p>NotCompressFilter</p>"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>CompressionRule</p>"
+      }
+    },
+    "com.amazonaws.s3#NotOrCompressFilter": {
+      "type": "structure",
+      "members": {
+        "Prefix": {
+          "target": "com.amazonaws.s3#PrefixOrSuffix",
+          "traits": {
+            "smithy.api#documentation": "<p>前缀</p>",
+            "smithy.api#xmlName": "Prefix"
+          }
+        },
+        "Suffix": {
+          "target": "com.amazonaws.s3#PrefixOrSuffix",
+          "traits": {
+            "smithy.api#documentation": "<p>后缀</p>",
+            "smithy.api#xmlName": "Suffix"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PrefixOrSuffix": {
+      "type": "structure",
+      "members": {
+        "Value": {
+          "target": "com.amazonaws.s3#PrefixOrSuffixValue",
+          "traits": {
+            "smithy.api#documentation": "<p>Value</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PrefixOrSuffixValue": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#StringType"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>Value</p>"
+      }
     },
     "com.amazonaws.s3#StringType": {
       "type": "string"
@@ -5892,6 +6002,177 @@
         }
       }
     },
+    "com.amazonaws.s3#GetBucketCompressionConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketCompressionConfigurationRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketCompressionConfigurationOutput"
+      },
+      "traits": {
+        "smithy.api#documentation": "",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?compression",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketCompressionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket for which to get the compression information.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ExpectedBucketOwner": {
+          "target": "com.amazonaws.s3#AccountId",
+          "traits": {
+            "smithy.api#documentation": "<p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>",
+            "smithy.api#httpHeader": "x-amz-expected-bucket-owner"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketCompressionConfigurationOutput": {
+      "type": "structure",
+      "members": {
+        "CompressionConfiguration": {
+          "target": "com.amazonaws.s3#CompressionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>获取桶统计计量配置请求返回值</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#CompressionConfiguration": {
+      "type": "structure",
+      "members": {
+        "Mode": {
+          "target": "com.amazonaws.s3#CompressionStr",
+          "traits": {
+            "smithy.api#documentation": "<p>Mode</p>"
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#CompressionStr",
+          "traits": {
+            "smithy.api#documentation": "<p>Status</p>"
+          }
+        },
+        "MinSize": {
+          "target": "com.amazonaws.s3#CompressionNum",
+          "traits": {
+            "smithy.api#documentation": "<p>MinSize</p>"
+          }
+        },
+        "Rule": {
+          "target": "com.amazonaws.s3#CompressionRule",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a compression rule.</p>",
+            "smithy.api#xmlName": "Rule"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketCompressionConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketCompressionConfigurationRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?compression",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#PutBucketCompressionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket to which to apply the ACL.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "CompressionConfiguration": {
+          "target": "com.amazonaws.s3#BucketCompressionConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>",
+            "smithy.api#httpPayload": {},
+            "smithy.api#xmlName": "CompressionConfiguration"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BucketCompressionConfiguration": {
+      "type": "structure",
+      "members": {
+        "Mode": {
+          "target": "com.amazonaws.s3#CompressionStr",
+          "traits": {
+            "smithy.api#documentation": "<p>Mode</p>"
+          }
+        },
+        "Status": {
+          "target": "com.amazonaws.s3#CompressionStr",
+          "traits": {
+            "smithy.api#documentation": "<p>Status</p>"
+          }
+        },
+        "MinSize": {
+          "target": "com.amazonaws.s3#CompressionNum",
+          "traits": {
+            "smithy.api#documentation": "<p>MinSize</p>"
+          }
+        },
+        "Rule": {
+          "target": "com.amazonaws.s3#CompressionRule",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a compression rule.</p>",
+            "smithy.api#xmlName": "Rule"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketCompressionConfiguration": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketCompressionConfigurationRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?compression",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketCompressionConfigurationRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>Bucket</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#GetBucketLocation": {
       "type": "operation",
       "input": {
@@ -8324,6 +8605,13 @@
           "traits": {
             "smithy.api#documentation": "<p>If the object is stored using server-side encryption either with an AWS KMS customer\n         master key (CMK) or an Amazon S3-managed encryption key, the response includes this header with\n         the value of the server-side encryption algorithm used when storing this object in Amazon\n         S3 (for example, AES256, aws:kms).</p>",
             "smithy.api#httpHeader": "x-amz-server-side-encryption"
+          }
+        },
+        "CompressSize": {
+          "target": "com.amazonaws.s3#Size",
+          "traits": {
+            "smithy.api#documentation": "<p>对象压缩后容量</p>",
+            "smithy.api#httpHeader": "x-amz-final-size"
           }
         },
         "Metadata": {
@@ -12085,6 +12373,12 @@
             "smithy.api#documentation": "<p>Size in bytes of the object</p>"
           }
         },
+        "FinalSize": {
+          "target": "com.amazonaws.s3#FinalSize",
+          "traits": {
+            "smithy.api#documentation": "<p>Size in bytes of the object</p>"
+          }
+        },
         "StorageClass": {
           "target": "com.amazonaws.s3#ObjectStorageClass",
           "traits": {
@@ -12092,6 +12386,12 @@
           }
         },
         "IsEncrypted": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
+        "IsCompressed": {
           "target": "com.amazonaws.s3#booleanType",
           "traits": {
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
@@ -12490,6 +12790,12 @@
             "smithy.api#documentation": "<p>Size in bytes of the object.</p>"
           }
         },
+        "FinalSize": {
+          "target": "com.amazonaws.s3#FinalSize",
+          "traits": {
+            "smithy.api#documentation": "<p>对象压缩后容量</p>"
+          }
+        },
         "StorageClass": {
           "target": "com.amazonaws.s3#ObjectVersionStorageClass",
           "traits": {
@@ -12545,6 +12851,12 @@
           }
         },
         "IsEncrypted": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
+        "IsCompressed": {
           "target": "com.amazonaws.s3#booleanType",
           "traits": {
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
@@ -18223,6 +18535,9 @@
     "com.amazonaws.s3#Size": {
       "type": "long"
     },
+    "com.amazonaws.s3#FinalSize": {
+      "type": "long"
+    },
     "com.amazonaws.s3#SourceSelectionCriteria": {
       "type": "structure",
       "members": {
@@ -18662,6 +18977,9 @@
       "type": "string"
     },
     "com.amazonaws.s3#TopicArn": {
+      "type": "string"
+    },
+    "com.amazonaws.s3#CompressRatio": {
       "type": "string"
     },
     "com.amazonaws.s3#TopicConfiguration": {

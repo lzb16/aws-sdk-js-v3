@@ -25,6 +25,10 @@ import {
 } from "./commands/DeleteBucketAnalyticsConfigurationCommand";
 import { DeleteBucketBtsCommandInput, DeleteBucketBtsCommandOutput } from "./commands/DeleteBucketBtsCommand";
 import { DeleteBucketCommandInput, DeleteBucketCommandOutput } from "./commands/DeleteBucketCommand";
+import {
+  DeleteBucketCompressionConfigurationCommandInput,
+  DeleteBucketCompressionConfigurationCommandOutput,
+} from "./commands/DeleteBucketCompressionConfigurationCommand";
 import { DeleteBucketCorsCommandInput, DeleteBucketCorsCommandOutput } from "./commands/DeleteBucketCorsCommand";
 import { DeleteBucketDedupCommandInput, DeleteBucketDedupCommandOutput } from "./commands/DeleteBucketDedupCommand";
 import {
@@ -118,6 +122,10 @@ import {
   GetBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/GetBucketAnalyticsConfigurationCommand";
 import { GetBucketBtsCommandInput, GetBucketBtsCommandOutput } from "./commands/GetBucketBtsCommand";
+import {
+  GetBucketCompressionConfigurationCommandInput,
+  GetBucketCompressionConfigurationCommandOutput,
+} from "./commands/GetBucketCompressionConfigurationCommand";
 import { GetBucketCorsCommandInput, GetBucketCorsCommandOutput } from "./commands/GetBucketCorsCommand";
 import {
   GetBucketEncryptionCommandInput,
@@ -272,6 +280,10 @@ import {
   PutBucketAnalyticsConfigurationCommandOutput,
 } from "./commands/PutBucketAnalyticsConfigurationCommand";
 import { PutBucketBtsCommandInput, PutBucketBtsCommandOutput } from "./commands/PutBucketBtsCommand";
+import {
+  PutBucketCompressionConfigurationCommandInput,
+  PutBucketCompressionConfigurationCommandOutput,
+} from "./commands/PutBucketCompressionConfigurationCommand";
 import { PutBucketCorsCommandInput, PutBucketCorsCommandOutput } from "./commands/PutBucketCorsCommand";
 import {
   PutBucketEncryptionCommandInput,
@@ -469,6 +481,7 @@ export type ServiceInputTypes =
   | DeleteBucketAnalyticsConfigurationCommandInput
   | DeleteBucketBtsCommandInput
   | DeleteBucketCommandInput
+  | DeleteBucketCompressionConfigurationCommandInput
   | DeleteBucketCorsCommandInput
   | DeleteBucketDedupCommandInput
   | DeleteBucketEncryptionCommandInput
@@ -505,6 +518,7 @@ export type ServiceInputTypes =
   | GetBucketAclCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
   | GetBucketBtsCommandInput
+  | GetBucketCompressionConfigurationCommandInput
   | GetBucketCorsCommandInput
   | GetBucketEncryptionCommandInput
   | GetBucketIntelligentTieringConfigurationCommandInput
@@ -572,6 +586,7 @@ export type ServiceInputTypes =
   | PutBucketAclCommandInput
   | PutBucketAnalyticsConfigurationCommandInput
   | PutBucketBtsCommandInput
+  | PutBucketCompressionConfigurationCommandInput
   | PutBucketCorsCommandInput
   | PutBucketEncryptionCommandInput
   | PutBucketIntelligentTieringConfigurationCommandInput
@@ -635,6 +650,7 @@ export type ServiceOutputTypes =
   | DeleteBucketAnalyticsConfigurationCommandOutput
   | DeleteBucketBtsCommandOutput
   | DeleteBucketCommandOutput
+  | DeleteBucketCompressionConfigurationCommandOutput
   | DeleteBucketCorsCommandOutput
   | DeleteBucketDedupCommandOutput
   | DeleteBucketEncryptionCommandOutput
@@ -671,6 +687,7 @@ export type ServiceOutputTypes =
   | GetBucketAclCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
   | GetBucketBtsCommandOutput
+  | GetBucketCompressionConfigurationCommandOutput
   | GetBucketCorsCommandOutput
   | GetBucketEncryptionCommandOutput
   | GetBucketIntelligentTieringConfigurationCommandOutput
@@ -738,6 +755,7 @@ export type ServiceOutputTypes =
   | PutBucketAclCommandOutput
   | PutBucketAnalyticsConfigurationCommandOutput
   | PutBucketBtsCommandOutput
+  | PutBucketCompressionConfigurationCommandOutput
   | PutBucketCorsCommandOutput
   | PutBucketEncryptionCommandOutput
   | PutBucketIntelligentTieringConfigurationCommandOutput

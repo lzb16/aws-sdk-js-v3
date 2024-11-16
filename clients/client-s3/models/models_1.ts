@@ -7,11 +7,14 @@ import {
   BucketLifecycleConfiguration,
   BucketTrashObj,
   CORSConfiguration,
+  CompressionRule,
+  Condition,
   DeletedObject,
   EncodingType,
   ErrorDocument,
   Grant,
   IndexDocument,
+  IntelligentTieringAccessTier,
   IntelligentTieringConfiguration,
   InventoryConfiguration,
   LoggingEnabled,
@@ -29,16 +32,15 @@ import {
   Owner,
   OwnershipControls,
   Payer,
+  Protocol,
   QoSConfiguration,
   Quota,
   RedirectAllRequestsTo,
   RefererConfiguration,
   Region,
   ReplicationConfiguration,
-  ReplicationStatus,
   RequestCharged,
   RequestPayer,
-  RoutingRule,
   ServerSideEncryption,
   ServerSideEncryptionConfiguration,
   Snapshot,
@@ -54,6 +56,472 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>Specifies how requests are redirected. In the event of an error, you can specify a
+ *          different error code to return.</p>
+ */
+export interface Redirect {
+  /**
+   * <p>The host name to use in the redirect request.</p>
+   */
+  HostName?: string;
+
+  /**
+   * <p>The HTTP redirect code to use on the response. Not required if one of the siblings is
+   *          present.</p>
+   */
+  HttpRedirectCode?: string;
+
+  /**
+   * <p>Protocol to use when redirecting requests. The default is the protocol that is used in
+   *          the original request.</p>
+   */
+  Protocol?: Protocol | string;
+
+  /**
+   * <p>The object key prefix to use in the redirect request. For example, to redirect requests
+   *          for all pages with prefix <code>docs/</code> (objects in the <code>docs/</code> folder) to
+   *             <code>documents/</code>, you can set a condition block with <code>KeyPrefixEquals</code>
+   *          set to <code>docs/</code> and in the Redirect set <code>ReplaceKeyPrefixWith</code> to
+   *             <code>/documents</code>. Not required if one of the siblings is present. Can be present
+   *          only if <code>ReplaceKeyWith</code> is not provided.</p>
+   */
+  ReplaceKeyPrefixWith?: string;
+
+  /**
+   * <p>The specific object key to use in the redirect request. For example, redirect request to
+   *             <code>error.html</code>. Not required if one of the siblings is present. Can be present
+   *          only if <code>ReplaceKeyPrefixWith</code> is not provided.</p>
+   */
+  ReplaceKeyWith?: string;
+}
+
+export namespace Redirect {
+  export const filterSensitiveLog = (obj: Redirect): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Specifies the redirect behavior and when a redirect is applied. For more information
+ *          about routing rules, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html#advanced-conditional-redirects">Configuring advanced conditional redirects</a> in the
+ *             <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+ */
+export interface RoutingRule {
+  /**
+   * <p>A container for describing a condition that must be met for the specified redirect to
+   *          apply. For example, 1. If request is for pages in the <code>/docs</code> folder, redirect
+   *          to the <code>/documents</code> folder. 2. If request results in HTTP error 4xx, redirect
+   *          request to another host where you might process the error.</p>
+   */
+  Condition?: Condition;
+
+  /**
+   * <p>Container for redirect information. You can redirect requests to another host, to
+   *          another page, or with another protocol. In the event of an error, you can specify a
+   *          different error code to return.</p>
+   */
+  Redirect: Redirect | undefined;
+}
+
+export namespace RoutingRule {
+  export const filterSensitiveLog = (obj: RoutingRule): any => ({
+    ...obj,
+  });
+}
+
+export interface GetBucketWebsiteOutput {
+  /**
+   * <p>Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3
+   *          bucket.</p>
+   */
+  RedirectAllRequestsTo?: RedirectAllRequestsTo;
+
+  /**
+   * <p>The name of the index document for the website (for example
+   *          <code>index.html</code>).</p>
+   */
+  IndexDocument?: IndexDocument;
+
+  /**
+   * <p>The object key name of the website error document to use for 4XX class errors.</p>
+   */
+  ErrorDocument?: ErrorDocument;
+
+  /**
+   * <p>Rules that define when a redirect is applied and the redirect behavior.</p>
+   */
+  RoutingRules?: RoutingRule[];
+}
+
+export namespace GetBucketWebsiteOutput {
+  export const filterSensitiveLog = (obj: GetBucketWebsiteOutput): any => ({
+    ...obj,
+  });
+}
+
+export interface GetBucketWebsiteRequest {
+  /**
+   * <p>The bucket name for which to get the website configuration.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetBucketWebsiteRequest {
+  export const filterSensitiveLog = (obj: GetBucketWebsiteRequest): any => ({
+    ...obj,
+  });
+}
+
+export type ReplicationStatus = "COMPLETE" | "FAILED" | "PENDING" | "REPLICA";
+
+export interface GetObjectOutput {
+  /**
+   * <p>Object data.</p>
+   */
+  Body?: Readable | ReadableStream | Blob;
+
+  /**
+   * <p>Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If
+   *          false, this response header does not appear in the response.</p>
+   */
+  DeleteMarker?: boolean;
+
+  /**
+   * <p>Indicates that a range of bytes was specified.</p>
+   */
+  AcceptRanges?: string;
+
+  /**
+   * <p>If the object expiration is configured (see PUT Bucket lifecycle), the response includes
+   *          this header. It includes the expiry-date and rule-id key-value pairs providing object
+   *          expiration information. The value of the rule-id is URL encoded.</p>
+   */
+  Expiration?: string;
+
+  /**
+   * <p>Provides information about object restoration operation and expiration time of the
+   *          restored object copy.</p>
+   */
+  Restore?: string;
+
+  /**
+   * <p>Last modified date of the object</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>Size of the body in bytes.</p>
+   */
+  ContentLength?: number;
+
+  /**
+   * <p>An ETag is an opaque identifier assigned by a web server to a specific version of a
+   *          resource found at a URL.</p>
+   */
+  ETag?: string;
+
+  /**
+   * <p>This is set to the number of metadata entries not returned in <code>x-amz-meta</code>
+   *          headers. This can happen if you create metadata using an API like SOAP that supports more
+   *          flexible metadata than the REST API. For example, using SOAP, you can create metadata whose
+   *          values are not legal HTTP headers.</p>
+   */
+  MissingMeta?: number;
+
+  /**
+   * <p>Version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Specifies caching behavior along the request/reply chain.</p>
+   */
+  CacheControl?: string;
+
+  /**
+   * <p>Specifies presentational information for the object.</p>
+   */
+  ContentDisposition?: string;
+
+  /**
+   * <p>Specifies what content encodings have been applied to the object and thus what decoding
+   *          mechanisms must be applied to obtain the media-type referenced by the Content-Type header
+   *          field.</p>
+   */
+  ContentEncoding?: string;
+
+  /**
+   * <p>The language the content is in.</p>
+   */
+  ContentLanguage?: string;
+
+  /**
+   * <p>The portion of the object returned in the response.</p>
+   */
+  ContentRange?: string;
+
+  /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
+   * <p>The date and time at which the object is no longer cacheable.</p>
+   */
+  Expires?: Date;
+
+  /**
+   * <p>If the bucket is configured as a website, redirects requests for this object to another
+   *          object in the same bucket or to an external URL. Amazon S3 stores the value of this header in
+   *          the object metadata.</p>
+   */
+  WebsiteRedirectLocation?: string;
+
+  /**
+   * <p>The server-side encryption algorithm used when storing this object in Amazon S3 (for example,
+   *          AES256, aws:kms).</p>
+   */
+  ServerSideEncryption?: ServerSideEncryption | string;
+
+  /**
+   * <p>A map of metadata to store with the object in S3.</p>
+   */
+  Metadata?: { [key: string]: string };
+
+  /**
+   * <p>If server-side encryption with a customer-provided encryption key was requested, the
+   *          response will include this header confirming the encryption algorithm used.</p>
+   */
+  SSECustomerAlgorithm?: string;
+
+  /**
+   * <p>If server-side encryption with a customer-provided encryption key was requested, the
+   *          response will include this header to provide round-trip message integrity verification of
+   *          the customer-provided encryption key.</p>
+   */
+  SSECustomerKeyMD5?: string;
+
+  /**
+   * <p>If present, specifies the ID of the AWS Key Management Service (AWS KMS) symmetric
+   *          customer managed customer master key (CMK) that was used for the object.</p>
+   */
+  SSEKMSKeyId?: string;
+
+  /**
+   * <p>Indicates whether the object uses an S3 Bucket Key for server-side encryption with AWS KMS (SSE-KMS).</p>
+   */
+  BucketKeyEnabled?: boolean;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
+   * <p>If present, indicates that the requester was successfully charged for the
+   *          request.</p>
+   */
+  RequestCharged?: RequestCharged | string;
+
+  /**
+   * <p>Amazon S3 can return this if your request involves a bucket that is either a source or
+   *          destination in a replication rule.</p>
+   */
+  ReplicationStatus?: ReplicationStatus | string;
+
+  /**
+   * <p>The count of parts this object has.</p>
+   */
+  PartsCount?: number;
+
+  /**
+   * <p>The number of tags, if any, on the object.</p>
+   */
+  TagCount?: number;
+
+  /**
+   * <p>The Object Lock mode currently in place for this object.</p>
+   */
+  ObjectLockMode?: ObjectLockMode | string;
+
+  /**
+   * <p>The date and time when this object's Object Lock will expire.</p>
+   */
+  ObjectLockRetainUntilDate?: Date;
+
+  /**
+   * <p>Indicates whether this object has an active legal hold. This field is only returned if
+   *          you have permission to view an object's legal hold status. </p>
+   */
+  ObjectLockLegalHoldStatus?: ObjectLockLegalHoldStatus | string;
+}
+
+export namespace GetObjectOutput {
+  export const filterSensitiveLog = (obj: GetObjectOutput): any => ({
+    ...obj,
+    ...(obj.SSEKMSKeyId && { SSEKMSKeyId: SENSITIVE_STRING }),
+  });
+}
+
+export interface GetObjectRequest {
+  /**
+   * <p>The bucket name containing the object. </p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>快照名</p>
+   */
+  SnapshotName?: string;
+
+  /**
+   * <p>Return the object only if its entity tag (ETag) is the same as the one specified,
+   *          otherwise return a 412 (precondition failed).</p>
+   */
+  IfMatch?: string;
+
+  /**
+   * <p>Return the object only if it has been modified since the specified time, otherwise
+   *          return a 304 (not modified).</p>
+   */
+  IfModifiedSince?: Date;
+
+  /**
+   * <p>Return the object only if its entity tag (ETag) is different from the one specified,
+   *          otherwise return a 304 (not modified).</p>
+   */
+  IfNoneMatch?: string;
+
+  /**
+   * <p>Return the object only if it has not been modified since the specified time, otherwise
+   *          return a 412 (precondition failed).</p>
+   */
+  IfUnmodifiedSince?: Date;
+
+  /**
+   * <p>Key of the object to get.</p>
+   */
+  Key: string | undefined;
+
+  /**
+   * <p>Downloads the specified range bytes of an object. For more information about the HTTP
+   *          Range header, see <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35">https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35</a>.</p>
+   *          <note>
+   *             <p>Amazon S3 doesn't support retrieving multiple ranges of data per <code>GET</code>
+   *             request.</p>
+   *          </note>
+   */
+  Range?: string;
+
+  /**
+   * <p>Sets the <code>Cache-Control</code> header of the response.</p>
+   */
+  ResponseCacheControl?: string;
+
+  /**
+   * <p>Sets the <code>Content-Disposition</code> header of the response</p>
+   */
+  ResponseContentDisposition?: string;
+
+  /**
+   * <p>Sets the <code>Content-Encoding</code> header of the response.</p>
+   */
+  ResponseContentEncoding?: string;
+
+  /**
+   * <p>Sets the <code>Content-Language</code> header of the response.</p>
+   */
+  ResponseContentLanguage?: string;
+
+  /**
+   * <p>Sets the <code>Content-Type</code> header of the response.</p>
+   */
+  ResponseContentType?: string;
+
+  /**
+   * <p>Sets the <code>Expires</code> header of the response.</p>
+   */
+  ResponseExpires?: Date;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>Specifies the algorithm to use to when encrypting the object (for example,
+   *          AES256).</p>
+   */
+  SSECustomerAlgorithm?: string;
+
+  /**
+   * <p>Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This
+   *          value is used to store the object and then it is discarded; Amazon S3 does not store the
+   *          encryption key. The key must be appropriate for use with the algorithm specified in the
+   *             <code>x-amz-server-side-encryption-customer-algorithm</code> header.</p>
+   */
+  SSECustomerKey?: string;
+
+  /**
+   * <p>Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses
+   *          this header for a message integrity check to ensure that the encryption key was transmitted
+   *          without error.</p>
+   */
+  SSECustomerKeyMD5?: string;
+
+  /**
+   * <p>Confirms that the requester knows that they will be charged for the request. Bucket
+   *          owners need not specify this parameter in their requests. For information about downloading
+   *          objects from requester pays buckets, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading Objects in
+   *             Requestor Pays Buckets</a> in the <i>Amazon S3 Developer Guide</i>.</p>
+   */
+  RequestPayer?: RequestPayer | string;
+
+  /**
+   * <p>Part number of the object being read. This is a positive integer between 1 and 10,000.
+   *          Effectively performs a 'ranged' GET request for the part specified. Useful for downloading
+   *          just a part of an object.</p>
+   */
+  PartNumber?: number;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetObjectRequest {
+  export const filterSensitiveLog = (obj: GetObjectRequest): any => ({
+    ...obj,
+    ...(obj.SSECustomerKey && { SSECustomerKey: SENSITIVE_STRING }),
+  });
+}
+
+/**
+ * <p>Object is archived and inaccessible until restored.</p>
+ */
+export interface InvalidObjectState extends __SmithyException, $MetadataBearer {
+  name: "InvalidObjectState";
+  $fault: "client";
+  StorageClass?: StorageClass | string;
+  AccessTier?: IntelligentTieringAccessTier | string;
+}
+
+export namespace InvalidObjectState {
+  export const filterSensitiveLog = (obj: InvalidObjectState): any => ({
+    ...obj,
+  });
+}
 
 /**
  * <p>The specified key does not exist.</p>
@@ -1849,6 +2317,11 @@ export interface HeadObjectOutput {
   ServerSideEncryption?: ServerSideEncryption | string;
 
   /**
+   * <p>对象压缩后容量</p>
+   */
+  CompressSize?: number;
+
+  /**
    * <p>A map of metadata to store with the object in S3.</p>
    */
   Metadata?: { [key: string]: string };
@@ -2453,6 +2926,11 @@ export interface _Object {
   Size?: number;
 
   /**
+   * <p>Size in bytes of the object</p>
+   */
+  FinalSize?: number;
+
+  /**
    * <p>The class of storage used to store the object.</p>
    */
   StorageClass?: ObjectStorageClass | string;
@@ -2461,6 +2939,11 @@ export interface _Object {
    * <p>The class of storage used to store the object.</p>
    */
   IsEncrypted?: boolean;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  IsCompressed?: boolean;
 
   /**
    * <p>对象来源</p>
@@ -3418,6 +3901,11 @@ export interface ObjectVersion {
   Size?: number;
 
   /**
+   * <p>对象压缩后容量</p>
+   */
+  FinalSize?: number;
+
+  /**
    * <p>The class of storage used to store the object.</p>
    */
   StorageClass?: ObjectVersionStorageClass | string;
@@ -3467,6 +3955,11 @@ export interface ObjectVersion {
    * <p>The class of storage used to store the object.</p>
    */
   IsEncrypted?: boolean;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  IsCompressed?: boolean;
 }
 
 export namespace ObjectVersion {
@@ -4083,6 +4576,52 @@ export interface PutBucketBtsRequest {
 
 export namespace PutBucketBtsRequest {
   export const filterSensitiveLog = (obj: PutBucketBtsRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface BucketCompressionConfiguration {
+  /**
+   * <p>Mode</p>
+   */
+  Mode?: string;
+
+  /**
+   * <p>Status</p>
+   */
+  Status?: string;
+
+  /**
+   * <p>MinSize</p>
+   */
+  MinSize?: number;
+
+  /**
+   * <p>Container for a compression rule.</p>
+   */
+  Rule?: CompressionRule;
+}
+
+export namespace BucketCompressionConfiguration {
+  export const filterSensitiveLog = (obj: BucketCompressionConfiguration): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketCompressionConfigurationRequest {
+  /**
+   * <p>The bucket to which to apply the ACL.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Container for lifecycle rules. You can add as many as 1,000 rules.</p>
+   */
+  CompressionConfiguration?: BucketCompressionConfiguration;
+}
+
+export namespace PutBucketCompressionConfigurationRequest {
+  export const filterSensitiveLog = (obj: PutBucketCompressionConfigurationRequest): any => ({
     ...obj,
   });
 }
