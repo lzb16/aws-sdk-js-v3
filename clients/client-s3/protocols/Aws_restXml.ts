@@ -2,6 +2,7 @@ import {
   AbortMultipartUploadCommandInput,
   AbortMultipartUploadCommandOutput,
 } from "../commands/AbortMultipartUploadCommand";
+import { BatchRestoreObjectCommandInput, BatchRestoreObjectCommandOutput } from "../commands/BatchRestoreObjectCommand";
 import {
   CompleteMultipartUploadCommandInput,
   CompleteMultipartUploadCommandOutput,
@@ -412,6 +413,7 @@ import {
   AnalyticsExportDestination,
   AnalyticsFilter,
   AnalyticsS3BucketDestination,
+  BatchRestoreRequest,
   BtsConfiguration,
   Bucket,
   BucketAlreadyExists,
@@ -429,7 +431,6 @@ import {
   CompressionConfiguration,
   CompressionConfigurations,
   CompressionRule,
-  Condition,
   CopyObjectResult,
   CreateBucketConfiguration,
   DedupStatReq,
@@ -441,14 +442,12 @@ import {
   Destination,
   DomainNames,
   EncryptionConfiguration,
-  ErrorDocument,
   Event,
   ExistingObjectReplication,
   FilterRule,
   GetBucketStorageInfoResult,
   Grant,
   Grantee,
-  IndexDocument,
   IntelligentTieringAndOperator,
   IntelligentTieringConfiguration,
   IntelligentTieringFilter,
@@ -482,6 +481,7 @@ import {
   NotOrCompressFilter,
   NotificationConfiguration,
   NotificationConfigurationFilter,
+  ObjectAlreadyInActiveTierError,
   ObjectIdentifier,
   ObjectLockConfiguration,
   ObjectLockRule,
@@ -497,7 +497,6 @@ import {
   QoSConfiguration,
   QueueConfiguration,
   Quota,
-  RedirectAllRequestsTo,
   RefererConfiguration,
   RefererList,
   RepPairConfiguration,
@@ -508,6 +507,7 @@ import {
   ReplicationRuleFilter,
   ReplicationTime,
   ReplicationTimeValue,
+  Restore,
   RestoreExpiration,
   S3KeyFilter,
   SSEKMS,
@@ -548,13 +548,16 @@ import {
   CSVOutput,
   CommonPrefix,
   Compress,
+  Condition,
   ContinuationEvent,
   CopyPartResult,
   DedupConfiguration,
   DeleteMarkerEntry,
   Encryption,
   EndEvent,
+  ErrorDocument,
   GlacierJobParameters,
+  IndexDocument,
   Initiator,
   InputSerialization,
   InvalidObjectState,
@@ -572,7 +575,6 @@ import {
   OSCPPolicyAndRuleOperator,
   OSCPPolicyFilter,
   OSCPPolicyOrRuleOperator,
-  ObjectAlreadyInActiveTierError,
   ObjectLockLegalHold,
   ObjectLockRetention,
   ObjectVersion,
@@ -584,6 +586,7 @@ import {
   PublicAccessBlockConfiguration,
   RecordsEvent,
   Redirect,
+  RedirectAllRequestsTo,
   RequestPaymentConfiguration,
   RequestProgress,
   RestoreEXRequest,
@@ -669,6 +672,47 @@ export const serializeAws_restXmlAbortMultipartUploadCommand = async (
     hostname,
     port,
     method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlBatchRestoreObjectCommand = async (
+  input: BatchRestoreObjectCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    restore: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.Restore !== undefined) {
+    contents = serializeAws_restXmlRestore(input.Restore, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "POST",
     headers,
     path: resolvedPath,
     query,
@@ -778,6 +822,9 @@ export const serializeAws_restXmlCopyObjectCommand = async (
       "x-amz-server-side-encryption": input.ServerSideEncryption!,
     }),
     ...(isSerializableHeaderValue(input.StorageClass) && { "x-amz-storage-class": input.StorageClass! }),
+    ...(isSerializableHeaderValue(input.GlacierConfiguration) && {
+      "x-amz-glacier-configuration": input.GlacierConfiguration!,
+    }),
     ...(isSerializableHeaderValue(input.WebsiteRedirectLocation) && {
       "x-amz-website-redirect-location": input.WebsiteRedirectLocation!,
     }),
@@ -905,6 +952,9 @@ export const serializeAws_restXmlCreateBucketCommand = async (
     ...(isSerializableHeaderValue(input.StoragePoolId) && { "x-amz-pool-id": input.StoragePoolId! }),
     ...(isSerializableHeaderValue(input.Tagging) && { "x-amz-tagging": input.Tagging! }),
     ...(isSerializableHeaderValue(input.StorageClass) && { "x-amz-default-storage-class": input.StorageClass! }),
+    ...(isSerializableHeaderValue(input.GlacierConfiguration) && {
+      "x-amz-glacier-configuration": input.GlacierConfiguration!,
+    }),
   };
   let resolvedPath = "/{Bucket}";
   if (input.Bucket !== undefined) {
@@ -956,6 +1006,9 @@ export const serializeAws_restXmlCreateMultipartUploadCommand = async (
       "x-amz-server-side-encryption": input.ServerSideEncryption!,
     }),
     ...(isSerializableHeaderValue(input.StorageClass) && { "x-amz-storage-class": input.StorageClass! }),
+    ...(isSerializableHeaderValue(input.GlacierConfiguration) && {
+      "x-amz-glacier-configuration": input.GlacierConfiguration!,
+    }),
     ...(isSerializableHeaderValue(input.WebsiteRedirectLocation) && {
       "x-amz-website-redirect-location": input.WebsiteRedirectLocation!,
     }),
@@ -6302,6 +6355,9 @@ export const serializeAws_restXmlPutBucketStorageClassCommand = async (
 ): Promise<__HttpRequest> => {
   const headers: any = {
     ...(isSerializableHeaderValue(input.StorageClass) && { "x-amz-default-storage-class": input.StorageClass! }),
+    ...(isSerializableHeaderValue(input.GlacierConfiguration) && {
+      "x-amz-glacier-configuration": input.GlacierConfiguration!,
+    }),
   };
   let resolvedPath = "/{Bucket}";
   if (input.Bucket !== undefined) {
@@ -6615,6 +6671,9 @@ export const serializeAws_restXmlPutObjectCommand = async (
       "x-amz-server-side-encryption": input.ServerSideEncryption!,
     }),
     ...(isSerializableHeaderValue(input.StorageClass) && { "x-amz-storage-class": input.StorageClass! }),
+    ...(isSerializableHeaderValue(input.GlacierConfiguration) && {
+      "x-amz-glacier-configuration": input.GlacierConfiguration!,
+    }),
     ...(isSerializableHeaderValue(input.WebsiteRedirectLocation) && {
       "x-amz-website-redirect-location": input.WebsiteRedirectLocation!,
     }),
@@ -7575,6 +7634,7 @@ export const serializeAws_restXmlRestoreObjectCommand = async (
   const query: any = {
     restore: "",
     ...(input.VersionId !== undefined && { versionId: input.VersionId }),
+    ...(input.SnapshotName !== undefined && { snapshotName: input.SnapshotName }),
   };
   let body: any;
   let contents: any;
@@ -8002,6 +8062,74 @@ const deserializeAws_restXmlAbortMultipartUploadCommandError = async (
     case "com.amazonaws.s3#NoSuchUpload":
       response = {
         ...(await deserializeAws_restXmlNoSuchUploadResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlBatchRestoreObjectCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRestoreObjectCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlBatchRestoreObjectCommandError(output, context);
+  }
+  const contents: BatchRestoreObjectCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    Errors: undefined,
+    Restored: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  if (data.Error === "") {
+    contents.Errors = [];
+  }
+  if (data["Error"] !== undefined) {
+    contents.Errors = deserializeAws_restXmlErrors(__getArrayIfSingleItem(data["Error"]), context);
+  }
+  if (data.Restored === "") {
+    contents.Restored = [];
+  }
+  if (data["Restored"] !== undefined && data["Restored"]["member"] !== undefined) {
+    contents.Restored = deserializeAws_restXmlDeletedObjects(
+      __getArrayIfSingleItem(data["Restored"]["member"]),
+      context
+    );
+  }
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlBatchRestoreObjectCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchRestoreObjectCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "ObjectAlreadyInActiveTierError":
+    case "com.amazonaws.s3#ObjectAlreadyInActiveTierError":
+      response = {
+        ...(await deserializeAws_restXmlObjectAlreadyInActiveTierErrorResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -12615,6 +12743,8 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
     EncryptionMode: undefined,
     Expiration: undefined,
     Expires: undefined,
+    GlacierConfiguration: undefined,
+    GlacierRestoredStorageClass: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -12710,6 +12840,12 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
   }
   if (output.headers["x-amz-storage-class"] !== undefined) {
     contents.StorageClass = output.headers["x-amz-storage-class"];
+  }
+  if (output.headers["x-amz-glacier-configuration"] !== undefined) {
+    contents.GlacierConfiguration = output.headers["x-amz-glacier-configuration"];
+  }
+  if (output.headers["x-amz-glacier-restored-storage-class"] !== undefined) {
+    contents.GlacierRestoredStorageClass = output.headers["x-amz-glacier-restored-storage-class"];
   }
   if (output.headers["x-amz-request-charged"] !== undefined) {
     contents.RequestCharged = output.headers["x-amz-request-charged"];
@@ -12803,6 +12939,8 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
     EncryptionMode: undefined,
     Expiration: undefined,
     Expires: undefined,
+    GlacierConfiguration: undefined,
+    GlacierRestoredStorageClass: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -12898,6 +13036,12 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
   }
   if (output.headers["x-amz-storage-class"] !== undefined) {
     contents.StorageClass = output.headers["x-amz-storage-class"];
+  }
+  if (output.headers["x-amz-glacier-configuration"] !== undefined) {
+    contents.GlacierConfiguration = output.headers["x-amz-glacier-configuration"];
+  }
+  if (output.headers["x-amz-glacier-restored-storage-class"] !== undefined) {
+    contents.GlacierRestoredStorageClass = output.headers["x-amz-glacier-restored-storage-class"];
   }
   if (output.headers["x-amz-request-charged"] !== undefined) {
     contents.RequestCharged = output.headers["x-amz-request-charged"];
@@ -17097,6 +17241,23 @@ const serializeAws_restXmlAnalyticsS3BucketDestination = (
   return bodyNode;
 };
 
+const serializeAws_restXmlBatchRestoreRequest = (input: BatchRestoreRequest, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("BatchRestoreRequest");
+  if (input.Days !== undefined && input.Days !== null) {
+    const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    bodyNode.addChildNode(node);
+  }
+  if (input.StorageClass !== undefined && input.StorageClass !== null) {
+    const node = new __XmlNode("StorageClass").addChildNode(new __XmlText(input.StorageClass)).withName("StorageClass");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Tier !== undefined && input.Tier !== null) {
+    const node = new __XmlNode("Tier").addChildNode(new __XmlText(input.Tier)).withName("Tier");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
 const serializeAws_restXmlBlackList = (input: string[], context: __SerdeContext): any => {
   return input
     .filter((e: any) => e != null)
@@ -18629,6 +18790,12 @@ const serializeAws_restXmlNoncurrentVersionTransition = (
       .withName("StorageClass");
     bodyNode.addChildNode(node);
   }
+  if (input.GlacierConfiguration !== undefined && input.GlacierConfiguration !== null) {
+    const node = new __XmlNode("StringType")
+      .addChildNode(new __XmlText(input.GlacierConfiguration))
+      .withName("GlacierConfiguration");
+    bodyNode.addChildNode(node);
+  }
   return bodyNode;
 };
 
@@ -18833,6 +19000,12 @@ const serializeAws_restXmlOSCPPolicy = (input: OSCPPolicy, context: __SerdeConte
   }
   if (input.StorageClass !== undefined && input.StorageClass !== null) {
     const node = new __XmlNode("StorageClass").addChildNode(new __XmlText(input.StorageClass)).withName("StorageClass");
+    bodyNode.addChildNode(node);
+  }
+  if (input.GlacierConfiguration !== undefined && input.GlacierConfiguration !== null) {
+    const node = new __XmlNode("StringType")
+      .addChildNode(new __XmlText(input.GlacierConfiguration))
+      .withName("GlacierConfiguration");
     bodyNode.addChildNode(node);
   }
   if (input.Priority !== undefined && input.Priority !== null) {
@@ -19539,6 +19712,22 @@ const serializeAws_restXmlRequestProgress = (input: RequestProgress, context: __
   return bodyNode;
 };
 
+const serializeAws_restXmlRestore = (input: Restore, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("Restore");
+  if (input.RestoreRequest !== undefined && input.RestoreRequest !== null) {
+    const node = serializeAws_restXmlBatchRestoreRequest(input.RestoreRequest, context).withName("RestoreRequest");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Objects !== undefined && input.Objects !== null) {
+    const nodes = serializeAws_restXmlObjectIdentifierList(input.Objects, context);
+    nodes.map((node: any) => {
+      node = node.withName("Object");
+      bodyNode.addChildNode(node);
+    });
+  }
+  return bodyNode;
+};
+
 const serializeAws_restXmlRestoreExpiration = (input: RestoreExpiration, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("RestoreExpiration");
   if (input.DeleteRestoreObject !== undefined && input.DeleteRestoreObject !== null) {
@@ -19573,6 +19762,10 @@ const serializeAws_restXmlRestoreRequest = (input: RestoreRequest, context: __Se
     const node = serializeAws_restXmlGlacierJobParameters(input.GlacierJobParameters, context).withName(
       "GlacierJobParameters"
     );
+    bodyNode.addChildNode(node);
+  }
+  if (input.StorageClass !== undefined && input.StorageClass !== null) {
+    const node = new __XmlNode("StorageClass").addChildNode(new __XmlText(input.StorageClass)).withName("StorageClass");
     bodyNode.addChildNode(node);
   }
   if (input.Type !== undefined && input.Type !== null) {
@@ -20223,6 +20416,12 @@ const serializeAws_restXmlTransition = (input: Transition, context: __SerdeConte
       .withName("StorageClass");
     bodyNode.addChildNode(node);
   }
+  if (input.GlacierConfiguration !== undefined && input.GlacierConfiguration !== null) {
+    const node = new __XmlNode("StringType")
+      .addChildNode(new __XmlText(input.GlacierConfiguration))
+      .withName("GlacierConfiguration");
+    bodyNode.addChildNode(node);
+  }
   return bodyNode;
 };
 
@@ -20642,6 +20841,11 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     DedupConfiguration: undefined,
     TrashConfiguration: undefined,
     SnapConfiguration: undefined,
+    GlacierConfiguration: undefined,
+    ArchivedObjectNumber: undefined,
+    ArchivedObjectSize: undefined,
+    RestoredObjectNumber: undefined,
+    RestoredObjectSize: undefined,
     CompressionConfiguration: undefined,
     HistoryCompressionConfiguration: undefined,
   };
@@ -20770,6 +20974,21 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["SnapConfiguration"] !== undefined) {
     contents.SnapConfiguration = deserializeAws_restXmlTrashConfiguration(output["SnapConfiguration"], context);
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
+  }
+  if (output["ArchivedObjectNumber"] !== undefined) {
+    contents.ArchivedObjectNumber = parseInt(output["ArchivedObjectNumber"]);
+  }
+  if (output["ArchivedObjectSize"] !== undefined) {
+    contents.ArchivedObjectSize = parseInt(output["ArchivedObjectSize"]);
+  }
+  if (output["RestoredObjectNumber"] !== undefined) {
+    contents.RestoredObjectNumber = parseInt(output["RestoredObjectNumber"]);
+  }
+  if (output["RestoredObjectSize"] !== undefined) {
+    contents.RestoredObjectSize = parseInt(output["RestoredObjectSize"]);
   }
   if (output["CompressionConfiguration"] !== undefined) {
     contents.CompressionConfiguration = deserializeAws_restXmlCompressionConfigurations(
@@ -22529,6 +22748,7 @@ const deserializeAws_restXmlNoncurrentVersionTransition = (
     NoncurrentHours: undefined,
     NoncurrentMinutes: undefined,
     StorageClass: undefined,
+    GlacierConfiguration: undefined,
   };
   if (output["NoncurrentDays"] !== undefined) {
     contents.NoncurrentDays = parseInt(output["NoncurrentDays"]);
@@ -22541,6 +22761,9 @@ const deserializeAws_restXmlNoncurrentVersionTransition = (
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
   }
   return contents;
 };
@@ -22596,6 +22819,8 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
     Size: undefined,
     FinalSize: undefined,
     StorageClass: undefined,
+    GlacierConfiguration: undefined,
+    GlacierRestoredStorageClass: undefined,
     IsEncrypted: undefined,
     IsCompressed: undefined,
     ObjectSource: undefined,
@@ -22628,6 +22853,12 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
+  }
+  if (output["GlacierRestoredStorageClass"] !== undefined) {
+    contents.GlacierRestoredStorageClass = output["GlacierRestoredStorageClass"];
   }
   if (output["IsEncrypted"] !== undefined) {
     contents.IsEncrypted = output["IsEncrypted"] == "true";
@@ -22742,6 +22973,9 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
     Size: undefined,
     FinalSize: undefined,
     StorageClass: undefined,
+    ObjectSource: undefined,
+    GlacierConfiguration: undefined,
+    GlacierRestoredStorageClass: undefined,
     Key: undefined,
     VersionId: undefined,
     IsLatest: undefined,
@@ -22764,6 +22998,15 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["ObjectSource"] !== undefined) {
+    contents.ObjectSource = output["ObjectSource"];
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
+  }
+  if (output["GlacierRestoredStorageClass"] !== undefined) {
+    contents.GlacierRestoredStorageClass = output["GlacierRestoredStorageClass"];
   }
   if (output["Key"] !== undefined) {
     contents.Key = output["Key"];
@@ -22825,6 +23068,7 @@ const deserializeAws_restXmlOSCPPolicy = (output: any, context: __SerdeContext):
     ID: undefined,
     Filter: undefined,
     StorageClass: undefined,
+    GlacierConfiguration: undefined,
     Priority: undefined,
     Comment: undefined,
   };
@@ -22836,6 +23080,9 @@ const deserializeAws_restXmlOSCPPolicy = (output: any, context: __SerdeContext):
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
   }
   if (output["Priority"] !== undefined) {
     contents.Priority = parseInt(output["Priority"]);
@@ -24104,6 +24351,7 @@ const deserializeAws_restXmlTransition = (output: any, context: __SerdeContext):
     Minutes: undefined,
     Hours: undefined,
     StorageClass: undefined,
+    GlacierConfiguration: undefined,
   };
   if (output["Date"] !== undefined) {
     contents.Date = new Date(output["Date"]);
@@ -24119,6 +24367,9 @@ const deserializeAws_restXmlTransition = (output: any, context: __SerdeContext):
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["GlacierConfiguration"] !== undefined) {
+    contents.GlacierConfiguration = output["GlacierConfiguration"];
   }
   return contents;
 };

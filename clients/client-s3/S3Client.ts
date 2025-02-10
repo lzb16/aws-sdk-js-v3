@@ -2,6 +2,7 @@ import {
   AbortMultipartUploadCommandInput,
   AbortMultipartUploadCommandOutput,
 } from "./commands/AbortMultipartUploadCommand";
+import { BatchRestoreObjectCommandInput, BatchRestoreObjectCommandOutput } from "./commands/BatchRestoreObjectCommand";
 import {
   CompleteMultipartUploadCommandInput,
   CompleteMultipartUploadCommandOutput,
@@ -470,6 +471,7 @@ import { Readable } from "stream";
 
 export type ServiceInputTypes =
   | AbortMultipartUploadCommandInput
+  | BatchRestoreObjectCommandInput
   | CompleteMultipartUploadCommandInput
   | CopyObjectCommandInput
   | CreateBucketCommandInput
@@ -639,6 +641,7 @@ export type ServiceInputTypes =
 
 export type ServiceOutputTypes =
   | AbortMultipartUploadCommandOutput
+  | BatchRestoreObjectCommandOutput
   | CompleteMultipartUploadCommandOutput
   | CopyObjectCommandOutput
   | CreateBucketCommandOutput

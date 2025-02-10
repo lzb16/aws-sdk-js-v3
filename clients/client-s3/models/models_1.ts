@@ -8,12 +8,9 @@ import {
   BucketTrashObj,
   CORSConfiguration,
   CompressionRule,
-  Condition,
   DeletedObject,
   EncodingType,
-  ErrorDocument,
   Grant,
-  IndexDocument,
   IntelligentTieringAccessTier,
   IntelligentTieringConfiguration,
   InventoryConfiguration,
@@ -32,10 +29,8 @@ import {
   Owner,
   OwnershipControls,
   Payer,
-  Protocol,
   QoSConfiguration,
   Quota,
-  RedirectAllRequestsTo,
   RefererConfiguration,
   Region,
   ReplicationConfiguration,
@@ -49,6 +44,7 @@ import {
   StorageClass,
   Tag,
   TagMultiInOrMode,
+  Tier,
   Trash,
   VersioningConfiguration,
   _Error,
@@ -56,6 +52,119 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface GetBucketVersioningRequest {
+  /**
+   * <p>The name of the bucket for which to get the versioning information.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetBucketVersioningRequest {
+  export const filterSensitiveLog = (obj: GetBucketVersioningRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>The error information.</p>
+ */
+export interface ErrorDocument {
+  /**
+   * <p>The object key name to use when a 4XX class error occurs.</p>
+   */
+  Key: string | undefined;
+}
+
+export namespace ErrorDocument {
+  export const filterSensitiveLog = (obj: ErrorDocument): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Container for the <code>Suffix</code> element.</p>
+ */
+export interface IndexDocument {
+  /**
+   * <p>A suffix that is appended to a request that is for a directory on the website endpoint
+   *          (for example,if the suffix is index.html and you make a request to samplebucket/images/ the
+   *          data that is returned will be for the object with the key name images/index.html) The
+   *          suffix must not be empty and must not include a slash character.</p>
+   */
+  Suffix: string | undefined;
+}
+
+export namespace IndexDocument {
+  export const filterSensitiveLog = (obj: IndexDocument): any => ({
+    ...obj,
+  });
+}
+
+export type Protocol = "http" | "https";
+
+/**
+ * <p>Specifies the redirect behavior of all requests to a website endpoint of an Amazon S3
+ *          bucket.</p>
+ */
+export interface RedirectAllRequestsTo {
+  /**
+   * <p>Name of the host where requests are redirected.</p>
+   */
+  HostName: string | undefined;
+
+  /**
+   * <p>Protocol to use when redirecting requests. The default is the protocol that is used in
+   *          the original request.</p>
+   */
+  Protocol?: Protocol | string;
+}
+
+export namespace RedirectAllRequestsTo {
+  export const filterSensitiveLog = (obj: RedirectAllRequestsTo): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>A container for describing a condition that must be met for the specified redirect to
+ *          apply. For example, 1. If request is for pages in the <code>/docs</code> folder, redirect
+ *          to the <code>/documents</code> folder. 2. If request results in HTTP error 4xx, redirect
+ *          request to another host where you might process the error.</p>
+ */
+export interface Condition {
+  /**
+   * <p>The HTTP error code when the redirect is applied. In the event of an error, if the error
+   *          code equals this value, then the specified redirect is applied. Required when parent
+   *          element <code>Condition</code> is specified and sibling <code>KeyPrefixEquals</code> is not
+   *          specified. If both are specified, then both must be true for the redirect to be
+   *          applied.</p>
+   */
+  HttpErrorCodeReturnedEquals?: string;
+
+  /**
+   * <p>The object key name prefix when the redirect is applied. For example, to redirect
+   *          requests for <code>ExamplePage.html</code>, the key prefix will be
+   *             <code>ExamplePage.html</code>. To redirect request for all pages with the prefix
+   *             <code>docs/</code>, the key prefix will be <code>/docs</code>, which identifies all
+   *          objects in the <code>docs/</code> folder. Required when the parent element
+   *             <code>Condition</code> is specified and sibling <code>HttpErrorCodeReturnedEquals</code>
+   *          is not specified. If both conditions are specified, both must be true for the redirect to
+   *          be applied.</p>
+   */
+  KeyPrefixEquals?: string;
+}
+
+export namespace Condition {
+  export const filterSensitiveLog = (obj: Condition): any => ({
+    ...obj,
+  });
+}
 
 /**
  * <p>Specifies how requests are redirected. In the event of an error, you can specify a
@@ -1589,6 +1698,11 @@ export interface OSCPPolicy {
   StorageClass?: StorageClass | string;
 
   /**
+   * <p>存储类别giacier config</p>
+   */
+  GlacierConfiguration?: string;
+
+  /**
    * <p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The
    *          STANDARD storage class provides high durability and high availability. Depending on
    *          performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses
@@ -2360,6 +2474,20 @@ export interface HeadObjectOutput {
   StorageClass?: StorageClass | string;
 
   /**
+   * <p>head object glacier configuration</p>
+   */
+  GlacierConfiguration?: string;
+
+  /**
+   * <p>Provides storage class information of the object. Amazon S3 returns this header for all
+   *          objects except for S3 Standard storage class objects.</p>
+   *
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+   *             Classes</a>.</p>
+   */
+  GlacierRestoredStorageClass?: StorageClass | string;
+
+  /**
    * <p>If present, indicates that the requester was successfully charged for the
    *          request.</p>
    */
@@ -2934,6 +3062,16 @@ export interface _Object {
    * <p>The class of storage used to store the object.</p>
    */
   StorageClass?: ObjectStorageClass | string;
+
+  /**
+   * <p>The glacier-configuration for the object.</p>
+   */
+  GlacierConfiguration?: string;
+
+  /**
+   * <p>临时副本的存储层级</p>
+   */
+  GlacierRestoredStorageClass?: ObjectStorageClass | string;
 
   /**
    * <p>The class of storage used to store the object.</p>
@@ -3909,6 +4047,21 @@ export interface ObjectVersion {
    * <p>The class of storage used to store the object.</p>
    */
   StorageClass?: ObjectVersionStorageClass | string;
+
+  /**
+   * <p>对象来源</p>
+   */
+  ObjectSource?: string;
+
+  /**
+   * <p>The glacier-configuration for the object.</p>
+   */
+  GlacierConfiguration?: string;
+
+  /**
+   * <p>临时副本的存储层级</p>
+   */
+  GlacierRestoredStorageClass?: ObjectStorageClass | string;
 
   /**
    * <p>The object key.</p>
@@ -5210,6 +5363,11 @@ export interface PutBucketStorageClassRequest {
    * <p>The storage-class for the bucket.</p>
    */
   StorageClass?: StorageClass | string;
+
+  /**
+   * <p>The glacier-configuration for the bucket.</p>
+   */
+  GlacierConfiguration?: string;
 }
 
 export namespace PutBucketStorageClassRequest {
@@ -5657,6 +5815,11 @@ export interface PutObjectRequest {
    *             Service Developer Guide</i>.</p>
    */
   StorageClass?: StorageClass | string;
+
+  /**
+   * <p>上传对象glacier-configuration</p>
+   */
+  GlacierConfiguration?: string;
 
   /**
    * <p>If the bucket is configured as a website, redirects requests for this object to another
@@ -6602,20 +6765,6 @@ export namespace RestoreBucketObjTrashRequest {
   });
 }
 
-/**
- * <p>This operation is not allowed against this storage tier.</p>
- */
-export interface ObjectAlreadyInActiveTierError extends __SmithyException, $MetadataBearer {
-  name: "ObjectAlreadyInActiveTierError";
-  $fault: "client";
-}
-
-export namespace ObjectAlreadyInActiveTierError {
-  export const filterSensitiveLog = (obj: ObjectAlreadyInActiveTierError): any => ({
-    ...obj,
-  });
-}
-
 export interface RestoreObjectOutput {
   /**
    * <p>If present, indicates that the requester was successfully charged for the
@@ -6635,8 +6784,6 @@ export namespace RestoreObjectOutput {
     ...obj,
   });
 }
-
-export type Tier = "Bulk" | "Expedited" | "Standard";
 
 /**
  * <p>Container for S3 Glacier job parameters.</p>
@@ -7078,6 +7225,11 @@ export interface RestoreRequest {
   GlacierJobParameters?: GlacierJobParameters;
 
   /**
+   * <p>归档恢复临时存储层架</p>
+   */
+  StorageClass?: StorageClass | string;
+
+  /**
    * <p>Type of restore request.</p>
    */
   Type?: RestoreRequestType | string;
@@ -7127,6 +7279,11 @@ export interface RestoreObjectRequest {
    * <p>VersionId used to reference a specific version of the object.</p>
    */
   VersionId?: string;
+
+  /**
+   * <p>恢复快照归档对象的快照名称.</p>
+   */
+  SnapshotName?: string;
 
   /**
    * <p>Container for restore job parameters.</p>

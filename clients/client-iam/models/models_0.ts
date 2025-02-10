@@ -314,6 +314,25 @@ export namespace AccoutDedup {
   });
 }
 
+export interface StorageClassStatistiesList {
+  StorageClass?: string;
+  /**
+   * <p>对象数量</p>
+   */
+  ObjectNumber?: string;
+
+  /**
+   * <p>对象容量</p>
+   */
+  ObjectSize?: string;
+}
+
+export namespace StorageClassStatistiesList {
+  export const filterSensitiveLog = (obj: StorageClassStatistiesList): any => ({
+    ...obj,
+  });
+}
+
 /**
  * <p>Contains information about a version of a managed policy.</p>
  *          <p>This data type is used as a response element in the <a>CreatePolicyVersion</a>, <a>GetPolicyVersion</a>, <a>ListPolicyVersions</a>, and <a>GetAccountAuthorizationDetails</a> operations. </p>
@@ -942,6 +961,11 @@ export interface AccountType {
    * <p>User info.</p>
    */
   User?: User;
+
+  /**
+   * <p>不同存储类别对象统计</p>
+   */
+  StorageClassStatisties?: StorageClassStatistiesList[];
 
   /**
    * <p>已归档对象数量</p>
@@ -8316,42 +8340,6 @@ export interface ListPolicyVersionsRequest {
 
 export namespace ListPolicyVersionsRequest {
   export const filterSensitiveLog = (obj: ListPolicyVersionsRequest): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListPolicyVersions</a> request.
- *     </p>
- */
-export interface ListPolicyVersionsResponse {
-  /**
-   * <p>A list of policy versions.</p>
-   *          <p>For more information about managed policy versions, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning for Managed
-   *             Policies</a> in the <i>IAM User Guide</i>.</p>
-   */
-  Versions?: PolicyVersion[];
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListPolicyVersionsResponse {
-  export const filterSensitiveLog = (obj: ListPolicyVersionsResponse): any => ({
     ...obj,
   });
 }

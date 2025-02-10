@@ -1,6 +1,7 @@
 export * from "./S3Client";
 export * from "./S3";
 export * from "./commands/AbortMultipartUploadCommand";
+export * from "./commands/BatchRestoreObjectCommand";
 export * from "./commands/CompleteMultipartUploadCommand";
 export * from "./commands/CopyObjectCommand";
 export * from "./commands/CreateBucketCommand";

@@ -5,6 +5,11 @@ import {
   AbortMultipartUploadCommandOutput,
 } from "./commands/AbortMultipartUploadCommand";
 import {
+  BatchRestoreObjectCommand,
+  BatchRestoreObjectCommandInput,
+  BatchRestoreObjectCommandOutput,
+} from "./commands/BatchRestoreObjectCommand";
+import {
   CompleteMultipartUploadCommand,
   CompleteMultipartUploadCommandInput,
   CompleteMultipartUploadCommandOutput,
@@ -844,6 +849,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: AbortMultipartUploadCommandOutput) => void
   ): Promise<AbortMultipartUploadCommandOutput> | void {
     const command = new AbortMultipartUploadCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>批量恢复归档对象</p>
+   */
+  public batchRestoreObject(
+    args: BatchRestoreObjectCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<BatchRestoreObjectCommandOutput>;
+  public batchRestoreObject(
+    args: BatchRestoreObjectCommandInput,
+    cb: (err: any, data?: BatchRestoreObjectCommandOutput) => void
+  ): void;
+  public batchRestoreObject(
+    args: BatchRestoreObjectCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: BatchRestoreObjectCommandOutput) => void
+  ): void;
+  public batchRestoreObject(
+    args: BatchRestoreObjectCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: BatchRestoreObjectCommandOutput) => void),
+    cb?: (err: any, data?: BatchRestoreObjectCommandOutput) => void
+  ): Promise<BatchRestoreObjectCommandOutput> | void {
+    const command = new BatchRestoreObjectCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

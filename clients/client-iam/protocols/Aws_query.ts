@@ -734,7 +734,6 @@ import {
   ListPoliciesRequest,
   ListPoliciesResponse,
   ListPolicyVersionsRequest,
-  ListPolicyVersionsResponse,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -767,6 +766,7 @@ import {
   ServiceLastAccessed,
   ServiceNotSupportedException,
   ServiceSpecificCredential,
+  StorageClassStatistiesList,
   Tag,
   TrackedActionLastAccessed,
   UnmodifiableEntityException,
@@ -783,6 +783,7 @@ import {
   InvalidCertificateException,
   InvalidPublicKeyException,
   KeyPairMismatchException,
+  ListPolicyVersionsResponse,
   ListRolePoliciesRequest,
   ListRolePoliciesResponse,
   ListRoleTagsRequest,
@@ -21805,6 +21806,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     UsedSize: undefined,
     AccessKeys: undefined,
     User: undefined,
+    StorageClassStatisties: undefined,
     ArchivedObjectNumber: undefined,
     ArchivedObjectSize: undefined,
     RestoredObjectNumber: undefined,
@@ -21872,6 +21874,15 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   }
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
+  }
+  if (output.StorageClassStatisties === "") {
+    contents.StorageClassStatisties = [];
+  }
+  if (output["StorageClassStatisties"] !== undefined && output["StorageClassStatisties"]["member"] !== undefined) {
+    contents.StorageClassStatisties = deserializeAws_queryStorageClassStatisties(
+      __getArrayIfSingleItem(output["StorageClassStatisties"]["member"]),
+      context
+    );
   }
   if (output["ArchivedObjectNumber"] !== undefined) {
     contents.ArchivedObjectNumber = parseInt(output["ArchivedObjectNumber"]);
@@ -26728,6 +26739,41 @@ const deserializeAws_queryvirtualMFADeviceListType = (output: any, context: __Se
       }
       return deserializeAws_queryVirtualMFADevice(entry, context);
     });
+};
+
+const deserializeAws_queryStorageClassStatisties = (
+  output: any,
+  context: __SerdeContext
+): StorageClassStatistiesList[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_queryStorageClassStatistiesList(entry, context);
+    });
+};
+
+const deserializeAws_queryStorageClassStatistiesList = (
+  output: any,
+  context: __SerdeContext
+): StorageClassStatistiesList => {
+  let contents: any = {
+    StorageClass: undefined,
+    ObjectNumber: undefined,
+    ObjectSize: undefined,
+  };
+  if (output["StorageClass"] !== undefined) {
+    contents.StorageClass = output["StorageClass"];
+  }
+  if (output["ObjectNumber"] !== undefined) {
+    contents.ObjectNumber = output["ObjectNumber"];
+  }
+  if (output["ObjectSize"] !== undefined) {
+    contents.ObjectSize = output["ObjectSize"];
+  }
+  return contents;
 };
 
 const deserializeMetadata = (output: __HttpResponse): __ResponseMetadata => ({

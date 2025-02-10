@@ -623,6 +623,9 @@
           "target": "com.amazonaws.s3#RestoreObject"
         },
         {
+          "target": "com.amazonaws.s3#BatchRestoreObject"
+        },
+        {
           "target": "com.amazonaws.s3#SelectObjectContent"
         },
         {
@@ -1725,6 +1728,36 @@
             "smithy.api#documentation": "在桶概览中添加回收站信息"
           }
         },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "桶的归档存储配置"
+          }
+        },
+        "ArchivedObjectNumber": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "已归档对象数量"
+          }
+        },
+        "ArchivedObjectSize": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "已归档对象容量"
+          }
+        },
+        "RestoredObjectNumber": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "已恢复对象数量"
+          }
+        },
+        "RestoredObjectSize": {
+          "target": "com.amazonaws.s3#integerType",
+          "traits": {
+            "smithy.api#documentation": "已恢复对象容量"
+          }
+        },
         "CompressionConfiguration": {
           "target": "com.amazonaws.s3#CompressionConfigurations",
           "traits": {
@@ -2128,6 +2161,12 @@
           "traits": {
             "smithy.api#documentation": "<p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The\n         STANDARD storage class provides high durability and high availability. Depending on\n         performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses\n         the OUTPOSTS Storage Class. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage Classes</a> in the\n         <i>Amazon S3 User Guide</i>.</p>",
             "smithy.api#httpHeader": "x-amz-storage-class"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>存储类别giacier config</p>"
           }
         },
         "Priority": {
@@ -3261,6 +3300,13 @@
             "smithy.api#httpHeader": "x-amz-storage-class"
           }
         },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>copy object glacier configuration</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
+          }
+        },
         "WebsiteRedirectLocation": {
           "target": "com.amazonaws.s3#WebsiteRedirectLocation",
           "traits": {
@@ -3630,6 +3676,13 @@
             "smithy.api#documentation": "<p>The storage-class for the bucket.</p>",
             "smithy.api#httpHeader": "x-amz-default-storage-class"
           }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The glacier-configuration for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
+          }
         }
       }
     },
@@ -3851,6 +3904,13 @@
           "traits": {
             "smithy.api#documentation": "<p>By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The\n         STANDARD storage class provides high durability and high availability. Depending on\n         performance needs, you can specify a different Storage Class. Amazon S3 on Outposts only uses\n         the OUTPOSTS Storage Class. For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage Classes</a> in the <i>Amazon S3\n            Service Developer Guide</i>.</p>",
             "smithy.api#httpHeader": "x-amz-storage-class"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>对象多段上传glacier-configuration</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
           }
         },
         "WebsiteRedirectLocation": {
@@ -7496,7 +7556,7 @@
           }
         },
         "Restore": {
-          "target": "com.amazonaws.s3#Restore",
+          "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>Provides information about object restoration operation and expiration time of the\n         restored object copy.</p>",
             "smithy.api#httpHeader": "x-amz-restore"
@@ -8496,7 +8556,7 @@
           }
         },
         "Restore": {
-          "target": "com.amazonaws.s3#Restore",
+          "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>If the object is an archived object (an object whose storage class is GLACIER), the\n         response includes this header if either the archive restoration is in progress (see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html\">RestoreObject</a> or an archive copy is already restored.</p>\n\n         <p> If an archive copy is already restored, the header value indicates when Amazon S3 is\n         scheduled to delete the object copy. For example:</p>\n\n         <p>\n            <code>x-amz-restore: ongoing-request=\"false\", expiry-date=\"Fri, 23 Dec 2012 00:00:00\n            GMT\"</code>\n         </p>\n\n         <p>If the object restoration is in progress, the header returns the value\n            <code>ongoing-request=\"true\"</code>.</p>\n\n         <p>For more information about archiving objects, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations\">Transitioning Objects: General Considerations</a>.</p>",
             "smithy.api#httpHeader": "x-amz-restore"
@@ -8654,6 +8714,20 @@
           "traits": {
             "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>\n\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage\n            Classes</a>.</p>",
             "smithy.api#httpHeader": "x-amz-storage-class"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>head object glacier configuration</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
+          }
+        },
+        "GlacierRestoredStorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>Provides storage class information of the object. Amazon S3 returns this header for all\n         objects except for S3 Standard storage class objects.</p>\n\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html\">Storage\n            Classes</a>.</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-restored-storage-class"
           }
         },
         "RequestCharged": {
@@ -12273,6 +12347,12 @@
           "traits": {
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>生命周期 glacier config</p>"
+          }
         }
       },
       "traits": {
@@ -12383,6 +12463,18 @@
           "target": "com.amazonaws.s3#ObjectStorageClass",
           "traits": {
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The glacier-configuration for the object.</p>"
+          }
+        },
+        "GlacierRestoredStorageClass": {
+          "target": "com.amazonaws.s3#ObjectStorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>临时副本的存储层级</p>"
           }
         },
         "IsEncrypted": {
@@ -12800,6 +12892,24 @@
           "target": "com.amazonaws.s3#ObjectVersionStorageClass",
           "traits": {
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
+          }
+        },
+        "ObjectSource": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象来源</p>"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The glacier-configuration for the object.</p>"
+          }
+        },
+        "GlacierRestoredStorageClass": {
+          "target": "com.amazonaws.s3#ObjectStorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>临时副本的存储层级</p>"
           }
         },
         "Key": {
@@ -14052,6 +14162,13 @@
           "traits": {
             "smithy.api#documentation": "<p>The storage-class for the bucket.</p>",
             "smithy.api#httpHeader": "x-amz-default-storage-class"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The glacier-configuration for the bucket.</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
           }
         }
       }
@@ -16830,6 +16947,13 @@
             "smithy.api#httpHeader": "x-amz-storage-class"
           }
         },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>上传对象glacier-configuration</p>",
+            "smithy.api#httpHeader": "x-amz-glacier-configuration"
+          }
+        },
         "WebsiteRedirectLocation": {
           "target": "com.amazonaws.s3#WebsiteRedirectLocation",
           "traits": {
@@ -17919,8 +18043,110 @@
     "com.amazonaws.s3#ResponseExpires": {
       "type": "timestamp"
     },
+    "com.amazonaws.s3#BatchRestoreObject": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#BatchRestoreObjectRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#BatchRestoreObjectOutput"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.s3#ObjectAlreadyInActiveTierError"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "<p>批量恢复归档对象</p>",
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{Bucket}?restore",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#BatchRestoreObjectRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The bucket name containing the object to restore. </p>\n         <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html\">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>\n         <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href=\"https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html\">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "Restore": {
+          "target": "com.amazonaws.s3#Restore",
+          "traits": {
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#Restore": {
-      "type": "string"
+      "type": "structure",
+      "members": {
+        "RestoreRequest": {
+          "target": "com.amazonaws.s3#BatchRestoreRequest",
+          "traits": {
+            "smithy.api#documentation": "<p>批量恢复归档对象的信息</p>",
+            "smithy.api#required": {}
+          }
+        },
+        "Objects": {
+          "target": "com.amazonaws.s3#ObjectIdentifierList",
+          "traits": {
+            "smithy.api#documentation": "<p>对象信息</p>",
+            "smithy.api#required": {},
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Object"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BatchRestoreRequest": {
+      "type": "structure",
+      "members": {
+        "Days": {
+          "target": "com.amazonaws.s3#Days",
+          "traits": {
+            "smithy.api#documentation": "<p>Lifetime of the active copy in days. Do not use with restores that specify\n            <code>OutputLocation</code>.</p>\n         <p>The Days element is required for regular restores, and must not be provided for select\n         requests.</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>归档恢复临时存储层架</p>"
+          }
+        },
+        "Tier": {
+          "target": "com.amazonaws.s3#Tier",
+          "traits": {
+            "smithy.api#documentation": "<p>Retrieval tier at which the restore will be processed.</p>",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#BatchRestoreObjectOutput": {
+      "type": "structure",
+      "members": {
+        "Restored": {
+          "target": "com.amazonaws.s3#DeletedObjects",
+          "traits": {
+            "smithy.api#documentation": "<p>Key name of the object to restored successfully.</p>"
+          }
+        },
+        "Errors": {
+          "target": "com.amazonaws.s3#Errors",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a failed delete operation that describes the snapshot that Amazon S3 attempted to delete and the error it encountered.</p>",
+            "smithy.api#xmlFlattened": {},
+            "smithy.api#xmlName": "Error"
+          }
+        }
+      }
     },
     "com.amazonaws.s3#RestoreObject": {
       "type": "operation",
@@ -17988,6 +18214,13 @@
             "smithy.api#httpQuery": "versionId"
           }
         },
+        "SnapshotName": {
+          "target": "com.amazonaws.s3#SnapshotName",
+          "traits": {
+            "smithy.api#documentation": "<p>恢复快照归档对象的快照名称.</p>",
+            "smithy.api#httpQuery": "snapshotName"
+          }
+        },
         "RestoreRequest": {
           "target": "com.amazonaws.s3#RestoreRequest",
           "traits": {
@@ -18025,6 +18258,12 @@
           "target": "com.amazonaws.s3#GlacierJobParameters",
           "traits": {
             "smithy.api#documentation": "<p>S3 Glacier related parameters pertaining to this job. Do not use with restores that\n         specify <code>OutputLocation</code>.</p>"
+          }
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StorageClass",
+          "traits": {
+            "smithy.api#documentation": "<p>归档恢复临时存储层架</p>"
           }
         },
         "Type": {
@@ -19050,6 +19289,12 @@
           "target": "com.amazonaws.s3#TransitionStorageClass",
           "traits": {
             "smithy.api#documentation": "<p>The storage class to which you want the object to transition.</p>"
+          }
+        },
+        "GlacierConfiguration": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>生命周期 glacier config</p>"
           }
         }
       },
