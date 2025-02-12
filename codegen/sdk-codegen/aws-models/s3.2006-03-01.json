@@ -260,6 +260,9 @@
           "target": "com.amazonaws.s3#DeleteBucketQoS"
         },
         {
+          "target": "com.amazonaws.s3#DeleteBucketAdr"
+        },
+        {
           "target": "com.amazonaws.s3#DeleteBucketBts"
         },
         {
@@ -369,6 +372,9 @@
         },
         {
           "target": "com.amazonaws.s3#GetBucketQoS"
+        },
+        {
+          "target": "com.amazonaws.s3#GetBucketAdr"
         },
         {
           "target": "com.amazonaws.s3#GetBucketBts"
@@ -561,6 +567,9 @@
         },
         {
           "target": "com.amazonaws.s3#PutBucketQoS"
+        },
+        {
+          "target": "com.amazonaws.s3#PutBucketAdr"
         },
         {
           "target": "com.amazonaws.s3#PutBucketBts"
@@ -1676,6 +1685,12 @@
         },
         "QoSConfiguration": {
           "target": "com.amazonaws.s3#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
+          }
+        },
+        "ArchiveDirectReadConfiguration": {
+          "target": "com.amazonaws.s3#ArchiveDirectReadConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
@@ -4179,6 +4194,33 @@
         }
       }
     },
+    "com.amazonaws.s3#DeleteBucketAdr": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#DeleteBucketAdrRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>删除归档直读配置</p>",
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/{Bucket}?archivedirectread",
+          "code": 204
+        }
+      }
+    },
+    "com.amazonaws.s3#DeleteBucketAdrRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>The name of the bucket from which an analytics configuration is deleted.</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#DeleteBucketCors": {
       "type": "operation",
       "input": {
@@ -6513,6 +6555,48 @@
           "target": "com.amazonaws.s3#QoSConfiguration",
           "traits": {
             "smithy.api#documentation": "<p>The <code>GetBucketQuota</code> of bucket.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketAdr": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#GetBucketAdrRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.s3#GetBucketAdrResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>获取桶的归档直读配置</p>",
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/{Bucket}?archivedirectread",
+          "code": 200
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketAdrRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>桶名</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#GetBucketAdrResponse": {
+      "type": "structure",
+      "members": {
+        "ArchiveDirectReadConfiguration": {
+          "target": "com.amazonaws.s3#ArchiveDirectReadConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The <code>GetBucketAdr</code> of bucket.</p>",
             "smithy.api#httpPayload": {}
           }
         }
@@ -14215,6 +14299,41 @@
         }
       }
     },
+    "com.amazonaws.s3#PutBucketAdr": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.s3#PutBucketAdrRequest"
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>设置归档直读配置</p>",
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/{Bucket}?archivedirectread",
+          "code": 200
+        },
+        "smithy.api#httpChecksumRequired": {}
+      }
+    },
+    "com.amazonaws.s3#PutBucketAdrRequest": {
+      "type": "structure",
+      "members": {
+        "Bucket": {
+          "target": "com.amazonaws.s3#BucketName",
+          "traits": {
+            "smithy.api#documentation": "<p>bucket name</p>",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ArchiveDirectReadConfiguration": {
+          "target": "com.amazonaws.s3#ArchiveDirectReadConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>桶的归档直读配置</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#GetBucketStatistic": {
       "type": "operation",
       "input": {
@@ -17439,6 +17558,78 @@
         "Status": {
           "target": "com.amazonaws.s3#Status"
         }
+      }
+    },
+    "com.amazonaws.s3#ArchiveDirectReadConfiguration": {
+      "type": "structure",
+      "members": {
+        "Enabled": {
+          "target": "com.amazonaws.s3#booleanType"
+        },
+        "Mode": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "CacheConfiguration": {
+          "target": "com.amazonaws.s3#AdrCacheConfiguration"
+        },
+        "Rules": {
+          "target": "com.amazonaws.s3#AdrRules",
+          "traits": {
+            "smithy.api#documentation": "<p>Container for a 归档直读 rule.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#AdrCacheConfiguration": {
+      "type": "structure",
+      "members": {
+        "Days": {
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Hours": {
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Minutes": {
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StringType"
+        },
+        "RangeCacheEnabled": {
+          "target": "com.amazonaws.s3#booleanType"
+        }
+      }
+    },
+    "com.amazonaws.s3#AdrRules": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#AdrRule",
+        "traits": {
+          "smithy.api#xmlName": "Rule"
+        }
+      }
+    },
+    "com.amazonaws.s3#AdrRule": {
+      "type": "structure",
+      "members": {
+        "Platform": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>厂商平台类型</p>"
+          }
+        },
+        "Mode": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>直读模式</p>"
+          }
+        },
+        "CacheConfiguration": {
+          "target": "com.amazonaws.s3#AdrCacheConfiguration"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>归档直读高级设置规则</p>"
       }
     },
     "com.amazonaws.s3#BucketRedundancyConfiguration": {

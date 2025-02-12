@@ -20,6 +20,7 @@ import {
 } from "../commands/CreateSnapshotPolicyCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "../commands/DedupstatCommand";
 import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "../commands/DeleteAgentsCommand";
+import { DeleteBucketAdrCommandInput, DeleteBucketAdrCommandOutput } from "../commands/DeleteBucketAdrCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -118,6 +119,7 @@ import {
   GetBucketAccelerateConfigurationCommandOutput,
 } from "../commands/GetBucketAccelerateConfigurationCommand";
 import { GetBucketAclCommandInput, GetBucketAclCommandOutput } from "../commands/GetBucketAclCommand";
+import { GetBucketAdrCommandInput, GetBucketAdrCommandOutput } from "../commands/GetBucketAdrCommand";
 import {
   GetBucketAnalyticsConfigurationCommandInput,
   GetBucketAnalyticsConfigurationCommandOutput,
@@ -276,6 +278,7 @@ import {
   PutBucketAccelerateConfigurationCommandOutput,
 } from "../commands/PutBucketAccelerateConfigurationCommand";
 import { PutBucketAclCommandInput, PutBucketAclCommandOutput } from "../commands/PutBucketAclCommand";
+import { PutBucketAdrCommandInput, PutBucketAdrCommandOutput } from "../commands/PutBucketAdrCommand";
 import {
   PutBucketAnalyticsConfigurationCommandInput,
   PutBucketAnalyticsConfigurationCommandOutput,
@@ -408,11 +411,14 @@ import {
   AccelerateConfiguration,
   AccessControlPolicy,
   AccessControlTranslation,
+  AdrCacheConfiguration,
+  AdrRule,
   AnalyticsAndOperator,
   AnalyticsConfiguration,
   AnalyticsExportDestination,
   AnalyticsFilter,
   AnalyticsS3BucketDestination,
+  ArchiveDirectReadConfiguration,
   BatchRestoreRequest,
   BtsConfiguration,
   Bucket,
@@ -467,7 +473,6 @@ import {
   LifecycleRuleFilter,
   LifecycleRunningTimes,
   ListBucketResult,
-  ListBucketTrashResult,
   LoggingEnabled,
   MetaSearchConfiguration,
   Metrics,
@@ -565,6 +570,7 @@ import {
   JSONOutput,
   ListBucketAllSnapshotResult,
   ListBucketSnapshotObjectResult,
+  ListBucketTrashResult,
   MetaSearchBucket,
   MetadataEntry,
   MultipartUpload,
@@ -1277,6 +1283,38 @@ export const serializeAws_restXmlDeleteBucketCommand = async (
     method: "DELETE",
     headers,
     path: resolvedPath,
+    body,
+  });
+};
+
+export const serializeAws_restXmlDeleteBucketAdrCommand = async (
+  input: DeleteBucketAdrCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    archivedirectread: "",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "DELETE",
+    headers,
+    path: resolvedPath,
+    query,
     body,
   });
 };
@@ -2624,6 +2662,38 @@ export const serializeAws_restXmlGetBucketAclCommand = async (
   }
   const query: any = {
     acl: "",
+  };
+  let body: any;
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "GET",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlGetBucketAdrCommand = async (
+  input: GetBucketAdrCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {};
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    archivedirectread: "",
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -5378,6 +5448,47 @@ export const serializeAws_restXmlPutBucketAclCommand = async (
   let contents: any;
   if (input.AccessControlPolicy !== undefined) {
     contents = serializeAws_restXmlAccessControlPolicy(input.AccessControlPolicy, context);
+    body = '<?xml version="1.0" encoding="UTF-8"?>';
+    contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
+    body += contents.toString();
+  }
+  const { hostname, protocol = "https", port } = await context.endpoint();
+  return new __HttpRequest({
+    protocol,
+    hostname,
+    port,
+    method: "PUT",
+    headers,
+    path: resolvedPath,
+    query,
+    body,
+  });
+};
+
+export const serializeAws_restXmlPutBucketAdrCommand = async (
+  input: PutBucketAdrCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: any = {
+    "content-type": "application/xml;charset=utf-8",
+  };
+  let resolvedPath = "/{Bucket}";
+  if (input.Bucket !== undefined) {
+    const labelValue: string = input.Bucket;
+    if (labelValue.length <= 0) {
+      throw new Error("Empty value provided for input HTTP label: Bucket.");
+    }
+    resolvedPath = resolvedPath.replace("{Bucket}", __extendedEncodeURIComponent(labelValue));
+  } else {
+    throw new Error("No value provided for input HTTP label: Bucket.");
+  }
+  const query: any = {
+    archivedirectread: "",
+  };
+  let body: any;
+  let contents: any;
+  if (input.ArchiveDirectReadConfiguration !== undefined) {
+    contents = serializeAws_restXmlArchiveDirectReadConfiguration(input.ArchiveDirectReadConfiguration, context);
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -8700,6 +8811,49 @@ const deserializeAws_restXmlDeleteBucketCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlDeleteBucketAdrCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteBucketAdrCommandOutput> => {
+  if (output.statusCode !== 204 && output.statusCode >= 300) {
+    return deserializeAws_restXmlDeleteBucketAdrCommandError(output, context);
+  }
+  const contents: DeleteBucketAdrCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlDeleteBucketAdrCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteBucketAdrCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlDeleteBucketAnalyticsConfigurationCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -10347,6 +10501,51 @@ const deserializeAws_restXmlGetBucketAclCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
 ): Promise<GetBucketAclCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_restXmlGetBucketAdrCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetBucketAdrCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlGetBucketAdrCommandError(output, context);
+  }
+  const contents: GetBucketAdrCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ArchiveDirectReadConfiguration: undefined,
+  };
+  const data: any = await parseBody(output.body, context);
+  contents.ArchiveDirectReadConfiguration = deserializeAws_restXmlArchiveDirectReadConfiguration(data, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlGetBucketAdrCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetBucketAdrCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -14436,6 +14635,49 @@ const deserializeAws_restXmlPutBucketAclCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_restXmlPutBucketAdrCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutBucketAdrCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return deserializeAws_restXmlPutBucketAdrCommandError(output, context);
+  }
+  const contents: PutBucketAdrCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  await collectBody(output.body, context);
+  return Promise.resolve(contents);
+};
+
+const deserializeAws_restXmlPutBucketAdrCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<PutBucketAdrCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadRestXmlErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.code || parsedBody.Code || errorCode;
+      response = {
+        ...parsedBody,
+        name: `${errorCode}`,
+        message: parsedBody.message || parsedBody.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_restXmlPutBucketAnalyticsConfigurationCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -17103,6 +17345,64 @@ const serializeAws_restXmlAccessControlTranslation = (
   return bodyNode;
 };
 
+const serializeAws_restXmlAdrCacheConfiguration = (input: AdrCacheConfiguration, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("AdrCacheConfiguration");
+  if (input.Days !== undefined && input.Days !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Hours !== undefined && input.Hours !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Hours))).withName("Hours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Minutes !== undefined && input.Minutes !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Minutes))).withName("Minutes");
+    bodyNode.addChildNode(node);
+  }
+  if (input.StorageClass !== undefined && input.StorageClass !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.StorageClass)).withName("StorageClass");
+    bodyNode.addChildNode(node);
+  }
+  if (input.RangeCacheEnabled !== undefined && input.RangeCacheEnabled !== null) {
+    const node = new __XmlNode("booleanType")
+      .addChildNode(new __XmlText(String(input.RangeCacheEnabled)))
+      .withName("RangeCacheEnabled");
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlAdrRule = (input: AdrRule, context: __SerdeContext): any => {
+  const bodyNode = new __XmlNode("AdrRule");
+  if (input.Platform !== undefined && input.Platform !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Platform)).withName("Platform");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Mode !== undefined && input.Mode !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Mode)).withName("Mode");
+    bodyNode.addChildNode(node);
+  }
+  if (input.CacheConfiguration !== undefined && input.CacheConfiguration !== null) {
+    const node = serializeAws_restXmlAdrCacheConfiguration(input.CacheConfiguration, context).withName(
+      "CacheConfiguration"
+    );
+    bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlAdrRules = (input: AdrRule[], context: __SerdeContext): any => {
+  return input
+    .filter((e: any) => e != null)
+    .map((entry) => {
+      if (entry === null) {
+        return null as any;
+      }
+      const node = serializeAws_restXmlAdrRule(entry, context);
+      return node.withName("Rule");
+    });
+};
+
 const serializeAws_restXmlAllowedHeaders = (input: string[], context: __SerdeContext): any => {
   return input
     .filter((e: any) => e != null)
@@ -17237,6 +17537,36 @@ const serializeAws_restXmlAnalyticsS3BucketDestination = (
   if (input.Prefix !== undefined && input.Prefix !== null) {
     const node = new __XmlNode("Prefix").addChildNode(new __XmlText(input.Prefix)).withName("Prefix");
     bodyNode.addChildNode(node);
+  }
+  return bodyNode;
+};
+
+const serializeAws_restXmlArchiveDirectReadConfiguration = (
+  input: ArchiveDirectReadConfiguration,
+  context: __SerdeContext
+): any => {
+  const bodyNode = new __XmlNode("ArchiveDirectReadConfiguration");
+  if (input.Enabled !== undefined && input.Enabled !== null) {
+    const node = new __XmlNode("booleanType").addChildNode(new __XmlText(String(input.Enabled))).withName("Enabled");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Mode !== undefined && input.Mode !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Mode)).withName("Mode");
+    bodyNode.addChildNode(node);
+  }
+  if (input.CacheConfiguration !== undefined && input.CacheConfiguration !== null) {
+    const node = serializeAws_restXmlAdrCacheConfiguration(input.CacheConfiguration, context).withName(
+      "CacheConfiguration"
+    );
+    bodyNode.addChildNode(node);
+  }
+  if (input.Rules !== undefined && input.Rules !== null) {
+    const nodes = serializeAws_restXmlAdrRules(input.Rules, context);
+    const containerNode = new __XmlNode("Rules");
+    nodes.map((node: any) => {
+      containerNode.addChildNode(node);
+    });
+    bodyNode.addChildNode(containerNode);
   }
   return bodyNode;
 };
@@ -20642,6 +20972,61 @@ const deserializeAws_restXmlAccessControlTranslation = (
   return contents;
 };
 
+const deserializeAws_restXmlAdrCacheConfiguration = (output: any, context: __SerdeContext): AdrCacheConfiguration => {
+  let contents: any = {
+    Days: undefined,
+    Hours: undefined,
+    Minutes: undefined,
+    StorageClass: undefined,
+    RangeCacheEnabled: undefined,
+  };
+  if (output["Days"] !== undefined) {
+    contents.Days = parseInt(output["Days"]);
+  }
+  if (output["Hours"] !== undefined) {
+    contents.Hours = parseInt(output["Hours"]);
+  }
+  if (output["Minutes"] !== undefined) {
+    contents.Minutes = parseInt(output["Minutes"]);
+  }
+  if (output["StorageClass"] !== undefined) {
+    contents.StorageClass = output["StorageClass"];
+  }
+  if (output["RangeCacheEnabled"] !== undefined) {
+    contents.RangeCacheEnabled = output["RangeCacheEnabled"] == "true";
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlAdrRule = (output: any, context: __SerdeContext): AdrRule => {
+  let contents: any = {
+    Platform: undefined,
+    Mode: undefined,
+    CacheConfiguration: undefined,
+  };
+  if (output["Platform"] !== undefined) {
+    contents.Platform = output["Platform"];
+  }
+  if (output["Mode"] !== undefined) {
+    contents.Mode = output["Mode"];
+  }
+  if (output["CacheConfiguration"] !== undefined) {
+    contents.CacheConfiguration = deserializeAws_restXmlAdrCacheConfiguration(output["CacheConfiguration"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlAdrRules = (output: any, context: __SerdeContext): AdrRule[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_restXmlAdrRule(entry, context);
+    });
+};
+
 const deserializeAws_restXmlAllowedHeaders = (output: any, context: __SerdeContext): string[] => {
   return (output || [])
     .filter((e: any) => e != null)
@@ -20784,6 +21169,34 @@ const deserializeAws_restXmlAnalyticsS3BucketDestination = (
   return contents;
 };
 
+const deserializeAws_restXmlArchiveDirectReadConfiguration = (
+  output: any,
+  context: __SerdeContext
+): ArchiveDirectReadConfiguration => {
+  let contents: any = {
+    Enabled: undefined,
+    Mode: undefined,
+    CacheConfiguration: undefined,
+    Rules: undefined,
+  };
+  if (output["Enabled"] !== undefined) {
+    contents.Enabled = output["Enabled"] == "true";
+  }
+  if (output["Mode"] !== undefined) {
+    contents.Mode = output["Mode"];
+  }
+  if (output["CacheConfiguration"] !== undefined) {
+    contents.CacheConfiguration = deserializeAws_restXmlAdrCacheConfiguration(output["CacheConfiguration"], context);
+  }
+  if (output.Rules === "") {
+    contents.Rules = [];
+  }
+  if (output["Rules"] !== undefined && output["Rules"]["Rule"] !== undefined) {
+    contents.Rules = deserializeAws_restXmlAdrRules(__getArrayIfSingleItem(output["Rules"]["Rule"]), context);
+  }
+  return contents;
+};
+
 const deserializeAws_restXmlBlackList = (output: any, context: __SerdeContext): string[] => {
   return (output || [])
     .filter((e: any) => e != null)
@@ -20833,6 +21246,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     TaggingConfiguration: undefined,
     PolicyConfiguration: undefined,
     QoSConfiguration: undefined,
+    ArchiveDirectReadConfiguration: undefined,
     BtsConfiguration: undefined,
     StatisticConfiguration: undefined,
     BucketRedundancyConfiguration: undefined,
@@ -20944,6 +21358,12 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["QoSConfiguration"] !== undefined) {
     contents.QoSConfiguration = deserializeAws_restXmlQoSConfiguration(output["QoSConfiguration"], context);
+  }
+  if (output["ArchiveDirectReadConfiguration"] !== undefined) {
+    contents.ArchiveDirectReadConfiguration = deserializeAws_restXmlArchiveDirectReadConfiguration(
+      output["ArchiveDirectReadConfiguration"],
+      context
+    );
   }
   if (output["BtsConfiguration"] !== undefined) {
     contents.BtsConfiguration = deserializeAws_restXmlBtsConfiguration(output["BtsConfiguration"], context);

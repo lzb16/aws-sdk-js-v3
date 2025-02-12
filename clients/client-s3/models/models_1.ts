@@ -2,10 +2,12 @@ import {
   AccelerateConfiguration,
   AccessControlPolicy,
   AnalyticsConfiguration,
+  ArchiveDirectReadConfiguration,
   Bucket,
   BucketCannedACL,
   BucketLifecycleConfiguration,
   BucketTrashObj,
+  BucketVersioningStatus,
   CORSConfiguration,
   CompressionRule,
   DeletedObject,
@@ -52,6 +54,164 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+export interface ListBucketTrashResult {
+  /**
+   * <p>A flag that indicates whether Amazon S3 returned all of the results that satisfied the search
+   *          criteria.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>Indicates where in the bucket listing begins. Marker is included in the response if it
+   *          was sent with the request.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>When response is truncated (the IsTruncated element value in the response is true), you
+   *          can use the key name in this field as marker in the subsequent request to get next set of
+   *          objects. Amazon S3 lists objects in alphabetical order Note: This element is returned only if
+   *          you have delimiter request parameter specified. If response does not include the NextMarker
+   *          and it is truncated, you can use the value of the last Key in the response as the marker in
+   *          the subsequent request to get the next set of object keys.</p>
+   */
+  NextMarker?: string;
+
+  /**
+   * <p>The maximum number of keys returned in the response body.</p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>The bucket name.</p>
+   */
+  Name?: string;
+
+  /**
+   * <p>Keys that begin with the indicated prefix.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  BeginTime?: Date;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  EndTime?: Date;
+
+  /**
+   * <p>Metadata about each object returned.</p>
+   */
+  Contents?: BucketTrashObj[];
+}
+
+export namespace ListBucketTrashResult {
+  export const filterSensitiveLog = (obj: ListBucketTrashResult): any => ({
+    ...obj,
+  });
+}
+
+export interface GetBucketTrashObjListOutput {
+  /**
+   * <p>回收站配置信息</p>
+   */
+  ListBucketTrashResult?: ListBucketTrashResult;
+}
+
+export namespace GetBucketTrashObjListOutput {
+  export const filterSensitiveLog = (obj: GetBucketTrashObjListOutput): any => ({
+    ...obj,
+  });
+}
+
+export type OrderType = "letter" | "time";
+
+export interface GetBucketTrashObjListRequest {
+  /**
+   * <p>The name of the bucket containing the objects.</p>
+   *          <p>When using this API with an access point, you must direct requests to the access point hostname. The access point hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com. When using this operation with an access point through the AWS SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using Access Points</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   *          <p>When using this API with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com. When using this operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>Requests Amazon S3 to encode the object keys in the response and specifies the encoding
+   *          method to use. An object key may contain any Unicode character; however, XML 1.0 parser
+   *          cannot parse some characters, such as characters with an ASCII value from 0 to 10. For
+   *          characters that are not supported in XML 1.0, you can add this parameter to request that
+   *          Amazon S3 encode the keys in the response.</p>
+   */
+  EncodingType?: EncodingType | string;
+
+  /**
+   * <p>Specifies the key to start with when listing objects in a bucket.</p>
+   */
+  Marker?: string;
+
+  /**
+   * <p>Sets the maximum number of keys returned in the response. By default the API returns up
+   *          to 1,000 key names. The response might contain fewer keys but will never contain more.
+   *       </p>
+   */
+  MaxKeys?: number;
+
+  /**
+   * <p>列举的排序方式：支持letter表示字母序，time表示时间序。开始时间/结束时间  和  prefix只能有一个，不能都填</p>
+   */
+  OrderType?: OrderType | string;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  Prefix?: string;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  BeginTime?: Date;
+
+  /**
+   * <p>Limits the response to keys that begin with the specified prefix.</p>
+   */
+  EndTime?: Date;
+
+  /**
+   * <p>The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP <code>403 (Access Denied)</code> error.</p>
+   */
+  ExpectedBucketOwner?: string;
+}
+
+export namespace GetBucketTrashObjListRequest {
+  export const filterSensitiveLog = (obj: GetBucketTrashObjListRequest): any => ({
+    ...obj,
+  });
+}
+
+export type MFADeleteStatus = "Disabled" | "Enabled";
+
+export interface GetBucketVersioningOutput {
+  /**
+   * <p>The versioning state of the bucket.</p>
+   */
+  Status?: BucketVersioningStatus | string;
+
+  /**
+   * <p>Specifies whether MFA delete is enabled in the bucket versioning configuration. This
+   *          element is only returned if the bucket has been configured with MFA delete. If the bucket
+   *          has never been so configured, this element is not returned.</p>
+   */
+  MFADelete?: MFADeleteStatus | string;
+}
+
+export namespace GetBucketVersioningOutput {
+  export const filterSensitiveLog = (obj: GetBucketVersioningOutput): any => ({
+    ...obj,
+  });
+}
 
 export interface GetBucketVersioningRequest {
   /**
@@ -4675,6 +4835,24 @@ export interface PutBucketAclRequest {
 
 export namespace PutBucketAclRequest {
   export const filterSensitiveLog = (obj: PutBucketAclRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface PutBucketAdrRequest {
+  /**
+   * <p>bucket name</p>
+   */
+  Bucket: string | undefined;
+
+  /**
+   * <p>桶的归档直读配置</p>
+   */
+  ArchiveDirectReadConfiguration?: ArchiveDirectReadConfiguration;
+}
+
+export namespace PutBucketAdrRequest {
+  export const filterSensitiveLog = (obj: PutBucketAdrRequest): any => ({
     ...obj,
   });
 }

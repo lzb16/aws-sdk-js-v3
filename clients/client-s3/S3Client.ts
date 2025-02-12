@@ -20,6 +20,7 @@ import {
 } from "./commands/CreateSnapshotPolicyCommand";
 import { DedupstatCommandInput, DedupstatCommandOutput } from "./commands/DedupstatCommand";
 import { DeleteAgentsCommandInput, DeleteAgentsCommandOutput } from "./commands/DeleteAgentsCommand";
+import { DeleteBucketAdrCommandInput, DeleteBucketAdrCommandOutput } from "./commands/DeleteBucketAdrCommand";
 import {
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -118,6 +119,7 @@ import {
   GetBucketAccelerateConfigurationCommandOutput,
 } from "./commands/GetBucketAccelerateConfigurationCommand";
 import { GetBucketAclCommandInput, GetBucketAclCommandOutput } from "./commands/GetBucketAclCommand";
+import { GetBucketAdrCommandInput, GetBucketAdrCommandOutput } from "./commands/GetBucketAdrCommand";
 import {
   GetBucketAnalyticsConfigurationCommandInput,
   GetBucketAnalyticsConfigurationCommandOutput,
@@ -276,6 +278,7 @@ import {
   PutBucketAccelerateConfigurationCommandOutput,
 } from "./commands/PutBucketAccelerateConfigurationCommand";
 import { PutBucketAclCommandInput, PutBucketAclCommandOutput } from "./commands/PutBucketAclCommand";
+import { PutBucketAdrCommandInput, PutBucketAdrCommandOutput } from "./commands/PutBucketAdrCommand";
 import {
   PutBucketAnalyticsConfigurationCommandInput,
   PutBucketAnalyticsConfigurationCommandOutput,
@@ -480,6 +483,7 @@ export type ServiceInputTypes =
   | CreateSnapshotPolicyCommandInput
   | DedupstatCommandInput
   | DeleteAgentsCommandInput
+  | DeleteBucketAdrCommandInput
   | DeleteBucketAnalyticsConfigurationCommandInput
   | DeleteBucketBtsCommandInput
   | DeleteBucketCommandInput
@@ -518,6 +522,7 @@ export type ServiceInputTypes =
   | GetAgentPathConfigCommandInput
   | GetBucketAccelerateConfigurationCommandInput
   | GetBucketAclCommandInput
+  | GetBucketAdrCommandInput
   | GetBucketAnalyticsConfigurationCommandInput
   | GetBucketBtsCommandInput
   | GetBucketCompressionConfigurationCommandInput
@@ -586,6 +591,7 @@ export type ServiceInputTypes =
   | PostBucketTrashCommandInput
   | PutBucketAccelerateConfigurationCommandInput
   | PutBucketAclCommandInput
+  | PutBucketAdrCommandInput
   | PutBucketAnalyticsConfigurationCommandInput
   | PutBucketBtsCommandInput
   | PutBucketCompressionConfigurationCommandInput
@@ -650,6 +656,7 @@ export type ServiceOutputTypes =
   | CreateSnapshotPolicyCommandOutput
   | DedupstatCommandOutput
   | DeleteAgentsCommandOutput
+  | DeleteBucketAdrCommandOutput
   | DeleteBucketAnalyticsConfigurationCommandOutput
   | DeleteBucketBtsCommandOutput
   | DeleteBucketCommandOutput
@@ -688,6 +695,7 @@ export type ServiceOutputTypes =
   | GetAgentPathConfigCommandOutput
   | GetBucketAccelerateConfigurationCommandOutput
   | GetBucketAclCommandOutput
+  | GetBucketAdrCommandOutput
   | GetBucketAnalyticsConfigurationCommandOutput
   | GetBucketBtsCommandOutput
   | GetBucketCompressionConfigurationCommandOutput
@@ -756,6 +764,7 @@ export type ServiceOutputTypes =
   | PostBucketTrashCommandOutput
   | PutBucketAccelerateConfigurationCommandOutput
   | PutBucketAclCommandOutput
+  | PutBucketAdrCommandOutput
   | PutBucketAnalyticsConfigurationCommandOutput
   | PutBucketBtsCommandOutput
   | PutBucketCompressionConfigurationCommandOutput

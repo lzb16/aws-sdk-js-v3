@@ -42,6 +42,11 @@ import {
   DeleteAgentsCommandOutput,
 } from "./commands/DeleteAgentsCommand";
 import {
+  DeleteBucketAdrCommand,
+  DeleteBucketAdrCommandInput,
+  DeleteBucketAdrCommandOutput,
+} from "./commands/DeleteBucketAdrCommand";
+import {
   DeleteBucketAnalyticsConfigurationCommand,
   DeleteBucketAnalyticsConfigurationCommandInput,
   DeleteBucketAnalyticsConfigurationCommandOutput,
@@ -227,6 +232,11 @@ import {
   GetBucketAclCommandInput,
   GetBucketAclCommandOutput,
 } from "./commands/GetBucketAclCommand";
+import {
+  GetBucketAdrCommand,
+  GetBucketAdrCommandInput,
+  GetBucketAdrCommandOutput,
+} from "./commands/GetBucketAdrCommand";
 import {
   GetBucketAnalyticsConfigurationCommand,
   GetBucketAnalyticsConfigurationCommandInput,
@@ -535,6 +545,11 @@ import {
   PutBucketAclCommandInput,
   PutBucketAclCommandOutput,
 } from "./commands/PutBucketAclCommand";
+import {
+  PutBucketAdrCommand,
+  PutBucketAdrCommandInput,
+  PutBucketAdrCommandOutput,
+} from "./commands/PutBucketAdrCommand";
 import {
   PutBucketAnalyticsConfigurationCommand,
   PutBucketAnalyticsConfigurationCommandInput,
@@ -1811,6 +1826,38 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: DeleteBucketCommandOutput) => void
   ): Promise<DeleteBucketCommandOutput> | void {
     const command = new DeleteBucketCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>删除归档直读配置</p>
+   */
+  public deleteBucketAdr(
+    args: DeleteBucketAdrCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteBucketAdrCommandOutput>;
+  public deleteBucketAdr(
+    args: DeleteBucketAdrCommandInput,
+    cb: (err: any, data?: DeleteBucketAdrCommandOutput) => void
+  ): void;
+  public deleteBucketAdr(
+    args: DeleteBucketAdrCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteBucketAdrCommandOutput) => void
+  ): void;
+  public deleteBucketAdr(
+    args: DeleteBucketAdrCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteBucketAdrCommandOutput) => void),
+    cb?: (err: any, data?: DeleteBucketAdrCommandOutput) => void
+  ): Promise<DeleteBucketAdrCommandOutput> | void {
+    const command = new DeleteBucketAdrCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -3510,6 +3557,35 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: GetBucketAclCommandOutput) => void
   ): Promise<GetBucketAclCommandOutput> | void {
     const command = new GetBucketAclCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>获取桶的归档直读配置</p>
+   */
+  public getBucketAdr(
+    args: GetBucketAdrCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetBucketAdrCommandOutput>;
+  public getBucketAdr(args: GetBucketAdrCommandInput, cb: (err: any, data?: GetBucketAdrCommandOutput) => void): void;
+  public getBucketAdr(
+    args: GetBucketAdrCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetBucketAdrCommandOutput) => void
+  ): void;
+  public getBucketAdr(
+    args: GetBucketAdrCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetBucketAdrCommandOutput) => void),
+    cb?: (err: any, data?: GetBucketAdrCommandOutput) => void
+  ): Promise<GetBucketAdrCommandOutput> | void {
+    const command = new GetBucketAdrCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -7380,6 +7456,35 @@ export class S3 extends S3Client {
     cb?: (err: any, data?: PutBucketAclCommandOutput) => void
   ): Promise<PutBucketAclCommandOutput> | void {
     const command = new PutBucketAclCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * <p>设置归档直读配置</p>
+   */
+  public putBucketAdr(
+    args: PutBucketAdrCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<PutBucketAdrCommandOutput>;
+  public putBucketAdr(args: PutBucketAdrCommandInput, cb: (err: any, data?: PutBucketAdrCommandOutput) => void): void;
+  public putBucketAdr(
+    args: PutBucketAdrCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: PutBucketAdrCommandOutput) => void
+  ): void;
+  public putBucketAdr(
+    args: PutBucketAdrCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutBucketAdrCommandOutput) => void),
+    cb?: (err: any, data?: PutBucketAdrCommandOutput) => void
+  ): Promise<PutBucketAdrCommandOutput> | void {
+    const command = new PutBucketAdrCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

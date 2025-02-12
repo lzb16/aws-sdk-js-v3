@@ -1,6 +1,5 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetBucketVersioningOutput } from "../models/models_0";
-import { GetBucketVersioningRequest } from "../models/models_1";
+import { GetBucketVersioningOutput, GetBucketVersioningRequest } from "../models/models_1";
 import {
   deserializeAws_restXmlGetBucketVersioningCommand,
   serializeAws_restXmlGetBucketVersioningCommand,

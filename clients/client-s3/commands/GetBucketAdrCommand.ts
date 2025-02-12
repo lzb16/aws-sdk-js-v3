@@ -1,8 +1,8 @@
 import { S3ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../S3Client";
-import { GetBucketTrashObjListOutput, GetBucketTrashObjListRequest } from "../models/models_1";
+import { GetBucketAdrRequest, GetBucketAdrResponse } from "../models/models_0";
 import {
-  deserializeAws_restXmlGetBucketTrashObjListCommand,
-  serializeAws_restXmlGetBucketTrashObjListCommand,
+  deserializeAws_restXmlGetBucketAdrCommand,
+  serializeAws_restXmlGetBucketAdrCommand,
 } from "../protocols/Aws_restXml";
 import { getBucketEndpointPlugin } from "@aws-sdk/middleware-bucket-endpoint";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
@@ -18,21 +18,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetBucketTrashObjListCommandInput = GetBucketTrashObjListRequest;
-export type GetBucketTrashObjListCommandOutput = GetBucketTrashObjListOutput & __MetadataBearer;
+export type GetBucketAdrCommandInput = GetBucketAdrRequest;
+export type GetBucketAdrCommandOutput = GetBucketAdrResponse & __MetadataBearer;
 
 /**
- * <p>获取桶回收站对象列表</p>
+ * <p>获取桶的归档直读配置</p>
  */
-export class GetBucketTrashObjListCommand extends $Command<
-  GetBucketTrashObjListCommandInput,
-  GetBucketTrashObjListCommandOutput,
+export class GetBucketAdrCommand extends $Command<
+  GetBucketAdrCommandInput,
+  GetBucketAdrCommandOutput,
   S3ClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetBucketTrashObjListCommandInput) {
+  constructor(readonly input: GetBucketAdrCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -45,7 +45,7 @@ export class GetBucketTrashObjListCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: S3ClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetBucketTrashObjListCommandInput, GetBucketTrashObjListCommandOutput> {
+  ): Handler<GetBucketAdrCommandInput, GetBucketAdrCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
     this.middlewareStack.use(getBucketEndpointPlugin(configuration));
 
@@ -53,13 +53,13 @@ export class GetBucketTrashObjListCommand extends $Command<
 
     const { logger } = configuration;
     const clientName = "S3Client";
-    const commandName = "GetBucketTrashObjListCommand";
+    const commandName = "GetBucketAdrCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetBucketTrashObjListRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetBucketTrashObjListOutput.filterSensitiveLog,
+      inputFilterSensitiveLog: GetBucketAdrRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetBucketAdrResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -69,12 +69,12 @@ export class GetBucketTrashObjListCommand extends $Command<
     );
   }
 
-  private serialize(input: GetBucketTrashObjListCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_restXmlGetBucketTrashObjListCommand(input, context);
+  private serialize(input: GetBucketAdrCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_restXmlGetBucketAdrCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetBucketTrashObjListCommandOutput> {
-    return deserializeAws_restXmlGetBucketTrashObjListCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetBucketAdrCommandOutput> {
+    return deserializeAws_restXmlGetBucketAdrCommand(output, context);
   }
 
   // Start section: command_body_extra
