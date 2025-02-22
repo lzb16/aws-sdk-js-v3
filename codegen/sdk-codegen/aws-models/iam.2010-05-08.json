@@ -950,6 +950,13 @@
             "smithy.api#documentation": "<p>User info.</p>"
           }
         },
+        "StorageClassStatistics": {
+          "target": "com.amazonaws.s3#StorageClassStatistics",
+          "traits": {
+            "smithy.api#documentation": "<p>不同存储类别对象统计</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
         "ArchivedObjectNumber": {
           "target": "com.amazonaws.iam#integerType",
           "traits": {
@@ -1016,6 +1023,35 @@
           "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "重删对象容量"
+          }
+        }
+      }
+    },
+    "com.amazonaws.s3#StorageClassStatistics": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#StorageClassStatisticsList"
+      }
+    },
+    "com.amazonaws.s3#StorageClassStatisticsList": {
+      "type": "structure",
+      "members": {
+        "StorageClass": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>存储类别</p>"
+          }
+        },
+        "ObjectNumber": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象数量</p>"
+          }
+        },
+        "ObjectSize": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象容量</p>"
           }
         }
       }

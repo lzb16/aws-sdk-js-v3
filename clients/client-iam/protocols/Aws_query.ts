@@ -766,7 +766,7 @@ import {
   ServiceLastAccessed,
   ServiceNotSupportedException,
   ServiceSpecificCredential,
-  StorageClassStatistiesList,
+  StorageClassStatisticsList,
   Tag,
   TrackedActionLastAccessed,
   UnmodifiableEntityException,
@@ -21806,7 +21806,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     UsedSize: undefined,
     AccessKeys: undefined,
     User: undefined,
-    StorageClassStatisties: undefined,
+    StorageClassStatistics: undefined,
     ArchivedObjectNumber: undefined,
     ArchivedObjectSize: undefined,
     RestoredObjectNumber: undefined,
@@ -21875,12 +21875,12 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
   }
-  if (output.StorageClassStatisties === "") {
-    contents.StorageClassStatisties = [];
+  if (output.StorageClassStatistics === "") {
+    contents.StorageClassStatistics = [];
   }
-  if (output["StorageClassStatisties"] !== undefined && output["StorageClassStatisties"]["member"] !== undefined) {
-    contents.StorageClassStatisties = deserializeAws_queryStorageClassStatisties(
-      __getArrayIfSingleItem(output["StorageClassStatisties"]["member"]),
+  if (output["StorageClassStatistics"] !== undefined) {
+    contents.StorageClassStatistics = deserializeAws_queryStorageClassStatistics(
+      __getArrayIfSingleItem(output["StorageClassStatistics"]),
       context
     );
   }
@@ -26741,24 +26741,24 @@ const deserializeAws_queryvirtualMFADeviceListType = (output: any, context: __Se
     });
 };
 
-const deserializeAws_queryStorageClassStatisties = (
+const deserializeAws_queryStorageClassStatistics = (
   output: any,
   context: __SerdeContext
-): StorageClassStatistiesList[] => {
+): StorageClassStatisticsList[] => {
   return (output || [])
     .filter((e: any) => e != null)
     .map((entry: any) => {
       if (entry === null) {
         return null as any;
       }
-      return deserializeAws_queryStorageClassStatistiesList(entry, context);
+      return deserializeAws_queryStorageClassStatisticsList(entry, context);
     });
 };
 
-const deserializeAws_queryStorageClassStatistiesList = (
+const deserializeAws_queryStorageClassStatisticsList = (
   output: any,
   context: __SerdeContext
-): StorageClassStatistiesList => {
+): StorageClassStatisticsList => {
   let contents: any = {
     StorageClass: undefined,
     ObjectNumber: undefined,

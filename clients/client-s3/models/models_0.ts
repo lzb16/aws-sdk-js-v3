@@ -4769,6 +4769,7 @@ export namespace GetBucketAdrRequest {
 }
 
 export interface ArchiveDirectReadConfiguration {
+  Status?: string;
   Enabled?: boolean;
   Mode?: string;
   CacheConfiguration?: AdrCacheConfiguration;
@@ -7685,6 +7686,29 @@ export namespace StatisticConfiguration {
   });
 }
 
+export interface StorageClassStatisticsList {
+  /**
+   * <p>存储类别</p>
+   */
+  StorageClass?: string;
+
+  /**
+   * <p>对象数量</p>
+   */
+  ObjectNumber?: string;
+
+  /**
+   * <p>对象容量</p>
+   */
+  ObjectSize?: string;
+}
+
+export namespace StorageClassStatisticsList {
+  export const filterSensitiveLog = (obj: StorageClassStatisticsList): any => ({
+    ...obj,
+  });
+}
+
 export interface TaggingConfiguration {
   Status?: Status | string;
 }
@@ -7905,6 +7929,11 @@ export interface Bucket {
    * 桶的归档存储配置
    */
   GlacierConfiguration?: string;
+
+  /**
+   * <p>不同存储类别对象统计</p>
+   */
+  StorageClassStatistics?: StorageClassStatisticsList[];
 
   /**
    * 已归档对象数量
@@ -9029,55 +9058,3 @@ export type ObjectStorageClass =
   | "REDUCED_REDUNDANCY"
   | "STANDARD"
   | "STANDARD_IA";
-
-/**
- * <p>An object consists of data and its descriptive metadata.</p>
- */
-export interface BucketTrashObj {
-  /**
-   * <p>The name that you assign to an object. You use the object key to retrieve the
-   *          object.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
-   */
-  Token?: string;
-
-  /**
-   * <p>The date the Object was Last Modified</p>
-   */
-  LastModified?: Date;
-
-  /**
-   * <p>The date the Object was Last Modified</p>
-   */
-  DeletedTime?: Date;
-
-  /**
-   * <p>Size in bytes of the object</p>
-   */
-  Size?: number;
-
-  /**
-   * <p>The class of storage used to store the object.</p>
-   */
-  StorageClass?: ObjectStorageClass | string;
-
-  /**
-   * <p>VersionId used to reference a specific version of the object.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>The owner of the object</p>
-   */
-  Owner?: Owner;
-}
-
-export namespace BucketTrashObj {
-  export const filterSensitiveLog = (obj: BucketTrashObj): any => ({
-    ...obj,
-  });
-}

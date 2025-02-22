@@ -429,7 +429,6 @@ import {
   BucketLoggingConfiguration,
   BucketOSCPConfiguration,
   BucketRedundancyConfiguration,
-  BucketTrashObj,
   CORSConfiguration,
   CORSRule,
   CompletedMultipartUpload,
@@ -531,6 +530,7 @@ import {
   StatisticConfiguration,
   StorageClassAnalysis,
   StorageClassAnalysisDataExport,
+  StorageClassStatisticsList,
   StringTypeListAgentDirectoryResult,
   Tag,
   TagMultiInOrMode,
@@ -549,6 +549,7 @@ import {
   BucketCompressionConfiguration,
   BucketLoggingStatus,
   BucketObjsTrashInfo,
+  BucketTrashObj,
   CSVInput,
   CSVOutput,
   CommonPrefix,
@@ -17546,6 +17547,10 @@ const serializeAws_restXmlArchiveDirectReadConfiguration = (
   context: __SerdeContext
 ): any => {
   const bodyNode = new __XmlNode("ArchiveDirectReadConfiguration");
+  if (input.Status !== undefined && input.Status !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Status)).withName("Status");
+    bodyNode.addChildNode(node);
+  }
   if (input.Enabled !== undefined && input.Enabled !== null) {
     const node = new __XmlNode("booleanType").addChildNode(new __XmlText(String(input.Enabled))).withName("Enabled");
     bodyNode.addChildNode(node);
@@ -21174,11 +21179,15 @@ const deserializeAws_restXmlArchiveDirectReadConfiguration = (
   context: __SerdeContext
 ): ArchiveDirectReadConfiguration => {
   let contents: any = {
+    Status: undefined,
     Enabled: undefined,
     Mode: undefined,
     CacheConfiguration: undefined,
     Rules: undefined,
   };
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
+  }
   if (output["Enabled"] !== undefined) {
     contents.Enabled = output["Enabled"] == "true";
   }
@@ -21256,6 +21265,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     TrashConfiguration: undefined,
     SnapConfiguration: undefined,
     GlacierConfiguration: undefined,
+    StorageClassStatistics: undefined,
     ArchivedObjectNumber: undefined,
     ArchivedObjectSize: undefined,
     RestoredObjectNumber: undefined,
@@ -21397,6 +21407,15 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["GlacierConfiguration"] !== undefined) {
     contents.GlacierConfiguration = output["GlacierConfiguration"];
+  }
+  if (output.StorageClassStatistics === "") {
+    contents.StorageClassStatistics = [];
+  }
+  if (output["StorageClassStatistics"] !== undefined) {
+    contents.StorageClassStatistics = deserializeAws_restXmlStorageClassStatistics(
+      __getArrayIfSingleItem(output["StorageClassStatistics"]),
+      context
+    );
   }
   if (output["ArchivedObjectNumber"] !== undefined) {
     contents.ArchivedObjectNumber = parseInt(output["ArchivedObjectNumber"]);
@@ -24573,6 +24592,41 @@ const deserializeAws_restXmlStorageClassAnalysisDataExport = (
   }
   if (output["Destination"] !== undefined) {
     contents.Destination = deserializeAws_restXmlAnalyticsExportDestination(output["Destination"], context);
+  }
+  return contents;
+};
+
+const deserializeAws_restXmlStorageClassStatistics = (
+  output: any,
+  context: __SerdeContext
+): StorageClassStatisticsList[] => {
+  return (output || [])
+    .filter((e: any) => e != null)
+    .map((entry: any) => {
+      if (entry === null) {
+        return null as any;
+      }
+      return deserializeAws_restXmlStorageClassStatisticsList(entry, context);
+    });
+};
+
+const deserializeAws_restXmlStorageClassStatisticsList = (
+  output: any,
+  context: __SerdeContext
+): StorageClassStatisticsList => {
+  let contents: any = {
+    StorageClass: undefined,
+    ObjectNumber: undefined,
+    ObjectSize: undefined,
+  };
+  if (output["StorageClass"] !== undefined) {
+    contents.StorageClass = output["StorageClass"];
+  }
+  if (output["ObjectNumber"] !== undefined) {
+    contents.ObjectNumber = output["ObjectNumber"];
+  }
+  if (output["ObjectSize"] !== undefined) {
+    contents.ObjectSize = output["ObjectSize"];
   }
   return contents;
 };

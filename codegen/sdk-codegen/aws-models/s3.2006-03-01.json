@@ -1749,6 +1749,13 @@
             "smithy.api#documentation": "桶的归档存储配置"
           }
         },
+        "StorageClassStatistics": {
+          "target": "com.amazonaws.s3#StorageClassStatistics",
+          "traits": {
+            "smithy.api#documentation": "<p>不同存储类别对象统计</p>",
+            "smithy.api#xmlFlattened": {}
+          }
+        },
         "ArchivedObjectNumber": {
           "target": "com.amazonaws.s3#integerType",
           "traits": {
@@ -17509,6 +17516,35 @@
         }
       }
     },
+    "com.amazonaws.s3#StorageClassStatistics": {
+      "type": "list",
+      "member": {
+        "target": "com.amazonaws.s3#StorageClassStatisticsList"
+      }
+    },
+    "com.amazonaws.s3#StorageClassStatisticsList": {
+      "type": "structure",
+      "members": {
+        "StorageClass": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>存储类别</p>"
+          }
+        },
+        "ObjectNumber": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象数量</p>"
+          }
+        },
+        "ObjectSize": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象容量</p>"
+          }
+        }
+      }
+    },
     "com.amazonaws.s3#Trash": {
       "type": "structure",
       "members": {
@@ -17563,6 +17599,9 @@
     "com.amazonaws.s3#ArchiveDirectReadConfiguration": {
       "type": "structure",
       "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#StringType"
+        },
         "Enabled": {
           "target": "com.amazonaws.s3#booleanType"
         },

@@ -314,8 +314,12 @@ export namespace AccoutDedup {
   });
 }
 
-export interface StorageClassStatistiesList {
+export interface StorageClassStatisticsList {
+  /**
+   * <p>存储类别</p>
+   */
   StorageClass?: string;
+
   /**
    * <p>对象数量</p>
    */
@@ -327,8 +331,8 @@ export interface StorageClassStatistiesList {
   ObjectSize?: string;
 }
 
-export namespace StorageClassStatistiesList {
-  export const filterSensitiveLog = (obj: StorageClassStatistiesList): any => ({
+export namespace StorageClassStatisticsList {
+  export const filterSensitiveLog = (obj: StorageClassStatisticsList): any => ({
     ...obj,
   });
 }
@@ -965,7 +969,7 @@ export interface AccountType {
   /**
    * <p>不同存储类别对象统计</p>
    */
-  StorageClassStatisties?: StorageClassStatistiesList[];
+  StorageClassStatistics?: StorageClassStatisticsList[];
 
   /**
    * <p>已归档对象数量</p>
