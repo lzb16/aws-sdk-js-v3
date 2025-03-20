@@ -1752,8 +1752,7 @@
         "StorageClassStatistics": {
           "target": "com.amazonaws.s3#StorageClassStatistics",
           "traits": {
-            "smithy.api#documentation": "<p>不同存储类别对象统计</p>",
-            "smithy.api#xmlFlattened": {}
+            "smithy.api#documentation": "<p>不同存储类别对象统计</p>"
           }
         },
         "ArchivedObjectNumber": {

@@ -21878,9 +21878,9 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
   if (output.StorageClassStatistics === "") {
     contents.StorageClassStatistics = [];
   }
-  if (output["StorageClassStatistics"] !== undefined) {
+  if (output["StorageClassStatistics"] !== undefined && output["StorageClassStatistics"]["member"] !== undefined) {
     contents.StorageClassStatistics = deserializeAws_queryStorageClassStatistics(
-      __getArrayIfSingleItem(output["StorageClassStatistics"]),
+      __getArrayIfSingleItem(output["StorageClassStatistics"]["member"]),
       context
     );
   }

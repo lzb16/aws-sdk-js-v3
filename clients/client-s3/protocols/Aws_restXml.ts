@@ -21411,9 +21411,9 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   if (output.StorageClassStatistics === "") {
     contents.StorageClassStatistics = [];
   }
-  if (output["StorageClassStatistics"] !== undefined) {
+  if (output["StorageClassStatistics"] !== undefined && output["StorageClassStatistics"]["member"] !== undefined) {
     contents.StorageClassStatistics = deserializeAws_restXmlStorageClassStatistics(
-      __getArrayIfSingleItem(output["StorageClassStatistics"]),
+      __getArrayIfSingleItem(output["StorageClassStatistics"]["member"]),
       context
     );
   }
