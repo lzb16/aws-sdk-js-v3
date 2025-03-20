@@ -1790,6 +1790,12 @@
           "traits": {
             "smithy.api#documentation": "桶曾经是否配置过压缩策略"
           }
+        },
+        "IsPrivateBucket": {
+          "target": "com.amazonaws.s3#IsEnabled",
+          "traits": {
+            "smithy.api#documentation": "<p>是否为私有桶</p>"
+          }
         }
       },
       "traits": {

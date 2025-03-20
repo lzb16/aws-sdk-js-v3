@@ -7964,6 +7964,11 @@ export interface Bucket {
    * 桶曾经是否配置过压缩策略
    */
   HistoryCompressionConfiguration?: CompressionConfigurations;
+
+  /**
+   * <p>是否为私有桶</p>
+   */
+  IsPrivateBucket?: boolean;
 }
 
 export namespace Bucket {
