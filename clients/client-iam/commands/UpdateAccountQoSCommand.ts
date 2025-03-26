@@ -1,8 +1,8 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { ListPolicyVersionsRequest, ListPolicyVersionsResponse } from "../models/models_1";
+import { UpdateAccountQoSRequest } from "../models/models_1";
 import {
-  deserializeAws_queryListPolicyVersionsCommand,
-  serializeAws_queryListPolicyVersionsCommand,
+  deserializeAws_queryUpdateAccountQoSCommand,
+  serializeAws_queryUpdateAccountQoSCommand,
 } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -17,24 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type ListPolicyVersionsCommandInput = ListPolicyVersionsRequest;
-export type ListPolicyVersionsCommandOutput = ListPolicyVersionsResponse & __MetadataBearer;
+export type UpdateAccountQoSCommandInput = UpdateAccountQoSRequest;
+export type UpdateAccountQoSCommandOutput = __MetadataBearer;
 
 /**
- * <p>Lists information about the versions of the specified managed policy, including the
- *          version that is currently set as the policy's default version.</p>
- *          <p>For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
- *             Policies</a> in the <i>IAM User Guide</i>.</p>
+ * 更新账户QoS
  */
-export class ListPolicyVersionsCommand extends $Command<
-  ListPolicyVersionsCommandInput,
-  ListPolicyVersionsCommandOutput,
+export class UpdateAccountQoSCommand extends $Command<
+  UpdateAccountQoSCommandInput,
+  UpdateAccountQoSCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: ListPolicyVersionsCommandInput) {
+  constructor(readonly input: UpdateAccountQoSCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -47,20 +44,20 @@ export class ListPolicyVersionsCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<ListPolicyVersionsCommandInput, ListPolicyVersionsCommandOutput> {
+  ): Handler<UpdateAccountQoSCommandInput, UpdateAccountQoSCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "ListPolicyVersionsCommand";
+    const commandName = "UpdateAccountQoSCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: ListPolicyVersionsRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: ListPolicyVersionsResponse.filterSensitiveLog,
+      inputFilterSensitiveLog: UpdateAccountQoSRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -70,12 +67,12 @@ export class ListPolicyVersionsCommand extends $Command<
     );
   }
 
-  private serialize(input: ListPolicyVersionsCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryListPolicyVersionsCommand(input, context);
+  private serialize(input: UpdateAccountQoSCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryUpdateAccountQoSCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<ListPolicyVersionsCommandOutput> {
-    return deserializeAws_queryListPolicyVersionsCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UpdateAccountQoSCommandOutput> {
+    return deserializeAws_queryUpdateAccountQoSCommand(output, context);
   }
 
   // Start section: command_body_extra

@@ -144,6 +144,7 @@ import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
 } from "./commands/DeleteAccountPasswordPolicyCommand";
+import { DeleteAccountQoSCommandInput, DeleteAccountQoSCommandOutput } from "./commands/DeleteAccountQoSCommand";
 import { DeleteGroupCommandInput, DeleteGroupCommandOutput } from "./commands/DeleteGroupCommand";
 import { DeleteGroupPolicyCommandInput, DeleteGroupPolicyCommandOutput } from "./commands/DeleteGroupPolicyCommand";
 import {
@@ -194,6 +195,7 @@ import {
   DeleteUserPermissionsBoundaryCommandOutput,
 } from "./commands/DeleteUserPermissionsBoundaryCommand";
 import { DeleteUserPolicyCommandInput, DeleteUserPolicyCommandOutput } from "./commands/DeleteUserPolicyCommand";
+import { DeleteUserQoSCommandInput, DeleteUserQoSCommandOutput } from "./commands/DeleteUserQoSCommand";
 import {
   DeleteVirtualMFADeviceCommandInput,
   DeleteVirtualMFADeviceCommandOutput,
@@ -232,7 +234,7 @@ import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
 } from "./commands/GetAccountPasswordPolicyCommand";
-import { GetAccountQosCommandInput, GetAccountQosCommandOutput } from "./commands/GetAccountQosCommand";
+import { GetAccountQoSCommandInput, GetAccountQoSCommandOutput } from "./commands/GetAccountQoSCommand";
 import { GetAccountSummaryCommandInput, GetAccountSummaryCommandOutput } from "./commands/GetAccountSummaryCommand";
 import {
   GetContextKeysForCustomPolicyCommandInput,
@@ -283,6 +285,7 @@ import {
 import { GetServiceOverviewCommandInput, GetServiceOverviewCommandOutput } from "./commands/GetServiceOverviewCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "./commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "./commands/GetUserPolicyCommand";
+import { GetUserQoSCommandInput, GetUserQoSCommandOutput } from "./commands/GetUserQoSCommand";
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "./commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "./commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "./commands/ListAccountAliasesCommand";
@@ -352,7 +355,6 @@ import {
   ListVirtualMFADevicesCommandOutput,
 } from "./commands/ListVirtualMFADevicesCommand";
 import { LoginConsoleCommandInput, LoginConsoleCommandOutput } from "./commands/LoginConsoleCommand";
-import { PutAccountQosCommandInput, PutAccountQosCommandOutput } from "./commands/PutAccountQosCommand";
 import { PutGroupPolicyCommandInput, PutGroupPolicyCommandOutput } from "./commands/PutGroupPolicyCommand";
 import {
   PutRolePermissionsBoundaryCommandInput,
@@ -421,6 +423,7 @@ import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
 } from "./commands/UpdateAccountPasswordPolicyCommand";
+import { UpdateAccountQoSCommandInput, UpdateAccountQoSCommandOutput } from "./commands/UpdateAccountQoSCommand";
 import { UpdateAccountQuotaCommandInput, UpdateAccountQuotaCommandOutput } from "./commands/UpdateAccountQuotaCommand";
 import {
   UpdateAssumeRolePolicyCommandInput,
@@ -478,6 +481,7 @@ import {
 } from "./commands/UpdateUserDescriptionCommand";
 import { UpdateUserEmailCommandInput, UpdateUserEmailCommandOutput } from "./commands/UpdateUserEmailCommand";
 import { UpdateUserPasswordCommandInput, UpdateUserPasswordCommandOutput } from "./commands/UpdateUserPasswordCommand";
+import { UpdateUserQoSCommandInput, UpdateUserQoSCommandOutput } from "./commands/UpdateUserQoSCommand";
 import { UpdateUserStatusCommandInput, UpdateUserStatusCommandOutput } from "./commands/UpdateUserStatusCommand";
 import { UploadSSHPublicKeyCommandInput, UploadSSHPublicKeyCommandOutput } from "./commands/UploadSSHPublicKeyCommand";
 import {
@@ -594,6 +598,7 @@ export type ServiceInputTypes =
   | DeleteAccountCommandInput
   | DeleteAccountGroupCommandInput
   | DeleteAccountPasswordPolicyCommandInput
+  | DeleteAccountQoSCommandInput
   | DeleteGroupCommandInput
   | DeleteGroupPolicyCommandInput
   | DeleteInstanceProfileCommandInput
@@ -614,6 +619,7 @@ export type ServiceInputTypes =
   | DeleteUserCommandInput
   | DeleteUserPermissionsBoundaryCommandInput
   | DeleteUserPolicyCommandInput
+  | DeleteUserQoSCommandInput
   | DeleteVirtualMFADeviceCommandInput
   | DetachGroupPolicyCommandInput
   | DetachRolePolicyCommandInput
@@ -628,7 +634,7 @@ export type ServiceInputTypes =
   | GetAccountGroupCommandInput
   | GetAccountGroupMetaCommandInput
   | GetAccountPasswordPolicyCommandInput
-  | GetAccountQosCommandInput
+  | GetAccountQoSCommandInput
   | GetAccountSummaryCommandInput
   | GetContextKeysForCustomPolicyCommandInput
   | GetContextKeysForPrincipalPolicyCommandInput
@@ -652,6 +658,7 @@ export type ServiceInputTypes =
   | GetServiceOverviewCommandInput
   | GetUserCommandInput
   | GetUserPolicyCommandInput
+  | GetUserQoSCommandInput
   | IamadminLoginCommandInput
   | ListAccessKeysCommandInput
   | ListAccountAliasesCommandInput
@@ -685,7 +692,6 @@ export type ServiceInputTypes =
   | ListUsersCommandInput
   | ListVirtualMFADevicesCommandInput
   | LoginConsoleCommandInput
-  | PutAccountQosCommandInput
   | PutGroupPolicyCommandInput
   | PutRolePermissionsBoundaryCommandInput
   | PutRolePolicyCommandInput
@@ -712,6 +718,7 @@ export type ServiceInputTypes =
   | UpdateAccountGroupCommandInput
   | UpdateAccountGroupQuotaCommandInput
   | UpdateAccountPasswordPolicyCommandInput
+  | UpdateAccountQoSCommandInput
   | UpdateAccountQuotaCommandInput
   | UpdateAssumeRolePolicyCommandInput
   | UpdateGroupCommandInput
@@ -733,6 +740,7 @@ export type ServiceInputTypes =
   | UpdateUserDescriptionCommandInput
   | UpdateUserEmailCommandInput
   | UpdateUserPasswordCommandInput
+  | UpdateUserQoSCommandInput
   | UpdateUserStatusCommandInput
   | UploadSSHPublicKeyCommandInput
   | UploadServerCertificateCommandInput
@@ -793,6 +801,7 @@ export type ServiceOutputTypes =
   | DeleteAccountCommandOutput
   | DeleteAccountGroupCommandOutput
   | DeleteAccountPasswordPolicyCommandOutput
+  | DeleteAccountQoSCommandOutput
   | DeleteGroupCommandOutput
   | DeleteGroupPolicyCommandOutput
   | DeleteInstanceProfileCommandOutput
@@ -813,6 +822,7 @@ export type ServiceOutputTypes =
   | DeleteUserCommandOutput
   | DeleteUserPermissionsBoundaryCommandOutput
   | DeleteUserPolicyCommandOutput
+  | DeleteUserQoSCommandOutput
   | DeleteVirtualMFADeviceCommandOutput
   | DetachGroupPolicyCommandOutput
   | DetachRolePolicyCommandOutput
@@ -827,7 +837,7 @@ export type ServiceOutputTypes =
   | GetAccountGroupCommandOutput
   | GetAccountGroupMetaCommandOutput
   | GetAccountPasswordPolicyCommandOutput
-  | GetAccountQosCommandOutput
+  | GetAccountQoSCommandOutput
   | GetAccountSummaryCommandOutput
   | GetContextKeysForCustomPolicyCommandOutput
   | GetContextKeysForPrincipalPolicyCommandOutput
@@ -851,6 +861,7 @@ export type ServiceOutputTypes =
   | GetServiceOverviewCommandOutput
   | GetUserCommandOutput
   | GetUserPolicyCommandOutput
+  | GetUserQoSCommandOutput
   | IamadminLoginCommandOutput
   | ListAccessKeysCommandOutput
   | ListAccountAliasesCommandOutput
@@ -884,7 +895,6 @@ export type ServiceOutputTypes =
   | ListUsersCommandOutput
   | ListVirtualMFADevicesCommandOutput
   | LoginConsoleCommandOutput
-  | PutAccountQosCommandOutput
   | PutGroupPolicyCommandOutput
   | PutRolePermissionsBoundaryCommandOutput
   | PutRolePolicyCommandOutput
@@ -911,6 +921,7 @@ export type ServiceOutputTypes =
   | UpdateAccountGroupCommandOutput
   | UpdateAccountGroupQuotaCommandOutput
   | UpdateAccountPasswordPolicyCommandOutput
+  | UpdateAccountQoSCommandOutput
   | UpdateAccountQuotaCommandOutput
   | UpdateAssumeRolePolicyCommandOutput
   | UpdateGroupCommandOutput
@@ -932,6 +943,7 @@ export type ServiceOutputTypes =
   | UpdateUserDescriptionCommandOutput
   | UpdateUserEmailCommandOutput
   | UpdateUserPasswordCommandOutput
+  | UpdateUserQoSCommandOutput
   | UpdateUserStatusCommandOutput
   | UploadSSHPublicKeyCommandOutput
   | UploadServerCertificateCommandOutput

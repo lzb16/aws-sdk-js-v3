@@ -79,10 +79,22 @@
           "target": "com.amazonaws.iam#UpdateAccountQuota"
         },
         {
-          "target": "com.amazonaws.iam#PutAccountQos"
+          "target": "com.amazonaws.iam#UpdateAccountQoS"
         },
         {
-          "target": "com.amazonaws.iam#GetAccountQos"
+          "target": "com.amazonaws.iam#GetAccountQoS"
+        },
+        {
+          "target": "com.amazonaws.iam#DeleteAccountQoS"
+        },
+        {
+          "target": "com.amazonaws.iam#UpdateUserQoS"
+        },
+        {
+          "target": "com.amazonaws.iam#GetUserQoS"
+        },
+        {
+          "target": "com.amazonaws.iam#DeleteUserQoS"
         },
         {
           "target": "com.amazonaws.iam#ChangePassword"
@@ -944,6 +956,13 @@
             "smithy.api#documentation": "<p>The access keys of account.</p>"
           }
         },
+        "QoSConfiguration": {
+          "target": "com.amazonaws.iam#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The qos of account.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        },
         "User": {
           "target": "com.amazonaws.iam#User",
           "traits": {
@@ -1767,10 +1786,10 @@
         "smithy.api#sensitive": {}
       }
     },
-    "com.amazonaws.iam#PutAccountQos": {
+    "com.amazonaws.iam#UpdateAccountQoS": {
       "type": "operation",
       "input": {
-        "target": "com.amazonaws.iam#PutAccountQosRequest"
+        "target": "com.amazonaws.iam#UpdateAccountQoSRequest"
       },
       "errors": [
         {
@@ -1790,16 +1809,51 @@
         }
       ],
       "traits": {
-        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+        "smithy.api#documentation": "更新账户QoS"
       }
     },
-    "com.amazonaws.iam#GetAccountQos": {
+    "com.amazonaws.iam#UpdateAccountQoSRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        },
+        "ReadOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadOps of the account.</p>"
+          }
+        },
+        "WriteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteOps of the account.</p>"
+          }
+        },
+        "ReadBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadBandwidth of the account.</p>"
+          }
+        },
+        "WriteBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountQoS": {
       "type": "operation",
       "input": {
-        "target": "com.amazonaws.iam#GetAccountQosRequest"
+        "target": "com.amazonaws.iam#GetAccountQoSRequest"
       },
       "output": {
-        "target": "com.amazonaws.iam#GetAccountQosResponse"
+        "target": "com.amazonaws.iam#GetAccountQoSResponse"
       },
       "errors": [
         {
@@ -1819,7 +1873,217 @@
         }
       ],
       "traits": {
-        "smithy.api#documentation": "<p>Changes the password of the IAM account who is calling this operation. The AWS account\n         root user password is not affected by this operation.</p>\n         <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.\n         For more information about modifying passwords, see <a href=\"https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html\">Managing Passwords</a> in the\n            <i>IAM User Guide</i>.</p>"
+        "smithy.api#documentation": "获取账户QoS"
+      }
+    },
+    "com.amazonaws.iam#GetAccountQoSRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetAccountQoSResponse": {
+      "type": "structure",
+      "members": {
+        "QoSConfiguration": {
+          "target": "com.amazonaws.iam#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The qos of account.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#DeleteAccountQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#DeleteAccountQoSRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "删除账户QoS"
+      }
+    },
+    "com.amazonaws.iam#DeleteAccountQoSRequest": {
+      "type": "structure",
+      "members": {
+        "AccountName": {
+          "target": "com.amazonaws.iam#accountNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>Account name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#UpdateUserQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#UpdateUserQoSRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "更新用户QoS"
+      }
+    },
+    "com.amazonaws.iam#UpdateUserQoSRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        },
+        "ReadOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadOps of the account.</p>"
+          }
+        },
+        "WriteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteOps of the account.</p>"
+          }
+        },
+        "ReadBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ReadBandwidth of the account.</p>"
+          }
+        },
+        "WriteBandwidth": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetUserQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetUserQoSRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetUserQoSResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "获取用户QoS"
+      }
+    },
+    "com.amazonaws.iam#GetUserQoSRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetUserQoSResponse": {
+      "type": "structure",
+      "members": {
+        "QoSConfiguration": {
+          "target": "com.amazonaws.iam#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The qos of account.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#DeleteUserQoS": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#DeleteUserQoSRequest"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "删除用户QoS"
+      }
+    },
+    "com.amazonaws.iam#DeleteUserQoSRequest": {
+      "type": "structure",
+      "members": {
+        "UserName": {
+          "target": "com.amazonaws.iam#userNameType",
+          "traits": {
+            "smithy.api#documentation": "<p>User name.</p>"
+          }
+        }
       }
     },
     "com.amazonaws.iam#UpdateAccountQuota": {
@@ -1887,64 +2151,6 @@
           "target": "com.amazonaws.iam#userDescriptionType",
           "traits": {
             "smithy.api#documentation": "<p>Description</p>"
-          }
-        }
-      }
-    },
-    "com.amazonaws.iam#GetAccountQosRequest": {
-      "type": "structure",
-      "members": {
-        "AccountName": {
-          "target": "com.amazonaws.iam#accountNameType",
-          "traits": {
-            "smithy.api#documentation": "<p>Account name.</p>"
-          }
-        }
-      }
-    },
-    "com.amazonaws.iam#GetAccountQosResponse": {
-      "type": "structure",
-      "members": {
-        "QoSConfiguration": {
-          "target": "com.amazonaws.iam#QoSConfiguration",
-          "traits": {
-            "smithy.api#documentation": "<p>The qos of account.</p>",
-            "smithy.api#httpPayload": {}
-          }
-        }
-      }
-    },
-    "com.amazonaws.iam#PutAccountQosRequest": {
-      "type": "structure",
-      "members": {
-        "AccountName": {
-          "target": "com.amazonaws.iam#accountNameType",
-          "traits": {
-            "smithy.api#documentation": "<p>Account name.</p>"
-          }
-        },
-        "ReadOps": {
-          "target": "com.amazonaws.iam#stringType",
-          "traits": {
-            "smithy.api#documentation": "<p>The ReadOps of the account.</p>"
-          }
-        },
-        "WriteOps": {
-          "target": "com.amazonaws.iam#stringType",
-          "traits": {
-            "smithy.api#documentation": "<p>The WriteOps of the account.</p>"
-          }
-        },
-        "ReadBandwidth": {
-          "target": "com.amazonaws.iam#stringType",
-          "traits": {
-            "smithy.api#documentation": "<p>The ReadBandwidth of the account.</p>"
-          }
-        },
-        "WriteBandwidth": {
-          "target": "com.amazonaws.iam#stringType",
-          "traits": {
-            "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
           }
         }
       }
@@ -14831,6 +15037,13 @@
           "target": "com.amazonaws.iam#accessKeyListType",
           "traits": {
             "smithy.api#documentation": "<p>The access keys of account.</p>"
+          }
+        },
+        "QoSConfiguration": {
+          "target": "com.amazonaws.iam#QoSConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>The qos of account.</p>",
+            "smithy.api#httpPayload": {}
           }
         },
         "Policies": {

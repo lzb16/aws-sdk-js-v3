@@ -1,8 +1,8 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { ListPolicyVersionsRequest, ListPolicyVersionsResponse } from "../models/models_1";
+import { UpdateUserQoSRequest } from "../models/models_1";
 import {
-  deserializeAws_queryListPolicyVersionsCommand,
-  serializeAws_queryListPolicyVersionsCommand,
+  deserializeAws_queryUpdateUserQoSCommand,
+  serializeAws_queryUpdateUserQoSCommand,
 } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -17,24 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type ListPolicyVersionsCommandInput = ListPolicyVersionsRequest;
-export type ListPolicyVersionsCommandOutput = ListPolicyVersionsResponse & __MetadataBearer;
+export type UpdateUserQoSCommandInput = UpdateUserQoSRequest;
+export type UpdateUserQoSCommandOutput = __MetadataBearer;
 
 /**
- * <p>Lists information about the versions of the specified managed policy, including the
- *          version that is currently set as the policy's default version.</p>
- *          <p>For more information about managed policies, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed Policies and Inline
- *             Policies</a> in the <i>IAM User Guide</i>.</p>
+ * 更新用户QoS
  */
-export class ListPolicyVersionsCommand extends $Command<
-  ListPolicyVersionsCommandInput,
-  ListPolicyVersionsCommandOutput,
+export class UpdateUserQoSCommand extends $Command<
+  UpdateUserQoSCommandInput,
+  UpdateUserQoSCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: ListPolicyVersionsCommandInput) {
+  constructor(readonly input: UpdateUserQoSCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -47,20 +44,20 @@ export class ListPolicyVersionsCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<ListPolicyVersionsCommandInput, ListPolicyVersionsCommandOutput> {
+  ): Handler<UpdateUserQoSCommandInput, UpdateUserQoSCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "ListPolicyVersionsCommand";
+    const commandName = "UpdateUserQoSCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: ListPolicyVersionsRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: ListPolicyVersionsResponse.filterSensitiveLog,
+      inputFilterSensitiveLog: UpdateUserQoSRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -70,12 +67,12 @@ export class ListPolicyVersionsCommand extends $Command<
     );
   }
 
-  private serialize(input: ListPolicyVersionsCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryListPolicyVersionsCommand(input, context);
+  private serialize(input: UpdateUserQoSCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryUpdateUserQoSCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<ListPolicyVersionsCommandOutput> {
-    return deserializeAws_queryListPolicyVersionsCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<UpdateUserQoSCommandOutput> {
+    return deserializeAws_queryUpdateUserQoSCommand(output, context);
   }
 
   // Start section: command_body_extra

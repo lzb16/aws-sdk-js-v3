@@ -1,8 +1,8 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { PutAccountQosRequest } from "../models/models_1";
+import { DeleteUserQoSRequest } from "../models/models_0";
 import {
-  deserializeAws_queryPutAccountQosCommand,
-  serializeAws_queryPutAccountQosCommand,
+  deserializeAws_queryDeleteUserQoSCommand,
+  serializeAws_queryDeleteUserQoSCommand,
 } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
@@ -17,25 +17,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type PutAccountQosCommandInput = PutAccountQosRequest;
-export type PutAccountQosCommandOutput = __MetadataBearer;
+export type DeleteUserQoSCommandInput = DeleteUserQoSRequest;
+export type DeleteUserQoSCommandOutput = __MetadataBearer;
 
 /**
- * <p>Changes the password of the IAM account who is calling this operation. The AWS account
- *          root user password is not affected by this operation.</p>
- *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
- *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
- *             <i>IAM User Guide</i>.</p>
+ * 删除用户QoS
  */
-export class PutAccountQosCommand extends $Command<
-  PutAccountQosCommandInput,
-  PutAccountQosCommandOutput,
+export class DeleteUserQoSCommand extends $Command<
+  DeleteUserQoSCommandInput,
+  DeleteUserQoSCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: PutAccountQosCommandInput) {
+  constructor(readonly input: DeleteUserQoSCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -48,19 +44,19 @@ export class PutAccountQosCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<PutAccountQosCommandInput, PutAccountQosCommandOutput> {
+  ): Handler<DeleteUserQoSCommandInput, DeleteUserQoSCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "PutAccountQosCommand";
+    const commandName = "DeleteUserQoSCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: PutAccountQosRequest.filterSensitiveLog,
+      inputFilterSensitiveLog: DeleteUserQoSRequest.filterSensitiveLog,
       outputFilterSensitiveLog: (output: any) => output,
     };
     const { requestHandler } = configuration;
@@ -71,12 +67,12 @@ export class PutAccountQosCommand extends $Command<
     );
   }
 
-  private serialize(input: PutAccountQosCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryPutAccountQosCommand(input, context);
+  private serialize(input: DeleteUserQoSCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryDeleteUserQoSCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<PutAccountQosCommandOutput> {
-    return deserializeAws_queryPutAccountQosCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<DeleteUserQoSCommandOutput> {
+    return deserializeAws_queryDeleteUserQoSCommand(output, context);
   }
 
   // Start section: command_body_extra

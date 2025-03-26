@@ -1,9 +1,6 @@
 import { IAMClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../IAMClient";
-import { GetAccountQosRequest, GetAccountQosResponse } from "../models/models_0";
-import {
-  deserializeAws_queryGetAccountQosCommand,
-  serializeAws_queryGetAccountQosCommand,
-} from "../protocols/Aws_query";
+import { GetUserQoSRequest, GetUserQoSResponse } from "../models/models_0";
+import { deserializeAws_queryGetUserQoSCommand, serializeAws_queryGetUserQoSCommand } from "../protocols/Aws_query";
 import { getSerdePlugin } from "@aws-sdk/middleware-serde";
 import { HttpRequest as __HttpRequest, HttpResponse as __HttpResponse } from "@aws-sdk/protocol-http";
 import { Command as $Command } from "@aws-sdk/smithy-client";
@@ -17,25 +14,21 @@ import {
   SerdeContext as __SerdeContext,
 } from "@aws-sdk/types";
 
-export type GetAccountQosCommandInput = GetAccountQosRequest;
-export type GetAccountQosCommandOutput = GetAccountQosResponse & __MetadataBearer;
+export type GetUserQoSCommandInput = GetUserQoSRequest;
+export type GetUserQoSCommandOutput = GetUserQoSResponse & __MetadataBearer;
 
 /**
- * <p>Changes the password of the IAM account who is calling this operation. The AWS account
- *          root user password is not affected by this operation.</p>
- *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
- *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
- *             <i>IAM User Guide</i>.</p>
+ * 获取用户QoS
  */
-export class GetAccountQosCommand extends $Command<
-  GetAccountQosCommandInput,
-  GetAccountQosCommandOutput,
+export class GetUserQoSCommand extends $Command<
+  GetUserQoSCommandInput,
+  GetUserQoSCommandOutput,
   IAMClientResolvedConfig
 > {
   // Start section: command_properties
   // End section: command_properties
 
-  constructor(readonly input: GetAccountQosCommandInput) {
+  constructor(readonly input: GetUserQoSCommandInput) {
     // Start section: command_constructor
     super();
     // End section: command_constructor
@@ -48,20 +41,20 @@ export class GetAccountQosCommand extends $Command<
     clientStack: MiddlewareStack<ServiceInputTypes, ServiceOutputTypes>,
     configuration: IAMClientResolvedConfig,
     options?: __HttpHandlerOptions
-  ): Handler<GetAccountQosCommandInput, GetAccountQosCommandOutput> {
+  ): Handler<GetUserQoSCommandInput, GetUserQoSCommandOutput> {
     this.middlewareStack.use(getSerdePlugin(configuration, this.serialize, this.deserialize));
 
     const stack = clientStack.concat(this.middlewareStack);
 
     const { logger } = configuration;
     const clientName = "IAMClient";
-    const commandName = "GetAccountQosCommand";
+    const commandName = "GetUserQoSCommand";
     const handlerExecutionContext: HandlerExecutionContext = {
       logger,
       clientName,
       commandName,
-      inputFilterSensitiveLog: GetAccountQosRequest.filterSensitiveLog,
-      outputFilterSensitiveLog: GetAccountQosResponse.filterSensitiveLog,
+      inputFilterSensitiveLog: GetUserQoSRequest.filterSensitiveLog,
+      outputFilterSensitiveLog: GetUserQoSResponse.filterSensitiveLog,
     };
     const { requestHandler } = configuration;
     return stack.resolve(
@@ -71,12 +64,12 @@ export class GetAccountQosCommand extends $Command<
     );
   }
 
-  private serialize(input: GetAccountQosCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
-    return serializeAws_queryGetAccountQosCommand(input, context);
+  private serialize(input: GetUserQoSCommandInput, context: __SerdeContext): Promise<__HttpRequest> {
+    return serializeAws_queryGetUserQoSCommand(input, context);
   }
 
-  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetAccountQosCommandOutput> {
-    return deserializeAws_queryGetAccountQosCommand(output, context);
+  private deserialize(output: __HttpResponse, context: __SerdeContext): Promise<GetUserQoSCommandOutput> {
+    return deserializeAws_queryGetUserQoSCommand(output, context);
   }
 
   // Start section: command_body_extra

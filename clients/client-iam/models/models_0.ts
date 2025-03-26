@@ -314,6 +314,19 @@ export namespace AccoutDedup {
   });
 }
 
+export interface QoSConfiguration {
+  ReadOps?: number;
+  WriteOps?: number;
+  ReadBandwidth?: number;
+  WriteBandwidth?: number;
+}
+
+export namespace QoSConfiguration {
+  export const filterSensitiveLog = (obj: QoSConfiguration): any => ({
+    ...obj,
+  });
+}
+
 export interface StorageClassStatisticsList {
   /**
    * <p>存储类别</p>
@@ -840,6 +853,11 @@ export interface User {
   AccessKeys?: AccessKey[];
 
   /**
+   * <p>The qos of account.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
+
+  /**
    * <p>A list of policies.</p>
    */
   Policies?: Policy[];
@@ -960,6 +978,11 @@ export interface AccountType {
    * <p>The access keys of account.</p>
    */
   AccessKeys?: AccessKey[];
+
+  /**
+   * <p>The qos of account.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
 
   /**
    * <p>User info.</p>
@@ -3891,6 +3914,19 @@ export namespace DeleteAccountGroupRequest {
   });
 }
 
+export interface DeleteAccountQoSRequest {
+  /**
+   * <p>Account name.</p>
+   */
+  AccountName?: string;
+}
+
+export namespace DeleteAccountQoSRequest {
+  export const filterSensitiveLog = (obj: DeleteAccountQoSRequest): any => ({
+    ...obj,
+  });
+}
+
 export interface DeleteGroupRequest {
   /**
    * <p>The name of the IAM group to delete.</p>
@@ -4259,6 +4295,19 @@ export interface DeleteUserPolicyRequest {
 
 export namespace DeleteUserPolicyRequest {
   export const filterSensitiveLog = (obj: DeleteUserPolicyRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface DeleteUserQoSRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+}
+
+export namespace DeleteUserQoSRequest {
+  export const filterSensitiveLog = (obj: DeleteUserQoSRequest): any => ({
     ...obj,
   });
 }
@@ -5084,41 +5133,28 @@ export namespace GetAccountPasswordPolicyResponse {
   });
 }
 
-export interface GetAccountQosRequest {
+export interface GetAccountQoSRequest {
   /**
    * <p>Account name.</p>
    */
   AccountName?: string;
 }
 
-export namespace GetAccountQosRequest {
-  export const filterSensitiveLog = (obj: GetAccountQosRequest): any => ({
+export namespace GetAccountQoSRequest {
+  export const filterSensitiveLog = (obj: GetAccountQoSRequest): any => ({
     ...obj,
   });
 }
 
-export interface QoSConfiguration {
-  ReadOps?: number;
-  WriteOps?: number;
-  ReadBandwidth?: number;
-  WriteBandwidth?: number;
-}
-
-export namespace QoSConfiguration {
-  export const filterSensitiveLog = (obj: QoSConfiguration): any => ({
-    ...obj,
-  });
-}
-
-export interface GetAccountQosResponse {
+export interface GetAccountQoSResponse {
   /**
    * <p>The qos of account.</p>
    */
   QoSConfiguration?: QoSConfiguration;
 }
 
-export namespace GetAccountQosResponse {
-  export const filterSensitiveLog = (obj: GetAccountQosResponse): any => ({
+export namespace GetAccountQoSResponse {
+  export const filterSensitiveLog = (obj: GetAccountQoSResponse): any => ({
     ...obj,
   });
 }
@@ -6799,6 +6835,32 @@ export namespace GetUserPolicyResponse {
   });
 }
 
+export interface GetUserQoSRequest {
+  /**
+   * <p>User name.</p>
+   */
+  UserName?: string;
+}
+
+export namespace GetUserQoSRequest {
+  export const filterSensitiveLog = (obj: GetUserQoSRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetUserQoSResponse {
+  /**
+   * <p>The qos of account.</p>
+   */
+  QoSConfiguration?: QoSConfiguration;
+}
+
+export namespace GetUserQoSResponse {
+  export const filterSensitiveLog = (obj: GetUserQoSResponse): any => ({
+    ...obj,
+  });
+}
+
 export interface IamadminLoginRequest {
   /**
    * <p>Password</p>
@@ -8200,150 +8262,4 @@ export namespace ListPoliciesGrantingServiceAccessRequest {
 export enum PolicyType {
   INLINE = "INLINE",
   MANAGED = "MANAGED",
-}
-
-/**
- * <p>Contains details about the permissions policies that are attached to the specified
- *          identity (user, group, or role).</p>
- *          <p>This data type is an element of the <a>ListPoliciesGrantingServiceAccessEntry</a> object.</p>
- */
-export interface PolicyGrantingServiceAccess {
-  /**
-   * <p>The policy name.</p>
-   */
-  PolicyName: string | undefined;
-
-  /**
-   * <p>The policy type. For more information about these policy types, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-   *             Policies and Inline Policies</a> in the
-   *          <i>IAM User Guide</i>.</p>
-   */
-  PolicyType: PolicyType | string | undefined;
-
-  /**
-   * <p>The Amazon Resource Name (ARN). ARNs are unique identifiers for AWS resources.</p>
-   *          <p>For more information about ARNs, go to <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>. </p>
-   */
-  PolicyArn?: string;
-
-  /**
-   * <p>The type of entity (user or role) that used the policy to access the service to which
-   *          the inline policy is attached.</p>
-   *          <p>This field is null for managed policies. For more information about these policy types,
-   *          see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed Policies and Inline Policies</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  EntityType?: PolicyOwnerEntityType | string;
-
-  /**
-   * <p>The name of the entity (user or role) to which the inline policy is attached.</p>
-   *          <p>This field is null for managed policies. For more information about these policy types,
-   *          see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed Policies and Inline Policies</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  EntityName?: string;
-}
-
-export namespace PolicyGrantingServiceAccess {
-  export const filterSensitiveLog = (obj: PolicyGrantingServiceAccess): any => ({
-    ...obj,
-  });
-}
-
-/**
- * <p>Contains details about the permissions policies that are attached to the specified
- *          identity (user, group, or role).</p>
- *          <p>This data type is used as a response element in the <a>ListPoliciesGrantingServiceAccess</a> operation.</p>
- */
-export interface ListPoliciesGrantingServiceAccessEntry {
-  /**
-   * <p>The namespace of the service that was accessed.</p>
-   *          <p>To learn the service namespace of a service, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-   *             Resources, and Condition Keys for AWS Services</a> in the
-   *             <i>IAM User Guide</i>. Choose the name of the service to view details
-   *          for that service. In the first paragraph, find the service prefix. For example,
-   *             <code>(service prefix: a4b)</code>. For more information about service namespaces, see
-   *             <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  ServiceNamespace?: string;
-
-  /**
-   * <p>The <code>PoliciesGrantingServiceAccess</code> object that contains details about the
-   *          policy.</p>
-   */
-  Policies?: PolicyGrantingServiceAccess[];
-}
-
-export namespace ListPoliciesGrantingServiceAccessEntry {
-  export const filterSensitiveLog = (obj: ListPoliciesGrantingServiceAccessEntry): any => ({
-    ...obj,
-  });
-}
-
-export interface ListPoliciesGrantingServiceAccessResponse {
-  /**
-   * <p>A <code>ListPoliciesGrantingServiceAccess</code> object that contains details about the
-   *          permissions policies attached to the specified identity (user, group, or role).</p>
-   */
-  PoliciesGrantingServiceAccess: ListPoliciesGrantingServiceAccessEntry[] | undefined;
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your results were
-   *          truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *          request parameter to retrieve more items. We recommend that you check
-   *             <code>IsTruncated</code> after every call to ensure that you receive all your
-   *          results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListPoliciesGrantingServiceAccessResponse {
-  export const filterSensitiveLog = (obj: ListPoliciesGrantingServiceAccessResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListPolicyVersionsRequest {
-  /**
-   * <p>The Amazon Resource Name (ARN) of the IAM policy for which you want the
-   *          versions.</p>
-   *          <p>For more information about ARNs, see <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names (ARNs) and AWS Service
-   *     Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  PolicyArn: string | undefined;
-
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>Use this only when paginating results to indicate the
-   *     maximum number of items you want in the response. If additional items exist beyond the maximum
-   *     you specify, the <code>IsTruncated</code> response element is <code>true</code>.</p>
-   *          <p>If you do not include this parameter, the number of items defaults to 100. Note that
-   *     IAM might return fewer results, even when there are more results available. In that case, the
-   *     <code>IsTruncated</code> response element returns <code>true</code>, and <code>Marker</code>
-   *     contains a value to include in the subsequent call that tells the service where to continue
-   *     from.</p>
-   */
-  MaxItems?: number;
-}
-
-export namespace ListPolicyVersionsRequest {
-  export const filterSensitiveLog = (obj: ListPolicyVersionsRequest): any => ({
-    ...obj,
-  });
 }

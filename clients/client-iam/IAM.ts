@@ -252,6 +252,11 @@ import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
 } from "./commands/DeleteAccountPasswordPolicyCommand";
+import {
+  DeleteAccountQoSCommand,
+  DeleteAccountQoSCommandInput,
+  DeleteAccountQoSCommandOutput,
+} from "./commands/DeleteAccountQoSCommand";
 import { DeleteGroupCommand, DeleteGroupCommandInput, DeleteGroupCommandOutput } from "./commands/DeleteGroupCommand";
 import {
   DeleteGroupPolicyCommand,
@@ -341,6 +346,11 @@ import {
   DeleteUserPolicyCommandOutput,
 } from "./commands/DeleteUserPolicyCommand";
 import {
+  DeleteUserQoSCommand,
+  DeleteUserQoSCommandInput,
+  DeleteUserQoSCommandOutput,
+} from "./commands/DeleteUserQoSCommand";
+import {
   DeleteVirtualMFADeviceCommand,
   DeleteVirtualMFADeviceCommandInput,
   DeleteVirtualMFADeviceCommandOutput,
@@ -407,10 +417,10 @@ import {
   GetAccountPasswordPolicyCommandOutput,
 } from "./commands/GetAccountPasswordPolicyCommand";
 import {
-  GetAccountQosCommand,
-  GetAccountQosCommandInput,
-  GetAccountQosCommandOutput,
-} from "./commands/GetAccountQosCommand";
+  GetAccountQoSCommand,
+  GetAccountQoSCommandInput,
+  GetAccountQoSCommandOutput,
+} from "./commands/GetAccountQoSCommand";
 import {
   GetAccountSummaryCommand,
   GetAccountSummaryCommandInput,
@@ -510,6 +520,7 @@ import {
   GetUserPolicyCommandInput,
   GetUserPolicyCommandOutput,
 } from "./commands/GetUserPolicyCommand";
+import { GetUserQoSCommand, GetUserQoSCommandInput, GetUserQoSCommandOutput } from "./commands/GetUserQoSCommand";
 import {
   IamadminLoginCommand,
   IamadminLoginCommandInput,
@@ -664,11 +675,6 @@ import {
   LoginConsoleCommandOutput,
 } from "./commands/LoginConsoleCommand";
 import {
-  PutAccountQosCommand,
-  PutAccountQosCommandInput,
-  PutAccountQosCommandOutput,
-} from "./commands/PutAccountQosCommand";
-import {
   PutGroupPolicyCommand,
   PutGroupPolicyCommandInput,
   PutGroupPolicyCommandOutput,
@@ -783,6 +789,11 @@ import {
   UpdateAccountPasswordPolicyCommandOutput,
 } from "./commands/UpdateAccountPasswordPolicyCommand";
 import {
+  UpdateAccountQoSCommand,
+  UpdateAccountQoSCommandInput,
+  UpdateAccountQoSCommandOutput,
+} from "./commands/UpdateAccountQoSCommand";
+import {
   UpdateAccountQuotaCommand,
   UpdateAccountQuotaCommandInput,
   UpdateAccountQuotaCommandOutput,
@@ -875,6 +886,11 @@ import {
   UpdateUserPasswordCommandInput,
   UpdateUserPasswordCommandOutput,
 } from "./commands/UpdateUserPasswordCommand";
+import {
+  UpdateUserQoSCommand,
+  UpdateUserQoSCommandInput,
+  UpdateUserQoSCommandOutput,
+} from "./commands/UpdateUserQoSCommand";
 import {
   UpdateUserStatusCommand,
   UpdateUserStatusCommandInput,
@@ -2811,6 +2827,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * 删除账户QoS
+   */
+  public deleteAccountQoS(
+    args: DeleteAccountQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteAccountQoSCommandOutput>;
+  public deleteAccountQoS(
+    args: DeleteAccountQoSCommandInput,
+    cb: (err: any, data?: DeleteAccountQoSCommandOutput) => void
+  ): void;
+  public deleteAccountQoS(
+    args: DeleteAccountQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteAccountQoSCommandOutput) => void
+  ): void;
+  public deleteAccountQoS(
+    args: DeleteAccountQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteAccountQoSCommandOutput) => void),
+    cb?: (err: any, data?: DeleteAccountQoSCommandOutput) => void
+  ): Promise<DeleteAccountQoSCommandOutput> | void {
+    const command = new DeleteAccountQoSCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Deletes the specified IAM group. The group must not contain any users or have any
    *          attached policies.</p>
    */
@@ -3596,6 +3644,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * 删除用户QoS
+   */
+  public deleteUserQoS(
+    args: DeleteUserQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DeleteUserQoSCommandOutput>;
+  public deleteUserQoS(
+    args: DeleteUserQoSCommandInput,
+    cb: (err: any, data?: DeleteUserQoSCommandOutput) => void
+  ): void;
+  public deleteUserQoS(
+    args: DeleteUserQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DeleteUserQoSCommandOutput) => void
+  ): void;
+  public deleteUserQoS(
+    args: DeleteUserQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: DeleteUserQoSCommandOutput) => void),
+    cb?: (err: any, data?: DeleteUserQoSCommandOutput) => void
+  ): Promise<DeleteUserQoSCommandOutput> | void {
+    const command = new DeleteUserQoSCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Deletes a virtual MFA device.</p>
    *          <note>
    *             <p> You must deactivate a user's virtual MFA device before you can delete it. For
@@ -4251,31 +4331,27 @@ export class IAM extends IAMClient {
   }
 
   /**
-   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
-   *          root user password is not affected by this operation.</p>
-   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
-   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
-   *             <i>IAM User Guide</i>.</p>
+   * 获取账户QoS
    */
-  public getAccountQos(
-    args: GetAccountQosCommandInput,
+  public getAccountQoS(
+    args: GetAccountQoSCommandInput,
     options?: __HttpHandlerOptions
-  ): Promise<GetAccountQosCommandOutput>;
-  public getAccountQos(
-    args: GetAccountQosCommandInput,
-    cb: (err: any, data?: GetAccountQosCommandOutput) => void
+  ): Promise<GetAccountQoSCommandOutput>;
+  public getAccountQoS(
+    args: GetAccountQoSCommandInput,
+    cb: (err: any, data?: GetAccountQoSCommandOutput) => void
   ): void;
-  public getAccountQos(
-    args: GetAccountQosCommandInput,
+  public getAccountQoS(
+    args: GetAccountQoSCommandInput,
     options: __HttpHandlerOptions,
-    cb: (err: any, data?: GetAccountQosCommandOutput) => void
+    cb: (err: any, data?: GetAccountQoSCommandOutput) => void
   ): void;
-  public getAccountQos(
-    args: GetAccountQosCommandInput,
-    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountQosCommandOutput) => void),
-    cb?: (err: any, data?: GetAccountQosCommandOutput) => void
-  ): Promise<GetAccountQosCommandOutput> | void {
-    const command = new GetAccountQosCommand(args);
+  public getAccountQoS(
+    args: GetAccountQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetAccountQoSCommandOutput) => void),
+    cb?: (err: any, data?: GetAccountQoSCommandOutput) => void
+  ): Promise<GetAccountQoSCommandOutput> | void {
+    const command = new GetAccountQoSCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -5207,6 +5283,32 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: GetUserPolicyCommandOutput) => void
   ): Promise<GetUserPolicyCommandOutput> | void {
     const command = new GetUserPolicyCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 获取用户QoS
+   */
+  public getUserQoS(args: GetUserQoSCommandInput, options?: __HttpHandlerOptions): Promise<GetUserQoSCommandOutput>;
+  public getUserQoS(args: GetUserQoSCommandInput, cb: (err: any, data?: GetUserQoSCommandOutput) => void): void;
+  public getUserQoS(
+    args: GetUserQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetUserQoSCommandOutput) => void
+  ): void;
+  public getUserQoS(
+    args: GetUserQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetUserQoSCommandOutput) => void),
+    cb?: (err: any, data?: GetUserQoSCommandOutput) => void
+  ): Promise<GetUserQoSCommandOutput> | void {
+    const command = new GetUserQoSCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {
@@ -6467,42 +6569,6 @@ export class IAM extends IAMClient {
   }
 
   /**
-   * <p>Changes the password of the IAM account who is calling this operation. The AWS account
-   *          root user password is not affected by this operation.</p>
-   *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
-   *          For more information about modifying passwords, see <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing Passwords</a> in the
-   *             <i>IAM User Guide</i>.</p>
-   */
-  public putAccountQos(
-    args: PutAccountQosCommandInput,
-    options?: __HttpHandlerOptions
-  ): Promise<PutAccountQosCommandOutput>;
-  public putAccountQos(
-    args: PutAccountQosCommandInput,
-    cb: (err: any, data?: PutAccountQosCommandOutput) => void
-  ): void;
-  public putAccountQos(
-    args: PutAccountQosCommandInput,
-    options: __HttpHandlerOptions,
-    cb: (err: any, data?: PutAccountQosCommandOutput) => void
-  ): void;
-  public putAccountQos(
-    args: PutAccountQosCommandInput,
-    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: PutAccountQosCommandOutput) => void),
-    cb?: (err: any, data?: PutAccountQosCommandOutput) => void
-  ): Promise<PutAccountQosCommandOutput> | void {
-    const command = new PutAccountQosCommand(args);
-    if (typeof optionsOrCb === "function") {
-      this.send(command, optionsOrCb);
-    } else if (typeof cb === "function") {
-      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
-      this.send(command, optionsOrCb || {}, cb);
-    } else {
-      return this.send(command, optionsOrCb);
-    }
-  }
-
-  /**
    * <p>Adds or updates an inline policy document that is embedded in the specified IAM
    *          group.</p>
    *          <p>A user can also have managed policies attached to it. To attach a managed policy to a
@@ -7566,6 +7632,38 @@ export class IAM extends IAMClient {
   }
 
   /**
+   * 更新账户QoS
+   */
+  public updateAccountQoS(
+    args: UpdateAccountQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateAccountQoSCommandOutput>;
+  public updateAccountQoS(
+    args: UpdateAccountQoSCommandInput,
+    cb: (err: any, data?: UpdateAccountQoSCommandOutput) => void
+  ): void;
+  public updateAccountQoS(
+    args: UpdateAccountQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateAccountQoSCommandOutput) => void
+  ): void;
+  public updateAccountQoS(
+    args: UpdateAccountQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateAccountQoSCommandOutput) => void),
+    cb?: (err: any, data?: UpdateAccountQoSCommandOutput) => void
+  ): Promise<UpdateAccountQoSCommandOutput> | void {
+    const command = new UpdateAccountQoSCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
    * <p>Changes the password of the IAM account who is calling this operation. The AWS account
    *          root user password is not affected by this operation.</p>
    *          <p>To change the password for a different user, see <a>UpdateLoginProfile</a>.
@@ -8392,6 +8490,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: UpdateUserPasswordCommandOutput) => void
   ): Promise<UpdateUserPasswordCommandOutput> | void {
     const command = new UpdateUserPasswordCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 更新用户QoS
+   */
+  public updateUserQoS(
+    args: UpdateUserQoSCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<UpdateUserQoSCommandOutput>;
+  public updateUserQoS(
+    args: UpdateUserQoSCommandInput,
+    cb: (err: any, data?: UpdateUserQoSCommandOutput) => void
+  ): void;
+  public updateUserQoS(
+    args: UpdateUserQoSCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: UpdateUserQoSCommandOutput) => void
+  ): void;
+  public updateUserQoS(
+    args: UpdateUserQoSCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: UpdateUserQoSCommandOutput) => void),
+    cb?: (err: any, data?: UpdateUserQoSCommandOutput) => void
+  ): Promise<UpdateUserQoSCommandOutput> | void {
+    const command = new UpdateUserQoSCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

@@ -144,6 +144,7 @@ import {
   DeleteAccountPasswordPolicyCommandInput,
   DeleteAccountPasswordPolicyCommandOutput,
 } from "../commands/DeleteAccountPasswordPolicyCommand";
+import { DeleteAccountQoSCommandInput, DeleteAccountQoSCommandOutput } from "../commands/DeleteAccountQoSCommand";
 import { DeleteGroupCommandInput, DeleteGroupCommandOutput } from "../commands/DeleteGroupCommand";
 import { DeleteGroupPolicyCommandInput, DeleteGroupPolicyCommandOutput } from "../commands/DeleteGroupPolicyCommand";
 import {
@@ -194,6 +195,7 @@ import {
   DeleteUserPermissionsBoundaryCommandOutput,
 } from "../commands/DeleteUserPermissionsBoundaryCommand";
 import { DeleteUserPolicyCommandInput, DeleteUserPolicyCommandOutput } from "../commands/DeleteUserPolicyCommand";
+import { DeleteUserQoSCommandInput, DeleteUserQoSCommandOutput } from "../commands/DeleteUserQoSCommand";
 import {
   DeleteVirtualMFADeviceCommandInput,
   DeleteVirtualMFADeviceCommandOutput,
@@ -232,7 +234,7 @@ import {
   GetAccountPasswordPolicyCommandInput,
   GetAccountPasswordPolicyCommandOutput,
 } from "../commands/GetAccountPasswordPolicyCommand";
-import { GetAccountQosCommandInput, GetAccountQosCommandOutput } from "../commands/GetAccountQosCommand";
+import { GetAccountQoSCommandInput, GetAccountQoSCommandOutput } from "../commands/GetAccountQoSCommand";
 import { GetAccountSummaryCommandInput, GetAccountSummaryCommandOutput } from "../commands/GetAccountSummaryCommand";
 import {
   GetContextKeysForCustomPolicyCommandInput,
@@ -283,6 +285,7 @@ import {
 import { GetServiceOverviewCommandInput, GetServiceOverviewCommandOutput } from "../commands/GetServiceOverviewCommand";
 import { GetUserCommandInput, GetUserCommandOutput } from "../commands/GetUserCommand";
 import { GetUserPolicyCommandInput, GetUserPolicyCommandOutput } from "../commands/GetUserPolicyCommand";
+import { GetUserQoSCommandInput, GetUserQoSCommandOutput } from "../commands/GetUserQoSCommand";
 import { IamadminLoginCommandInput, IamadminLoginCommandOutput } from "../commands/IamadminLoginCommand";
 import { ListAccessKeysCommandInput, ListAccessKeysCommandOutput } from "../commands/ListAccessKeysCommand";
 import { ListAccountAliasesCommandInput, ListAccountAliasesCommandOutput } from "../commands/ListAccountAliasesCommand";
@@ -352,7 +355,6 @@ import {
   ListVirtualMFADevicesCommandOutput,
 } from "../commands/ListVirtualMFADevicesCommand";
 import { LoginConsoleCommandInput, LoginConsoleCommandOutput } from "../commands/LoginConsoleCommand";
-import { PutAccountQosCommandInput, PutAccountQosCommandOutput } from "../commands/PutAccountQosCommand";
 import { PutGroupPolicyCommandInput, PutGroupPolicyCommandOutput } from "../commands/PutGroupPolicyCommand";
 import {
   PutRolePermissionsBoundaryCommandInput,
@@ -421,6 +423,7 @@ import {
   UpdateAccountPasswordPolicyCommandInput,
   UpdateAccountPasswordPolicyCommandOutput,
 } from "../commands/UpdateAccountPasswordPolicyCommand";
+import { UpdateAccountQoSCommandInput, UpdateAccountQoSCommandOutput } from "../commands/UpdateAccountQoSCommand";
 import { UpdateAccountQuotaCommandInput, UpdateAccountQuotaCommandOutput } from "../commands/UpdateAccountQuotaCommand";
 import {
   UpdateAssumeRolePolicyCommandInput,
@@ -478,6 +481,7 @@ import {
 } from "../commands/UpdateUserDescriptionCommand";
 import { UpdateUserEmailCommandInput, UpdateUserEmailCommandOutput } from "../commands/UpdateUserEmailCommand";
 import { UpdateUserPasswordCommandInput, UpdateUserPasswordCommandOutput } from "../commands/UpdateUserPasswordCommand";
+import { UpdateUserQoSCommandInput, UpdateUserQoSCommandOutput } from "../commands/UpdateUserQoSCommand";
 import { UpdateUserStatusCommandInput, UpdateUserStatusCommandOutput } from "../commands/UpdateUserStatusCommand";
 import { UploadSSHPublicKeyCommandInput, UploadSSHPublicKeyCommandOutput } from "../commands/UploadSSHPublicKeyCommand";
 import {
@@ -590,6 +594,7 @@ import {
   DeleteAccessKeyRequest,
   DeleteAccountAliasRequest,
   DeleteAccountGroupRequest,
+  DeleteAccountQoSRequest,
   DeleteAccountRequest,
   DeleteConflictException,
   DeleteGroupPolicyRequest,
@@ -612,6 +617,7 @@ import {
   DeleteUserAccessKeyRequest,
   DeleteUserPermissionsBoundaryRequest,
   DeleteUserPolicyRequest,
+  DeleteUserQoSRequest,
   DeleteUserRequest,
   DeleteVirtualMFADeviceRequest,
   DeletionTaskFailureReasonType,
@@ -640,8 +646,8 @@ import {
   GetAccountGroupRequest,
   GetAccountGroupResponse,
   GetAccountPasswordPolicyResponse,
-  GetAccountQosRequest,
-  GetAccountQosResponse,
+  GetAccountQoSRequest,
+  GetAccountQoSResponse,
   GetAccountRequest,
   GetAccountResponse,
   GetAccountSummaryResponse,
@@ -687,6 +693,8 @@ import {
   GetServiceOverviewS3,
   GetUserPolicyRequest,
   GetUserPolicyResponse,
+  GetUserQoSRequest,
+  GetUserQoSResponse,
   GetUserRequest,
   GetUserResponse,
   Group,
@@ -728,12 +736,9 @@ import {
   ListMFADevicesResponse,
   ListOpenIDConnectProvidersRequest,
   ListOpenIDConnectProvidersResponse,
-  ListPoliciesGrantingServiceAccessEntry,
   ListPoliciesGrantingServiceAccessRequest,
-  ListPoliciesGrantingServiceAccessResponse,
   ListPoliciesRequest,
   ListPoliciesResponse,
-  ListPolicyVersionsRequest,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -744,7 +749,6 @@ import {
   PasswordPolicyViolationException,
   Policy,
   PolicyDetail,
-  PolicyGrantingServiceAccess,
   PolicyGroup,
   PolicyNotAttachableException,
   PolicyRole,
@@ -783,6 +787,9 @@ import {
   InvalidCertificateException,
   InvalidPublicKeyException,
   KeyPairMismatchException,
+  ListPoliciesGrantingServiceAccessEntry,
+  ListPoliciesGrantingServiceAccessResponse,
+  ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
   ListRolePoliciesRequest,
   ListRolePoliciesResponse,
@@ -817,8 +824,8 @@ import {
   PermissionsBoundaryDecisionDetail,
   PolicyEvaluationDecisionType,
   PolicyEvaluationException,
+  PolicyGrantingServiceAccess,
   Position,
-  PutAccountQosRequest,
   PutGroupPolicyRequest,
   PutRolePermissionsBoundaryRequest,
   PutRolePolicyRequest,
@@ -852,6 +859,7 @@ import {
   UpdateAccountGroupQuotaRequest,
   UpdateAccountGroupRequest,
   UpdateAccountPasswordPolicyRequest,
+  UpdateAccountQoSRequest,
   UpdateAccountQuotaRequest,
   UpdateAccountRequest,
   UpdateAssumeRolePolicyRequest,
@@ -876,6 +884,7 @@ import {
   UpdateUserDescriptionRequest,
   UpdateUserEmailRequest,
   UpdateUserPasswordRequest,
+  UpdateUserQoSRequest,
   UpdateUserRequest,
   UpdateUserStatusRequest,
   UploadSSHPublicKeyRequest,
@@ -1749,6 +1758,22 @@ export const serializeAws_queryDeleteAccountPasswordPolicyCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryDeleteAccountQoSCommand = async (
+  input: DeleteAccountQoSCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryDeleteAccountQoSRequest(input, context),
+    Action: "DeleteAccountQoS",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryDeleteGroupCommand = async (
   input: DeleteGroupCommandInput,
   context: __SerdeContext
@@ -2069,6 +2094,22 @@ export const serializeAws_queryDeleteUserPolicyCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryDeleteUserQoSCommand = async (
+  input: DeleteUserQoSCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryDeleteUserQoSRequest(input, context),
+    Action: "DeleteUserQoS",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryDeleteVirtualMFADeviceCommand = async (
   input: DeleteVirtualMFADeviceCommandInput,
   context: __SerdeContext
@@ -2289,8 +2330,8 @@ export const serializeAws_queryGetAccountPasswordPolicyCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
-export const serializeAws_queryGetAccountQosCommand = async (
-  input: GetAccountQosCommandInput,
+export const serializeAws_queryGetAccountQoSCommand = async (
+  input: GetAccountQoSCommandInput,
   context: __SerdeContext
 ): Promise<__HttpRequest> => {
   const headers: __HeaderBag = {
@@ -2298,8 +2339,8 @@ export const serializeAws_queryGetAccountQosCommand = async (
   };
   let body: any;
   body = buildFormUrlencodedString({
-    ...serializeAws_queryGetAccountQosRequest(input, context),
-    Action: "GetAccountQos",
+    ...serializeAws_queryGetAccountQoSRequest(input, context),
+    Action: "GetAccountQoS",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -2664,6 +2705,22 @@ export const serializeAws_queryGetUserPolicyCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryGetUserPolicyRequest(input, context),
     Action: "GetUserPolicy",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryGetUserQoSCommand = async (
+  input: GetUserQoSCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryGetUserQoSRequest(input, context),
+    Action: "GetUserQoS",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -3197,22 +3254,6 @@ export const serializeAws_queryLoginConsoleCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
-export const serializeAws_queryPutAccountQosCommand = async (
-  input: PutAccountQosCommandInput,
-  context: __SerdeContext
-): Promise<__HttpRequest> => {
-  const headers: __HeaderBag = {
-    "content-type": "application/x-www-form-urlencoded",
-  };
-  let body: any;
-  body = buildFormUrlencodedString({
-    ...serializeAws_queryPutAccountQosRequest(input, context),
-    Action: "PutAccountQos",
-    Version: "2010-05-08",
-  });
-  return buildHttpRpcRequest(context, headers, "/", undefined, body);
-};
-
 export const serializeAws_queryPutGroupPolicyCommand = async (
   input: PutGroupPolicyCommandInput,
   context: __SerdeContext
@@ -3629,6 +3670,22 @@ export const serializeAws_queryUpdateAccountPasswordPolicyCommand = async (
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
 };
 
+export const serializeAws_queryUpdateAccountQoSCommand = async (
+  input: UpdateAccountQoSCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateAccountQoSRequest(input, context),
+    Action: "UpdateAccountQoS",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
 export const serializeAws_queryUpdateAccountQuotaCommand = async (
   input: UpdateAccountQuotaCommandInput,
   context: __SerdeContext
@@ -3960,6 +4017,22 @@ export const serializeAws_queryUpdateUserPasswordCommand = async (
   body = buildFormUrlencodedString({
     ...serializeAws_queryUpdateUserPasswordRequest(input, context),
     Action: "UpdateUserPassword",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryUpdateUserQoSCommand = async (
+  input: UpdateUserQoSCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryUpdateUserQoSRequest(input, context),
+    Action: "UpdateUserQoS",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -7983,6 +8056,89 @@ const deserializeAws_queryDeleteAccountPasswordPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryDeleteAccountQoSCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAccountQoSCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryDeleteAccountQoSCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: DeleteAccountQoSCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryDeleteAccountQoSCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAccountQoSCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryDeleteGroupCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -9398,6 +9554,89 @@ const deserializeAws_queryDeleteUserPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryDeleteUserQoSCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteUserQoSCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryDeleteUserQoSCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: DeleteUserQoSCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryDeleteUserQoSCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteUserQoSCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryDeleteVirtualMFADeviceCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -10308,27 +10547,27 @@ const deserializeAws_queryGetAccountPasswordPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
-export const deserializeAws_queryGetAccountQosCommand = async (
+export const deserializeAws_queryGetAccountQoSCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
-): Promise<GetAccountQosCommandOutput> => {
+): Promise<GetAccountQoSCommandOutput> => {
   if (output.statusCode >= 300) {
-    return deserializeAws_queryGetAccountQosCommandError(output, context);
+    return deserializeAws_queryGetAccountQoSCommandError(output, context);
   }
   const data: any = await parseBody(output.body, context);
   let contents: any = {};
-  contents = deserializeAws_queryGetAccountQosResponse(data.GetAccountQosResult, context);
-  const response: GetAccountQosCommandOutput = {
+  contents = deserializeAws_queryGetAccountQoSResponse(data.GetAccountQoSResult, context);
+  const response: GetAccountQoSCommandOutput = {
     $metadata: deserializeMetadata(output),
     ...contents,
   };
   return Promise.resolve(response);
 };
 
-const deserializeAws_queryGetAccountQosCommandError = async (
+const deserializeAws_queryGetAccountQoSCommandError = async (
   output: __HttpResponse,
   context: __SerdeContext
-): Promise<GetAccountQosCommandOutput> => {
+): Promise<GetAccountQoSCommandOutput> => {
   const parsedOutput: any = {
     ...output,
     body: await parseBody(output.body, context),
@@ -11824,6 +12063,92 @@ const deserializeAws_queryGetUserPolicyCommandError = async (
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
         ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryGetUserQoSCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetUserQoSCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryGetUserQoSCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryGetUserQoSResponse(data.GetUserQoSResult, context);
+  const response: GetUserQoSCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryGetUserQoSCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetUserQoSCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -13825,89 +14150,6 @@ const deserializeAws_queryLoginConsoleCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
-export const deserializeAws_queryPutAccountQosCommand = async (
-  output: __HttpResponse,
-  context: __SerdeContext
-): Promise<PutAccountQosCommandOutput> => {
-  if (output.statusCode >= 300) {
-    return deserializeAws_queryPutAccountQosCommandError(output, context);
-  }
-  await collectBody(output.body, context);
-  const response: PutAccountQosCommandOutput = {
-    $metadata: deserializeMetadata(output),
-  };
-  return Promise.resolve(response);
-};
-
-const deserializeAws_queryPutAccountQosCommandError = async (
-  output: __HttpResponse,
-  context: __SerdeContext
-): Promise<PutAccountQosCommandOutput> => {
-  const parsedOutput: any = {
-    ...output,
-    body: await parseBody(output.body, context),
-  };
-  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
-  let errorCode: string = "UnknownError";
-  errorCode = loadQueryErrorCode(output, parsedOutput.body);
-  switch (errorCode) {
-    case "EntityTemporarilyUnmodifiableException":
-    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
-      response = {
-        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
-        name: errorCode,
-        $metadata: deserializeMetadata(output),
-      };
-      break;
-    case "LimitExceededException":
-    case "com.amazonaws.iam#LimitExceededException":
-      response = {
-        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
-        name: errorCode,
-        $metadata: deserializeMetadata(output),
-      };
-      break;
-    case "NoSuchEntityException":
-    case "com.amazonaws.iam#NoSuchEntityException":
-      response = {
-        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
-        name: errorCode,
-        $metadata: deserializeMetadata(output),
-      };
-      break;
-    case "PasswordPolicyViolationException":
-    case "com.amazonaws.iam#PasswordPolicyViolationException":
-      response = {
-        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
-        name: errorCode,
-        $metadata: deserializeMetadata(output),
-      };
-      break;
-    case "ServiceFailureException":
-    case "com.amazonaws.iam#ServiceFailureException":
-      response = {
-        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
-        name: errorCode,
-        $metadata: deserializeMetadata(output),
-      };
-      break;
-    default:
-      const parsedBody = parsedOutput.body;
-      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
-      response = {
-        ...parsedBody.Error,
-        name: `${errorCode}`,
-        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
-        $fault: "client",
-        $metadata: deserializeMetadata(output),
-      } as any;
-  }
-  const message = response.message || response.Message || errorCode;
-  response.message = message;
-  delete response.Message;
-  return Promise.reject(Object.assign(new Error(message), response));
-};
-
 export const deserializeAws_queryPutGroupPolicyCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -15646,6 +15888,89 @@ const deserializeAws_queryUpdateAccountPasswordPolicyCommandError = async (
   return Promise.reject(Object.assign(new Error(message), response));
 };
 
+export const deserializeAws_queryUpdateAccountQoSCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountQoSCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateAccountQoSCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateAccountQoSCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateAccountQoSCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateAccountQoSCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
 export const deserializeAws_queryUpdateAccountQuotaCommand = async (
   output: __HttpResponse,
   context: __SerdeContext
@@ -17257,6 +17582,89 @@ const deserializeAws_queryUpdateUserPasswordCommandError = async (
     case "com.amazonaws.iam#NoSuchEntityException":
       response = {
         ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryUpdateUserQoSCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserQoSCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryUpdateUserQoSCommandError(output, context);
+  }
+  await collectBody(output.body, context);
+  const response: UpdateUserQoSCommandOutput = {
+    $metadata: deserializeMetadata(output),
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryUpdateUserQoSCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateUserQoSCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
         name: errorCode,
         $metadata: deserializeMetadata(output),
       };
@@ -19031,6 +19439,14 @@ const serializeAws_queryDeleteAccountGroupRequest = (
   return entries;
 };
 
+const serializeAws_queryDeleteAccountQoSRequest = (input: DeleteAccountQoSRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  return entries;
+};
+
 const serializeAws_queryDeleteAccountRequest = (input: DeleteAccountRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.AccountName !== undefined && input.AccountName !== null) {
@@ -19254,6 +19670,14 @@ const serializeAws_queryDeleteUserPolicyRequest = (input: DeleteUserPolicyReques
   return entries;
 };
 
+const serializeAws_queryDeleteUserQoSRequest = (input: DeleteUserQoSRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  return entries;
+};
+
 const serializeAws_queryDeleteUserRequest = (input: DeleteUserRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -19415,7 +19839,7 @@ const serializeAws_queryGetAccountGroupRequest = (input: GetAccountGroupRequest,
   return entries;
 };
 
-const serializeAws_queryGetAccountQosRequest = (input: GetAccountQosRequest, context: __SerdeContext): any => {
+const serializeAws_queryGetAccountQoSRequest = (input: GetAccountQoSRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.AccountName !== undefined && input.AccountName !== null) {
     entries["AccountName"] = input.AccountName;
@@ -19673,6 +20097,14 @@ const serializeAws_queryGetUserPolicyRequest = (input: GetUserPolicyRequest, con
   }
   if (input.PolicyName !== undefined && input.PolicyName !== null) {
     entries["PolicyName"] = input.PolicyName;
+  }
+  return entries;
+};
+
+const serializeAws_queryGetUserQoSRequest = (input: GetUserQoSRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
   }
   return entries;
 };
@@ -20438,26 +20870,6 @@ const serializeAws_queryPolicyVersion = (input: PolicyVersion, context: __SerdeC
   return entries;
 };
 
-const serializeAws_queryPutAccountQosRequest = (input: PutAccountQosRequest, context: __SerdeContext): any => {
-  const entries: any = {};
-  if (input.AccountName !== undefined && input.AccountName !== null) {
-    entries["AccountName"] = input.AccountName;
-  }
-  if (input.ReadOps !== undefined && input.ReadOps !== null) {
-    entries["ReadOps"] = input.ReadOps;
-  }
-  if (input.WriteOps !== undefined && input.WriteOps !== null) {
-    entries["WriteOps"] = input.WriteOps;
-  }
-  if (input.ReadBandwidth !== undefined && input.ReadBandwidth !== null) {
-    entries["ReadBandwidth"] = input.ReadBandwidth;
-  }
-  if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
-    entries["WriteBandwidth"] = input.WriteBandwidth;
-  }
-  return entries;
-};
-
 const serializeAws_queryPutGroupPolicyRequest = (input: PutGroupPolicyRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.GroupName !== undefined && input.GroupName !== null) {
@@ -20524,6 +20936,23 @@ const serializeAws_queryPutUserPolicyRequest = (input: PutUserPolicyRequest, con
   }
   if (input.PolicyDocument !== undefined && input.PolicyDocument !== null) {
     entries["PolicyDocument"] = input.PolicyDocument;
+  }
+  return entries;
+};
+
+const serializeAws_queryQoSConfiguration = (input: QoSConfiguration, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.ReadOps !== undefined && input.ReadOps !== null) {
+    entries["ReadOps"] = input.ReadOps;
+  }
+  if (input.WriteOps !== undefined && input.WriteOps !== null) {
+    entries["WriteOps"] = input.WriteOps;
+  }
+  if (input.ReadBandwidth !== undefined && input.ReadBandwidth !== null) {
+    entries["ReadBandwidth"] = input.ReadBandwidth;
+  }
+  if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
+    entries["WriteBandwidth"] = input.WriteBandwidth;
   }
   return entries;
 };
@@ -21040,6 +21469,26 @@ const serializeAws_queryUpdateAccountPasswordPolicyRequest = (
   return entries;
 };
 
+const serializeAws_queryUpdateAccountQoSRequest = (input: UpdateAccountQoSRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.AccountName !== undefined && input.AccountName !== null) {
+    entries["AccountName"] = input.AccountName;
+  }
+  if (input.ReadOps !== undefined && input.ReadOps !== null) {
+    entries["ReadOps"] = input.ReadOps;
+  }
+  if (input.WriteOps !== undefined && input.WriteOps !== null) {
+    entries["WriteOps"] = input.WriteOps;
+  }
+  if (input.ReadBandwidth !== undefined && input.ReadBandwidth !== null) {
+    entries["ReadBandwidth"] = input.ReadBandwidth;
+  }
+  if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
+    entries["WriteBandwidth"] = input.WriteBandwidth;
+  }
+  return entries;
+};
+
 const serializeAws_queryUpdateAccountQuotaRequest = (
   input: UpdateAccountQuotaRequest,
   context: __SerdeContext
@@ -21374,6 +21823,26 @@ const serializeAws_queryUpdateUserPasswordRequest = (
   return entries;
 };
 
+const serializeAws_queryUpdateUserQoSRequest = (input: UpdateUserQoSRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.UserName !== undefined && input.UserName !== null) {
+    entries["UserName"] = input.UserName;
+  }
+  if (input.ReadOps !== undefined && input.ReadOps !== null) {
+    entries["ReadOps"] = input.ReadOps;
+  }
+  if (input.WriteOps !== undefined && input.WriteOps !== null) {
+    entries["WriteOps"] = input.WriteOps;
+  }
+  if (input.ReadBandwidth !== undefined && input.ReadBandwidth !== null) {
+    entries["ReadBandwidth"] = input.ReadBandwidth;
+  }
+  if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
+    entries["WriteBandwidth"] = input.WriteBandwidth;
+  }
+  return entries;
+};
+
 const serializeAws_queryUpdateUserRequest = (input: UpdateUserRequest, context: __SerdeContext): any => {
   const entries: any = {};
   if (input.UserName !== undefined && input.UserName !== null) {
@@ -21522,6 +21991,13 @@ const serializeAws_queryUser = (input: User, context: __SerdeContext): any => {
     const memberEntries = serializeAws_queryaccessKeyListType(input.AccessKeys, context);
     Object.entries(memberEntries).forEach(([key, value]) => {
       const loc = `AccessKeys.${key}`;
+      entries[loc] = value;
+    });
+  }
+  if (input.QoSConfiguration !== undefined && input.QoSConfiguration !== null) {
+    const memberEntries = serializeAws_queryQoSConfiguration(input.QoSConfiguration, context);
+    Object.entries(memberEntries).forEach(([key, value]) => {
+      const loc = `QoSConfiguration.${key}`;
       entries[loc] = value;
     });
   }
@@ -21805,6 +22281,7 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
     ObjectNumber: undefined,
     UsedSize: undefined,
     AccessKeys: undefined,
+    QoSConfiguration: undefined,
     User: undefined,
     StorageClassStatistics: undefined,
     ArchivedObjectNumber: undefined,
@@ -21871,6 +22348,9 @@ const deserializeAws_queryAccountType = (output: any, context: __SerdeContext): 
       __getArrayIfSingleItem(output["AccessKeys"]["member"]),
       context
     );
+  }
+  if (output["QoSConfiguration"] !== undefined) {
+    contents.QoSConfiguration = deserializeAws_queryQoSConfiguration(output["QoSConfiguration"], context);
   }
   if (output["User"] !== undefined) {
     contents.User = deserializeAws_queryUser(output["User"], context);
@@ -23275,7 +23755,7 @@ const deserializeAws_queryGetAccountPasswordPolicyResponse = (
   return contents;
 };
 
-const deserializeAws_queryGetAccountQosResponse = (output: any, context: __SerdeContext): GetAccountQosResponse => {
+const deserializeAws_queryGetAccountQoSResponse = (output: any, context: __SerdeContext): GetAccountQoSResponse => {
   let contents: any = {
     QoSConfiguration: undefined,
   };
@@ -23770,6 +24250,16 @@ const deserializeAws_queryGetUserPolicyResponse = (output: any, context: __Serde
   }
   if (output["PolicyDocument"] !== undefined) {
     contents.PolicyDocument = output["PolicyDocument"];
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetUserQoSResponse = (output: any, context: __SerdeContext): GetUserQoSResponse => {
+  let contents: any = {
+    QoSConfiguration: undefined,
+  };
+  if (output["QoSConfiguration"] !== undefined) {
+    contents.QoSConfiguration = deserializeAws_queryQoSConfiguration(output["QoSConfiguration"], context);
   }
   return contents;
 };
@@ -26509,6 +26999,7 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
     PasswordLastReset: undefined,
     AccessType: undefined,
     AccessKeys: undefined,
+    QoSConfiguration: undefined,
     Policies: undefined,
   };
   if (output["Path"] !== undefined) {
@@ -26573,6 +27064,9 @@ const deserializeAws_queryUser = (output: any, context: __SerdeContext): User =>
       __getArrayIfSingleItem(output["AccessKeys"]["member"]),
       context
     );
+  }
+  if (output["QoSConfiguration"] !== undefined) {
+    contents.QoSConfiguration = deserializeAws_queryQoSConfiguration(output["QoSConfiguration"], context);
   }
   if (output.Policies === "") {
     contents.Policies = [];
