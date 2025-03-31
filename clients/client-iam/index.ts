@@ -92,6 +92,7 @@ export * from "./commands/GetAccountGroupMetaCommand";
 export * from "./commands/GetAccountPasswordPolicyCommand";
 export * from "./commands/GetAccountQoSCommand";
 export * from "./commands/GetAccountSummaryCommand";
+export * from "./commands/GetArchiveStorageCommand";
 export * from "./commands/GetContextKeysForCustomPolicyCommand";
 export * from "./commands/GetContextKeysForPrincipalPolicyCommand";
 export * from "./commands/GetCredentialReportCommand";

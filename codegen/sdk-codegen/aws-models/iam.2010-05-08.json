@@ -82,6 +82,9 @@
           "target": "com.amazonaws.iam#UpdateAccountQoS"
         },
         {
+          "target": "com.amazonaws.iam#GetArchiveStorage"
+        },
+        {
           "target": "com.amazonaws.iam#GetAccountQoS"
         },
         {
@@ -1844,6 +1847,72 @@
           "traits": {
             "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
           }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetArchiveStorage": {
+      "type": "operation",
+      "input": {
+        "target": "com.amazonaws.iam#GetArchiveStorageRequest"
+      },
+      "output": {
+        "target": "com.amazonaws.iam#GetArchiveStorageResponse"
+      },
+      "errors": [
+        {
+          "target": "com.amazonaws.iam#EntityTemporarilyUnmodifiableException"
+        },
+        {
+          "target": "com.amazonaws.iam#LimitExceededException"
+        },
+        {
+          "target": "com.amazonaws.iam#NoSuchEntityException"
+        },
+        {
+          "target": "com.amazonaws.iam#PasswordPolicyViolationException"
+        },
+        {
+          "target": "com.amazonaws.iam#ServiceFailureException"
+        }
+      ],
+      "traits": {
+        "smithy.api#documentation": "获取归档配置统计信息"
+      }
+    },
+    "com.amazonaws.iam#GetArchiveStorageRequest": {
+      "type": "structure",
+      "members": {
+        "ArchiveName": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>Archive name.</p>"
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetArchiveStorageResponse": {
+      "type": "structure",
+      "members": {
+        "GetArchiveStorageResult": {
+          "target": "com.amazonaws.iam#GetArchiveStorageResult",
+          "traits": {
+            "smithy.api#documentation": "<p>归档配置统计信息.</p>",
+            "smithy.api#httpPayload": {}
+          }
+        }
+      }
+    },
+    "com.amazonaws.iam#GetArchiveStorageResult": {
+      "type": "structure",
+      "members": {
+        "ArchivedObjectNumber": {
+          "target": "com.amazonaws.iam#integerType"
+        },
+        "ArchivedObjectOriginalSize": {
+          "target": "com.amazonaws.iam#integerType"
+        },
+        "ArchivedObjectFinalSize": {
+          "target": "com.amazonaws.iam#integerType"
         }
       }
     },

@@ -5205,6 +5205,44 @@ export namespace GetAccountSummaryResponse {
   });
 }
 
+export interface GetArchiveStorageRequest {
+  /**
+   * <p>Archive name.</p>
+   */
+  ArchiveName?: string;
+}
+
+export namespace GetArchiveStorageRequest {
+  export const filterSensitiveLog = (obj: GetArchiveStorageRequest): any => ({
+    ...obj,
+  });
+}
+
+export interface GetArchiveStorageResult {
+  ArchivedObjectNumber?: number;
+  ArchivedObjectOriginalSize?: number;
+  ArchivedObjectFinalSize?: number;
+}
+
+export namespace GetArchiveStorageResult {
+  export const filterSensitiveLog = (obj: GetArchiveStorageResult): any => ({
+    ...obj,
+  });
+}
+
+export interface GetArchiveStorageResponse {
+  /**
+   * <p>归档配置统计信息.</p>
+   */
+  GetArchiveStorageResult?: GetArchiveStorageResult;
+}
+
+export namespace GetArchiveStorageResponse {
+  export const filterSensitiveLog = (obj: GetArchiveStorageResponse): any => ({
+    ...obj,
+  });
+}
+
 export interface GetContextKeysForCustomPolicyRequest {
   /**
    * <p>A list of policies for which you want the list of context keys referenced in those
@@ -8189,77 +8227,4 @@ export namespace ListPoliciesRequest {
   export const filterSensitiveLog = (obj: ListPoliciesRequest): any => ({
     ...obj,
   });
-}
-
-/**
- * <p>Contains the response to a successful <a>ListPolicies</a> request.
- *     </p>
- */
-export interface ListPoliciesResponse {
-  /**
-   * <p>A list of policies.</p>
-   */
-  Policies?: Policy[];
-
-  /**
-   * <p>A flag that indicates whether there are more items to return. If your
-   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
-   *     request parameter to retrieve more items. Note that IAM might return fewer than the
-   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
-   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
-   *     results.</p>
-   */
-  IsTruncated?: boolean;
-
-  /**
-   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
-   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
-   *     pagination request.</p>
-   */
-  Marker?: string;
-}
-
-export namespace ListPoliciesResponse {
-  export const filterSensitiveLog = (obj: ListPoliciesResponse): any => ({
-    ...obj,
-  });
-}
-
-export interface ListPoliciesGrantingServiceAccessRequest {
-  /**
-   * <p>Use this parameter only when paginating results and only after
-   *     you receive a response indicating that the results are truncated. Set it to the value of the
-   *     <code>Marker</code> element in the response that you received to indicate where the next call
-   *     should start.</p>
-   */
-  Marker?: string;
-
-  /**
-   * <p>The ARN of the IAM identity (user, group, or role) whose policies you want to
-   *          list.</p>
-   */
-  Arn: string | undefined;
-
-  /**
-   * <p>The service namespace for the AWS services whose policies you want to list.</p>
-   *          <p>To learn the service namespace for a service, go to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-   *             Resources, and Condition Keys for AWS Services</a> in the
-   *             <i>IAM User Guide</i>. Choose the name of the service to view details
-   *          for that service. In the first paragraph, find the service prefix. For example,
-   *             <code>(service prefix: a4b)</code>. For more information about service namespaces, see
-   *             <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-   *             Service Namespaces</a> in the <i>AWS General Reference</i>.</p>
-   */
-  ServiceNamespaces: string[] | undefined;
-}
-
-export namespace ListPoliciesGrantingServiceAccessRequest {
-  export const filterSensitiveLog = (obj: ListPoliciesGrantingServiceAccessRequest): any => ({
-    ...obj,
-  });
-}
-
-export enum PolicyType {
-  INLINE = "INLINE",
-  MANAGED = "MANAGED",
 }

@@ -236,6 +236,7 @@ import {
 } from "../commands/GetAccountPasswordPolicyCommand";
 import { GetAccountQoSCommandInput, GetAccountQoSCommandOutput } from "../commands/GetAccountQoSCommand";
 import { GetAccountSummaryCommandInput, GetAccountSummaryCommandOutput } from "../commands/GetAccountSummaryCommand";
+import { GetArchiveStorageCommandInput, GetArchiveStorageCommandOutput } from "../commands/GetArchiveStorageCommand";
 import {
   GetContextKeysForCustomPolicyCommandInput,
   GetContextKeysForCustomPolicyCommandOutput,
@@ -651,6 +652,9 @@ import {
   GetAccountRequest,
   GetAccountResponse,
   GetAccountSummaryResponse,
+  GetArchiveStorageRequest,
+  GetArchiveStorageResponse,
+  GetArchiveStorageResult,
   GetContextKeysForCustomPolicyRequest,
   GetContextKeysForPolicyResponse,
   GetContextKeysForPrincipalPolicyRequest,
@@ -736,9 +740,7 @@ import {
   ListMFADevicesResponse,
   ListOpenIDConnectProvidersRequest,
   ListOpenIDConnectProvidersResponse,
-  ListPoliciesGrantingServiceAccessRequest,
   ListPoliciesRequest,
-  ListPoliciesResponse,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -788,7 +790,9 @@ import {
   InvalidPublicKeyException,
   KeyPairMismatchException,
   ListPoliciesGrantingServiceAccessEntry,
+  ListPoliciesGrantingServiceAccessRequest,
   ListPoliciesGrantingServiceAccessResponse,
+  ListPoliciesResponse,
   ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
   ListRolePoliciesRequest,
@@ -2355,6 +2359,22 @@ export const serializeAws_queryGetAccountSummaryCommand = async (
   };
   const body = buildFormUrlencodedString({
     Action: "GetAccountSummary",
+    Version: "2010-05-08",
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+export const serializeAws_queryGetArchiveStorageCommand = async (
+  input: GetArchiveStorageCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = {
+    "content-type": "application/x-www-form-urlencoded",
+  };
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...serializeAws_queryGetArchiveStorageRequest(input, context),
+    Action: "GetArchiveStorage",
     Version: "2010-05-08",
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -10662,6 +10682,92 @@ const deserializeAws_queryGetAccountSummaryCommandError = async (
   let errorCode: string = "UnknownError";
   errorCode = loadQueryErrorCode(output, parsedOutput.body);
   switch (errorCode) {
+    case "ServiceFailureException":
+    case "com.amazonaws.iam#ServiceFailureException":
+      response = {
+        ...(await deserializeAws_queryServiceFailureExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    default:
+      const parsedBody = parsedOutput.body;
+      errorCode = parsedBody.Error.code || parsedBody.Error.Code || errorCode;
+      response = {
+        ...parsedBody.Error,
+        name: `${errorCode}`,
+        message: parsedBody.Error.message || parsedBody.Error.Message || errorCode,
+        $fault: "client",
+        $metadata: deserializeMetadata(output),
+      } as any;
+  }
+  const message = response.message || response.Message || errorCode;
+  response.message = message;
+  delete response.Message;
+  return Promise.reject(Object.assign(new Error(message), response));
+};
+
+export const deserializeAws_queryGetArchiveStorageCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetArchiveStorageCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return deserializeAws_queryGetArchiveStorageCommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = deserializeAws_queryGetArchiveStorageResponse(data.GetArchiveStorageResult, context);
+  const response: GetArchiveStorageCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return Promise.resolve(response);
+};
+
+const deserializeAws_queryGetArchiveStorageCommandError = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetArchiveStorageCommandOutput> => {
+  const parsedOutput: any = {
+    ...output,
+    body: await parseBody(output.body, context),
+  };
+  let response: __SmithyException & __MetadataBearer & { [key: string]: any };
+  let errorCode: string = "UnknownError";
+  errorCode = loadQueryErrorCode(output, parsedOutput.body);
+  switch (errorCode) {
+    case "EntityTemporarilyUnmodifiableException":
+    case "com.amazonaws.iam#EntityTemporarilyUnmodifiableException":
+      response = {
+        ...(await deserializeAws_queryEntityTemporarilyUnmodifiableExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "LimitExceededException":
+    case "com.amazonaws.iam#LimitExceededException":
+      response = {
+        ...(await deserializeAws_queryLimitExceededExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "NoSuchEntityException":
+    case "com.amazonaws.iam#NoSuchEntityException":
+      response = {
+        ...(await deserializeAws_queryNoSuchEntityExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
+    case "PasswordPolicyViolationException":
+    case "com.amazonaws.iam#PasswordPolicyViolationException":
+      response = {
+        ...(await deserializeAws_queryPasswordPolicyViolationExceptionResponse(parsedOutput, context)),
+        name: errorCode,
+        $metadata: deserializeMetadata(output),
+      };
+      break;
     case "ServiceFailureException":
     case "com.amazonaws.iam#ServiceFailureException":
       response = {
@@ -19855,6 +19961,14 @@ const serializeAws_queryGetAccountRequest = (input: GetAccountRequest, context: 
   return entries;
 };
 
+const serializeAws_queryGetArchiveStorageRequest = (input: GetArchiveStorageRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input.ArchiveName !== undefined && input.ArchiveName !== null) {
+    entries["ArchiveName"] = input.ArchiveName;
+  }
+  return entries;
+};
+
 const serializeAws_queryGetContextKeysForCustomPolicyRequest = (
   input: GetContextKeysForCustomPolicyRequest,
   context: __SerdeContext
@@ -23790,6 +23904,40 @@ const deserializeAws_queryGetAccountSummaryResponse = (
       __getArrayIfSingleItem(output["SummaryMap"]["entry"]),
       context
     );
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetArchiveStorageResponse = (
+  output: any,
+  context: __SerdeContext
+): GetArchiveStorageResponse => {
+  let contents: any = {
+    GetArchiveStorageResult: undefined,
+  };
+  if (output["GetArchiveStorageResult"] !== undefined) {
+    contents.GetArchiveStorageResult = deserializeAws_queryGetArchiveStorageResult(
+      output["GetArchiveStorageResult"],
+      context
+    );
+  }
+  return contents;
+};
+
+const deserializeAws_queryGetArchiveStorageResult = (output: any, context: __SerdeContext): GetArchiveStorageResult => {
+  let contents: any = {
+    ArchivedObjectNumber: undefined,
+    ArchivedObjectOriginalSize: undefined,
+    ArchivedObjectFinalSize: undefined,
+  };
+  if (output["ArchivedObjectNumber"] !== undefined) {
+    contents.ArchivedObjectNumber = parseInt(output["ArchivedObjectNumber"]);
+  }
+  if (output["ArchivedObjectOriginalSize"] !== undefined) {
+    contents.ArchivedObjectOriginalSize = parseInt(output["ArchivedObjectOriginalSize"]);
+  }
+  if (output["ArchivedObjectFinalSize"] !== undefined) {
+    contents.ArchivedObjectFinalSize = parseInt(output["ArchivedObjectFinalSize"]);
   }
   return contents;
 };

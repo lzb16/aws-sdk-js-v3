@@ -427,6 +427,11 @@ import {
   GetAccountSummaryCommandOutput,
 } from "./commands/GetAccountSummaryCommand";
 import {
+  GetArchiveStorageCommand,
+  GetArchiveStorageCommandInput,
+  GetArchiveStorageCommandOutput,
+} from "./commands/GetArchiveStorageCommand";
+import {
   GetContextKeysForCustomPolicyCommand,
   GetContextKeysForCustomPolicyCommandInput,
   GetContextKeysForCustomPolicyCommandOutput,
@@ -4386,6 +4391,38 @@ export class IAM extends IAMClient {
     cb?: (err: any, data?: GetAccountSummaryCommandOutput) => void
   ): Promise<GetAccountSummaryCommandOutput> | void {
     const command = new GetAccountSummaryCommand(args);
+    if (typeof optionsOrCb === "function") {
+      this.send(command, optionsOrCb);
+    } else if (typeof cb === "function") {
+      if (typeof optionsOrCb !== "object") throw new Error(`Expect http options but get ${typeof optionsOrCb}`);
+      this.send(command, optionsOrCb || {}, cb);
+    } else {
+      return this.send(command, optionsOrCb);
+    }
+  }
+
+  /**
+   * 获取归档配置统计信息
+   */
+  public getArchiveStorage(
+    args: GetArchiveStorageCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetArchiveStorageCommandOutput>;
+  public getArchiveStorage(
+    args: GetArchiveStorageCommandInput,
+    cb: (err: any, data?: GetArchiveStorageCommandOutput) => void
+  ): void;
+  public getArchiveStorage(
+    args: GetArchiveStorageCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetArchiveStorageCommandOutput) => void
+  ): void;
+  public getArchiveStorage(
+    args: GetArchiveStorageCommandInput,
+    optionsOrCb?: __HttpHandlerOptions | ((err: any, data?: GetArchiveStorageCommandOutput) => void),
+    cb?: (err: any, data?: GetArchiveStorageCommandOutput) => void
+  ): Promise<GetArchiveStorageCommandOutput> | void {
+    const command = new GetArchiveStorageCommand(args);
     if (typeof optionsOrCb === "function") {
       this.send(command, optionsOrCb);
     } else if (typeof cb === "function") {

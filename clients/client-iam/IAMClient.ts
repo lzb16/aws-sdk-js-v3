@@ -236,6 +236,7 @@ import {
 } from "./commands/GetAccountPasswordPolicyCommand";
 import { GetAccountQoSCommandInput, GetAccountQoSCommandOutput } from "./commands/GetAccountQoSCommand";
 import { GetAccountSummaryCommandInput, GetAccountSummaryCommandOutput } from "./commands/GetAccountSummaryCommand";
+import { GetArchiveStorageCommandInput, GetArchiveStorageCommandOutput } from "./commands/GetArchiveStorageCommand";
 import {
   GetContextKeysForCustomPolicyCommandInput,
   GetContextKeysForCustomPolicyCommandOutput,
@@ -636,6 +637,7 @@ export type ServiceInputTypes =
   | GetAccountPasswordPolicyCommandInput
   | GetAccountQoSCommandInput
   | GetAccountSummaryCommandInput
+  | GetArchiveStorageCommandInput
   | GetContextKeysForCustomPolicyCommandInput
   | GetContextKeysForPrincipalPolicyCommandInput
   | GetCredentialReportCommandInput
@@ -839,6 +841,7 @@ export type ServiceOutputTypes =
   | GetAccountPasswordPolicyCommandOutput
   | GetAccountQoSCommandOutput
   | GetAccountSummaryCommandOutput
+  | GetArchiveStorageCommandOutput
   | GetContextKeysForCustomPolicyCommandOutput
   | GetContextKeysForPrincipalPolicyCommandOutput
   | GetCredentialReportCommandOutput
