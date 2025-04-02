@@ -2879,6 +2879,21 @@ export interface UpdateAccountQoSRequest {
    * <p>The WriteBandwidth of the account.</p>
    */
   WriteBandwidth?: string;
+
+  /**
+   * <p>The TotalOps of the account.</p>
+   */
+  TotalOps?: string;
+
+  /**
+   * <p>The DeleteOps of the account.</p>
+   */
+  DeleteOps?: string;
+
+  /**
+   * <p>The ListOps of the account.</p>
+   */
+  ListOps?: string;
 }
 
 export namespace UpdateAccountQoSRequest {
@@ -3570,6 +3585,21 @@ export interface UpdateUserQoSRequest {
    * <p>The WriteBandwidth of the account.</p>
    */
   WriteBandwidth?: string;
+
+  /**
+   * <p>The TotalOps of the account.</p>
+   */
+  TotalOps?: string;
+
+  /**
+   * <p>The DeleteOps of the account.</p>
+   */
+  DeleteOps?: string;
+
+  /**
+   * <p>The ListOps of the account.</p>
+   */
+  ListOps?: string;
 }
 
 export namespace UpdateUserQoSRequest {

@@ -7523,6 +7523,9 @@ export interface QoSConfiguration {
   WriteOps?: number;
   ReadBandwidth?: number;
   WriteBandwidth?: number;
+  TotalOps?: number;
+  DeleteOps?: number;
+  ListOps?: number;
   Status?: Status | string;
 }
 

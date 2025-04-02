@@ -17596,6 +17596,15 @@
         "WriteBandwidth": {
           "target": "com.amazonaws.s3#BucketBandWidth"
         },
+        "TotalOps": {
+          "target": "com.amazonaws.s3#BucketOps"
+        },
+        "DeleteOps": {
+          "target": "com.amazonaws.s3#BucketOps"
+        },
+        "ListOps": {
+          "target": "com.amazonaws.s3#BucketOps"
+        },
         "Status": {
           "target": "com.amazonaws.s3#Status"
         }

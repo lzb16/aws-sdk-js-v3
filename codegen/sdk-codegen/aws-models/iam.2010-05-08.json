@@ -1847,6 +1847,24 @@
           "traits": {
             "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
           }
+        },
+        "TotalOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The TotalOps of the account.</p>"
+          }
+        },
+        "DeleteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The DeleteOps of the account.</p>"
+          }
+        },
+        "ListOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ListOps of the account.</p>"
+          }
         }
       }
     },
@@ -2062,6 +2080,24 @@
           "target": "com.amazonaws.iam#stringType",
           "traits": {
             "smithy.api#documentation": "<p>The WriteBandwidth of the account.</p>"
+          }
+        },
+        "TotalOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The TotalOps of the account.</p>"
+          }
+        },
+        "DeleteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The DeleteOps of the account.</p>"
+          }
+        },
+        "ListOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ListOps of the account.</p>"
           }
         }
       }
@@ -15385,6 +15421,24 @@
         },
         "WriteBandwidth": {
           "target": "com.amazonaws.iam#AccountBandWidth"
+        },
+        "TotalOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The TotalOps of the account.</p>"
+          }
+        },
+        "DeleteOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The DeleteOps of the account.</p>"
+          }
+        },
+        "ListOps": {
+          "target": "com.amazonaws.iam#stringType",
+          "traits": {
+            "smithy.api#documentation": "<p>The ListOps of the account.</p>"
+          }
         }
       }
     },

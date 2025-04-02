@@ -19723,6 +19723,18 @@ const serializeAws_restXmlQoSConfiguration = (input: QoSConfiguration, context: 
       .withName("WriteBandwidth");
     bodyNode.addChildNode(node);
   }
+  if (input.TotalOps !== undefined && input.TotalOps !== null) {
+    const node = new __XmlNode("BucketOps").addChildNode(new __XmlText(String(input.TotalOps))).withName("TotalOps");
+    bodyNode.addChildNode(node);
+  }
+  if (input.DeleteOps !== undefined && input.DeleteOps !== null) {
+    const node = new __XmlNode("BucketOps").addChildNode(new __XmlText(String(input.DeleteOps))).withName("DeleteOps");
+    bodyNode.addChildNode(node);
+  }
+  if (input.ListOps !== undefined && input.ListOps !== null) {
+    const node = new __XmlNode("BucketOps").addChildNode(new __XmlText(String(input.ListOps))).withName("ListOps");
+    bodyNode.addChildNode(node);
+  }
   if (input.Status !== undefined && input.Status !== null) {
     const node = new __XmlNode("Status").addChildNode(new __XmlText(input.Status)).withName("Status");
     bodyNode.addChildNode(node);
@@ -23904,6 +23916,9 @@ const deserializeAws_restXmlQoSConfiguration = (output: any, context: __SerdeCon
     WriteOps: undefined,
     ReadBandwidth: undefined,
     WriteBandwidth: undefined,
+    TotalOps: undefined,
+    DeleteOps: undefined,
+    ListOps: undefined,
     Status: undefined,
   };
   if (output["ReadOps"] !== undefined) {
@@ -23917,6 +23932,15 @@ const deserializeAws_restXmlQoSConfiguration = (output: any, context: __SerdeCon
   }
   if (output["WriteBandwidth"] !== undefined) {
     contents.WriteBandwidth = parseInt(output["WriteBandwidth"]);
+  }
+  if (output["TotalOps"] !== undefined) {
+    contents.TotalOps = parseInt(output["TotalOps"]);
+  }
+  if (output["DeleteOps"] !== undefined) {
+    contents.DeleteOps = parseInt(output["DeleteOps"]);
+  }
+  if (output["ListOps"] !== undefined) {
+    contents.ListOps = parseInt(output["ListOps"]);
   }
   if (output["Status"] !== undefined) {
     contents.Status = output["Status"];

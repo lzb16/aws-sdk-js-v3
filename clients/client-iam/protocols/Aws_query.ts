@@ -21068,6 +21068,15 @@ const serializeAws_queryQoSConfiguration = (input: QoSConfiguration, context: __
   if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
     entries["WriteBandwidth"] = input.WriteBandwidth;
   }
+  if (input.TotalOps !== undefined && input.TotalOps !== null) {
+    entries["TotalOps"] = input.TotalOps;
+  }
+  if (input.DeleteOps !== undefined && input.DeleteOps !== null) {
+    entries["DeleteOps"] = input.DeleteOps;
+  }
+  if (input.ListOps !== undefined && input.ListOps !== null) {
+    entries["ListOps"] = input.ListOps;
+  }
   return entries;
 };
 
@@ -21600,6 +21609,15 @@ const serializeAws_queryUpdateAccountQoSRequest = (input: UpdateAccountQoSReques
   if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
     entries["WriteBandwidth"] = input.WriteBandwidth;
   }
+  if (input.TotalOps !== undefined && input.TotalOps !== null) {
+    entries["TotalOps"] = input.TotalOps;
+  }
+  if (input.DeleteOps !== undefined && input.DeleteOps !== null) {
+    entries["DeleteOps"] = input.DeleteOps;
+  }
+  if (input.ListOps !== undefined && input.ListOps !== null) {
+    entries["ListOps"] = input.ListOps;
+  }
   return entries;
 };
 
@@ -21953,6 +21971,15 @@ const serializeAws_queryUpdateUserQoSRequest = (input: UpdateUserQoSRequest, con
   }
   if (input.WriteBandwidth !== undefined && input.WriteBandwidth !== null) {
     entries["WriteBandwidth"] = input.WriteBandwidth;
+  }
+  if (input.TotalOps !== undefined && input.TotalOps !== null) {
+    entries["TotalOps"] = input.TotalOps;
+  }
+  if (input.DeleteOps !== undefined && input.DeleteOps !== null) {
+    entries["DeleteOps"] = input.DeleteOps;
+  }
+  if (input.ListOps !== undefined && input.ListOps !== null) {
+    entries["ListOps"] = input.ListOps;
   }
   return entries;
 };
@@ -26182,6 +26209,9 @@ const deserializeAws_queryQoSConfiguration = (output: any, context: __SerdeConte
     WriteOps: undefined,
     ReadBandwidth: undefined,
     WriteBandwidth: undefined,
+    TotalOps: undefined,
+    DeleteOps: undefined,
+    ListOps: undefined,
   };
   if (output["ReadOps"] !== undefined) {
     contents.ReadOps = parseInt(output["ReadOps"]);
@@ -26194,6 +26224,15 @@ const deserializeAws_queryQoSConfiguration = (output: any, context: __SerdeConte
   }
   if (output["WriteBandwidth"] !== undefined) {
     contents.WriteBandwidth = parseInt(output["WriteBandwidth"]);
+  }
+  if (output["TotalOps"] !== undefined) {
+    contents.TotalOps = output["TotalOps"];
+  }
+  if (output["DeleteOps"] !== undefined) {
+    contents.DeleteOps = output["DeleteOps"];
+  }
+  if (output["ListOps"] !== undefined) {
+    contents.ListOps = output["ListOps"];
   }
   return contents;
 };

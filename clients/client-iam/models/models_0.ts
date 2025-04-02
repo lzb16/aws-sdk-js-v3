@@ -319,6 +319,20 @@ export interface QoSConfiguration {
   WriteOps?: number;
   ReadBandwidth?: number;
   WriteBandwidth?: number;
+  /**
+   * <p>The TotalOps of the account.</p>
+   */
+  TotalOps?: string;
+
+  /**
+   * <p>The DeleteOps of the account.</p>
+   */
+  DeleteOps?: string;
+
+  /**
+   * <p>The ListOps of the account.</p>
+   */
+  ListOps?: string;
 }
 
 export namespace QoSConfiguration {
