@@ -2315,14 +2315,9 @@ export type StorageClass =
 export type Tier = "Bulk" | "Expedited" | "Standard";
 
 export interface BatchRestoreRequest {
-  /**
-   * <p>Lifetime of the active copy in days. Do not use with restores that specify
-   *             <code>OutputLocation</code>.</p>
-   *          <p>The Days element is required for regular restores, and must not be provided for select
-   *          requests.</p>
-   */
   Days?: number;
-
+  Hours?: number;
+  Minutes?: number;
   /**
    * <p>归档恢复临时存储层架</p>
    */

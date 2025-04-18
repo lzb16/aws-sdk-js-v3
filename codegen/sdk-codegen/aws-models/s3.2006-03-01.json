@@ -14203,6 +14203,13 @@
             "smithy.api#httpHeader": "Content-MD5"
           }
         },
+        "ContentType": {
+          "target": "com.amazonaws.s3#ContentType",
+          "traits": {
+            "smithy.api#documentation": "<p>A standard MIME type describing the format of the object data.</p>",
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        },
         "ConfirmRemoveSelfBucketAccess": {
           "target": "com.amazonaws.s3#ConfirmRemoveSelfBucketAccess",
           "traits": {
@@ -18353,10 +18360,13 @@
       "type": "structure",
       "members": {
         "Days": {
-          "target": "com.amazonaws.s3#Days",
-          "traits": {
-            "smithy.api#documentation": "<p>Lifetime of the active copy in days. Do not use with restores that specify\n            <code>OutputLocation</code>.</p>\n         <p>The Days element is required for regular restores, and must not be provided for select\n         requests.</p>"
-          }
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Hours": {
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Minutes": {
+          "target": "com.amazonaws.s3#integerType"
         },
         "StorageClass": {
           "target": "com.amazonaws.s3#StorageClass",
@@ -18493,10 +18503,13 @@
       "type": "structure",
       "members": {
         "Days": {
-          "target": "com.amazonaws.s3#Days",
-          "traits": {
-            "smithy.api#documentation": "<p>Lifetime of the active copy in days. Do not use with restores that specify\n            <code>OutputLocation</code>.</p>\n         <p>The Days element is required for regular restores, and must not be provided for select\n         requests.</p>"
-          }
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Hours": {
+          "target": "com.amazonaws.s3#integerType"
+        },
+        "Minutes": {
+          "target": "com.amazonaws.s3#integerType"
         },
         "GlacierJobParameters": {
           "target": "com.amazonaws.s3#GlacierJobParameters",

@@ -5341,6 +5341,11 @@ export interface PutBucketPolicyRequest {
   ContentMD5?: string;
 
   /**
+   * <p>A standard MIME type describing the format of the object data.</p>
+   */
+  ContentType?: string;
+
+  /**
    * <p>Set this parameter to true to confirm that you want to remove your permissions to change
    *          this bucket policy in the future.</p>
    */
@@ -7439,14 +7444,9 @@ export enum RestoreRequestType {
  * <p>Container for restore job parameters.</p>
  */
 export interface RestoreRequest {
-  /**
-   * <p>Lifetime of the active copy in days. Do not use with restores that specify
-   *             <code>OutputLocation</code>.</p>
-   *          <p>The Days element is required for regular restores, and must not be provided for select
-   *          requests.</p>
-   */
   Days?: number;
-
+  Hours?: number;
+  Minutes?: number;
   /**
    * <p>S3 Glacier related parameters pertaining to this job. Do not use with restores that
    *          specify <code>OutputLocation</code>.</p>

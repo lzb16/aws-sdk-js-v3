@@ -1911,18 +1911,6 @@
     "com.amazonaws.iam#GetArchiveStorageResponse": {
       "type": "structure",
       "members": {
-        "GetArchiveStorageResult": {
-          "target": "com.amazonaws.iam#GetArchiveStorageResult",
-          "traits": {
-            "smithy.api#documentation": "<p>归档配置统计信息.</p>",
-            "smithy.api#httpPayload": {}
-          }
-        }
-      }
-    },
-    "com.amazonaws.iam#GetArchiveStorageResult": {
-      "type": "structure",
-      "members": {
         "ArchivedObjectNumber": {
           "target": "com.amazonaws.iam#integerType"
         },

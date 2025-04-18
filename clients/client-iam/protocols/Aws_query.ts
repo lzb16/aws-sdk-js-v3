@@ -654,7 +654,6 @@ import {
   GetAccountSummaryResponse,
   GetArchiveStorageRequest,
   GetArchiveStorageResponse,
-  GetArchiveStorageResult,
   GetContextKeysForCustomPolicyRequest,
   GetContextKeysForPolicyResponse,
   GetContextKeysForPrincipalPolicyRequest,
@@ -741,6 +740,7 @@ import {
   ListOpenIDConnectProvidersRequest,
   ListOpenIDConnectProvidersResponse,
   ListPoliciesRequest,
+  ListPoliciesResponse,
   LoginProfile,
   MFADevice,
   MalformedPolicyDocumentException,
@@ -792,7 +792,6 @@ import {
   ListPoliciesGrantingServiceAccessEntry,
   ListPoliciesGrantingServiceAccessRequest,
   ListPoliciesGrantingServiceAccessResponse,
-  ListPoliciesResponse,
   ListPolicyVersionsRequest,
   ListPolicyVersionsResponse,
   ListRolePoliciesRequest,
@@ -23939,19 +23938,6 @@ const deserializeAws_queryGetArchiveStorageResponse = (
   output: any,
   context: __SerdeContext
 ): GetArchiveStorageResponse => {
-  let contents: any = {
-    GetArchiveStorageResult: undefined,
-  };
-  if (output["GetArchiveStorageResult"] !== undefined) {
-    contents.GetArchiveStorageResult = deserializeAws_queryGetArchiveStorageResult(
-      output["GetArchiveStorageResult"],
-      context
-    );
-  }
-  return contents;
-};
-
-const deserializeAws_queryGetArchiveStorageResult = (output: any, context: __SerdeContext): GetArchiveStorageResult => {
   let contents: any = {
     ArchivedObjectNumber: undefined,
     ArchivedObjectOriginalSize: undefined,

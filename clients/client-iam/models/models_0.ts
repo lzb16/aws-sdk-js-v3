@@ -5232,23 +5232,10 @@ export namespace GetArchiveStorageRequest {
   });
 }
 
-export interface GetArchiveStorageResult {
+export interface GetArchiveStorageResponse {
   ArchivedObjectNumber?: number;
   ArchivedObjectOriginalSize?: number;
   ArchivedObjectFinalSize?: number;
-}
-
-export namespace GetArchiveStorageResult {
-  export const filterSensitiveLog = (obj: GetArchiveStorageResult): any => ({
-    ...obj,
-  });
-}
-
-export interface GetArchiveStorageResponse {
-  /**
-   * <p>归档配置统计信息.</p>
-   */
-  GetArchiveStorageResult?: GetArchiveStorageResult;
 }
 
 export namespace GetArchiveStorageResponse {
@@ -8239,6 +8226,40 @@ export interface ListPoliciesRequest {
 
 export namespace ListPoliciesRequest {
   export const filterSensitiveLog = (obj: ListPoliciesRequest): any => ({
+    ...obj,
+  });
+}
+
+/**
+ * <p>Contains the response to a successful <a>ListPolicies</a> request.
+ *     </p>
+ */
+export interface ListPoliciesResponse {
+  /**
+   * <p>A list of policies.</p>
+   */
+  Policies?: Policy[];
+
+  /**
+   * <p>A flag that indicates whether there are more items to return. If your
+   *     results were truncated, you can make a subsequent pagination request using the <code>Marker</code>
+   *     request parameter to retrieve more items. Note that IAM might return fewer than the
+   *     <code>MaxItems</code> number of results even when there are more results available. We recommend
+   *     that you check <code>IsTruncated</code> after every call to ensure that you receive all your
+   *     results.</p>
+   */
+  IsTruncated?: boolean;
+
+  /**
+   * <p>When <code>IsTruncated</code> is <code>true</code>, this element
+   *     is present and contains the value to use for the <code>Marker</code> parameter in a subsequent
+   *     pagination request.</p>
+   */
+  Marker?: string;
+}
+
+export namespace ListPoliciesResponse {
+  export const filterSensitiveLog = (obj: ListPoliciesResponse): any => ({
     ...obj,
   });
 }

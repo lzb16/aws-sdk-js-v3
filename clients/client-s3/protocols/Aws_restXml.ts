@@ -6087,6 +6087,7 @@ export const serializeAws_restXmlPutBucketPolicyCommand = async (
   const headers: any = {
     "content-type": "text/plain",
     ...(isSerializableHeaderValue(input.ContentMD5) && { "content-md5": input.ContentMD5! }),
+    ...(isSerializableHeaderValue(input.ContentType) && { "content-type": input.ContentType! }),
     ...(isSerializableHeaderValue(input.ConfirmRemoveSelfBucketAccess) && {
       "x-amz-confirm-remove-self-bucket-access": input.ConfirmRemoveSelfBucketAccess!.toString(),
     }),
@@ -17579,7 +17580,15 @@ const serializeAws_restXmlArchiveDirectReadConfiguration = (
 const serializeAws_restXmlBatchRestoreRequest = (input: BatchRestoreRequest, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("BatchRestoreRequest");
   if (input.Days !== undefined && input.Days !== null) {
-    const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Hours !== undefined && input.Hours !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Hours))).withName("Hours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Minutes !== undefined && input.Minutes !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Minutes))).withName("Minutes");
     bodyNode.addChildNode(node);
   }
   if (input.StorageClass !== undefined && input.StorageClass !== null) {
@@ -20102,7 +20111,15 @@ const serializeAws_restXmlRestoreEXRequest = (input: RestoreEXRequest, context: 
 const serializeAws_restXmlRestoreRequest = (input: RestoreRequest, context: __SerdeContext): any => {
   const bodyNode = new __XmlNode("RestoreRequest");
   if (input.Days !== undefined && input.Days !== null) {
-    const node = new __XmlNode("Days").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Days))).withName("Days");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Hours !== undefined && input.Hours !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Hours))).withName("Hours");
+    bodyNode.addChildNode(node);
+  }
+  if (input.Minutes !== undefined && input.Minutes !== null) {
+    const node = new __XmlNode("integerType").addChildNode(new __XmlText(String(input.Minutes))).withName("Minutes");
     bodyNode.addChildNode(node);
   }
   if (input.GlacierJobParameters !== undefined && input.GlacierJobParameters !== null) {
