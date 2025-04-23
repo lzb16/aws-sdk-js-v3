@@ -429,6 +429,7 @@ import {
   BucketLoggingConfiguration,
   BucketOSCPConfiguration,
   BucketRedundancyConfiguration,
+  BucketTrashObj,
   CORSConfiguration,
   CORSRule,
   CompletedMultipartUpload,
@@ -442,7 +443,6 @@ import {
   DefaultRetention,
   Delete,
   DeleteMarkerReplication,
-  DeleteSnapshotInfo,
   DeletedObject,
   Destination,
   DomainNames,
@@ -549,7 +549,6 @@ import {
   BucketCompressionConfiguration,
   BucketLoggingStatus,
   BucketObjsTrashInfo,
-  BucketTrashObj,
   CSVInput,
   CSVOutput,
   CommonPrefix,
@@ -2535,9 +2534,9 @@ export const serializeAws_restXmlDeleteSnapshotsCommand = async (
   };
   let body: any;
   let contents: any;
-  if (input.Snapshot !== undefined) {
-    contents = serializeAws_restXmlDeleteSnapshotInfo(input.Snapshot, context);
-    contents = contents.withName("Snapshot");
+  if (input.Delete !== undefined) {
+    contents = serializeAws_restXmlSnapshotDelete(input.Delete, context);
+    contents = contents.withName("Delete");
     body = '<?xml version="1.0" encoding="UTF-8"?>';
     contents.addAttribute("xmlns", "http://s3.amazonaws.com/doc/2006-03-01/");
     body += contents.toString();
@@ -18070,30 +18069,6 @@ const serializeAws_restXmlDeleteMarkerReplication = (input: DeleteMarkerReplicat
     bodyNode.addChildNode(node);
   }
   return bodyNode;
-};
-
-const serializeAws_restXmlDeleteSnapshotInfo = (input: DeleteSnapshotInfo, context: __SerdeContext): any => {
-  const bodyNode = new __XmlNode("DeleteSnapshotInfo");
-  if (input.Names !== undefined && input.Names !== null) {
-    const nodes = serializeAws_restXmlDeleteSnapshotNameList(input.Names, context);
-    nodes.map((node: any) => {
-      node = node.withName("Name");
-      bodyNode.addChildNode(node);
-    });
-  }
-  return bodyNode;
-};
-
-const serializeAws_restXmlDeleteSnapshotNameList = (input: string[], context: __SerdeContext): any => {
-  return input
-    .filter((e: any) => e != null)
-    .map((entry) => {
-      if (entry === null) {
-        return null as any;
-      }
-      const node = new __XmlNode("SnapshotName").addChildNode(new __XmlText(entry));
-      return node.withName("member");
-    });
 };
 
 const serializeAws_restXmlDestination = (input: Destination, context: __SerdeContext): any => {

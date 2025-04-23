@@ -15604,12 +15604,13 @@
             "smithy.api#required": {}
           }
         },
-        "Snapshot": {
-          "target": "com.amazonaws.s3#DeleteSnapshotInfo",
+        "Delete": {
+          "target": "com.amazonaws.s3#SnapshotDelete",
           "traits": {
-            "smithy.api#documentation": "<p>The Snapshots.</p>",
+            "smithy.api#documentation": "<p>Container for the request.</p>",
             "smithy.api#httpPayload": {},
-            "smithy.api#xmlName": "Snapshot"
+            "smithy.api#required": {},
+            "smithy.api#xmlName": "Delete"
           }
         }
       }

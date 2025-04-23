@@ -4544,19 +4544,6 @@ export namespace DeleteSnapshotPolicyRequest {
   });
 }
 
-export interface DeleteSnapshotInfo {
-  /**
-   * <p>快照名称</p>
-   */
-  Names?: string[];
-}
-
-export namespace DeleteSnapshotInfo {
-  export const filterSensitiveLog = (obj: DeleteSnapshotInfo): any => ({
-    ...obj,
-  });
-}
-
 export interface DeleteSnapshotsRequest {
   /**
    * <p>桶名</p>
@@ -4564,9 +4551,9 @@ export interface DeleteSnapshotsRequest {
   Bucket: string | undefined;
 
   /**
-   * <p>The Snapshots.</p>
+   * <p>Container for the request.</p>
    */
-  Snapshot?: DeleteSnapshotInfo;
+  Delete: SnapshotDelete | undefined;
 }
 
 export namespace DeleteSnapshotsRequest {
@@ -9061,3 +9048,55 @@ export type ObjectStorageClass =
   | "REDUCED_REDUNDANCY"
   | "STANDARD"
   | "STANDARD_IA";
+
+/**
+ * <p>An object consists of data and its descriptive metadata.</p>
+ */
+export interface BucketTrashObj {
+  /**
+   * <p>The name that you assign to an object. You use the object key to retrieve the
+   *          object.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  DeletedTime?: Date;
+
+  /**
+   * <p>Size in bytes of the object</p>
+   */
+  Size?: number;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  StorageClass?: ObjectStorageClass | string;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The owner of the object</p>
+   */
+  Owner?: Owner;
+}
+
+export namespace BucketTrashObj {
+  export const filterSensitiveLog = (obj: BucketTrashObj): any => ({
+    ...obj,
+  });
+}
