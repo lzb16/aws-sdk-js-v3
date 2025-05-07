@@ -7951,9 +7951,9 @@ export interface Bucket {
   HistoryCompressionConfiguration?: CompressionConfigurations;
 
   /**
-   * <p>是否为私有桶</p>
+   * <p>是否为全局唯一桶</p>
    */
-  IsPrivateBucket?: boolean;
+  IsGlobalBucket?: boolean;
 }
 
 export namespace Bucket {

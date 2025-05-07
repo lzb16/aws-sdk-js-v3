@@ -21276,7 +21276,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     RestoredObjectSize: undefined,
     CompressionConfiguration: undefined,
     HistoryCompressionConfiguration: undefined,
-    IsPrivateBucket: undefined,
+    IsGlobalBucket: undefined,
   };
   if (output["ID"] !== undefined) {
     contents.ID = parseInt(output["ID"]);
@@ -21446,8 +21446,8 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
       context
     );
   }
-  if (output["IsPrivateBucket"] !== undefined) {
-    contents.IsPrivateBucket = output["IsPrivateBucket"] == "true";
+  if (output["IsGlobalBucket"] !== undefined) {
+    contents.IsGlobalBucket = output["IsGlobalBucket"] == "true";
   }
   return contents;
 };

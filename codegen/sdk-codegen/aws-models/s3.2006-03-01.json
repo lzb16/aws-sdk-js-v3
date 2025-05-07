@@ -1791,10 +1791,10 @@
             "smithy.api#documentation": "桶曾经是否配置过压缩策略"
           }
         },
-        "IsPrivateBucket": {
+        "IsGlobalBucket": {
           "target": "com.amazonaws.s3#IsEnabled",
           "traits": {
-            "smithy.api#documentation": "<p>是否为私有桶</p>"
+            "smithy.api#documentation": "<p>是否为全局唯一桶</p>"
           }
         }
       },
