@@ -58,14 +58,33 @@ clients/client-s3/aws-sdk-client-s3-<version>.tgz     # 可发布的 npm 包（�
 
 ## 三、发布到 verdaccio（在宿主机执行，不进容器）
 
-发布只需 `npm` + 网络 + 认证，宿主都有，**不需要这个镜像**。发布的是上一步打好的 `.tgz`：
+发布只需 `npm` + 网络 + 认证，宿主都有，**不需要这个镜像**。用 `publish.sh` 发布上一步打好的 `.tgz`：
 
 ```bash
-npm publish clients/client-s3/aws-sdk-client-s3-<version>.tgz   --registry http://<你的verdaccio>
-npm publish clients/client-iam/aws-sdk-client-iam-<version>.tgz --registry http://<你的verdaccio>
+# 先在宿主登录一次目标 registry（脚本不存密码，认证用宿主 ~/.npmrc）
+npm login --registry http://<你的verdaccio>
+
+# 发布（必须传版本号，须与该 client 目录里那个 .tgz 内部版本一致）
+./docker/sdk-builder/publish.sh s3  3.11.0-cli-92 --registry http://<你的verdaccio>
+./docker/sdk-builder/publish.sh iam 3.11.0-cli-43 --registry http://<你的verdaccio>
 ```
 
-发布前请确认已登录该 registry：`npm whoami --registry http://<你的verdaccio>`（认证用宿主已有的 `~/.npmrc`）。
+脚本会逐项把关（任一不过直接拒发）：
+
+1. **包内容**：`.tgz` 必须含 `dist/`、无 `ts3.4/ts3.4` 套娃、无 `tsbuildinfo`；
+2. **版本对得上**：命令行传的版本必须 == 该 client 目录里 `.tgz` 内部 `package.json` 的版本（挡住“忘了重新出包、误发陈旧包”）；
+3. **registry**：必须显式（或经环境变量 `SDK_PUBLISH_REGISTRY`），并拒绝误发到公网 npmjs；
+4. **已登录**：`npm whoami` 检查，未登录提示你先 `npm login`；
+5. **是否已发**：`npm view` 查 registry 上是否已有该版本。
+6. 发布后再 `npm view` **回验**确实到位。
+
+确认与重发：
+
+- **新版本** → 打印摘要后问 `[y/N]`（默认 N）；CI 里加 `--yes` 跳过。
+- **版本已存在**（覆盖，破坏性）→ 交互式会醒目警告并要你敲 `y` 确认，确认后**先 `npm unpublish` 再 publish**；无终端的 CI 下覆盖必须显式加 `--force`（`--yes` 顶不了覆盖）。
+- `--dry-run`：只跑全部检查并打印将执行的动作，不真正发布。
+
+> 版本号一旦传错（与磁盘上的 `.tgz` 不符）会直接中止——它既是“我确实要发这个版本”的明确表态，也是对陈旧包的一道防线。
 
 ### ⚠️ 必须发布那个 `.tgz` 文件，不要在 client 目录里裸 `npm publish`
 
@@ -134,6 +153,7 @@ docker run --rm -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
 | `BUILD.md` | **制作/维护镜像文档**：设计、构建命令、分层、踩坑、何时重建 |
 | `build-clients.sh` | 容器入口：codegen + 编译 + git 树外 `npm pack` |
 | `run.sh` | 封装 `docker run`，挂载本地项目 + 持久 `node_modules` 卷 |
+| `publish.sh` | **宿主机发布脚本**：校验 + 登录检查 + 发布 `.tgz` 到 verdaccio（见第三节） |
 | `aliyun-mirror.gradle` | 构建期注入 maven 阿里云镜像（解代理 403） |
 | `offline.gradle` | 注入 gradle 离线开关，根治 codegen 联网拉 maven |
 | `../../.dockerignore` | 裁剪构建上下文（位于仓库根） |
@@ -145,5 +165,5 @@ docker run --rm -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
 - **首次 `run.sh` 较慢**：会把镜像内置依赖同步到持久卷 `aws_sdk_builder_nm`，之后复用、很快。
 - **想清空依赖卷重来**：`docker volume rm aws_sdk_builder_nm`。
 - **改了依赖版本 / 想重置环境**：重新 `docker build`（必要时 `--no-cache`）。
-- **打出的包 `npm install` 后报找不到模块**：八成是裸 `npm publish` 漏了 dist，见第三节，改用 `npm publish <tgz>`。
+- **打出的包 `npm install` 后报找不到模块**：八成是裸 `npm publish` 漏了 dist，见第三节，改用 `publish.sh`（它会先自检 `.tgz` 含 dist，漏了直接拒发）。
 - **CI 里用**：`run.sh` 在无 TTY 时自动省略 `-t`；也可直接用 `docker run`（见第五节命令）。

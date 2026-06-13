@@ -145,6 +145,7 @@ tar tzf "$TGZ" | grep -c 'tsbuildinfo'            # 应 0
 | `offline.gradle` | 运行期注入：gradle 强制离线开关 |
 | `build-clients.sh` | 容器入口：codegen + 编译 + git 树外 `npm pack` |
 | `run.sh` | 封装 `docker run`：挂载本地项目 + 持久 node_modules 卷 |
+| `publish.sh` | 宿主机发布脚本（不进容器）：校验包/版本/registry/登录后发布 `.tgz` |
 | `../../.dockerignore` | 裁剪构建上下文（位于仓库根，排除 node_modules/dist/.git 及其他 245 个 client） |
 
 构建工具链版本：Node `16.20.2`、yarn `1.22.22`、JDK `11`、gradle `6.8.3`、smithy-typescript-codegen 源码 commit `caa953ac52f042f1e4c6b27bcd814ccb71127f09`。
