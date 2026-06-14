@@ -6,7 +6,6 @@ import {
   Bucket,
   BucketCannedACL,
   BucketLifecycleConfiguration,
-  BucketTrashObj,
   BucketVersioningStatus,
   CORSConfiguration,
   CompressionRule,
@@ -54,6 +53,58 @@ import {
 import { SENSITIVE_STRING, SmithyException as __SmithyException } from "@aws-sdk/smithy-client";
 import { MetadataBearer as $MetadataBearer } from "@aws-sdk/types";
 import { Readable } from "stream";
+
+/**
+ * <p>An object consists of data and its descriptive metadata.</p>
+ */
+export interface BucketTrashObj {
+  /**
+   * <p>The name that you assign to an object. You use the object key to retrieve the
+   *          object.</p>
+   */
+  Key?: string;
+
+  /**
+   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
+   */
+  Token?: string;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  LastModified?: Date;
+
+  /**
+   * <p>The date the Object was Last Modified</p>
+   */
+  DeletedTime?: Date;
+
+  /**
+   * <p>Size in bytes of the object</p>
+   */
+  Size?: number;
+
+  /**
+   * <p>The class of storage used to store the object.</p>
+   */
+  StorageClass?: ObjectStorageClass | string;
+
+  /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
+   * <p>The owner of the object</p>
+   */
+  Owner?: Owner;
+}
+
+export namespace BucketTrashObj {
+  export const filterSensitiveLog = (obj: BucketTrashObj): any => ({
+    ...obj,
+  });
+}
 
 export interface ListBucketTrashResult {
   /**

@@ -1701,6 +1701,12 @@
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
         },
+        "NfsConfiguration": {
+          "target": "com.amazonaws.s3#NfsConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>桶是否开启协议互通</p>"
+          }
+        },
         "StatisticConfiguration": {
           "target": "com.amazonaws.s3#StatisticConfiguration",
           "traits": {
@@ -19180,6 +19186,17 @@
             "value": "Disabled"
           }
         ]
+      }
+    },
+    "com.amazonaws.s3#NfsConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>桶是否开启协议互通</p>"
       }
     },
     "com.amazonaws.s3#BucketTrashPolicy": {

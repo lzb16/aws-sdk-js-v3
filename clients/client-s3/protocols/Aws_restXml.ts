@@ -429,7 +429,6 @@ import {
   BucketLoggingConfiguration,
   BucketOSCPConfiguration,
   BucketRedundancyConfiguration,
-  BucketTrashObj,
   CORSConfiguration,
   CORSRule,
   CompletedMultipartUpload,
@@ -479,6 +478,7 @@ import {
   MetricsConfiguration,
   MetricsFilter,
   Mode,
+  NfsConfiguration,
   NoSuchUpload,
   NoncurrentVersionExpiration,
   NoncurrentVersionTransition,
@@ -549,6 +549,7 @@ import {
   BucketCompressionConfiguration,
   BucketLoggingStatus,
   BucketObjsTrashInfo,
+  BucketTrashObj,
   CSVInput,
   CSVOutput,
   CommonPrefix,
@@ -21262,6 +21263,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     QoSConfiguration: undefined,
     ArchiveDirectReadConfiguration: undefined,
     BtsConfiguration: undefined,
+    NfsConfiguration: undefined,
     StatisticConfiguration: undefined,
     BucketRedundancyConfiguration: undefined,
     DefaultStorageClass: undefined,
@@ -21383,6 +21385,9 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["BtsConfiguration"] !== undefined) {
     contents.BtsConfiguration = deserializeAws_restXmlBtsConfiguration(output["BtsConfiguration"], context);
+  }
+  if (output["NfsConfiguration"] !== undefined) {
+    contents.NfsConfiguration = deserializeAws_restXmlNfsConfiguration(output["NfsConfiguration"], context);
   }
   if (output["StatisticConfiguration"] !== undefined) {
     contents.StatisticConfiguration = deserializeAws_restXmlStatisticConfiguration(
@@ -23164,6 +23169,16 @@ const deserializeAws_restXmlMultipartUploadList = (output: any, context: __Serde
       }
       return deserializeAws_restXmlMultipartUpload(entry, context);
     });
+};
+
+const deserializeAws_restXmlNfsConfiguration = (output: any, context: __SerdeContext): NfsConfiguration => {
+  let contents: any = {
+    Status: undefined,
+  };
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
+  }
+  return contents;
 };
 
 const deserializeAws_restXmlNoncurrentVersionExpiration = (
