@@ -16204,6 +16204,13 @@
             "smithy.api#required": {}
           }
         },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
         "Bucket": {
           "target": "com.amazonaws.s3#BucketName",
           "traits": {

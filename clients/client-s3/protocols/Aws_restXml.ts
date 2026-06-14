@@ -4031,6 +4031,7 @@ export const serializeAws_restXmlGetObjectSymlinkCommand = async (
   }
   const query: any = {
     symlink: "",
+    ...(input.VersionId !== undefined && { versionId: input.VersionId }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();

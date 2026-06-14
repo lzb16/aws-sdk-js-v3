@@ -1066,6 +1066,11 @@ export interface GetObjectSymlinkRequest {
   Key: string | undefined;
 
   /**
+   * <p>VersionId used to reference a specific version of the object.</p>
+   */
+  VersionId?: string;
+
+  /**
    * <p>bucket name</p>
    */
   Bucket: string | undefined;
