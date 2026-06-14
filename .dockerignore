@@ -30,5 +30,15 @@ clients/*
 !clients/client-s3
 !clients/client-iam
 
+# 负向包含 client 后再收口：剔除其依赖/构建产物/打好的包。
+# 这些在镜像里用不到（构建期不消费、运行期被挂载覆盖），仅是死重量。
+# 必须放在 !clients/client-* 之后（.dockerignore 后匹配者胜）。
+clients/client-s3/node_modules
+clients/client-s3/dist
+clients/client-s3/*.tgz
+clients/client-iam/node_modules
+clients/client-iam/dist
+clients/client-iam/*.tgz
+
 # 与构建无关的文档
 /AWS SDK*.md

@@ -106,7 +106,7 @@ ARG SMITHY_TS_COMMIT=caa953ac52f042f1e4c6b27bcd814ccb71127f09
 RUN PROXY="${https_proxy:-$http_proxy}"; \
     PHOST=$(echo "$PROXY" | sed -E 's#^https?://##; s#/.*$##; s#:[0-9]+$##'); \
     PPORT=$(echo "$PROXY" | sed -E 's#.*:([0-9]+).*#\1#'); \
-    export GRADLE_OPTS="-Dhttp.proxyHost=$PHOST -Dhttp.proxyPort=$PPORT -Dhttps.proxyHost=$PHOST -Dhttps.proxyPort=$PPORT"; \
+    export GRADLE_OPTS="-Dhttp.proxyHost=$PHOST -Dhttp.proxyPort=$PPORT -Dhttps.proxyHost=$PHOST -Dhttps.proxyPort=$PPORT -Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2"; \
     git -c http.proxy="$PROXY" -c https.proxy="$PROXY" clone --filter=blob:none https://github.com/smithy-lang/smithy-typescript /opt/smithy-typescript \
  && cd /opt/smithy-typescript \
  && git -c http.proxy="$PROXY" -c https.proxy="$PROXY" checkout "$SMITHY_TS_COMMIT" \
@@ -118,12 +118,18 @@ RUN PROXY="${https_proxy:-$http_proxy}"; \
     if [ -n "$PROXY" ]; then \
       PHOST=$(echo "$PROXY" | sed -E 's#^https?://##; s#/.*$##; s#:[0-9]+$##'); \
       PPORT=$(echo "$PROXY" | sed -E 's#.*:([0-9]+).*#\1#'); \
-      export GRADLE_OPTS="-Dhttp.proxyHost=$PHOST -Dhttp.proxyPort=$PPORT -Dhttps.proxyHost=$PHOST -Dhttps.proxyPort=$PPORT"; \
+      export GRADLE_OPTS="-Dhttp.proxyHost=$PHOST -Dhttp.proxyPort=$PPORT -Dhttps.proxyHost=$PHOST -Dhttps.proxyPort=$PPORT -Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2"; \
       echo "gradle proxy -> $PHOST:$PPORT"; \
     fi; \
     mkdir -p codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen; \
     yarn generate-clients -g codegen/sdk-codegen/aws-models/s3.2006-03-01.json \
  && yarn generate-clients -g codegen/sdk-codegen/aws-models/iam.2010-05-08.json
+
+# --- 清理 yarn install 在 client 目录留下的嵌套 node_modules ---
+#  workspace 安装会把未提升的依赖(含与老 TS 不兼容的高版本 @types/babel__traverse 等)嵌套进
+#  clients/client-*/node_modules。编译只用根 seed(运行期 run.sh 还会再 tmpfs 遮蔽宿主同名目录)，
+#  这些镜像内嵌套纯属死重量、且是 IAM tsc TS1005 的根源(IAM tsconfig 无 types 数组会吃所有 @types)，删掉。
+RUN rm -rf clients/client-s3/node_modules clients/client-iam/node_modules
 
 # --- 层6: 注入 gradle 离线 init(必须在预热之后) ---
 RUN mkdir -p /opt/gradle-home/init.d

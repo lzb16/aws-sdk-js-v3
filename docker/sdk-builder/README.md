@@ -118,8 +118,11 @@ npm login --registry http://<你的verdaccio>
   ```bash
   docker run --rm --network=none \
     -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
+    --tmpfs /app/clients/client-s3/node_modules --tmpfs /app/clients/client-iam/node_modules \
     -w /app aws-sdk-builder all
   ```
+
+  > 后两个 `--tmpfs` 把 client 嵌套 `node_modules` 遮蔽成空目录，避免宿主（或镜像残留）的嵌套依赖干扰编译（见第八节 FAQ）。
 
 - 仅当改了 codegen 的 `build.gradle`、引入了缓存里没有的新依赖时，才需临时联网：
 
@@ -166,4 +169,5 @@ docker run --rm -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
 - **想清空依赖卷重来**：`docker volume rm aws_sdk_builder_nm`。
 - **改了依赖版本 / 想重置环境**：重新 `docker build`（必要时 `--no-cache`）。
 - **打出的包 `npm install` 后报找不到模块**：八成是裸 `npm publish` 漏了 dist，见第三节，改用 `publish.sh`（它会先自检 `.tgz` 含 dist，漏了直接拒发）。
+- **宿主机也装过 `node_modules`，会不会干扰容器编译**：不会。根 `node_modules` 被持久卷 `aws_sdk_builder_nm` 遮蔽；client 目录下的**嵌套** `node_modules`（宿主跑 `yarn install` 时会生成）也被 `run.sh` 用 `--tmpfs` 遮蔽成空目录——容器编译始终只认镜像 seed 的预编译依赖，与宿主无关。直接用 `docker run` 时记得照搬这两个 `--tmpfs /app/clients/client-*/node_modules`（用 `--tmpfs` 而非匿名卷 `-v`：匿名卷会把镜像里残留的同名目录 copy-up 暴露出来，tmpfs 才是真空）。
 - **CI 里用**：`run.sh` 在无 TTY 时自动省略 `-t`；也可直接用 `docker run`（见第五节命令）。

@@ -35,6 +35,8 @@ docker build \
 
 3. **运行期用法 = 挂载本地仓库**
    `run.sh` 把仓库 `-v $PWD:/app` 挂进去，`node_modules` 用持久卷 `aws_sdk_builder_nm`（首次从镜像内 `/opt/seed` 同步）。产物 `dist/` 和 `.tgz` 直接落宿主 `clients/client-*/`。改 `aws-models` 或 codegen 的 Java 都在容器内重新 codegen，**不用重建镜像**。
+   - **隔离宿主 node_modules**：命名卷盖在 `/app/node_modules` 上 → 宿主的**根** `node_modules` 被遮蔽，编译只认 seed。但 `-v $PWD:/app` 会把 client 目录下的**嵌套** `node_modules`（宿主跑过 `yarn install` 才有）一起挂进来，且不被根卷遮蔽；Node 逐层向上解析会先命中它（可能带回异版本 `@types`：实测更高版本 `@types/babel__traverse` 会让 TS 4.1.5 报 TS1005，`@types/jest` 会触发全局类型冲突）。故 `run.sh` 额外给 `clients/client-{s3,iam}/node_modules` 各盖一个 **`--tmpfs`** 遮蔽成空目录，解析回落到根。
+     - **为何是 tmpfs 而非匿名卷 `-v`**：匿名卷会用**镜像里该路径的内容**做 copy-up；而旧 `.dockerignore`（未收口前）曾把宿主的 client 嵌套 `node_modules` 泄漏进镜像（残留高版本 `@types`），匿名卷会把这份残留**反暴露**给编译 → 反而触发 TS1005。`tmpfs` 永远是空的，且随 `--rm` 自动消失，是正解。（`.dockerignore` 收口后新镜像不再泄漏，但 `tmpfs` 仍是更稳妥的写法。）
 
 4. **gradle 离线**
    预热阶段（构建期）联网把全部 gradle / smithy / maven 依赖拉齐固化进镜像；之后 `offline.gradle`（注入到 `$GRADLE_USER_HOME/init.d/`）把 `startParameter.offline=true`，codegen 不再联网。临时要联网用 `GRADLE_ONLINE=1`。
@@ -126,7 +128,9 @@ docker run --rm --entrypoint sh aws-sdk-builder -c \
 # 3) 端到端 + 离线闭环（全断网跑通即合格）
 docker volume rm aws_sdk_builder_nm 2>/dev/null
 docker run --rm --network=none -e GRADLE_ONLINE=0 \
-  -v "$PWD:/app" -v aws_sdk_builder_nm:/app/node_modules -w /app aws-sdk-builder all
+  -v "$PWD:/app" -v aws_sdk_builder_nm:/app/node_modules \
+  --tmpfs /app/clients/client-s3/node_modules --tmpfs /app/clients/client-iam/node_modules \
+  -w /app aws-sdk-builder all
 
 # 4) 产物 tarball 含 dist、ts3.4 单层、无 tsbuildinfo
 TGZ=$(ls clients/client-s3/aws-sdk-client-s3-*.tgz)
