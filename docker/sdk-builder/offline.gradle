@@ -1,0 +1,15 @@
+// 由 docker/sdk-builder 镜像注入到 $GRADLE_USER_HOME/init.d/ 下。
+//
+// 作用：强制 gradle 进入离线模式，使 `yarn generate-clients` 调用的 ./gradlew
+// 不再联网拉取 / 更新 maven 库。
+//
+// 背景：codegen 的 smithy 依赖写成动态版本范围 [1.6.0,1.7.0[
+//      (codegen/build.gradle.kts)，gradle 默认每 24h 就联网重新解析一次，
+//      网络不通时 codegen 直接报错。镜像构建阶段已联网把全部 gradle/smithy/maven
+//      依赖预热进缓存，运行阶段离线必然命中。
+//
+// 若某次确实要联网更新依赖(比如改了 codegen 的 build.gradle 引入新库)，
+// 运行容器时设环境变量 GRADLE_ONLINE=1 即可临时关闭离线(见 build-clients.sh)。
+if (System.getenv("GRADLE_ONLINE") != "1") {
+    gradle.startParameter.offline = true
+}

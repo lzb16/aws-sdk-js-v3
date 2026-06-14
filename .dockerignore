@@ -1,0 +1,44 @@
+# === 为 docker/sdk-builder/Dockerfile 裁剪构建上下文 ===
+# 目的：把传给 docker daemon 的 build context 从 ~500MB 降到几 MB，加快构建。
+# 注意：Dockerfile 用显式 COPY 精简路径，这里的排除只影响 build context，
+#       不影响运行时挂载（运行时挂载的是宿主完整项目目录）。
+
+# 依赖与构建产物（镜像内会重新安装 / 重新生成）
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+codegen/**/build
+docs
+coverage
+
+# 版本控制与杂项
+.git
+.github
+*.log
+.DS_Store
+
+# verdaccio 私服存储数据
+verdaccio/storage
+
+# 编译 S3/IAM 镜像不需要的 workspace —— 依赖统一从 npm 拉预编译版
+packages
+lib
+protocol_tests
+
+# clients 只保留 S3 / IAM，排除其余 245 个客户端
+clients/*
+!clients/client-s3
+!clients/client-iam
+
+# 负向包含 client 后再收口：剔除其依赖/构建产物/打好的包。
+# 这些在镜像里用不到（构建期不消费、运行期被挂载覆盖），仅是死重量。
+# 必须放在 !clients/client-* 之后（.dockerignore 后匹配者胜）。
+clients/client-s3/node_modules
+clients/client-s3/dist
+clients/client-s3/*.tgz
+clients/client-iam/node_modules
+clients/client-iam/dist
+clients/client-iam/*.tgz
+
+# 与构建无关的文档
+/AWS SDK*.md
