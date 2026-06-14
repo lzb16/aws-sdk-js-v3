@@ -12947,6 +12947,7 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
     Expires: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
+    KeepLocalData: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -13000,6 +13001,9 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
   }
   if (output.headers["x-amz-version-id"] !== undefined) {
     contents.VersionId = output.headers["x-amz-version-id"];
+  }
+  if (output.headers["x-amz-keep-local_data"] !== undefined) {
+    contents.KeepLocalData = output.headers["x-amz-keep-local_data"] === "true";
   }
   if (output.headers["cache-control"] !== undefined) {
     contents.CacheControl = output.headers["cache-control"];
@@ -13143,6 +13147,7 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
     Expires: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
+    KeepLocalData: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -13196,6 +13201,9 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
   }
   if (output.headers["x-amz-version-id"] !== undefined) {
     contents.VersionId = output.headers["x-amz-version-id"];
+  }
+  if (output.headers["x-amz-keep-local_data"] !== undefined) {
+    contents.KeepLocalData = output.headers["x-amz-keep-local_data"] === "true";
   }
   if (output.headers["cache-control"] !== undefined) {
     contents.CacheControl = output.headers["cache-control"];
@@ -23294,6 +23302,7 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
     GlacierRestoredStorageClass: undefined,
     IsEncrypted: undefined,
     IsCompressed: undefined,
+    KeepLocalData: undefined,
     ObjectSource: undefined,
     Type: undefined,
     ObjectExpirationDay: undefined,
@@ -23336,6 +23345,9 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   }
   if (output["IsCompressed"] !== undefined) {
     contents.IsCompressed = output["IsCompressed"] == "true";
+  }
+  if (output["KeepLocalData"] !== undefined) {
+    contents.KeepLocalData = output["KeepLocalData"] == "true";
   }
   if (output["ObjectSource"] !== undefined) {
     contents.ObjectSource = output["ObjectSource"];
@@ -23445,6 +23457,7 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
     FinalSize: undefined,
     StorageClass: undefined,
     ObjectSource: undefined,
+    KeepLocalData: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
     Key: undefined,
@@ -23472,6 +23485,9 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
   }
   if (output["ObjectSource"] !== undefined) {
     contents.ObjectSource = output["ObjectSource"];
+  }
+  if (output["KeepLocalData"] !== undefined) {
+    contents.KeepLocalData = output["KeepLocalData"] == "true";
   }
   if (output["GlacierConfiguration"] !== undefined) {
     contents.GlacierConfiguration = output["GlacierConfiguration"];

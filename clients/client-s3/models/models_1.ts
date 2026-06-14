@@ -2605,6 +2605,11 @@ export interface HeadObjectOutput {
   VersionId?: string;
 
   /**
+   * <p>镜像归档保留本地数据</p>
+   */
+  KeepLocalData?: boolean;
+
+  /**
    * <p>Specifies caching behavior along the request/reply chain.</p>
    */
   CacheControl?: string;
@@ -3303,6 +3308,11 @@ export interface _Object {
    * <p>The class of storage used to store the object.</p>
    */
   IsCompressed?: boolean;
+
+  /**
+   * <p>镜像归档保留本地数据</p>
+   */
+  KeepLocalData?: boolean;
 
   /**
    * <p>对象来源</p>
@@ -4273,6 +4283,11 @@ export interface ObjectVersion {
    * <p>对象来源</p>
    */
   ObjectSource?: string;
+
+  /**
+   * <p>镜像归档保留本地数据</p>
+   */
+  KeepLocalData?: boolean;
 
   /**
    * <p>The glacier-configuration for the object.</p>

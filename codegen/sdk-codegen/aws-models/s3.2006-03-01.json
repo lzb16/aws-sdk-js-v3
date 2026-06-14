@@ -8713,6 +8713,13 @@
             "smithy.api#httpHeader": "x-amz-version-id"
           }
         },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>",
+            "smithy.api#httpHeader": "x-amz-keep-local_data"
+          }
+        },
         "CacheControl": {
           "target": "com.amazonaws.s3#CacheControl",
           "traits": {
@@ -12591,6 +12598,12 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>"
+          }
+        },
         "ObjectSource": {
           "target": "com.amazonaws.s3#StringType",
           "traits": {
@@ -13000,6 +13013,12 @@
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>对象来源</p>"
+          }
+        },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>"
           }
         },
         "GlacierConfiguration": {
