@@ -7210,7 +7210,7 @@ export const serializeAws_restXmlPutObjectSymlinkCommand = async (
   context: __SerdeContext
 ): Promise<__HttpRequest> => {
   const headers: any = {
-    ...(isSerializableHeaderValue(input.TargetObjectKey) && { "x-amz-meta-symlink-target": input.TargetObjectKey! }),
+    ...(isSerializableHeaderValue(input.TargetObjectKey) && { "x-amz-symlink-target": input.TargetObjectKey! }),
   };
   let resolvedPath = "/{Bucket}/{Key+}";
   if (input.Key !== undefined) {
@@ -12317,11 +12317,11 @@ export const deserializeAws_restXmlGetObjectSymlinkCommand = async (
     SymlinkTarget: undefined,
     TargetStatus: undefined,
   };
-  if (output.headers["x-amz-meta-target-status"] !== undefined) {
-    contents.TargetStatus = parseInt(output.headers["x-amz-meta-target-status"], 10);
+  if (output.headers["x-amz-target-status"] !== undefined) {
+    contents.TargetStatus = parseInt(output.headers["x-amz-target-status"], 10);
   }
-  if (output.headers["x-amz-meta-symlink-target"] !== undefined) {
-    contents.SymlinkTarget = output.headers["x-amz-meta-symlink-target"];
+  if (output.headers["x-amz-symlink-target"] !== undefined) {
+    contents.SymlinkTarget = output.headers["x-amz-symlink-target"];
   }
   await collectBody(output.body, context);
   return Promise.resolve(contents);
@@ -17719,6 +17719,10 @@ const serializeAws_restXmlBucketTrashObj = (input: BucketTrashObj, context: __Se
       .withName("StorageClass");
     bodyNode.addChildNode(node);
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Type)).withName("Type");
+    bodyNode.addChildNode(node);
+  }
   if (input.VersionId !== undefined && input.VersionId !== null) {
     const node = new __XmlNode("ObjectVersionId").addChildNode(new __XmlText(input.VersionId)).withName("VersionId");
     bodyNode.addChildNode(node);
@@ -21573,6 +21577,7 @@ const deserializeAws_restXmlBucketTrashObj = (output: any, context: __SerdeConte
     DeletedTime: undefined,
     Size: undefined,
     StorageClass: undefined,
+    Type: undefined,
     VersionId: undefined,
     Owner: undefined,
   };
@@ -21593,6 +21598,9 @@ const deserializeAws_restXmlBucketTrashObj = (output: any, context: __SerdeConte
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
   }
   if (output["VersionId"] !== undefined) {
     contents.VersionId = output["VersionId"];

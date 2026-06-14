@@ -90,6 +90,11 @@ export interface BucketTrashObj {
   StorageClass?: ObjectStorageClass | string;
 
   /**
+   * <p>对象类型，SymLink代表软链接对象</p>
+   */
+  Type?: string;
+
+  /**
    * <p>VersionId used to reference a specific version of the object.</p>
    */
   VersionId?: string;

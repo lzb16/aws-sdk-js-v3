@@ -15009,6 +15009,12 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "Type": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象类型，SymLink代表软链接对象</p>"
+          }
+        },
         "VersionId": {
           "target": "com.amazonaws.s3#ObjectVersionId",
           "traits": {
@@ -16241,14 +16247,14 @@
           "target": "com.amazonaws.s3#integerType",
           "traits": {
             "smithy.api#documentation": "<p>软链接源对象状态/p>",
-            "smithy.api#httpHeader": "x-amz-meta-target-status"
+            "smithy.api#httpHeader": "x-amz-target-status"
           }
         },
         "SymlinkTarget": {
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>软链接源对象名称</p>",
-            "smithy.api#httpHeader": "x-amz-meta-symlink-target"
+            "smithy.api#httpHeader": "x-amz-symlink-target"
           }
         }
       }
@@ -16290,7 +16296,7 @@
           "target": "com.amazonaws.s3#ObjectKey",
           "traits": {
             "smithy.api#documentation": "<p>源对象名称</p>",
-            "smithy.api#httpHeader": "x-amz-meta-symlink-target",
+            "smithy.api#httpHeader": "x-amz-symlink-target",
             "smithy.api#required": {}
           }
         }
