@@ -7394,6 +7394,19 @@ export namespace MetaSearchConfiguration {
   });
 }
 
+/**
+ * <p>桶是否开启协议互通</p>
+ */
+export interface NfsConfiguration {
+  Status?: Status | string;
+}
+
+export namespace NfsConfiguration {
+  export const filterSensitiveLog = (obj: NfsConfiguration): any => ({
+    ...obj,
+  });
+}
+
 export type ObjectLockEnabled = "Enabled";
 
 export type ObjectLockRetentionMode = "COMPLIANCE" | "GOVERNANCE";
@@ -7872,6 +7885,11 @@ export interface Bucket {
    * <p>The configuration information for the bucket.</p>
    */
   BtsConfiguration?: BtsConfiguration;
+
+  /**
+   * <p>桶是否开启协议互通</p>
+   */
+  NfsConfiguration?: NfsConfiguration;
 
   /**
    * <p>获取桶统计计量配置请求返回值</p>
@@ -9048,55 +9066,3 @@ export type ObjectStorageClass =
   | "REDUCED_REDUNDANCY"
   | "STANDARD"
   | "STANDARD_IA";
-
-/**
- * <p>An object consists of data and its descriptive metadata.</p>
- */
-export interface BucketTrashObj {
-  /**
-   * <p>The name that you assign to an object. You use the object key to retrieve the
-   *          object.</p>
-   */
-  Key?: string;
-
-  /**
-   * <p>A token to allow WORM to be enabled for an existing bucket.</p>
-   */
-  Token?: string;
-
-  /**
-   * <p>The date the Object was Last Modified</p>
-   */
-  LastModified?: Date;
-
-  /**
-   * <p>The date the Object was Last Modified</p>
-   */
-  DeletedTime?: Date;
-
-  /**
-   * <p>Size in bytes of the object</p>
-   */
-  Size?: number;
-
-  /**
-   * <p>The class of storage used to store the object.</p>
-   */
-  StorageClass?: ObjectStorageClass | string;
-
-  /**
-   * <p>VersionId used to reference a specific version of the object.</p>
-   */
-  VersionId?: string;
-
-  /**
-   * <p>The owner of the object</p>
-   */
-  Owner?: Owner;
-}
-
-export namespace BucketTrashObj {
-  export const filterSensitiveLog = (obj: BucketTrashObj): any => ({
-    ...obj,
-  });
-}
