@@ -1701,6 +1701,12 @@
             "smithy.api#documentation": "<p>The configuration information for the bucket.</p>"
           }
         },
+        "NfsConfiguration": {
+          "target": "com.amazonaws.s3#NfsConfiguration",
+          "traits": {
+            "smithy.api#documentation": "<p>桶是否开启协议互通</p>"
+          }
+        },
         "StatisticConfiguration": {
           "target": "com.amazonaws.s3#StatisticConfiguration",
           "traits": {
@@ -8707,6 +8713,13 @@
             "smithy.api#httpHeader": "x-amz-version-id"
           }
         },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>",
+            "smithy.api#httpHeader": "x-amz-keep-local_data"
+          }
+        },
         "CacheControl": {
           "target": "com.amazonaws.s3#CacheControl",
           "traits": {
@@ -12585,6 +12598,12 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>"
+          }
+        },
         "ObjectSource": {
           "target": "com.amazonaws.s3#StringType",
           "traits": {
@@ -12994,6 +13013,12 @@
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>对象来源</p>"
+          }
+        },
+        "KeepLocalData": {
+          "target": "com.amazonaws.s3#booleanType",
+          "traits": {
+            "smithy.api#documentation": "<p>镜像归档保留本地数据</p>"
           }
         },
         "GlacierConfiguration": {
@@ -15003,6 +15028,12 @@
             "smithy.api#documentation": "<p>The class of storage used to store the object.</p>"
           }
         },
+        "Type": {
+          "target": "com.amazonaws.s3#StringType",
+          "traits": {
+            "smithy.api#documentation": "<p>对象类型，SymLink代表软链接对象</p>"
+          }
+        },
         "VersionId": {
           "target": "com.amazonaws.s3#ObjectVersionId",
           "traits": {
@@ -16204,6 +16235,13 @@
             "smithy.api#required": {}
           }
         },
+        "VersionId": {
+          "target": "com.amazonaws.s3#ObjectVersionId",
+          "traits": {
+            "smithy.api#documentation": "<p>VersionId used to reference a specific version of the object.</p>",
+            "smithy.api#httpQuery": "versionId"
+          }
+        },
         "Bucket": {
           "target": "com.amazonaws.s3#BucketName",
           "traits": {
@@ -16228,14 +16266,14 @@
           "target": "com.amazonaws.s3#integerType",
           "traits": {
             "smithy.api#documentation": "<p>软链接源对象状态/p>",
-            "smithy.api#httpHeader": "x-amz-meta-target-status"
+            "smithy.api#httpHeader": "x-amz-target-status"
           }
         },
         "SymlinkTarget": {
           "target": "com.amazonaws.s3#StringType",
           "traits": {
             "smithy.api#documentation": "<p>软链接源对象名称</p>",
-            "smithy.api#httpHeader": "x-amz-meta-symlink-target"
+            "smithy.api#httpHeader": "x-amz-symlink-target"
           }
         }
       }
@@ -16277,7 +16315,7 @@
           "target": "com.amazonaws.s3#ObjectKey",
           "traits": {
             "smithy.api#documentation": "<p>源对象名称</p>",
-            "smithy.api#httpHeader": "x-amz-meta-symlink-target",
+            "smithy.api#httpHeader": "x-amz-symlink-target",
             "smithy.api#required": {}
           }
         }
@@ -19173,6 +19211,17 @@
             "value": "Disabled"
           }
         ]
+      }
+    },
+    "com.amazonaws.s3#NfsConfiguration": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "target": "com.amazonaws.s3#Status"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<p>桶是否开启协议互通</p>"
       }
     },
     "com.amazonaws.s3#BucketTrashPolicy": {

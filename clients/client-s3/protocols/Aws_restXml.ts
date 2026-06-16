@@ -429,7 +429,6 @@ import {
   BucketLoggingConfiguration,
   BucketOSCPConfiguration,
   BucketRedundancyConfiguration,
-  BucketTrashObj,
   CORSConfiguration,
   CORSRule,
   CompletedMultipartUpload,
@@ -479,6 +478,7 @@ import {
   MetricsConfiguration,
   MetricsFilter,
   Mode,
+  NfsConfiguration,
   NoSuchUpload,
   NoncurrentVersionExpiration,
   NoncurrentVersionTransition,
@@ -549,6 +549,7 @@ import {
   BucketCompressionConfiguration,
   BucketLoggingStatus,
   BucketObjsTrashInfo,
+  BucketTrashObj,
   CSVInput,
   CSVOutput,
   CommonPrefix,
@@ -4031,6 +4032,7 @@ export const serializeAws_restXmlGetObjectSymlinkCommand = async (
   }
   const query: any = {
     symlink: "",
+    ...(input.VersionId !== undefined && { versionId: input.VersionId }),
   };
   let body: any;
   const { hostname, protocol = "https", port } = await context.endpoint();
@@ -7208,7 +7210,7 @@ export const serializeAws_restXmlPutObjectSymlinkCommand = async (
   context: __SerdeContext
 ): Promise<__HttpRequest> => {
   const headers: any = {
-    ...(isSerializableHeaderValue(input.TargetObjectKey) && { "x-amz-meta-symlink-target": input.TargetObjectKey! }),
+    ...(isSerializableHeaderValue(input.TargetObjectKey) && { "x-amz-symlink-target": input.TargetObjectKey! }),
   };
   let resolvedPath = "/{Bucket}/{Key+}";
   if (input.Key !== undefined) {
@@ -12315,11 +12317,11 @@ export const deserializeAws_restXmlGetObjectSymlinkCommand = async (
     SymlinkTarget: undefined,
     TargetStatus: undefined,
   };
-  if (output.headers["x-amz-meta-target-status"] !== undefined) {
-    contents.TargetStatus = parseInt(output.headers["x-amz-meta-target-status"], 10);
+  if (output.headers["x-amz-target-status"] !== undefined) {
+    contents.TargetStatus = parseInt(output.headers["x-amz-target-status"], 10);
   }
-  if (output.headers["x-amz-meta-symlink-target"] !== undefined) {
-    contents.SymlinkTarget = output.headers["x-amz-meta-symlink-target"];
+  if (output.headers["x-amz-symlink-target"] !== undefined) {
+    contents.SymlinkTarget = output.headers["x-amz-symlink-target"];
   }
   await collectBody(output.body, context);
   return Promise.resolve(contents);
@@ -12945,6 +12947,7 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
     Expires: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
+    KeepLocalData: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -12998,6 +13001,9 @@ export const deserializeAws_restXmlHeadBucketObjTrashCommand = async (
   }
   if (output.headers["x-amz-version-id"] !== undefined) {
     contents.VersionId = output.headers["x-amz-version-id"];
+  }
+  if (output.headers["x-amz-keep-local_data"] !== undefined) {
+    contents.KeepLocalData = output.headers["x-amz-keep-local_data"] === "true";
   }
   if (output.headers["cache-control"] !== undefined) {
     contents.CacheControl = output.headers["cache-control"];
@@ -13141,6 +13147,7 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
     Expires: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
+    KeepLocalData: undefined,
     LastModified: undefined,
     Metadata: undefined,
     MissingMeta: undefined,
@@ -13194,6 +13201,9 @@ export const deserializeAws_restXmlHeadObjectCommand = async (
   }
   if (output.headers["x-amz-version-id"] !== undefined) {
     contents.VersionId = output.headers["x-amz-version-id"];
+  }
+  if (output.headers["x-amz-keep-local_data"] !== undefined) {
+    contents.KeepLocalData = output.headers["x-amz-keep-local_data"] === "true";
   }
   if (output.headers["cache-control"] !== undefined) {
     contents.CacheControl = output.headers["cache-control"];
@@ -17717,6 +17727,10 @@ const serializeAws_restXmlBucketTrashObj = (input: BucketTrashObj, context: __Se
       .withName("StorageClass");
     bodyNode.addChildNode(node);
   }
+  if (input.Type !== undefined && input.Type !== null) {
+    const node = new __XmlNode("StringType").addChildNode(new __XmlText(input.Type)).withName("Type");
+    bodyNode.addChildNode(node);
+  }
   if (input.VersionId !== undefined && input.VersionId !== null) {
     const node = new __XmlNode("ObjectVersionId").addChildNode(new __XmlText(input.VersionId)).withName("VersionId");
     bodyNode.addChildNode(node);
@@ -21261,6 +21275,7 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
     QoSConfiguration: undefined,
     ArchiveDirectReadConfiguration: undefined,
     BtsConfiguration: undefined,
+    NfsConfiguration: undefined,
     StatisticConfiguration: undefined,
     BucketRedundancyConfiguration: undefined,
     DefaultStorageClass: undefined,
@@ -21382,6 +21397,9 @@ const deserializeAws_restXmlBucket = (output: any, context: __SerdeContext): Buc
   }
   if (output["BtsConfiguration"] !== undefined) {
     contents.BtsConfiguration = deserializeAws_restXmlBtsConfiguration(output["BtsConfiguration"], context);
+  }
+  if (output["NfsConfiguration"] !== undefined) {
+    contents.NfsConfiguration = deserializeAws_restXmlNfsConfiguration(output["NfsConfiguration"], context);
   }
   if (output["StatisticConfiguration"] !== undefined) {
     contents.StatisticConfiguration = deserializeAws_restXmlStatisticConfiguration(
@@ -21567,6 +21585,7 @@ const deserializeAws_restXmlBucketTrashObj = (output: any, context: __SerdeConte
     DeletedTime: undefined,
     Size: undefined,
     StorageClass: undefined,
+    Type: undefined,
     VersionId: undefined,
     Owner: undefined,
   };
@@ -21587,6 +21606,9 @@ const deserializeAws_restXmlBucketTrashObj = (output: any, context: __SerdeConte
   }
   if (output["StorageClass"] !== undefined) {
     contents.StorageClass = output["StorageClass"];
+  }
+  if (output["Type"] !== undefined) {
+    contents.Type = output["Type"];
   }
   if (output["VersionId"] !== undefined) {
     contents.VersionId = output["VersionId"];
@@ -23165,6 +23187,16 @@ const deserializeAws_restXmlMultipartUploadList = (output: any, context: __Serde
     });
 };
 
+const deserializeAws_restXmlNfsConfiguration = (output: any, context: __SerdeContext): NfsConfiguration => {
+  let contents: any = {
+    Status: undefined,
+  };
+  if (output["Status"] !== undefined) {
+    contents.Status = output["Status"];
+  }
+  return contents;
+};
+
 const deserializeAws_restXmlNoncurrentVersionExpiration = (
   output: any,
   context: __SerdeContext
@@ -23270,6 +23302,7 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
     GlacierRestoredStorageClass: undefined,
     IsEncrypted: undefined,
     IsCompressed: undefined,
+    KeepLocalData: undefined,
     ObjectSource: undefined,
     Type: undefined,
     ObjectExpirationDay: undefined,
@@ -23312,6 +23345,9 @@ const deserializeAws_restXml_Object = (output: any, context: __SerdeContext): _O
   }
   if (output["IsCompressed"] !== undefined) {
     contents.IsCompressed = output["IsCompressed"] == "true";
+  }
+  if (output["KeepLocalData"] !== undefined) {
+    contents.KeepLocalData = output["KeepLocalData"] == "true";
   }
   if (output["ObjectSource"] !== undefined) {
     contents.ObjectSource = output["ObjectSource"];
@@ -23421,6 +23457,7 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
     FinalSize: undefined,
     StorageClass: undefined,
     ObjectSource: undefined,
+    KeepLocalData: undefined,
     GlacierConfiguration: undefined,
     GlacierRestoredStorageClass: undefined,
     Key: undefined,
@@ -23448,6 +23485,9 @@ const deserializeAws_restXmlObjectVersion = (output: any, context: __SerdeContex
   }
   if (output["ObjectSource"] !== undefined) {
     contents.ObjectSource = output["ObjectSource"];
+  }
+  if (output["KeepLocalData"] !== undefined) {
+    contents.KeepLocalData = output["KeepLocalData"] == "true";
   }
   if (output["GlacierConfiguration"] !== undefined) {
     contents.GlacierConfiguration = output["GlacierConfiguration"];
