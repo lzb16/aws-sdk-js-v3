@@ -117,12 +117,14 @@ npm login --registry http://<你的verdaccio>
 
   ```bash
   docker run --rm --network=none \
+    --user "$(id -u):$(id -g)" \
     -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
     --tmpfs /app/clients/client-s3/node_modules --tmpfs /app/clients/client-iam/node_modules \
     -w /app aws-sdk-builder all
   ```
 
   > 后两个 `--tmpfs` 把 client 嵌套 `node_modules` 遮蔽成空目录，避免宿主（或镜像残留）的嵌套依赖干扰编译（见第八节 FAQ）。
+  > `--user "$(id -u):$(id -g)"` 让容器以你（非 root 也行、任意 uid:gid）的身份跑，产物属主正确（见第九节）。`run.sh` 已自动带上。
 
 - 仅当改了 codegen 的 `build.gradle`、引入了缓存里没有的新依赖时，才需临时联网：
 
@@ -165,9 +167,76 @@ docker run --rm -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
 
 ## 八、常见问题
 
-- **首次 `run.sh` 较慢**：会把镜像内置依赖同步到持久卷 `aws_sdk_builder_nm`，之后复用、很快。
-- **想清空依赖卷重来**：`docker volume rm aws_sdk_builder_nm`。
+- **首次 `run.sh` 较慢**：会把镜像内置依赖同步到持久卷 `aws_sdk_builder_nm_<uid>`，之后复用、很快。
+- **想清空依赖卷重来**：`docker volume rm aws_sdk_builder_nm_$(id -u)`（默认卷按你的 uid 区分）。
+- **多用户同机**：各人自动用各自的卷、各自代码目录，并发安全（见第九节「多用户共用」）。
 - **改了依赖版本 / 想重置环境**：重新 `docker build`（必要时 `--no-cache`）。
 - **打出的包 `npm install` 后报找不到模块**：八成是裸 `npm publish` 漏了 dist，见第三节，改用 `publish.sh`（它会先自检 `.tgz` 含 dist，漏了直接拒发）。
 - **宿主机也装过 `node_modules`，会不会干扰容器编译**：不会。根 `node_modules` 被持久卷 `aws_sdk_builder_nm` 遮蔽；client 目录下的**嵌套** `node_modules`（宿主跑 `yarn install` 时会生成）也被 `run.sh` 用 `--tmpfs` 遮蔽成空目录——容器编译始终只认镜像 seed 的预编译依赖，与宿主无关。直接用 `docker run` 时记得照搬这两个 `--tmpfs /app/clients/client-*/node_modules`（用 `--tmpfs` 而非匿名卷 `-v`：匿名卷会把镜像里残留的同名目录 copy-up 暴露出来，tmpfs 才是真空）。
 - **CI 里用**：`run.sh` 在无 TTY 时自动省略 `-t`；也可直接用 `docker run`（见第五节命令）。
+
+---
+
+## 九、以非 root 用户运行（任意 UID:任意 GID）
+
+镜像支持以**任意非 root 身份**运行——任意 UID、任意 GID，**不要求在 root 组里**。`run.sh`
+默认就这么做：它给 `docker run` 注入 `--user "$(id -u):$(id -g)"` —— **UID/GID 都取你（宿主当前用户）**。
+
+- **产物属主正确**：`dist/`、`.tgz` 写回 bind 挂载的 `/app`（你的仓库）时属主就是你本人 `你:你的组`，
+  不会再像「容器内 root」那样把你工作树里的文件变成 `root` 所有。
+- **无 group 限制**：镜像里运行期需要写的目录（`/opt/gradle-home` 写 gradle 锁/journal/daemon、
+  `/opt/home` 放 yarn/npm 缓存）都做成了 **world-writable**；`/opt/m2`（smithy-ts）world-readable。
+  所以**无需在 root 组（GID 0）里**，任意 UID:任意 GID 都能跑。
+
+**宿主用户本就是 root** 时，`$(id -u):$(id -g)` == `0:0`，与旧行为完全一致，**无回归**。
+
+需要别的身份（如 CI 固定）可用环境变量覆盖（支持任意 `uid:gid`）：
+
+```bash
+AWS_SDK_BUILDER_USER=1000:1000 ./docker/sdk-builder/run.sh s3
+```
+
+> 实现要点：可写目录靠构建期 `umask 0000` 以 world-writable 诞生（零镜像膨胀），不是事后递归 `chmod`；
+> smithy-ts 放在与 HOME 无关的 `/opt/m2` 并由 `aliyun-mirror.gradle` 的 `file://` 仓库解析；
+> 构建期残留的 gradle daemon 目录被删（其 `registry.bin` 被 gradle 强制 644 root、无视 umask），
+> 运行期由运行用户自行重建。
+
+### 多用户共用一台机器 / 一个镜像
+
+**可以，且并发安全**——前提是每人用各自的 node_modules 卷（`run.sh` 已默认这么做）：
+
+- **代码目录**：各人 `-v $PWD:/app` 挂自己的仓库，用各自 `uid:gid` 写，互不影响。
+- **运行期可写状态**（gradle 锁/daemon/缓存、HOME、`/tmp`）：都在镜像层、不是卷，`--rm` 每个容器一份独立可写层，**并发也不串**。
+- **node_modules 卷**：`run.sh` 默认把卷名按 **UID** 区分（`aws_sdk_builder_nm_<uid>`），所以每个用户一个卷，并发跑互不干扰。已实测 uid 1000 / 1001 各自代码目录、**同时编译**双双成功、产物归属各自正确。
+
+> ⚠️ **别让多人显式共用同一个 node_modules 卷**：该卷首次为空时由首个运行者按其 uid 填充，
+> 之后别人 uid 不同就**写不进/可能并发竞争**（实测共用空卷并发会让后到者 `cp: Permission denied`）。
+> 默认按 uid 区分就是为了避开这点。真要共用，先让一个人**单独**跑一次把卷填好，之后其他人只读不写即可。
+
+> 代价：每个用户一个 ~650MB 的卷。想回收某用户的卷：`docker volume rm aws_sdk_builder_nm_<uid>`。
+
+### 迁移注意（仅限「宿主用户是非 root」且之前用 root 跑过）
+
+如果你以前用**容器内 root**（旧 `run.sh` 不带 `--user`）跑过，工作树里 `clients/`、`codegen/`
+下可能残留 `root` 属主的生成文件；切到非 root 运行后，容器进程（你的 UID）会因无权覆盖它们而报错。
+一次性收归己有即可：
+
+```bash
+sudo chown -R "$(id -u):$(id -g)" clients codegen
+```
+
+> 持久卷 `aws_sdk_builder_nm_<uid>` 是**只读消费**且 world-readable；全新卷由 `build-clients`
+> 首次从镜像内置 `/opt/seed` 按运行用户落地，无需手动处理。
+
+### 迁移注意（仅限「宿主用户是非 root」且之前用 root 跑过）
+
+如果你以前用**容器内 root**（旧 `run.sh` 不带 `--user`）跑过，工作树里 `clients/`、`codegen/`
+下可能残留 `root` 属主的生成文件；切到非 root 运行后，容器进程（你的 UID）会因无权覆盖它们而报错。
+一次性收归己有即可：
+
+```bash
+sudo chown -R "$(id -u):$(id -g)" clients codegen
+```
+
+> 持久卷 `aws_sdk_builder_nm` 是**只读消费**且 world-readable，非 root 直接能读，无需处理；
+> 全新卷会从镜像内置依赖（同样 world-readable）初始化，也没问题。

@@ -96,25 +96,31 @@ RUN GURL="https://services.gradle.org/distributions/gradle-6.8.3-bin.zip"; \
 RUN mkdir -p /opt/gradle-home/init.d
 COPY docker/sdk-builder/aliyun-mirror.gradle /opt/gradle-home/init.d/aliyun-mirror.gradle
 
-# --- 编译 jcenter 版 smithy-typescript-codegen:0.3.0 装入 mavenLocal ---
+# --- 编译 jcenter 版 smithy-typescript-codegen:0.3.0 发布到固定 maven 仓库 /opt/m2 ---
 #  该 artifact(旧坐标 software.amazon.smithy:smithy-typescript-codegen:0.3.0)是 jcenter 时代产物，
 #  公网(central/jcenter/各镜像)已彻底消失；central 同名新坐标 API 不兼容你们的 codegen。
 #  解法：从开源仓库 smithy-lang/smithy-typescript 在 deserializeErrorDocumentBody(2021-04-27 引入)
 #  之前、对应 aws-sdk v3.11.0(2021-04-19) 的 commit 编译，publishToMavenLocal；
 #  坐标 group=software.amazon.smithy name=smithy-typescript-codegen version=0.3.0 与依赖声明完全一致。
+#  发布目标用 -Dmaven.repo.local=/opt/m2/repository 钉到与 HOME 无关的固定路径(而非 ~/.m2)，
+#  这样运行期以非 root(任意 UID、HOME 不定、进不去 /root)也能离线解析(见 aliyun-mirror.gradle 的 file 仓库)。
+#  umask 0000：本步会往 GRADLE_USER_HOME=/opt/gradle-home/caches 写依赖缓存，让其以 world-writable 诞生，
+#  运行期任意 UID:任意 GID(不在 root 组也行)都能写锁/journal；纯靠 umask 故零额外镜像层膨胀。
 ARG SMITHY_TS_COMMIT=caa953ac52f042f1e4c6b27bcd814ccb71127f09
-RUN PROXY="${https_proxy:-$http_proxy}"; \
+RUN umask 0000; PROXY="${https_proxy:-$http_proxy}"; \
     PHOST=$(echo "$PROXY" | sed -E 's#^https?://##; s#/.*$##; s#:[0-9]+$##'); \
     PPORT=$(echo "$PROXY" | sed -E 's#.*:([0-9]+).*#\1#'); \
     export GRADLE_OPTS="-Dhttp.proxyHost=$PHOST -Dhttp.proxyPort=$PPORT -Dhttps.proxyHost=$PHOST -Dhttps.proxyPort=$PPORT -Dhttps.protocols=TLSv1.2 -Djdk.tls.client.protocols=TLSv1.2"; \
     git -c http.proxy="$PROXY" -c https.proxy="$PROXY" clone --filter=blob:none https://github.com/smithy-lang/smithy-typescript /opt/smithy-typescript \
  && cd /opt/smithy-typescript \
  && git -c http.proxy="$PROXY" -c https.proxy="$PROXY" checkout "$SMITHY_TS_COMMIT" \
- && ./gradlew --no-daemon -x test :smithy-typescript-codegen:publishToMavenLocal \
- && ls -la /root/.m2/repository/software/amazon/smithy/smithy-typescript-codegen/0.3.0/
+ && ./gradlew --no-daemon -x test :smithy-typescript-codegen:publishToMavenLocal -Dmaven.repo.local=/opt/m2/repository \
+ && ls -la /opt/m2/repository/software/amazon/smithy/smithy-typescript-codegen/0.3.0/
 
 # --- 层5: 预热 gradle —— 联网(走代理)下载 smithy/maven 依赖，验证 codegen(此时尚未开启离线) ---
-RUN PROXY="${https_proxy:-$http_proxy}"; \
+#  umask 0000：同上，让本步写入 /opt/gradle-home/caches 的依赖缓存以 world-writable 诞生，
+#  运行期任意 UID:任意 GID 可写锁/journal；零额外层膨胀。
+RUN umask 0000; PROXY="${https_proxy:-$http_proxy}"; \
     if [ -n "$PROXY" ]; then \
       PHOST=$(echo "$PROXY" | sed -E 's#^https?://##; s#/.*$##; s#:[0-9]+$##'); \
       PPORT=$(echo "$PROXY" | sed -E 's#.*:([0-9]+).*#\1#'); \
@@ -134,6 +140,28 @@ RUN rm -rf clients/client-s3/node_modules clients/client-iam/node_modules
 # --- 层6: 注入 gradle 离线 init(必须在预热之后) ---
 RUN mkdir -p /opt/gradle-home/init.d
 COPY docker/sdk-builder/offline.gradle /opt/gradle-home/init.d/offline.gradle
+
+# --- 层7: 支持以非 root(任意 UID:任意 GID)运行 ---
+#  目标：root、以及任意非 root 身份(含「不在 root 组、用 --user $(id -u):$(id -g)」)都能跑。
+#  run.sh 用 --user $(id -u):$(id -g) 启动 → 进程 UID/GID 都取宿主当前用户，产物写回挂载的
+#  /app 时属主就是你本人(uid:gid)。为此运行期会写的目录全部做成 world-writable：
+#  前置步骤已用 umask 0000 让 /opt/gradle-home/caches 与 /opt/m2 以 world-writable 诞生；
+#  这里再补三处不依赖前序 umask 的点：
+#   1) /opt/gradle-home 顶层目录(由更早的 dist 预下载层以 755 建)——给 1777(world-writable+sticky)，
+#      运行期任意用户才能在其下新建 daemon/.tmp/workers 等子目录。
+#   2) 删掉构建期残留的 gradle daemon 目录。gradle 会对 daemon/<ver>/registry.bin 强制设权
+#      (无视 umask、保持 644 root)，运行期非属主写不了它 → IOException Permission denied。
+#      预热那个 daemon 本就是构建期临时进程的陈旧状态、运行期用不上；删掉后运行期(顶层 1777)
+#      会以运行用户身份重建 daemon 目录(owner 即运行 UID，自然可写)，单次/复用 daemon 都通。
+#   3) HOME：任意 UID 无 /etc/passwd 条目时 HOME 会落到 / 且不可写，导致 yarn/npm 缓存失败。
+#      指到一个 world-writable 的 /opt/home(1777)。放在所有联网构建步骤之后设置，避免构建期把缓存
+#      写进 /opt/home(那样会是 root 私有、运行期非 root 仍写不了)；此处它是空目录，运行期
+#      任意用户自行在其下创建 .npm/.yarn 等。root 运行时同样可写、且 mavenLocal 落空
+#      由 /opt/m2 的 file 仓库兜底，无回归。
+RUN chmod 1777 /opt/gradle-home \
+ && rm -rf /opt/gradle-home/daemon \
+ && mkdir -p /opt/home && chmod 1777 /opt/home
+ENV HOME=/opt/home
 
 # --- 入口 ---
 COPY docker/sdk-builder/build-clients.sh /usr/local/bin/build-clients
