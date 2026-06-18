@@ -12,6 +12,7 @@
 #   AWS_SDK_BUILDER_IMAGE   镜像名 (默认 aws-sdk-builder)
 #   AWS_SDK_BUILDER_VOLUME  node_modules 持久卷名 (默认 aws_sdk_builder_nm_<uid>，按用户区分)
 #   AWS_SDK_BUILDER_USER    容器运行身份 (默认 $(id -u):0，见下方说明)
+#   AWS_SDK_BUILDER_SECCOMP seccomp 设置 (默认 unconfined；置空=用 docker 默认 profile，见下方说明)
 #   GRADLE_ONLINE=1         临时允许 gradle 联网(改了 codegen 依赖时用)
 set -euo pipefail
 
@@ -39,6 +40,21 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TTY_FLAG=""
 if [ -t 1 ]; then TTY_FLAG="-t"; fi
 
+# 关闭 seccomp 过滤（默认 unconfined）。原因：
+#  本镜像基于 ubuntu:22.04 → 容器内 glibc 2.35，其 pthread_create 优先发 clone3() 系统调用。
+#  在【老内核 + 老 libseccomp 的主机】上（如 CentOS 7 / kernel 3.10 + libseccomp 2.3.1，
+#  或仍用系统 libseccomp 的旧 docker），docker 的 seccomp 配置对 clone3/部分 clone 标志位
+#  会返回 EPERM 而非 ENOSYS，glibc 不回落到老 clone() → 线程创建失败 →
+#  node 一启动就在 NodePlatform 构造里 `uv_thread_create` 断言崩溃（core dumped），
+#  表现为 `yarn ... generate-clients` 一跑就 Aborted。关掉 seccomp 让 clone3 直达内核
+#  （老内核无此调用→ENOSYS），glibc 即回落 clone()，构建就能跑。
+#  这是一次性、跑可信代码的本地构建容器，关 seccomp 无安全顾虑；现代 docker 上加不加都行。
+#  若主机策略不允许 unconfined，可设 AWS_SDK_BUILDER_SECCOMP=/path/to/profile.json 指定
+#  一个把 clone3 返回 ENOSYS 的自定义 profile；或设为空（AWS_SDK_BUILDER_SECCOMP=）用 docker 默认。
+SECCOMP_OPT=""
+SECCOMP_VALUE="${AWS_SDK_BUILDER_SECCOMP-unconfined}"
+if [ -n "$SECCOMP_VALUE" ]; then SECCOMP_OPT="--security-opt seccomp=$SECCOMP_VALUE"; fi
+
 # 注意挂载叠加顺序：
 #  - 根 node_modules 用命名卷盖在 /app/node_modules 上 → 宿主自己的根 node_modules 被遮蔽，
 #    编译始终用镜像 seed 的预编译依赖，不受宿主影响。
@@ -52,6 +68,7 @@ if [ -t 1 ]; then TTY_FLAG="-t"; fi
 #    tmpfs 永远是空的，才是真正的遮蔽，且随容器退出自动消失。
 exec docker run --rm $TTY_FLAG \
   --user "$USER_SPEC" \
+  $SECCOMP_OPT \
   -e "GRADLE_ONLINE=${GRADLE_ONLINE:-0}" \
   -v "$REPO_ROOT:/app" \
   -v "$VOLUME:/app/node_modules" \
