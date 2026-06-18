@@ -118,6 +118,7 @@ npm login --registry http://<你的verdaccio>
   ```bash
   docker run --rm --network=none \
     --user "$(id -u):$(id -g)" \
+    --security-opt seccomp=unconfined \
     -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
     --tmpfs /app/clients/client-s3/node_modules --tmpfs /app/clients/client-iam/node_modules \
     -w /app aws-sdk-builder all
@@ -125,6 +126,7 @@ npm login --registry http://<你的verdaccio>
 
   > 后两个 `--tmpfs` 把 client 嵌套 `node_modules` 遮蔽成空目录，避免宿主（或镜像残留）的嵌套依赖干扰编译（见第八节 FAQ）。
   > `--user "$(id -u):$(id -g)"` 让容器以你（非 root 也行、任意 uid:gid）的身份跑，产物属主正确（见第九节）。`run.sh` 已自动带上。
+  > `--security-opt seccomp=unconfined` 是给**老 docker 主机**（如 18.09）准备的：否则其旧 seccomp profile 配不上镜像 glibc 2.35，node 一启动就 `uv_thread_create` 断言崩溃（见第八节 FAQ）。`run.sh` 已默认带上。
 
 - 仅当改了 codegen 的 `build.gradle`、引入了缓存里没有的新依赖时，才需临时联网：
 
@@ -174,6 +176,7 @@ docker run --rm -v "$PWD:/app" -v "aws_sdk_builder_nm:/app/node_modules" \
 - **打出的包 `npm install` 后报找不到模块**：八成是裸 `npm publish` 漏了 dist，见第三节，改用 `publish.sh`（它会先自检 `.tgz` 含 dist，漏了直接拒发）。
 - **宿主机也装过 `node_modules`，会不会干扰容器编译**：不会。根 `node_modules` 被持久卷 `aws_sdk_builder_nm` 遮蔽；client 目录下的**嵌套** `node_modules`（宿主跑 `yarn install` 时会生成）也被 `run.sh` 用 `--tmpfs` 遮蔽成空目录——容器编译始终只认镜像 seed 的预编译依赖，与宿主无关。直接用 `docker run` 时记得照搬这两个 `--tmpfs /app/clients/client-*/node_modules`（用 `--tmpfs` 而非匿名卷 `-v`：匿名卷会把镜像里残留的同名目录 copy-up 暴露出来，tmpfs 才是真空）。
 - **CI 里用**：`run.sh` 在无 TTY 时自动省略 `-t`；也可直接用 `docker run`（见第五节命令）。
+- **老主机上一跑就 `Aborted (core dumped)` / `uv_thread_create ... Assertion failed`**：node 一启动就在 `NodePlatform` 构造里崩、栈里有 `node_platform.cc` 和 `uv_thread_create`。根因是**主机 docker 太旧**（如 CentOS 7 上的 docker 18.09），其默认 seccomp profile（2018 年的）配不上本镜像里的 **glibc 2.35**：glibc 创建线程发的新系统调用（`clone3` 等）被旧 profile 返回 `EPERM` 而非 `ENOSYS`，glibc 不回落老 `clone()` → 线程创建失败。Docker 是在 **20.10.10（2021 末）** 才加入「未知新调用返回 ENOSYS」的修复。**`run.sh` 已默认注入 `--security-opt seccomp=unconfined` 绕过它**（一次性、跑可信代码的本地构建容器，无安全顾虑），无需你做任何事；直接 `docker run` 时记得照搬这个参数。若主机策略不允许 unconfined，可设 `AWS_SDK_BUILDER_SECCOMP=/path/to/profile.json` 指定一个把 `clone3` 返回 ENOSYS 的自定义 profile，或升级 docker ≥ 20.10.10 / 升级主机 libseccomp ≥ 2.4.4。设 `AWS_SDK_BUILDER_SECCOMP=`（空）则用 docker 默认 profile。
 
 ---
 

@@ -101,6 +101,8 @@ docker build \
 
 ---
 
+> **运行期主机兼容性（非构建期，但常被当成镜像 bug）**：本镜像 base 是 `ubuntu:22.04` → glibc 2.35，其 `pthread_create` 优先发 `clone3()`。在**老 docker 主机**上（如 CentOS 7 + docker 18.09，其默认 seccomp profile 是 2018 年的、且系统 libseccomp 2.3.1）`clone3` 被返回 `EPERM` 而非 `ENOSYS`，glibc 不回落老 `clone()` → 线程创建失败 → node 一启动就在 `node_platform.cc` 的 `uv_thread_create` 断言崩溃（`Aborted (core dumped)`，表现为 `generate-clients` 一跑就挂）。Docker 在 **20.10.10（2021 末）** 才加入「未知新调用默认返回 ENOSYS」。`run.sh` 已默认注入 `--security-opt seccomp=unconfined` 绕过（一次性、跑可信代码的本地构建容器，无安全顾虑；现代 docker 上加不加都行）；可用 `AWS_SDK_BUILDER_SECCOMP` 覆盖。根治另两条路：升级主机 docker ≥ 20.10.10，或升级主机 libseccomp ≥ 2.4.4 后重启 docker。
+
 ## 五、什么时候要重建镜像
 
 **不用重建**（在容器内重跑 `run.sh` 即可）：
