@@ -41,6 +41,14 @@ docker build \
 4. **gradle 离线**
    预热阶段（构建期）联网把全部 gradle / smithy / maven 依赖拉齐固化进镜像；之后 `offline.gradle`（注入到 `$GRADLE_USER_HOME/init.d/`）把 `startParameter.offline=true`，codegen 不再联网。临时要联网用 `GRADLE_ONLINE=1`。
 
+5. **支持以非 root（任意 UID:任意 GID）运行**
+   镜像可在 `docker run --user <任意UID>:<任意GID>` 下跑（`run.sh` 默认 `--user $(id -u):$(id -g)`），**不要求在 root 组里**。这要求运行期会写的目录对任何身份可写、smithy-ts 的解析不依赖运行用户 HOME。四处落地：
+   - **smithy-ts 发布到固定路径 `/opt/m2/repository`**（而非 `~/.m2`）。运行期 gradle 经 `aliyun-mirror.gradle` 里新增的 `maven { url 'file:///opt/m2/repository' }` 解析它——与 HOME 无关，非 root（HOME 可能是 `/` 或进不去的 `/root`）也能离线取到。
+   - **gradle 缓存以 world-writable 诞生**：两个写 `/opt/gradle-home/caches` 的 gradle 步骤前置 `umask 0000`（目录 777 / 文件 666）。纯靠 umask 实现，**不引入递归 `chmod` 故零额外镜像层膨胀**（caches 约 189MB，递归 chmod 会整层复制）。
+   - **顶层目录 + HOME 设成 world-writable**：`chmod 1777 /opt/gradle-home`（运行期任意用户在其下新建 `daemon/.tmp` 等）；`ENV HOME=/opt/home` 且 `chmod 1777 /opt/home`，放在所有联网构建步骤**之后**，避免构建期把 root 私有缓存写进去。
+   - **删掉构建期残留的 gradle daemon 目录**：gradle 对 `daemon/<ver>/registry.bin` 强制设权 644 root、**无视 umask** → 运行期非属主写不了 → `IOException Permission denied`（即便 `-Dorg.gradle.daemon=false`，codegen 的 jvmargs 仍会 fork single-use daemon 照写该目录，故禁用 daemon 不解决）。`rm -rf /opt/gradle-home/daemon` 后运行期以运行用户身份重建即可。
+   - 详见 README 第九节。宿主用户是 root 时 `$(id -u):$(id -g)` == `0:0`，无回归。
+
 ---
 
 ## 三、镜像分层（Dockerfile 在做什么）
@@ -53,11 +61,12 @@ docker build \
 | 4 | 改 yarn.lock + patch package.json + `yarn install` + 做 seed | 见下「install 层的修正」 |
 | 3b | COPY 其余源码（scripts/ codegen/ 两个 client） | 放 install 之后，改源码不触发重装 |
 | 4.5 | curl 预下载 gradle 6.8.3 发行版到 wrapper 的 hash 目录 | 代理对 100MB 大文件易 502，wrapper 自身下载无断点续传会失败 |
-| — | COPY `aliyun-mirror.gradle` 到 init.d | 见下「maven 403」 |
-| 5a | clone + 编译 `smithy-typescript-codegen:0.3.0` 装入 mavenLocal | 见下「smithy 0.3.0」 |
-| 5b | 预热：联网跑一次 S3 + IAM 的 `generate-clients` | 固化全部 smithy/maven 依赖、验证 codegen 可跑 |
+| — | COPY `aliyun-mirror.gradle` 到 init.d | 见下「maven 403」；含 `file:///opt/m2` 仓库 |
+| 5a | clone + 编译 `smithy-typescript-codegen:0.3.0` 发布到 `/opt/m2`（`-Dmaven.repo.local`） | 见下「smithy 0.3.0」；`umask 0002` 让缓存组可写 |
+| 5b | 预热：联网跑一次 S3 + IAM 的 `generate-clients` | 固化全部 smithy/maven 依赖、验证 codegen 可跑；`umask 0002` 同上 |
 | 6 | COPY `offline.gradle` 到 init.d | 必须在预热**之后**，否则预热也被强制离线拉不到东西 |
-| 7 | COPY `build-clients.sh` 为入口 + chmod | 在 Dockerfile **末尾**，只改它重建很快（见第六节） |
+| 7 | 非 root 支持：`chmod 1777 /opt/gradle-home`、`rm -rf .../daemon`、建 `/opt/home` 并 `ENV HOME` | 见第二节决策 5；任意 UID:任意 GID 可运行 |
+| 8 | COPY `build-clients.sh` 为入口 + chmod | 在 Dockerfile **末尾**，只改它重建很快（见第六节） |
 
 ---
 
@@ -70,7 +79,7 @@ docker build \
 
 2. **`smithy-typescript-codegen:0.3.0` 公网彻底消失**
    这是 jcenter 旧坐标 `software.amazon.smithy:smithy-typescript-codegen:0.3.0`，central / jcenter 存档 / 各镜像都没有；central 上同名新坐标 `software.amazon.smithy.typescript:...` 是后期快照、API 不兼容（多了 `deserializeErrorDocumentBody`）。
-   → 镜像里从开源仓库 `smithy-lang/smithy-typescript` 的 commit `caa953ac`（2021-04-16，对应 aws-sdk v3.11.0、在 `deserializeErrorDocumentBody` 引入之前）编译 `:smithy-typescript-codegen:publishToMavenLocal`，坐标 group/name/version 正好匹配依赖声明。`aliyun-mirror.gradle` 已把 `mavenLocal()` 排在仓库首位优先命中。
+   → 镜像里从开源仓库 `smithy-lang/smithy-typescript` 的 commit `caa953ac`（2021-04-16，对应 aws-sdk v3.11.0、在 `deserializeErrorDocumentBody` 引入之前）编译 `:smithy-typescript-codegen:publishToMavenLocal`，坐标 group/name/version 正好匹配依赖声明。发布目标用 `-Dmaven.repo.local=/opt/m2/repository` 钉到与 HOME 无关的固定路径（不再是 `~/.m2`，便于非 root 运行——见第二节决策 5）；`aliyun-mirror.gradle` 把 `maven { url 'file:///opt/m2/repository' }` 排在仓库首位优先命中。
 
 3. **yarn.lock 有 5 处指向内网 verdaccio（`localhost:4873`）**
    → 构建期 `sed` 改回公网 `registry.yarnpkg.com`（verdaccio 本就透传 npmjs，integrity 一致）。
@@ -117,17 +126,18 @@ docker build \
 ## 七、构建后自检
 
 ```bash
-# 1) smithy 0.3.0 已装入 mavenLocal
+# 1) smithy 0.3.0 已发布到固定 maven 仓库 /opt/m2
 docker run --rm --entrypoint sh aws-sdk-builder -c \
-  'ls /root/.m2/repository/software/amazon/smithy/smithy-typescript-codegen/0.3.0/'
+  'ls /opt/m2/repository/software/amazon/smithy/smithy-typescript-codegen/0.3.0/'
 
 # 2) seed 里 @types：应有 mocha/node、无 jest
 docker run --rm --entrypoint sh aws-sdk-builder -c \
   'for t in mocha node jest; do [ -d /opt/seed/node_modules/@types/$t ] && echo "has $t" || echo "NO  $t"; done'
 
-# 3) 端到端 + 离线闭环（全断网跑通即合格）
+# 3) 端到端 + 离线闭环（全断网跑通即合格；--user 模拟非 root、且 GID 不在 root 组）
 docker volume rm aws_sdk_builder_nm 2>/dev/null
 docker run --rm --network=none -e GRADLE_ONLINE=0 \
+  --user 1000:1000 \
   -v "$PWD:/app" -v aws_sdk_builder_nm:/app/node_modules \
   --tmpfs /app/clients/client-s3/node_modules --tmpfs /app/clients/client-iam/node_modules \
   -w /app aws-sdk-builder all
@@ -138,6 +148,8 @@ tar tzf "$TGZ" | grep -c 'package/dist/'          # 应 >0（约 1148）
 tar tzf "$TGZ" | grep -c 'tsbuildinfo'            # 应 0
 ```
 
+> 第 3 步用 `--user 1000:1000`（任意 uid:gid、不在 root 组）时，`/app` 须对 UID 1000 可写（在「宿主用户非 root」的真实场景里你本就拥有该目录）；若在 root 宿主上临时这么测，记得先把待写目录 `chown` 给 1000，或直接用 `--user 0:0`。
+
 ---
 
 ## 八、关键文件
@@ -145,7 +157,7 @@ tar tzf "$TGZ" | grep -c 'tsbuildinfo'            # 应 0
 | 文件 | 作用 |
 |------|------|
 | `Dockerfile` | 镜像定义（分层见第三节） |
-| `aliyun-mirror.gradle` | 构建期注入：maven 仓库改写为阿里云 + 子项目 buildscript 注入（解 403） |
+| `aliyun-mirror.gradle` | 构建期注入：maven 仓库改写为阿里云 + 子项目 buildscript 注入（解 403）+ `file:///opt/m2` 仓库（运行期解析 smithy-ts，与 HOME 无关） |
 | `offline.gradle` | 运行期注入：gradle 强制离线开关 |
 | `build-clients.sh` | 容器入口：codegen + 编译 + git 树外 `npm pack` |
 | `run.sh` | 封装 `docker run`：挂载本地项目 + 持久 node_modules 卷 |

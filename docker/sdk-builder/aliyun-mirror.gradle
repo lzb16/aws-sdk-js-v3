@@ -4,14 +4,21 @@
 //  1) 此环境代理对 maven central 所有域名(repo.maven.apache.org / repo1.maven.org)返回 403，
 //     把这些仓库 URL 强制替换为阿里云镜像(artifact 齐全、200)，并追加阿里云为后备。
 //  2) codegen 依赖的 software.amazon.smithy:smithy-typescript-codegen:0.3.0 是 jcenter 旧坐标，
-//     公网已无来源；该 artifact 迁移 central 后改为新坐标
-//     software.amazon.smithy.typescript:smithy-typescript-codegen:0.3.0(阿里云有)，
-//     用 dependencySubstitution 把旧坐标替换为新坐标。
+//     公网已无来源；镜像构建期已从源码编译该 artifact 并 publish 到固定路径 /opt/m2/repository
+//     （见 Dockerfile，-Dmaven.repo.local=/opt/m2/repository）。这里把该路径声明为一个 file
+//     仓库，让所有项目都能解析到它。
+//
+//  关于 /opt/m2 而非 mavenLocal()/~/.m2：mavenLocal() 解析到「运行用户的 $HOME/.m2」，
+//  随容器以非 root（任意 UID，HOME 可能是 / 或不可达的 /root）运行时会落空。改用与 HOME
+//  无关的固定 file 仓库后，root 与任意非 root 用户都能在运行期离线取到 smithy-ts。
 
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 
 final String ALIYUN_PUBLIC = 'https://maven.aliyun.com/repository/public'
 final String ALIYUN_PLUGIN = 'https://maven.aliyun.com/repository/gradle-plugin'
+// 镜像内固定的本地 maven 仓库（构建期把自编的 smithy-typescript-codegen:0.3.0 发布于此），
+// world-readable，运行期任意用户离线可读。
+final String LOCAL_M2 = 'file:///opt/m2/repository'
 
 // 把 central / plugin-portal / jcenter 的仓库 URL 改写为阿里云
 def rewrite = { repo, aliyunUrl ->
@@ -27,6 +34,7 @@ def rewrite = { repo, aliyunUrl ->
 settingsEvaluated { settings ->
     settings.pluginManagement {
         repositories {
+            maven { url LOCAL_M2 }
             all { rewrite(it, ALIYUN_PLUGIN) }
             maven { url ALIYUN_PLUGIN }
             maven { url ALIYUN_PUBLIC }
@@ -37,14 +45,17 @@ settingsEvaluated { settings ->
 allprojects {
     buildscript {
         repositories {
+            maven { url LOCAL_M2 }
             all { rewrite(it, ALIYUN_PUBLIC) }
             maven { url ALIYUN_PLUGIN }
             maven { url ALIYUN_PUBLIC }
         }
     }
     repositories {
-        // mavenLocal 优先：镜像里已从源码编译并安装了 jcenter 版
-        // software.amazon.smithy:smithy-typescript-codegen:0.3.0(公网已无)
+        // 固定 file 仓库优先：镜像里已从源码编译并发布了 jcenter 版
+        // software.amazon.smithy:smithy-typescript-codegen:0.3.0(公网已无)到 /opt/m2。
+        // 与运行用户 HOME 无关，非 root 运行也能解析。
+        maven { url LOCAL_M2 }
         mavenLocal()
         all { rewrite(it, ALIYUN_PUBLIC) }
         maven { url ALIYUN_PUBLIC }

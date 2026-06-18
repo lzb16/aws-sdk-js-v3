@@ -10,12 +10,26 @@
 #
 # 可用环境变量:
 #   AWS_SDK_BUILDER_IMAGE   镜像名 (默认 aws-sdk-builder)
-#   AWS_SDK_BUILDER_VOLUME  node_modules 持久卷名 (默认 aws_sdk_builder_nm)
+#   AWS_SDK_BUILDER_VOLUME  node_modules 持久卷名 (默认 aws_sdk_builder_nm_<uid>，按用户区分)
+#   AWS_SDK_BUILDER_USER    容器运行身份 (默认 $(id -u):0，见下方说明)
 #   GRADLE_ONLINE=1         临时允许 gradle 联网(改了 codegen 依赖时用)
 set -euo pipefail
 
 IMAGE="${AWS_SDK_BUILDER_IMAGE:-aws-sdk-builder}"
-VOLUME="${AWS_SDK_BUILDER_VOLUME:-aws_sdk_builder_nm}"
+# node_modules 持久卷：默认按【宿主用户 UID】区分 → 多用户共用一台机器/一个镜像时，
+# 各人各自一个卷，互不干扰(卷内容由首次运行者按其 uid 落地，键到 uid 才不会出现
+# "A 先把共享卷填成 A 所有、B 写不进"的并发竞争)。同一用户重复跑复用同一卷、很快。
+# 想让多人显式共用一个卷，自行设 AWS_SDK_BUILDER_VOLUME=同名(但别并发首次跑同一空卷)。
+VOLUME="${AWS_SDK_BUILDER_VOLUME:-aws_sdk_builder_nm_$(id -u)}"
+
+# 以非 root「任意 UID:任意 GID」运行：
+#  - UID/GID 都取宿主当前用户 $(id -u):$(id -g) → 产物写回 bind 挂载的 /app(宿主仓库)时
+#    属主就是你本人(uid:gid)，不会再像容器内 root 那样把宿主工作树文件变成 root 所有。
+#  - 镜像里运行期需要写的目录(/opt/gradle-home、/opt/home 等)都做成了 world-writable，
+#    所以无需在 root 组(GID 0)里，任意 UID:任意 GID 都能写。
+#  宿主用户本就是 root 时这等于 0:0，与旧行为一致、无回归。
+#  需要别的身份(如 CI 指定)可用 AWS_SDK_BUILDER_USER 覆盖，如 AWS_SDK_BUILDER_USER=1000:1000。
+USER_SPEC="${AWS_SDK_BUILDER_USER:-$(id -u):$(id -g)}"
 
 # 定位仓库根：本脚本位于 <repo>/docker/sdk-builder/
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -37,6 +51,7 @@ if [ -t 1 ]; then TTY_FLAG="-t"; fi
 #    残留构建期泄漏进去的 nested node_modules（含不兼容的高版本 @types），反被暴露出来；
 #    tmpfs 永远是空的，才是真正的遮蔽，且随容器退出自动消失。
 exec docker run --rm $TTY_FLAG \
+  --user "$USER_SPEC" \
   -e "GRADLE_ONLINE=${GRADLE_ONLINE:-0}" \
   -v "$REPO_ROOT:/app" \
   -v "$VOLUME:/app/node_modules" \
